@@ -1,6 +1,7 @@
 ==========
 Data Types
 ==========
+
 .. c:type:: LinkedListElement
 
    A node in the linked list deneme.
@@ -26,3 +27,9 @@ Data Types
      struct LinkedListElement *head;
      struct LinkedListElement *tail;
     } LinkedList;
+
+.. autosummary::
+   :nosignatures:
+
+   sphinx.environment.BuildEnvironment
+   sphinx.util.relative_uri

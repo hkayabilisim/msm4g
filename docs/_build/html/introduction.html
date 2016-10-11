@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Data Types &#8212; MSM4G 0.1 documentation</title>
+    <title>Introduction &#8212; MSM4G 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -27,8 +27,8 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="MSM4G 0.1 documentation" href="index.html" />
-    <link rel="next" title="Functions" href="functions.html" />
-    <link rel="prev" title="Introduction" href="introduction.html" /> 
+    <link rel="next" title="Data Types" href="types.html" />
+    <link rel="prev" title="Welcome to MSM4G’s documentation!" href="index.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,10 +38,10 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="functions.html" title="Functions"
+          <a href="types.html" title="Data Types"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="introduction.html" title="Introduction"
+          <a href="index.html" title="Welcome to MSM4G’s documentation!"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">MSM4G 0.1 documentation</a> &#187;</li> 
       </ul>
@@ -52,37 +52,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="data-types">
-<h1>Data Types<a class="headerlink" href="#data-types" title="Permalink to this headline">¶</a></h1>
-<dl class="type">
-<dt id="c.LinkedListElement">
-<code class="descname">LinkedListElement</code><a class="headerlink" href="#c.LinkedListElement" title="Permalink to this definition">¶</a></dt>
-<dd><p>A node in the linked list deneme.</p>
-</dd></dl>
-
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">LinkedListElement</span>
-<span class="p">{</span>
-    <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
-    <span class="k">struct</span> <span class="n">LinkedListElement</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
-    <span class="k">struct</span> <span class="n">LinkedListElement</span> <span class="o">*</span><span class="n">prev</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">LinkedListElement</span><span class="p">;</span>
-</pre></div>
-</div>
-<dl class="type">
-<dt id="c.LinkedList">
-<code class="descname">LinkedList</code><a class="headerlink" href="#c.LinkedList" title="Permalink to this definition">¶</a></dt>
-<dd><p>The main data structure used to store a collection
-of elements of type <a class="reference internal" href="#c.LinkedListElement" title="LinkedListElement"><code class="xref c c-type docutils literal"><span class="pre">LinkedListElement</span></code></a>.
-It basically contains pointers to the head and tail elements:</p>
-</dd></dl>
-
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">LinkedList</span>
-<span class="p">{</span>
- <span class="k">struct</span> <span class="n">LinkedListElement</span> <span class="o">*</span><span class="n">head</span><span class="p">;</span>
- <span class="k">struct</span> <span class="n">LinkedListElement</span> <span class="o">*</span><span class="n">tail</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">LinkedList</span><span class="p">;</span>
-</pre></div>
-</div>
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -92,15 +63,15 @@ It basically contains pointers to the head and tail elements:</p>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="introduction.html"
-                        title="previous chapter">Introduction</a></p>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to MSM4G&#8217;s documentation!</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="functions.html"
-                        title="next chapter">Functions</a></p>
+  <p class="topless"><a href="types.html"
+                        title="next chapter">Data Types</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/types.txt"
+      <li><a href="_sources/introduction.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -125,10 +96,10 @@ It basically contains pointers to the head and tail elements:</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="functions.html" title="Functions"
+          <a href="types.html" title="Data Types"
              >next</a> |</li>
         <li class="right" >
-          <a href="introduction.html" title="Introduction"
+          <a href="index.html" title="Welcome to MSM4G’s documentation!"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">MSM4G 0.1 documentation</a> &#187;</li> 
       </ul>
