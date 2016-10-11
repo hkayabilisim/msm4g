@@ -32,6 +32,7 @@
 		4A076F5F1DA6E5B300C849BF /* nbody_main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nbody_main.c; sourceTree = "<group>"; };
 		4A0F055F1DA89A6900703FAB /* nbody_lib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nbody_lib.c; sourceTree = "<group>"; };
 		4A0F05601DA89A6900703FAB /* nbody_lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nbody_lib.h; sourceTree = "<group>"; };
+		4ADAA7A81DAD478D00B51C20 /* docs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = docs.xcodeproj; path = docs/docs.xcodeproj; sourceTree = "<group>"; };
 		4AF70D821DA5D82900EC22D9 /* msm4g */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = msm4g; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -46,9 +47,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4ADAA7A91DAD478D00B51C20 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4AF70D791DA5D82900EC22D9 = {
 			isa = PBXGroup;
 			children = (
+				4ADAA7A81DAD478D00B51C20 /* docs.xcodeproj */,
 				4A0F055F1DA89A6900703FAB /* nbody_lib.c */,
 				4A0F05601DA89A6900703FAB /* nbody_lib.h */,
 				4A076F5F1DA6E5B300C849BF /* nbody_main.c */,
@@ -112,6 +121,12 @@
 			mainGroup = 4AF70D791DA5D82900EC22D9;
 			productRefGroup = 4AF70D831DA5D82900EC22D9 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 4ADAA7A91DAD478D00B51C20 /* Products */;
+					ProjectRef = 4ADAA7A81DAD478D00B51C20 /* docs.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				4AF70D811DA5D82900EC22D9 /* msm4g */,
