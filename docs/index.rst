@@ -5,6 +5,7 @@
 
 Welcome to MSM4G's documentation!
 =================================
+This is bla bla.
 
 Contents:
 
@@ -15,8 +16,3 @@ Contents:
 
 Indices and tables
 ==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
