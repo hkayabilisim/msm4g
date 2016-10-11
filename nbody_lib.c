@@ -16,7 +16,6 @@ void nbody_linkedlist_test1()
     Body x[10];
     int i;
     
-    list->he
     list = nbody_linkedlist_new();
     
     for (i=0;i<10;i++)
