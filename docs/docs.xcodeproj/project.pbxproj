@@ -13,12 +13,14 @@
 		4ADAA7A11DAD478C00B51C20 /* conf.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = conf.py; sourceTree = "<group>"; };
 		4ADAA7A21DAD478C00B51C20 /* index.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.rst; sourceTree = "<group>"; };
 		4ADAA7A41DAD478C00B51C20 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		4ADAA7AC1DAD522500B51C20 /* types.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = types.rst; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		4ADAA7981DAD478C00B51C20 = {
 			isa = PBXGroup;
 			children = (
+				4ADAA7AC1DAD522500B51C20 /* types.rst */,
 				4ADAA79E1DAD478C00B51C20 /* _build */,
 				4ADAA79F1DAD478C00B51C20 /* _static */,
 				4ADAA7A01DAD478C00B51C20 /* _templates */,

@@ -33,9 +33,6 @@ This is a heading
 =================
 Heading 1
 
-==========
-Data Types
-==========
 
 
 Contents:
@@ -43,3 +40,4 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   types
