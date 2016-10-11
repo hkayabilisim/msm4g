@@ -7,24 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4AF70D861DA5D82900EC22D9 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AF70D851DA5D82900EC22D9 /* main.c */; };
+		4A076F571DA6B4A300C849BF /* data in Resources */ = {isa = PBXBuildFile; fileRef = 4A076F551DA6B33000C849BF /* data */; };
+		4A076F5A1DA6B50A00C849BF /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A076F551DA6B33000C849BF /* data */; };
+		4A076F601DA6E5B300C849BF /* nbody_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A076F5F1DA6E5B300C849BF /* nbody_main.c */; };
+		4A0F05611DA89A6900703FAB /* nbody_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F055F1DA89A6900703FAB /* nbody_lib.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		4AF70D801DA5D82900EC22D9 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = .;
+			dstSubfolderSpec = 16;
 			files = (
+				4A076F5A1DA6B50A00C849BF /* data in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4A076F551DA6B33000C849BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
+		4A076F5E1DA6E4F300C849BF /* nbody_types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nbody_types.h; sourceTree = "<group>"; };
+		4A076F5F1DA6E5B300C849BF /* nbody_main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nbody_main.c; sourceTree = "<group>"; };
+		4A0F055F1DA89A6900703FAB /* nbody_lib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nbody_lib.c; sourceTree = "<group>"; };
+		4A0F05601DA89A6900703FAB /* nbody_lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nbody_lib.h; sourceTree = "<group>"; };
 		4AF70D821DA5D82900EC22D9 /* msm4g */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = msm4g; sourceTree = BUILT_PRODUCTS_DIR; };
-		4AF70D851DA5D82900EC22D9 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +49,11 @@
 		4AF70D791DA5D82900EC22D9 = {
 			isa = PBXGroup;
 			children = (
-				4AF70D841DA5D82900EC22D9 /* msm4g */,
+				4A0F055F1DA89A6900703FAB /* nbody_lib.c */,
+				4A0F05601DA89A6900703FAB /* nbody_lib.h */,
+				4A076F5F1DA6E5B300C849BF /* nbody_main.c */,
+				4A076F5E1DA6E4F300C849BF /* nbody_types.h */,
+				4A076F551DA6B33000C849BF /* data */,
 				4AF70D831DA5D82900EC22D9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,14 +66,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4AF70D841DA5D82900EC22D9 /* msm4g */ = {
-			isa = PBXGroup;
-			children = (
-				4AF70D851DA5D82900EC22D9 /* main.c */,
-			);
-			path = msm4g;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -72,6 +76,7 @@
 				4AF70D7E1DA5D82900EC22D9 /* Sources */,
 				4AF70D7F1DA5D82900EC22D9 /* Frameworks */,
 				4AF70D801DA5D82900EC22D9 /* CopyFiles */,
+				4A076F561DA6B49500C849BF /* Resources */,
 			);
 			buildRules = (
 			);
@@ -114,12 +119,24 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		4A076F561DA6B49500C849BF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A076F571DA6B4A300C849BF /* data in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4AF70D7E1DA5D82900EC22D9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AF70D861DA5D82900EC22D9 /* main.c in Sources */,
+				4A0F05611DA89A6900703FAB /* nbody_lib.c in Sources */,
+				4A076F601DA6E5B300C849BF /* nbody_main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +263,7 @@
 				4AF70D8B1DA5D82900EC22D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
