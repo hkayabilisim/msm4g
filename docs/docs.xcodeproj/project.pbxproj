@@ -14,12 +14,14 @@
 		4ADAA7A21DAD478C00B51C20 /* index.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.rst; sourceTree = "<group>"; };
 		4ADAA7A41DAD478C00B51C20 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		4ADAA7AC1DAD522500B51C20 /* types.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = types.rst; sourceTree = "<group>"; };
+		4ADAA7AF1DAD572C00B51C20 /* functions.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = functions.rst; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		4ADAA7981DAD478C00B51C20 = {
 			isa = PBXGroup;
 			children = (
+				4ADAA7AF1DAD572C00B51C20 /* functions.rst */,
 				4ADAA7AC1DAD522500B51C20 /* types.rst */,
 				4ADAA79E1DAD478C00B51C20 /* _build */,
 				4ADAA79F1DAD478C00B51C20 /* _static */,

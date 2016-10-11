@@ -41,3 +41,4 @@ Contents:
    :maxdepth: 2
 
    types
+   functions

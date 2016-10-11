@@ -27,6 +27,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="MSM4G 0.1 documentation" href="index.html" />
+    <link rel="next" title="Functions" href="functions.html" />
     <link rel="prev" title="Welcome to MSM4G’s documentation!" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -45,37 +46,35 @@
             
   <div class="section" id="data-types">
 <h1>Data Types<a class="headerlink" href="#data-types" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
-<dt id="spam">
-<code class="descname">spam</code><span class="sig-paren">(</span><em>eggs</em><span class="sig-paren">)</span><a class="headerlink" href="#spam" title="Permalink to this definition">¶</a></dt>
-<dt id="ham">
-<code class="descname">ham</code><span class="sig-paren">(</span><em>eggs</em><span class="sig-paren">)</span><a class="headerlink" href="#ham" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<p><a class="reference internal" href="#spam" title="spam"><code class="xref py py-func docutils literal"><span class="pre">spam()</span></code></a> or ham the foo.</p>
-<dl class="function">
-<dt id="c.nbody_linkedlist">
-void* <code class="descname">nbody_linkedlist</code><span class="sig-paren">(</span>int<em>&nbsp;n</em><span class="sig-paren">)</span><a class="headerlink" href="#c.nbody_linkedlist" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="macro">
-<dt id="c.FALSE">
-<code class="descname">FALSE</code><a class="headerlink" href="#c.FALSE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="type">
 <dt id="c.LinkedListElement">
 <code class="descname">LinkedListElement</code><a class="headerlink" href="#c.LinkedListElement" title="Permalink to this definition">¶</a></dt>
-<dt id="c.deneme.">
-A node in the linked list <code class="descname">deneme.</code><a class="headerlink" href="#c.deneme." title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>A node in the linked list deneme.</p>
+</dd></dl>
 
-<dl class="member">
-<dt id="c.prev">
-<a class="reference internal" href="#c.LinkedListElement" title="LinkedListElement">LinkedListElement</a>* <code class="descname">prev</code><a class="headerlink" href="#c.prev" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">LinkedListElement</span>
+<span class="p">{</span>
+    <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">LinkedListElement</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">LinkedListElement</span> <span class="o">*</span><span class="n">prev</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">LinkedListElement</span><span class="p">;</span>
+</pre></div>
+</div>
+<dl class="type">
+<dt id="c.LinkedList">
+<code class="descname">LinkedList</code><a class="headerlink" href="#c.LinkedList" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main data structure used to store a collection
+of elements of type <a class="reference internal" href="#c.LinkedListElement" title="LinkedListElement"><code class="xref c c-type docutils literal"><span class="pre">LinkedListElement</span></code></a>.
+It basically contains pointers to the head and tail elements:</p>
+</dd></dl>
 
-<p>The function <a class="reference internal" href="#c.nbody_linkedlist" title="nbody_linkedlist"><code class="xref c c-func docutils literal"><span class="pre">nbody_linkedlist()</span></code></a> does this.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">LinkedList</span>
+<span class="p">{</span>
+ <span class="k">struct</span> <span class="n">LinkedListElement</span> <span class="o">*</span><span class="n">head</span><span class="p">;</span>
+ <span class="k">struct</span> <span class="n">LinkedListElement</span> <span class="o">*</span><span class="n">tail</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">LinkedList</span><span class="p">;</span>
+</pre></div>
+</div>
 </div>
 
 
@@ -88,6 +87,7 @@ A node in the linked list <code class="descname">deneme.</code><a class="headerl
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">Welcome to MSM4G&#8217;s documentation!</a></li>
+      <li>Next: <a href="functions.html" title="next chapter">Functions</a></li>
   </ul></li>
 </ul>
 </div>

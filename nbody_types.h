@@ -26,16 +26,11 @@ typedef struct LinkedListElement
     struct LinkedListElement *prev;
 } LinkedListElement;
 
-typedef struct LinkedListStructure
+typedef struct LinkedList
 {
-    /*! @brief Head of the linked list */
     struct LinkedListElement *head;
     struct LinkedListElement *tail;
-} LinkedListStructure;
-
-typedef struct LinkedListStructure LinkedList;
-
-
+} LinkedList;
 
 typedef double Vector[3];
 
