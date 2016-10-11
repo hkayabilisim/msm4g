@@ -1,16 +1,16 @@
-//
-//  nbody_main.c
-//  msm4g
-//
-//  Created by Huseyin Kaya on 10/6/16.
-//  Copyright © 2016 Huseyin Kaya. All rights reserved.
-//
+/** @mainpage
+ *
+ * This is the introduction.
+ *
+ */
 
 #include <stdio.h>
 #include "nbody_lib.h"
 
 
-
+/** 
+ * Main entrance to the code.
+ */
 int main()
 {
     /*

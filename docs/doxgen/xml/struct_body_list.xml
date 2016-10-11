@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.12">
+  <compounddef id="struct_body_list" kind="struct" language="C++" prot="public">
+    <compoundname>BodyList</compoundname>
+    <includes refid="nbody__types_8h" local="no">nbody_types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_body_list_1a5d4b20fb6acb8bdb769db95280c18dcb" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="struct_body" kindref="compound">Body</ref> *</type>
+        <definition>struct Body* body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="47" column="1" bodyfile="nbody_types.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_body_list_1ab63aea1170041eff3f6b711fcf1b8784" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="struct_body_list" kindref="compound">BodyList</ref> *</type>
+        <definition>struct BodyList* next</definition>
+        <argsstring></argsstring>
+        <name>next</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="48" column="1" bodyfile="nbody_types.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="8">
+        <label>Body</label>
+        <link refid="struct_body"/>
+      </node>
+      <node id="7">
+        <label>BodyList</label>
+        <link refid="struct_body_list"/>
+        <childnode refid="7" relation="usage">
+          <edgelabel>next</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>body</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="nbody_types.h" line="46" column="1" bodyfile="nbody_types.h" bodystart="45" bodyend="49"/>
+    <listofallmembers>
+      <member refid="struct_body_list_1a5d4b20fb6acb8bdb769db95280c18dcb" prot="public" virt="non-virtual"><scope>BodyList</scope><name>body</name></member>
+      <member refid="struct_body_list_1ab63aea1170041eff3f6b711fcf1b8784" prot="public" virt="non-virtual"><scope>BodyList</scope><name>next</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

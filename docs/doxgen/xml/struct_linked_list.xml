@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.12">
+  <compounddef id="struct_linked_list" kind="struct" language="C++" prot="public">
+    <compoundname>LinkedList</compoundname>
+    <includes refid="nbody__types_8h" local="no">nbody_types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_linked_list_1a92842e4a76a05ad592d19f07a60db019" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="struct_linked_list_element" kindref="compound">LinkedListElement</ref> *</type>
+        <definition>struct LinkedListElement* head</definition>
+        <argsstring></argsstring>
+        <name>head</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="31" column="1" bodyfile="nbody_types.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_linked_list_1a8bc37f643ec6dee9b1a03872b546fd5b" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="struct_linked_list_element" kindref="compound">LinkedListElement</ref> *</type>
+        <definition>struct LinkedListElement* tail</definition>
+        <argsstring></argsstring>
+        <name>tail</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="32" column="1" bodyfile="nbody_types.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="13">
+        <label>LinkedListElement</label>
+        <link refid="struct_linked_list_element"/>
+        <childnode refid="13" relation="usage">
+          <edgelabel>prev</edgelabel>
+          <edgelabel>next</edgelabel>
+        </childnode>
+      </node>
+      <node id="12">
+        <label>LinkedList</label>
+        <link refid="struct_linked_list"/>
+        <childnode refid="13" relation="usage">
+          <edgelabel>head</edgelabel>
+          <edgelabel>tail</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="nbody_types.h" line="30" column="1" bodyfile="nbody_types.h" bodystart="29" bodyend="33"/>
+    <listofallmembers>
+      <member refid="struct_linked_list_1a92842e4a76a05ad592d19f07a60db019" prot="public" virt="non-virtual"><scope>LinkedList</scope><name>head</name></member>
+      <member refid="struct_linked_list_1a8bc37f643ec6dee9b1a03872b546fd5b" prot="public" virt="non-virtual"><scope>LinkedList</scope><name>tail</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.12">
+  <compounddef id="nbody__types_8h" kind="file" language="C++">
+    <compoundname>nbody_types.h</compoundname>
+    <includedby refid="nbody__lib_8h" local="yes">nbody_lib.h</includedby>
+    <invincdepgraph>
+      <node id="38">
+        <label>nbody_main.c</label>
+        <link refid="nbody__main_8c"/>
+      </node>
+      <node id="35">
+        <label>nbody_types.h</label>
+        <link refid="nbody__types_8h"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>nbody_lib.c</label>
+        <link refid="nbody__lib_8c"/>
+      </node>
+      <node id="36">
+        <label>nbody_lib.h</label>
+        <link refid="nbody__lib_8h"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_linked_list_element" prot="public">LinkedListElement</innerclass>
+    <innerclass refid="struct_linked_list" prot="public">LinkedList</innerclass>
+    <innerclass refid="struct_body" prot="public">Body</innerclass>
+    <innerclass refid="struct_body_list" prot="public">BodyList</innerclass>
+    <innerclass refid="struct_bin" prot="public">Bin</innerclass>
+    <innerclass refid="struct_simulation_parameters" prot="public">SimulationParameters</innerclass>
+    <innerclass refid="struct_simulation_box" prot="public">SimulationBox</innerclass>
+    <innerclass refid="struct_simulation" prot="public">Simulation</innerclass>
+    <innerclass refid="struct_cell" prot="public">Cell</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="nbody__types_8h_1aa8cecfc5c5c054d2875c03e77b7be15d" prot="public" static="no">
+        <name>TRUE</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="18" column="9" bodyfile="nbody_types.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="nbody__types_8h_1aa93f0eb578d23995850d61f7d61c55c1" prot="public" static="no">
+        <name>FALSE</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="19" column="9" bodyfile="nbody_types.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="nbody__types_8h_1adb5acc7fc708cec106accdf2a83490af" prot="public" static="no">
+        <type>struct <ref refid="struct_linked_list_element" kindref="compound">LinkedListElement</ref></type>
+        <definition>typedef struct LinkedListElement  LinkedListElement</definition>
+        <argsstring></argsstring>
+        <name>LinkedListElement</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="27" column="1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="nbody__types_8h_1ac88c416443c70449f417f26a05fd6265" prot="public" static="no">
+        <type>struct <ref refid="struct_linked_list" kindref="compound">LinkedList</ref></type>
+        <definition>typedef struct LinkedList  LinkedList</definition>
+        <argsstring></argsstring>
+        <name>LinkedList</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="33" column="1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="nbody__types_8h_1a224dbb2b62a95ce0a84c0997041fa837" prot="public" static="no">
+        <type>double</type>
+        <definition>typedef double Vector[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>Vector</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="35" column="1" bodyfile="nbody_types.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="nbody__types_8h_1af8b3c899c550fcfb372af97413b1b646" prot="public" static="no">
+        <type>struct <ref refid="struct_body" kindref="compound">Body</ref></type>
+        <definition>typedef struct Body  Body</definition>
+        <argsstring></argsstring>
+        <name>Body</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="43" column="1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="nbody__types_8h_1abf88b8d31a558480418d8dbc9d5d5068" prot="public" static="no">
+        <type>struct <ref refid="struct_body_list" kindref="compound">BodyList</ref></type>
+        <definition>typedef struct BodyList  BodyList</definition>
+        <argsstring></argsstring>
+        <name>BodyList</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="49" column="1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="nbody__types_8h_1a02faf04c3df32406f4af59687ab29026" prot="public" static="no">
+        <type>struct <ref refid="struct_bin" kindref="compound">Bin</ref></type>
+        <definition>typedef struct Bin  Bin</definition>
+        <argsstring></argsstring>
+        <name>Bin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="58" column="1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="nbody__types_8h_1a9438238b86685ca53c938d4f32c3054f" prot="public" static="no">
+        <type>struct <ref refid="struct_simulation_parameters" kindref="compound">SimulationParameters</ref></type>
+        <definition>typedef struct SimulationParameters  SimulationParameters</definition>
+        <argsstring></argsstring>
+        <name>SimulationParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="63" column="1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="nbody__types_8h_1afb1d06d7544e4e26d4fedb08cfdd9d71" prot="public" static="no">
+        <type>struct <ref refid="struct_simulation_box" kindref="compound">SimulationBox</ref></type>
+        <definition>typedef struct SimulationBox  SimulationBox</definition>
+        <argsstring></argsstring>
+        <name>SimulationBox</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="69" column="1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="nbody__types_8h_1ad43311de2ce549cd715095669dd8d18b" prot="public" static="no">
+        <type>struct <ref refid="struct_simulation" kindref="compound">Simulation</ref></type>
+        <definition>typedef struct Simulation  Simulation</definition>
+        <argsstring></argsstring>
+        <name>Simulation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="75" column="1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="nbody__types_8h_1a208ce62cb3a7fe4518d722235d9d656d" prot="public" static="no">
+        <type>struct <ref refid="struct_cell" kindref="compound">Cell</ref></type>
+        <definition>typedef struct Cell  Cell</definition>
+        <argsstring></argsstring>
+        <name>Cell</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="81" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>nbody_types.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>msm4g</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Created<sp/>by<sp/>Huseyin<sp/>Kaya<sp/>on<sp/>10/6/16.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Copyright<sp/>©<sp/>2016<sp/>Huseyin<sp/>Kaya.<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>nbody_types_h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>nbody_types_h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>nbody_types_h<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>Type<sp/>definitions</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="nbody__types_8h_1aa8cecfc5c5c054d2875c03e77b7be15d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRUE<sp/><sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="nbody__types_8h_1aa93f0eb578d23995850d61f7d61c55c1" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>FALSE<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="struct_linked_list_element" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_linked_list_element" kindref="compound">LinkedListElement</ref></highlight></codeline>
+<codeline lineno="23"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24" refid="struct_linked_list_element_1a735984d41155bc1032e09bece8f8d66d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<ref refid="struct_linked_list_element_1a735984d41155bc1032e09bece8f8d66d" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="25" refid="struct_linked_list_element_1a475866f9885e1659a1704a6b24c81af2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_linked_list_element" kindref="compound">LinkedListElement</ref><sp/>*<ref refid="struct_linked_list_element_1a475866f9885e1659a1704a6b24c81af2" kindref="member">next</ref>;</highlight></codeline>
+<codeline lineno="26" refid="struct_linked_list_element_1ab2a338dd2c3ebf3033210507766f2529" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_linked_list_element" kindref="compound">LinkedListElement</ref><sp/>*<ref refid="struct_linked_list_element_1ab2a338dd2c3ebf3033210507766f2529" kindref="member">prev</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}<sp/><ref refid="nbody__types_8h_1adb5acc7fc708cec106accdf2a83490af" kindref="member">LinkedListElement</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="struct_linked_list" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_linked_list" kindref="compound">LinkedList</ref></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31" refid="struct_linked_list_1a92842e4a76a05ad592d19f07a60db019" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_linked_list_element" kindref="compound">LinkedListElement</ref><sp/>*<ref refid="struct_linked_list_1a92842e4a76a05ad592d19f07a60db019" kindref="member">head</ref>;</highlight></codeline>
+<codeline lineno="32" refid="struct_linked_list_1a8bc37f643ec6dee9b1a03872b546fd5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_linked_list_element" kindref="compound">LinkedListElement</ref><sp/>*<ref refid="struct_linked_list_1a8bc37f643ec6dee9b1a03872b546fd5b" kindref="member">tail</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}<sp/><ref refid="nbody__types_8h_1ac88c416443c70449f417f26a05fd6265" kindref="member">LinkedList</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="nbody__types_8h_1a224dbb2b62a95ce0a84c0997041fa837" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="nbody__types_8h_1a224dbb2b62a95ce0a84c0997041fa837" kindref="member">Vector</ref>[3];</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="struct_body" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_body" kindref="compound">Body</ref></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="39" refid="struct_body_1a5175b356eac1d83a42608b42a25d00b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="struct_body_1a5175b356eac1d83a42608b42a25d00b9" kindref="member">m</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="struct_body_1a32028928bab6f6e926f89bf7c52c4138" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>r[3];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="struct_body_1ad8b2664bf7d7db7f9685845624616041" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>v[3];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="struct_body_1a74c08c3b509575a337bf62d564991340" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>f[3];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}<sp/><ref refid="nbody__types_8h_1af8b3c899c550fcfb372af97413b1b646" kindref="member">Body</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="struct_body_list" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_body_list" kindref="compound">BodyList</ref></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47" refid="struct_body_list_1a5d4b20fb6acb8bdb769db95280c18dcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_body" kindref="compound">Body</ref><sp/>*<ref refid="struct_body_list_1a5d4b20fb6acb8bdb769db95280c18dcb" kindref="member">body</ref>;</highlight></codeline>
+<codeline lineno="48" refid="struct_body_list_1ab63aea1170041eff3f6b711fcf1b8784" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_body_list" kindref="compound">BodyList</ref><sp/>*<ref refid="struct_body_list_1ab63aea1170041eff3f6b711fcf1b8784" kindref="member">next</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}<sp/><ref refid="nbody__types_8h_1abf88b8d31a558480418d8dbc9d5d5068" kindref="member">BodyList</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="struct_bin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_bin" kindref="compound">Bin</ref></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53" refid="struct_bin_1acb559820d9ca11295b4500f179ef6392" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_bin_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>;</highlight></codeline>
+<codeline lineno="54" refid="struct_bin_1a37d972ae0b47b9099e30983131d31916" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_bin_1a37d972ae0b47b9099e30983131d31916" kindref="member">j</ref>;</highlight></codeline>
+<codeline lineno="55" refid="struct_bin_1ab66ed8e0098c0a86b458672a55a9cca9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_bin_1ab66ed8e0098c0a86b458672a55a9cca9" kindref="member">k</ref>;</highlight></codeline>
+<codeline lineno="56" refid="struct_bin_1aaa79dba755c4edd20afd94e5c11c1c96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_body_list" kindref="compound">BodyList</ref><sp/>*<ref refid="struct_bin_1aaa79dba755c4edd20afd94e5c11c1c96" kindref="member">bodylist</ref>;</highlight></codeline>
+<codeline lineno="57" refid="struct_bin_1a4c64e88a16c43b567dfe1c1695ee10fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_bin" kindref="compound">Bin</ref><sp/>*<ref refid="struct_bin_1a4c64e88a16c43b567dfe1c1695ee10fb" kindref="member">neighbors</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}<sp/><ref refid="nbody__types_8h_1a02faf04c3df32406f4af59687ab29026" kindref="member">Bin</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="struct_simulation_parameters" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_simulation_parameters" kindref="compound">SimulationParameters</ref></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62" refid="struct_simulation_parameters_1a1031d0e0a97a340abfe0a6ab9e831045" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="struct_simulation_parameters_1a1031d0e0a97a340abfe0a6ab9e831045" kindref="member">a</ref>;<sp/></highlight><highlight class="comment">/*<sp/>Cut-off<sp/>parameter<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}<sp/><ref refid="nbody__types_8h_1a9438238b86685ca53c938d4f32c3054f" kindref="member">SimulationParameters</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="struct_simulation_box" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_simulation_box" kindref="compound">SimulationBox</ref></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="67" refid="struct_simulation_box_1a95cda27f33ac1484424adb055846a6de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>location[3];</highlight></codeline>
+<codeline lineno="68" refid="struct_simulation_box_1a02079f68df9f00f088db5a3985bd30a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>width[3];</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}<sp/><ref refid="nbody__types_8h_1afb1d06d7544e4e26d4fedb08cfdd9d71" kindref="member">SimulationBox</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="struct_simulation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_simulation" kindref="compound">Simulation</ref></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="73" refid="struct_simulation_1a8c68351d39c9cff958c6d970b948d5b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_simulation_parameters" kindref="compound">SimulationParameters</ref><sp/>simulationParameters;</highlight></codeline>
+<codeline lineno="74" refid="struct_simulation_1a4e1149e437e8662a94a3086a53370e34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_simulation_box" kindref="compound">SimulationBox</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>simulationBox;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}<sp/><ref refid="nbody__types_8h_1ad43311de2ce549cd715095669dd8d18b" kindref="member">Simulation</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="struct_cell" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_cell" kindref="compound">Cell</ref></highlight></codeline>
+<codeline lineno="79"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="80" refid="struct_cell_1acb559820d9ca11295b4500f179ef6392" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_cell_1acb559820d9ca11295b4500f179ef6392" kindref="member">i</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}<sp/><ref refid="nbody__types_8h_1a208ce62cb3a7fe4518d722235d9d656d" kindref="member">Cell</ref>;</highlight></codeline>
+    </programlisting>
+    <location file="nbody_types.h"/>
+  </compounddef>
+</doxygen>

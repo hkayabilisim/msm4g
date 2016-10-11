@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.12">
+  <compounddef id="struct_bin" kind="struct" language="C++" prot="public">
+    <compoundname>Bin</compoundname>
+    <includes refid="nbody__types_8h" local="no">nbody_types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_bin_1acb559820d9ca11295b4500f179ef6392" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int i</definition>
+        <argsstring></argsstring>
+        <name>i</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="53" column="1" bodyfile="nbody_types.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bin_1a37d972ae0b47b9099e30983131d31916" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int j</definition>
+        <argsstring></argsstring>
+        <name>j</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="54" column="1" bodyfile="nbody_types.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bin_1ab66ed8e0098c0a86b458672a55a9cca9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="55" column="1" bodyfile="nbody_types.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bin_1aaa79dba755c4edd20afd94e5c11c1c96" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="struct_body_list" kindref="compound">BodyList</ref> *</type>
+        <definition>struct BodyList* bodylist</definition>
+        <argsstring></argsstring>
+        <name>bodylist</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="56" column="1" bodyfile="nbody_types.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bin_1a4c64e88a16c43b567dfe1c1695ee10fb" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="struct_bin" kindref="compound">Bin</ref> *</type>
+        <definition>struct Bin* neighbors</definition>
+        <argsstring></argsstring>
+        <name>neighbors</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="57" column="1" bodyfile="nbody_types.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>Bin</label>
+        <link refid="struct_bin"/>
+        <childnode refid="1" relation="usage">
+          <edgelabel>neighbors</edgelabel>
+        </childnode>
+        <childnode refid="2" relation="usage">
+          <edgelabel>bodylist</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Body</label>
+        <link refid="struct_body"/>
+      </node>
+      <node id="2">
+        <label>BodyList</label>
+        <link refid="struct_body_list"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>next</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>body</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="nbody_types.h" line="52" column="1" bodyfile="nbody_types.h" bodystart="51" bodyend="58"/>
+    <listofallmembers>
+      <member refid="struct_bin_1aaa79dba755c4edd20afd94e5c11c1c96" prot="public" virt="non-virtual"><scope>Bin</scope><name>bodylist</name></member>
+      <member refid="struct_bin_1acb559820d9ca11295b4500f179ef6392" prot="public" virt="non-virtual"><scope>Bin</scope><name>i</name></member>
+      <member refid="struct_bin_1a37d972ae0b47b9099e30983131d31916" prot="public" virt="non-virtual"><scope>Bin</scope><name>j</name></member>
+      <member refid="struct_bin_1ab66ed8e0098c0a86b458672a55a9cca9" prot="public" virt="non-virtual"><scope>Bin</scope><name>k</name></member>
+      <member refid="struct_bin_1a4c64e88a16c43b567dfe1c1695ee10fb" prot="public" virt="non-virtual"><scope>Bin</scope><name>neighbors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

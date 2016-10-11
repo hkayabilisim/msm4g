@@ -1,0 +1,747 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.12">
+  <compounddef id="nbody__lib_8h" kind="file" language="C++">
+    <compoundname>nbody_lib.h</compoundname>
+    <includes local="no">stdio.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includes local="no">time.h</includes>
+    <includes local="no">math.h</includes>
+    <includes local="no">string.h</includes>
+    <includes local="no">float.h</includes>
+    <includes local="no">sys/time.h</includes>
+    <includes refid="nbody__types_8h" local="yes">nbody_types.h</includes>
+    <includedby refid="nbody__lib_8c" local="yes">nbody_lib.c</includedby>
+    <includedby refid="nbody__main_8c" local="yes">nbody_main.c</includedby>
+    <incdepgraph>
+      <node id="17">
+        <label>float.h</label>
+      </node>
+      <node id="13">
+        <label>stdlib.h</label>
+      </node>
+      <node id="16">
+        <label>string.h</label>
+      </node>
+      <node id="14">
+        <label>time.h</label>
+      </node>
+      <node id="15">
+        <label>math.h</label>
+      </node>
+      <node id="18">
+        <label>sys/time.h</label>
+      </node>
+      <node id="19">
+        <label>nbody_types.h</label>
+        <link refid="nbody__types_8h"/>
+      </node>
+      <node id="11">
+        <label>nbody_lib.h</label>
+        <link refid="nbody__lib_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="22">
+        <label>nbody_main.c</label>
+        <link refid="nbody__main_8c"/>
+      </node>
+      <node id="21">
+        <label>nbody_lib.c</label>
+        <link refid="nbody__lib_8c"/>
+      </node>
+      <node id="20">
+        <label>nbody_lib.h</label>
+        <link refid="nbody__lib_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="nbody__lib_8h_1acf3f0c9aa42e44392831674a627b0c79" prot="public" static="no">
+        <name>NBODY_ERR_INPUT_ISNOT_3D</name>
+        <initializer>-1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Multi-Level Summation Method (MSM) for Gravitational N-body Problems</para><para><verbatim>Function Declerations</verbatim> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="19" column="9" bodyfile="nbody_lib.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="nbody__lib_8h_1a29d0c25e1dd2d6aefa1d56708364fa60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int nbody_test_eight</definition>
+        <argsstring>()</argsstring>
+        <name>nbody_test_eight</name>
+        <briefdescription>
+<para>Eight test. </para>        </briefdescription>
+        <detaileddescription>
+<para>Long definition. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="25" column="1" bodyfile="nbody_lib.c" bodystart="392" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a7848443fac8d79e63d84dcc64ea3bed9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_linkedlist_test1</definition>
+        <argsstring>()</argsstring>
+        <name>nbody_linkedlist_test1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Library. </para>        </detaileddescription>
+        <inbodydescription>
+<para>The list </para>        </inbodydescription>
+        <location file="nbody_lib.h" line="26" column="1" bodyfile="nbody_lib.c" bodystart="8" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1adb00939603ffda8e425b21211370a6c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_linkedlist_destroy</definition>
+        <argsstring>(LinkedList *list)</argsstring>
+        <name>nbody_linkedlist_destroy</name>
+        <param>
+          <type><ref refid="struct_linked_list" kindref="compound">LinkedList</ref> *</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="27" column="1" bodyfile="nbody_lib.c" bodystart="76" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a12473aa3505cb1f8545103441ed4ff2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_linkedlist_add</definition>
+        <argsstring>(LinkedList *list, void *data)</argsstring>
+        <name>nbody_linkedlist_add</name>
+        <param>
+          <type><ref refid="struct_linked_list" kindref="compound">LinkedList</ref> *</type>
+          <declname>list</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="28" column="1" bodyfile="nbody_lib.c" bodystart="54" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1abee78561ce2c77f7dd6f53c765e340e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_linked_list" kindref="compound">LinkedList</ref> *</type>
+        <definition>LinkedList* nbody_linkedlist_new</definition>
+        <argsstring>()</argsstring>
+        <name>nbody_linkedlist_new</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="29" column="1" bodyfile="nbody_lib.c" bodystart="46" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a048e5001a6da516d0c09ac2de9c4d18d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int nbody_linkedlist_size</definition>
+        <argsstring>(LinkedList *list)</argsstring>
+        <name>nbody_linkedlist_size</name>
+        <param>
+          <type><ref refid="struct_linked_list" kindref="compound">LinkedList</ref> *</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="30" column="1" bodyfile="nbody_lib.c" bodystart="34" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a372c1e36d7d677a5c2e6aec56e0c4886" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_body" kindref="compound">Body</ref> *</type>
+        <definition>Body* nbody_newbody</definition>
+        <argsstring>(double mass, double *location, double *velocity)</argsstring>
+        <name>nbody_newbody</name>
+        <param>
+          <type>double</type>
+          <declname>mass</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>location</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>velocity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="34" column="1" bodyfile="nbody_lib.c" bodystart="210" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a34414124005e7d0e4e2def0e2b49de8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_body" kindref="compound">Body</ref> *</type>
+        <definition>Body* nbody_newzerobody</definition>
+        <argsstring>()</argsstring>
+        <name>nbody_newzerobody</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="35" column="1" bodyfile="nbody_lib.c" bodystart="227" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1aaaa54e16825873c95b8ba760808a8e0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_body" kindref="compound">Body</ref> *</type>
+        <definition>Body* nbody_newrandbody</definition>
+        <argsstring>()</argsstring>
+        <name>nbody_newrandbody</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="36" column="1" bodyfile="nbody_lib.c" bodystart="195" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a228fe127259a13a5bc8e4da45c44c0bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_body" kindref="compound">Body</ref> *</type>
+        <definition>Body* nbody_resetbody</definition>
+        <argsstring>(Body *body)</argsstring>
+        <name>nbody_resetbody</name>
+        <param>
+          <type><ref refid="struct_body" kindref="compound">Body</ref> *</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="37" column="1" bodyfile="nbody_lib.c" bodystart="182" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1aeffd7a0874832315fcc560eb59bdf706" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_body_list" kindref="compound">BodyList</ref> *</type>
+        <definition>BodyList* nbody_addbodylist</definition>
+        <argsstring>(BodyList **bodylist, Body *body)</argsstring>
+        <name>nbody_addbodylist</name>
+        <param>
+          <type><ref refid="struct_body_list" kindref="compound">BodyList</ref> **</type>
+          <declname>bodylist</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_body" kindref="compound">Body</ref> *</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="38" column="1" bodyfile="nbody_lib.c" bodystart="123" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1ad1a51604307c23e4a1a122adbded1a2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_printbodylist</definition>
+        <argsstring>(BodyList *head)</argsstring>
+        <name>nbody_printbodylist</name>
+        <param>
+          <type><ref refid="struct_body_list" kindref="compound">BodyList</ref> *</type>
+          <declname>head</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="39" column="1" bodyfile="nbody_lib.c" bodystart="148" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a5ec945bfee9fedea940508cb2e23fe0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_freebodylist</definition>
+        <argsstring>(BodyList **bodylist)</argsstring>
+        <name>nbody_freebodylist</name>
+        <param>
+          <type><ref refid="struct_body_list" kindref="compound">BodyList</ref> **</type>
+          <declname>bodylist</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="40" column="1" bodyfile="nbody_lib.c" bodystart="101" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1adf71dc6eb1bc7865c8091c9fe07a06b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_createBox</definition>
+        <argsstring>(SimulationBox *box, BodyList *list)</argsstring>
+        <name>nbody_createBox</name>
+        <param>
+          <type><ref refid="struct_simulation_box" kindref="compound">SimulationBox</ref> *</type>
+          <declname>box</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_body_list" kindref="compound">BodyList</ref> *</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="43" column="1" bodyfile="nbody_lib.c" bodystart="165" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a160c2cba5e830d622e2df66d7ee9f7e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_acceleration</definition>
+        <argsstring>(double *a, double *r, int n, int d, double *m, double G)</argsstring>
+        <name>nbody_acceleration</name>
+        <param>
+          <type>double *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>G</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="47" column="1" bodyfile="nbody_lib.c" bodystart="252" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a657cdcb1e74333481abd88338119c35c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_energy</definition>
+        <argsstring>(double *pot, double *kin, double *tot, double *r, double *v, int n, int d, double *m, double G)</argsstring>
+        <name>nbody_energy</name>
+        <param>
+          <type>double *</type>
+          <declname>pot</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>kin</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>tot</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>G</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="52" column="1" bodyfile="nbody_lib.c" bodystart="276" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a6f11828be4486055ba7d4232559263e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_forwardeuler</definition>
+        <argsstring>(double *r, double *v, double *a, double dt, int n, int d, double *m, double G)</argsstring>
+        <name>nbody_forwardeuler</name>
+        <param>
+          <type>double *</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>dt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>G</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="56" column="1" bodyfile="nbody_lib.c" bodystart="91" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a9622aef03e176a55548849c8ff8353b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_leapfrog</definition>
+        <argsstring>(double *r, double *v, double *a, double *a1, double dt, int n, int d, double *m, double G)</argsstring>
+        <name>nbody_leapfrog</name>
+        <param>
+          <type>double *</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>a1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>dt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>G</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="57" column="1" bodyfile="nbody_lib.c" bodystart="381" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a8e15606e5734bbface85c518c8f2f481" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_print_body</definition>
+        <argsstring>(double *r, double *v, double *a, int i)</argsstring>
+        <name>nbody_print_body</name>
+        <param>
+          <type>double *</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="61" column="1" bodyfile="nbody_lib.c" bodystart="310" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a868936f1ea2879aea2257bb0b4d64666" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_print_energy</definition>
+        <argsstring>(double pot0, double kin0, double tot0, double pot, double kin, double tot)</argsstring>
+        <name>nbody_print_energy</name>
+        <param>
+          <type>double</type>
+          <declname>pot0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>kin0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tot0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>pot</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>kin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="62" column="1" bodyfile="nbody_lib.c" bodystart="316" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1ab78dff6daa4cbf2f1c1253f1ba54e16e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_read_ini</definition>
+        <argsstring>(char *filename, int *n, int *d, double **m, double **r, double **v)</argsstring>
+        <name>nbody_read_ini</name>
+        <param>
+          <type>char *</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>d</declname>
+        </param>
+        <param>
+          <type>double **</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>double **</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>double **</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="63" column="1" bodyfile="nbody_lib.c" bodystart="321" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1a0bbf0022c12442a1bcad51cc9c04e0bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int nbody_read_bodies</definition>
+        <argsstring>(char *filename, int *n, BodyList **bodylist)</argsstring>
+        <name>nbody_read_bodies</name>
+        <param>
+          <type>char *</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_body_list" kindref="compound">BodyList</ref> **</type>
+          <declname>bodylist</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="64" column="1" bodyfile="nbody_lib.c" bodystart="340" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1af1fad81653612ede339dde94dd8f76ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_printbody</definition>
+        <argsstring>(Body *body)</argsstring>
+        <name>nbody_printbody</name>
+        <param>
+          <type><ref refid="struct_body" kindref="compound">Body</ref> *</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="65" column="1" bodyfile="nbody_lib.c" bodystart="242" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="nbody__lib_8h_1ab5d294221f53bdee8dd85fa5d728f594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void nbody_zeros</definition>
+        <argsstring>(double *x, int n)</argsstring>
+        <name>nbody_zeros</name>
+        <param>
+          <type>double *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_lib.h" line="70" column="1" bodyfile="nbody_lib.c" bodystart="439" bodyend="444"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="9"><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;time.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;math.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;float.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/time.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="nbody__types_8h" kindref="compound">nbody_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="nbody__lib_8h_1acf3f0c9aa42e44392831674a627b0c79" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NBODY_ERR_INPUT_ISNOT_3D<sp/>-1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1a29d0c25e1dd2d6aefa1d56708364fa60" kindref="member">nbody_test_eight</ref>();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1a7848443fac8d79e63d84dcc64ea3bed9" kindref="member">nbody_linkedlist_test1</ref>();</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1adb00939603ffda8e425b21211370a6c4" kindref="member">nbody_linkedlist_destroy</ref>(<ref refid="struct_linked_list" kindref="compound">LinkedList</ref><sp/>*list);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1a12473aa3505cb1f8545103441ed4ff2c" kindref="member">nbody_linkedlist_add</ref>(<ref refid="struct_linked_list" kindref="compound">LinkedList</ref><sp/>*list,</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*data);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="struct_linked_list" kindref="compound">LinkedList</ref><sp/>*<ref refid="nbody__lib_8h_1abee78561ce2c77f7dd6f53c765e340e7" kindref="member">nbody_linkedlist_new</ref>();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1a048e5001a6da516d0c09ac2de9c4d18d" kindref="member">nbody_linkedlist_size</ref>(<ref refid="struct_linked_list" kindref="compound">LinkedList</ref><sp/>*list);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Body<sp/>related<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="struct_body" kindref="compound">Body</ref><sp/>*<ref refid="nbody__lib_8h_1a372c1e36d7d677a5c2e6aec56e0c4886" kindref="member">nbody_newbody</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mass,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*location,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*velocity);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="struct_body" kindref="compound">Body</ref><sp/>*<ref refid="nbody__lib_8h_1a34414124005e7d0e4e2def0e2b49de8f" kindref="member">nbody_newzerobody</ref>();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><ref refid="struct_body" kindref="compound">Body</ref><sp/>*<ref refid="nbody__lib_8h_1aaaa54e16825873c95b8ba760808a8e0d" kindref="member">nbody_newrandbody</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="struct_body" kindref="compound">Body</ref><sp/>*<ref refid="nbody__lib_8h_1a228fe127259a13a5bc8e4da45c44c0bc" kindref="member">nbody_resetbody</ref>(<ref refid="struct_body" kindref="compound">Body</ref><sp/>*body);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="struct_body_list" kindref="compound">BodyList</ref><sp/>*<ref refid="nbody__lib_8h_1aeffd7a0874832315fcc560eb59bdf706" kindref="member">nbody_addbodylist</ref>(<ref refid="struct_body_list" kindref="compound">BodyList</ref><sp/>**bodylist,<ref refid="struct_body" kindref="compound">Body</ref><sp/>*body);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1ad1a51604307c23e4a1a122adbded1a2f" kindref="member">nbody_printbodylist</ref>(<ref refid="struct_body_list" kindref="compound">BodyList</ref><sp/>*head);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1a5ec945bfee9fedea940508cb2e23fe0f" kindref="member">nbody_freebodylist</ref>(<ref refid="struct_body_list" kindref="compound">BodyList</ref><sp/>**bodylist);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Geometry<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1adf71dc6eb1bc7865c8091c9fe07a06b6" kindref="member">nbody_createBox</ref>(<ref refid="struct_simulation_box" kindref="compound">SimulationBox</ref><sp/>*box,<ref refid="struct_body_list" kindref="compound">BodyList</ref><sp/>*list);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="45"><highlight class="comment"><sp/>*<sp/>Force<sp/>calculation</highlight></codeline>
+<codeline lineno="46"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1a160c2cba5e830d622e2df66d7ee9f7e5" kindref="member">nbody_acceleration</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*a,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*r,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>d,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*m,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>G);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="50"><highlight class="comment"><sp/>*Energy<sp/>calculations</highlight></codeline>
+<codeline lineno="51"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1a657cdcb1e74333481abd88338119c35c" kindref="member">nbody_energy</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*pot,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*kin,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*tot,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*r,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*v,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>d,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*m,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>G);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="54"><highlight class="comment"><sp/>*<sp/>Time<sp/>integration<sp/>schemes</highlight></codeline>
+<codeline lineno="55"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1a6f11828be4486055ba7d4232559263e3" kindref="member">nbody_forwardeuler</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*r,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*v,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*a,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>d,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*m,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>G);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1a9622aef03e176a55548849c8ff8353b2" kindref="member">nbody_leapfrog</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*r,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*v,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*a,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*a1,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>d,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*m,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>G);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="59"><highlight class="comment"><sp/>*<sp/>IO-related</highlight></codeline>
+<codeline lineno="60"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1a8e15606e5734bbface85c518c8f2f481" kindref="member">nbody_print_body</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*r,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*v,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*a,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1a868936f1ea2879aea2257bb0b4d64666" kindref="member">nbody_print_energy</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>pot0,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kin0,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tot0,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>pot,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kin,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tot);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1ab78dff6daa4cbf2f1c1253f1ba54e16e" kindref="member">nbody_read_ini</ref>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*filename,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*n,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*d,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>**m,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>**r,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>**v);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="nbody__lib_8h_1a0bbf0022c12442a1bcad51cc9c04e0bd" kindref="member">nbody_read_bodies</ref>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*filename,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*n,<ref refid="struct_body_list" kindref="compound">BodyList</ref><sp/>**bodylist);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1af1fad81653612ede339dde94dd8f76ca" kindref="member">nbody_printbody</ref>(<ref refid="struct_body" kindref="compound">Body</ref><sp/>*body);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="68"><highlight class="comment"><sp/>*<sp/>Memory<sp/>related</highlight></codeline>
+<codeline lineno="69"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="nbody__lib_8h_1ab5d294221f53bdee8dd85fa5d728f594" kindref="member">nbody_zeros</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>*x,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="nbody_lib.h"/>
+  </compounddef>
+</doxygen>

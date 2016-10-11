@@ -1,21 +1,11 @@
-//
-//  nbody_types.h
-//  msm4g
-//
-//  Created by Huseyin Kaya on 10/6/16.
-//  Copyright © 2016 Huseyin Kaya. All rights reserved.
-//
-
-#ifndef nbody_types_h
-#define nbody_types_h
-
-
-#endif /* nbody_types_h */
-
-/*
- * Type definitions
+/** @brief Data structures
+ *
+ * The file contains all the
  */
+
+/** TRUE corresponds to 1 */
 #define TRUE  1
+/** FALSE corresponds to 0 */
 #define FALSE 0
 
 
@@ -36,10 +26,10 @@ typedef double Vector[3];
 
 typedef struct Body
 {
-    double m;           /* mass      */
-    double r[3];        /* location  */
-    double v[3];        /* velocity  */
-    double f[3];        /* force     */
+    double m;           /**< mass      */
+    double r[3];        /**< location  */
+    double v[3];        /**< velocity  */
+    double f[3];        /**< force     */
 } Body;
 
 typedef struct BodyList

@@ -1,17 +1,13 @@
-//
-//  nbody_lib.c
-//  msm4g
-//
-//  Created by Huseyin Kaya on 07/10/16.
-//  Copyright © 2016 Huseyin Kaya. All rights reserved.
-//
+/** Library.
+ *
+ */
 
 #include "nbody_lib.h"
 
 
 void nbody_linkedlist_test1()
 {
-    LinkedList *list;
+    LinkedList *list; /** The list */
     LinkedListElement *curr;
     Body x[10];
     int i;

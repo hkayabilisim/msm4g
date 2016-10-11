@@ -1,4 +1,4 @@
-/*
+/**
  *         Multi-Level Summation Method (MSM)
  *                   for
  *         Gravitational N-body Problems
@@ -18,8 +18,9 @@
 
 #define NBODY_ERR_INPUT_ISNOT_3D -1
 
-/*
- * Benchmarks
+/** @brief Eight test
+ * 
+ * Long definition.
  */
 int nbody_test_eight();
 void nbody_linkedlist_test1();

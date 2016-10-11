@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.12">
+  <compounddef id="struct_body" kind="struct" language="C++" prot="public">
+    <compoundname>Body</compoundname>
+    <includes refid="nbody__types_8h" local="no">nbody_types.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_body_1a5175b356eac1d83a42608b42a25d00b9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double m</definition>
+        <argsstring></argsstring>
+        <name>m</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>mass </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="39" column="1" bodyfile="nbody_types.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_body_1a32028928bab6f6e926f89bf7c52c4138" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double r[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>r</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>location </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="40" column="1" bodyfile="nbody_types.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_body_1ad8b2664bf7d7db7f9685845624616041" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double v[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>v</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>velocity </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="41" column="1" bodyfile="nbody_types.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_body_1a74c08c3b509575a337bf62d564991340" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double f[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>f</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>force </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="nbody_types.h" line="42" column="1" bodyfile="nbody_types.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="nbody_types.h" line="38" column="1" bodyfile="nbody_types.h" bodystart="37" bodyend="43"/>
+    <listofallmembers>
+      <member refid="struct_body_1a74c08c3b509575a337bf62d564991340" prot="public" virt="non-virtual"><scope>Body</scope><name>f</name></member>
+      <member refid="struct_body_1a5175b356eac1d83a42608b42a25d00b9" prot="public" virt="non-virtual"><scope>Body</scope><name>m</name></member>
+      <member refid="struct_body_1a32028928bab6f6e926f89bf7c52c4138" prot="public" virt="non-virtual"><scope>Body</scope><name>r</name></member>
+      <member refid="struct_body_1ad8b2664bf7d7db7f9685845624616041" prot="public" virt="non-virtual"><scope>Body</scope><name>v</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
