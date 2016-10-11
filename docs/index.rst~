@@ -5,19 +5,10 @@
 
 Welcome to MSM4G's documentation!
 =================================
-This is bla bla.
+Multi-Level Summation Method for Gravitational N-Body problems.
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
