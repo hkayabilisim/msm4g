@@ -7,8 +7,6 @@ Welcome to MSM4G's documentation!
 =================================
 Multi-Level Summation Method for Gravitational N-Body problems.
 
-.. c:function:: void *name(double int)
-
 Contents:
 
 .. toctree::
