@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pnodestruct',['pNodeStruct',['../nbody__lib_8c.html#ae0b865aeb3a8ca1bc05b13a0ffc168c6',1,'nbody_lib.c']]]
+  ['vector',['Vector',['../nbody__types_8h.html#a224dbb2b62a95ce0a84c0997041fa837',1,'nbody_types.h']]]
 ];

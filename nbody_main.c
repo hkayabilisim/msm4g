@@ -1,33 +1,14 @@
 /** @mainpage
  *
- * This is the introduction.
+ * Multi-Level Summation Method for Gravitational N-Body problems.
  *
  */
 
-#include <stdio.h>
 #include "nbody_lib.h"
 
-
-/** 
- * Main entrance to the code.
- */
 int main()
 {
-    /*
-    BodyList *list = NULL;
-    int n;
-    
-    nbody_read_bodies("data/eight.ini", &n, &list);
-    
-  
-    nbody_printbodylist(list);
-    
-    
-    nbody_freebodylist(&list);
-    */
-    
-    nbody_linkedlist_test1();
-
+    nbody_unit_test_all();
     
     return 0;
 }

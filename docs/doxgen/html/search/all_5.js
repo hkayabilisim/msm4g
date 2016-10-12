@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['head',['head',['../struct_linked_list.html#a92842e4a76a05ad592d19f07a60db019',1,'LinkedList']]]
+  ['i',['i',['../struct_bin.html#acb559820d9ca11295b4500f179ef6392',1,'Bin']]]
 ];

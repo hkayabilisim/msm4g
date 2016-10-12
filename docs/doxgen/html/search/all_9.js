@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['linkedlist',['LinkedList',['../struct_linked_list.html',1,'LinkedList'],['../nbody__types_8h.html#ac88c416443c70449f417f26a05fd6265',1,'LinkedList():&#160;nbody_types.h']]],
-  ['linkedlistelement',['LinkedListElement',['../struct_linked_list_element.html',1,'LinkedListElement'],['../nbody__types_8h.html#adb5acc7fc708cec106accdf2a83490af',1,'LinkedListElement():&#160;nbody_types.h']]],
-  ['location',['location',['../struct_simulation_box.html#a95cda27f33ac1484424adb055846a6de',1,'SimulationBox']]]
+  ['m',['m',['../struct_body.html#a5175b356eac1d83a42608b42a25d00b9',1,'Body']]],
+  ['main',['main',['../nbody__main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'nbody_main.c']]]
 ];

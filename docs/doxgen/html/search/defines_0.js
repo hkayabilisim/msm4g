@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['false',['FALSE',['../nbody__types_8h.html#aa93f0eb578d23995850d61f7d61c55c1',1,'nbody_types.h']]]
+  ['nbody_5ferr_5finput_5fisnot_5f3d',['NBODY_ERR_INPUT_ISNOT_3D',['../nbody__lib_8h.html#acf3f0c9aa42e44392831674a627b0c79',1,'nbody_lib.h']]]
 ];

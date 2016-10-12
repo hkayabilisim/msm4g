@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['cell',['Cell',['../struct_cell.html',1,'Cell'],['../nbody__types_8h.html#a208ce62cb3a7fe4518d722235d9d656d',1,'Cell():&#160;nbody_types.h']]]
+  ['data',['data',['../struct_linked_list_element.html#a735984d41155bc1032e09bece8f8d66d',1,'LinkedListElement']]]
 ];

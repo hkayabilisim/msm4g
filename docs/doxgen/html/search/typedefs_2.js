@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['linkedlist',['LinkedList',['../nbody__types_8h.html#ac88c416443c70449f417f26a05fd6265',1,'nbody_types.h']]],
-  ['linkedlistelement',['LinkedListElement',['../nbody__types_8h.html#adb5acc7fc708cec106accdf2a83490af',1,'nbody_types.h']]]
+  ['simulation',['Simulation',['../nbody__types_8h.html#ad43311de2ce549cd715095669dd8d18b',1,'nbody_types.h']]],
+  ['simulationbox',['SimulationBox',['../nbody__types_8h.html#afb1d06d7544e4e26d4fedb08cfdd9d71',1,'nbody_types.h']]],
+  ['simulationparameters',['SimulationParameters',['../nbody__types_8h.html#a9438238b86685ca53c938d4f32c3054f',1,'nbody_types.h']]]
 ];

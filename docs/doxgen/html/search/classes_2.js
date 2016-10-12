@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['linkedlist',['LinkedList',['../struct_linked_list.html',1,'']]],
-  ['linkedlistelement',['LinkedListElement',['../struct_linked_list_element.html',1,'']]]
+  ['simulation',['Simulation',['../struct_simulation.html',1,'']]],
+  ['simulationbox',['SimulationBox',['../struct_simulation_box.html',1,'']]],
+  ['simulationparameters',['SimulationParameters',['../struct_simulation_parameters.html',1,'']]]
 ];

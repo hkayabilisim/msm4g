@@ -1,14 +1,35 @@
-/** Library.
- *
- */
-
 #include "nbody_lib.h"
 
-
-void nbody_linkedlist_test1()
+/** @brief Running all unit tests sequentially. */
+void nbody_unit_test_all()
 {
-    LinkedList *list; /** The list */
-    LinkedListElement *curr;
+    bool status;
+    bool (*unitTests[4])() = {
+        nbody_unit_test_1,
+        nbody_unit_test_2,
+        nbody_unit_test_3,
+        nbody_unit_test_4
+    };
+    int testid, numberoftests,failed;
+    
+    numberoftests = sizeof(unitTests)/sizeof(unitTests[0]);
+    failed=0;
+    for (testid = 0; testid < numberoftests ; testid++)
+    {
+        status = unitTests[testid]();
+        if (status == false)
+        {
+            failed++;
+            fprintf(stderr,"Unit test %3d: %s\n",testid+1,"failed");
+        }
+    }
+    printf("%d of %d passed, %d failed\n",numberoftests-failed,numberoftests,failed);
+}
+
+/** @brief Checking size() function of the linked list implementation. */
+bool nbody_unit_test_1()
+{
+    LinkedList *list;
     Body x[10];
     int i;
     
@@ -19,17 +40,168 @@ void nbody_linkedlist_test1()
         nbody_resetbody(x+i);
         nbody_linkedlist_add(list,&x[i]);
     }
-    printf("Size of the list: %d\n",nbody_linkedlist_size(list));
+    if (nbody_linkedlist_size(list) != 10)
+    {
+        nbody_linkedlist_destroy(list);
+        return false;
+    }
+    nbody_linkedlist_destroy(list);
+    return true;
+}
 
-    printf("Printfing from tail to head\n");
+/** @brief A test function for linked list implementation.
+ *
+ *
+ */
+bool nbody_unit_test_2()
+{
+    LinkedList *list;
+    LinkedListElement *curr;
+    Body x[10];
+    Body *y;
+    bool status = true;
+    int i;
+    
+    list = nbody_linkedlist_new();
+    
+    for (i=0;i<10;i++)
+    {
+        x[i].m = i;
+        nbody_linkedlist_add(list,&x[i]);
+    }
+    
+    /**< Iterating from tail to head */
+    i=9;
     curr=list->tail;
     while (curr != NULL)
     {
-        nbody_printbody((Body *)curr->data);
+        y =  (Body *)curr->data;
+        if (fabs(i - (y->m)) > DBL_EPSILON)
+        {
+            status = false;
+            break;
+        }
         curr = curr->prev;
+        i--;
+    }
+    nbody_linkedlist_destroy(list);
+
+    return status;
+}
+
+/** @brief Traversing from head to tail. */
+bool nbody_unit_test_3()
+{
+    LinkedList *list;
+    LinkedListElement *curr;
+    Body x[10];
+    Body *y;
+    bool status = true;
+    int i;
+    
+    list = nbody_linkedlist_new();
+    
+    for (i=0;i<10;i++)
+    {
+        x[i].m = i;
+        nbody_linkedlist_add(list,&x[i]);
     }
     
+    /**< Iterating from tail to head */
+    i=0;
+    curr=list->head;
+    while (curr != NULL)
+    {
+        y =  (Body *)curr->data;
+        if (fabs(i - (y->m)) > DBL_EPSILON)
+        {
+            status = false;
+            break;
+        }
+        curr = curr->next;
+        i++;
+    }
     nbody_linkedlist_destroy(list);
+    
+    return status;
+}
+
+/** @brief Reading body configurations from a text file.
+ * 
+ * The masses, locations and velocities of three bodies are read from
+ * eight.ini file and compared to the true values. If there is a slight
+ * variation, the test returns with fail.
+ *
+ * @return true if the test is succesfull, false otherwise.
+ */
+bool nbody_unit_test_4()
+{
+    FILE *fp;
+    double mass,r[3],v[3];
+    Body bodies[3], bodiesInFile[3];
+    int i,j;
+    int ibody;
+    
+    for (i=0;i<3;i++)
+    {
+        nbody_resetbody(&bodies[i]);
+        nbody_resetbody(&bodiesInFile[i]);
+        bodies[i].m = 1.0;
+    }
+    bodies[0].r[0] =   0.97000436 ;
+    bodies[0].r[1] =  -0.24308753 ;
+    bodies[0].v[0] =   0.466203685 ;
+    bodies[0].v[1] =   0.43236573 ;
+
+    bodies[1].r[0] =  -0.97000436;
+    bodies[1].r[1] =   0.24308753;
+    bodies[1].v[0] =   0.466203685;
+    bodies[1].v[1] =   0.43236573;
+    
+    bodies[2].v[0] =  -0.93240737;
+    bodies[2].v[1] =  -0.86473146;
+
+    fp = fopen("data/eight.ini","r");
+    if (fp == NULL) return false;
+    
+    ibody = 0;
+    while (true)
+    {
+        int ret = fscanf(fp,"%lf %lf %lf %lf %lf %lf %lf",&mass,&r[0],&r[1],&r[2],&v[0],&v[1],&v[2]);
+        if (ret == 7)
+        {
+            bodiesInFile[ibody].m = mass;
+            for (i=0;i<3;i++)
+            {
+                bodiesInFile[ibody].r[i] = r[i];
+                bodiesInFile[ibody].v[i] = v[i];
+            }
+            ibody++;
+        } else if (ret == EOF)
+            break;
+        else
+        {
+            fclose(fp);
+            return false;
+        }
+            
+    }
+    
+    for (i=0;i<3;i++) /* for each body */
+    {
+        if (fabs(bodies[i].m-bodiesInFile[i].m)>DBL_EPSILON )
+            return false;
+        for (j=0;j<3;j++) /* for each dimension */
+        {
+            if (fabs(bodies[i].r[j]-bodiesInFile[i].r[j]) > DBL_EPSILON)
+                return false;
+            if (fabs(bodies[i].v[j]-bodiesInFile[i].v[j]) > DBL_EPSILON)
+                return false;
+        }
+    }
+    
+    fclose(fp);
+    return true;
 }
 int nbody_linkedlist_size(LinkedList *list)
 {
@@ -98,73 +270,18 @@ void nbody_forwardeuler(double *r,double *v,double *a,double dt,int n,int d,doub
         v[i] += a[i]*dt ;
 }
 
-void nbody_freebodylist(BodyList **bodylist)
-{
-    BodyList *current,*next;
-    current = *bodylist ;
-    while (current->next != NULL)
-    {
-        next = current->next;
-        free(current->body);
-        free(current);
-        current = next;
-    }
-    free(current->body);
-    free(current);
-    *bodylist = NULL;
-}
-
 void nbody_addbinlist(Bin **binlist,Body *body)
 {
     
     
 }
 
-BodyList *nbody_addbodylist(BodyList **bodylist,Body *body)
-{
-    BodyList *newnode ;
-    BodyList *current;
-    
-    newnode = malloc(sizeof(BodyList));
-    newnode->body = body;
-    newnode->next = NULL;
-    
-    current = *bodylist;
-    if (current == NULL)
-    {
-        *bodylist = newnode;
-    } else
-    {
-        while (current->next != NULL)
-        {
-            current = current->next;
-        }
-        current->next = newnode;
-    }
-    
-    return newnode;
-}
 
-void nbody_printbodylist(BodyList *head)
-{
-    BodyList *current;
-    current = head;
-    while (current != NULL)
-    {
-        nbody_printbody(current->body);
-        current = current->next;
-    }
-}
 
-typedef struct node * pNodeStruct;
-typedef struct node {
-    int data;
-    pNodeStruct pNext;
-} NodeStruct;
 
-void nbody_createBox(SimulationBox *box,BodyList *list)
+void nbody_createBox(SimulationBox *box,LinkedList *list)
 {
-    BodyList *current;
+    LinkedList *current;
     int i;
     double minmax[3][2];
     for (i=0;i<3;i++)
@@ -182,12 +299,12 @@ void nbody_createBox(SimulationBox *box,BodyList *list)
 Body *nbody_resetbody(Body *body)
 {
     int i;
-    body->m = 0.5;
+    body->m = 1.0;
     for (i=0; i<3; i++)
     {
-        body->r[i] = 1.0;
-        body->v[i] = 2.0;
-        body->f[i] = 3.0;
+        body->r[i] = 0.0;
+        body->v[i] = 0.0;
+        body->f[i] = 0.0;
     }
     return body;
 }
@@ -318,66 +435,18 @@ void nbody_print_energy(double pot0,double kin0,double tot0,double pot,double ki
     printf("[pot: %10.3E] [kin: %10.3E] [tot: %10.3E] [err: %10.3E]\n",pot,kin,tot,(tot-tot0)/tot0);
 }
 
-void nbody_read_ini(char *filename,int *n,int *d,double **m,double **r,double **v)
-{
-    int i,j;
-    FILE *fp;
-    fp = fopen(filename,"r");
-    fscanf(fp,"%d %d",n,d);
-    *r =calloc((*n)*(*d),sizeof(double));
-    *m =calloc(*n,sizeof(double));
-    *v =calloc((*n)*(*d),sizeof(double));
-    for (i=0;i< (*n); i++) fscanf(fp,"%lf",*m+i);
-    for (i=0;i< (*n);i++)
-    {
-        for (j=0;j< (*d);j++) fscanf(fp,"%lf",*r + (*d)*i+j);
-        for (j=0;j< (*d);j++) fscanf(fp,"%lf",*v + (*d)*i+j);
-    }
-    fclose(fp);
-    
-}
-
-int nbody_read_bodies(char *filename,int *n,BodyList **bodylist)
-{
-    int i,j;
-    int d;
-    double *m,*r,*v;
-    FILE *fp;
-    fp = fopen(filename,"r");
-    fscanf(fp,"%d %d",n,&d);
-    
-    if (d != 3)
-    {
-        fprintf(stderr,"The simulation should be in 3D");
-        return NBODY_ERR_INPUT_ISNOT_3D;
-    }
-    
-    m =calloc(*n,sizeof(double));
-    r =calloc((*n)*3,sizeof(double));
-    v =calloc((*n)*3,sizeof(double));
-    for (i=0;i< (*n); i++) fscanf(fp,"%lf",m+i);
-    for (i=0;i< (*n);i++)
-    {
-        for (j=0;j< 3;j++) fscanf(fp,"%lf",r + (3)*i+j);
-        for (j=0;j< 3;j++) fscanf(fp,"%lf",v + (3)*i+j);
-    }
-    fclose(fp);
-    
-    for (i=0; i < *n ;i++)
-    {
-        Body *body = nbody_newbody(m[i], r+3*i, v+3*i);
-        //printf("Adding body\n");
-        //nbody_printbody(body);
-        
-        nbody_addbodylist(bodylist, body);
-    }
-    
-    free(m);
-    free(r);
-    free(v);
-    return 0;
-}
-
+/** @brief Leap-Frog time-integration scheme.
+ *
+ * @param[in,out] r  The locations of the bodies.
+ * @param[in,out] v  The velocities of the bodies.
+ * @param[in,out] a  The acceleration of the bodies.
+ * @param[in,out] a1 The acceleration of the bodies on half-step time.
+ * @param[in]     dt The timestep.
+ * @param[in]     n  The number of bodies.
+ * @param[in]     d  The spatial dimension.
+ * @param[in]     m  The mass of the bodies.
+ * @param[in]     G  the gravitational constant.
+ */
 void nbody_leapfrog(double *r,double *v,double *a,double *a1,double dt,int n,int d,double *m,double G)
 {
     int i;
