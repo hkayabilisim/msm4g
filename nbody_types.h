@@ -6,7 +6,7 @@ typedef enum
 {
     false ,  /*!< logical false */
     true     /*!< logical true  */
-} bool;
+} Boolean;
 
 /** @brief An element of a LinkedList.
  *
@@ -78,7 +78,7 @@ typedef struct SimulationParameters
 /** @brief The geomatric boundaries of the simulation.
  *
  * The algorithm requires that the simulation is confined into a rectangular 
- % box. The location and the width vectors are sufficient to desribe the domain.
+ * box. The location and the width vectors are sufficient to desribe the domain.
  */
 typedef struct SimulationBox
 {

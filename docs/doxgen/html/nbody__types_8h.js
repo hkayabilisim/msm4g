@@ -14,8 +14,8 @@ var nbody__types_8h =
     [ "Simulation", "nbody__types_8h.html#ad43311de2ce549cd715095669dd8d18b", null ],
     [ "SimulationBox", "nbody__types_8h.html#afb1d06d7544e4e26d4fedb08cfdd9d71", null ],
     [ "SimulationParameters", "nbody__types_8h.html#a9438238b86685ca53c938d4f32c3054f", null ],
-    [ "bool", "nbody__types_8h.html#af6a258d8f3ee5206d682d799316314b1", [
-      [ "false", "nbody__types_8h.html#af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c", null ],
-      [ "true", "nbody__types_8h.html#af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b", null ]
+    [ "Boolean", "nbody__types_8h.html#ae7d38601dfbd73adbe5c1b3ec34e0e13", [
+      [ "false", "nbody__types_8h.html#ae7d38601dfbd73adbe5c1b3ec34e0e13ae9de385ef6fe9bf3360d1038396b884c", null ],
+      [ "true", "nbody__types_8h.html#ae7d38601dfbd73adbe5c1b3ec34e0e13a08f175a5505a10b9ed657defeb050e4b", null ]
     ] ]
 ];
