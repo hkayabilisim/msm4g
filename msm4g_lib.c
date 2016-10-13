@@ -1,5 +1,21 @@
 #include "msm4g_lib.h"
 
+void msm4g_d3vector_set(D3Vector *d3vector,double x,double y,double z)
+{
+    d3vector->value[0] = x;
+    d3vector->value[1] = y;
+    d3vector->value[2] = z;
+}
+
+void msm4g_d3vector_daxpy(D3Vector *z,double a,D3Vector *x,D3Vector *y)
+{
+    int i;
+    for (i=0; i<3; i++)
+    {
+        z->value[i] += a*x->value[i] + y->value[i];
+    }
+}
+
 int msm4g_linkedlist_size(LinkedList *list)
 {
     int size = 0;
@@ -95,15 +111,25 @@ void msm4g_addbinlist(Bin **binlist,Body *body)
     
 }
 
+
+SimulationBox *msm4g_box_new()
+{
+    SimulationBox *box;
+    box = malloc(sizeof(SimulationBox));
+    msm4g_d3vector_set(&(box->location), 0.0,0.0,0.0);
+    msm4g_d3vector_set(&(box->width), 1.0,1.0,1.0);
+    return box;
+}
+
 void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin)
 {
-    const int DIM = 3;
-    double min[DIM];
-    double max[DIM];
+    double min[3];
+    double max[3];
+    double oldwidth,newwidth;
     int i;
     LinkedListElement *curr ;
     Body *body;
-    for (i=0;i<DIM;i++)
+    for (i=0;i<3;i++)
     {
         min[i] = DBL_MAX;
         max[i] = DBL_MIN;
@@ -113,7 +139,7 @@ void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin)
     while (curr != NULL)
     {
         body = (Body *) (curr->data);
-        for (i=0; i<DIM; i++)
+        for (i=0; i<3; i++)
         {
             if (body->r[i] >= max[i])
                 max[i] = body->r[i];
@@ -123,11 +149,39 @@ void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin)
         curr = curr->next;
     }
     
-    for (i=0;i<DIM;i++)
+    for (i=0;i<3;i++)
     {
-        box->location[i] = min[i];
-        box->width[i] = max[i]-min[i];
+        box->location.value[i] = min[i];
+        box->width.value[i] = max[i]-min[i];
     }
+    
+    if (margin > 0.0)
+    {
+        for (i=0;i<3;i++)
+        {
+            oldwidth = box->width.value[i];
+            newwidth = oldwidth*(1.0+margin);
+            box->location.value[i] -= 0.5*(newwidth-oldwidth);
+            box->width.value[i] = newwidth;
+        }
+    }
+}
+
+void msm4g_box_print(SimulationBox *box)
+{
+    printf("Box Location: %f %f %f\n",
+           box->location.value[0],
+           box->location.value[1],
+           box->location.value[2]);
+    printf("Box Width   : %f %f %f\n",
+           box->width.value[0],
+           box->width.value[1],
+           box->width.value[2]);
+}
+
+void msm4g_box_destroy(SimulationBox *box)
+{
+    free(box);
 }
 
 Body *msm4g_body_reset(Body *body)

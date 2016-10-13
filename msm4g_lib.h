@@ -10,6 +10,30 @@
 #include <sys/time.h>
 #include "msm4g_types.h"
 
+/** @brief Sets the elements of a 3-element vector.
+ *
+ * The elements of a 3DVector is set to the given
+ * values of x,y, and z.
+ *
+ * @param[in,out] d3vector A pointer to a 3-element double vector.
+ * @param[in]     x        The first element.
+ * @param[in]     y        The second element.
+ * @param[in]     z        The third element.
+ */
+void msm4g_d3vector_set(D3Vector *d3vector,double x,double y,double z);
+
+/** @brief Implemention of z = a*x + y.
+ *
+ * A very simple DAXPY (BLAS) implementation. The first argument z,
+ * is the output. So it should be allocated before calling the function.
+ *
+ * @param[in,out] z The z vector in z=a*x+y.
+ * @param[in]     a The scalar in front of x vector.
+ * @param[in]     x The x vector.
+ * @param[in]     y The z vector.
+ */
+void msm4g_d3vector_daxpy(D3Vector *z,double a,D3Vector *x,D3Vector *y);
+
 /** @brief Creates an empty linked list.
  *
  * This function allocates an empty linked list and returns
@@ -120,6 +144,17 @@ Body *msm4g_body_reset(Body *body);
  */
 void msm4g_body_print(Body *body);
 
+/** @brief Create a unit cube for simulation 
+ * 
+ * Allocates a new simulation box whose location is at the origin
+ *
+ * @warning It is the responsibility of the caller to deallocate the
+ * box by using msm4g_box_destory function.
+ *
+ * @return The new simulation box.
+ */
+SimulationBox *msm4g_box_new();
+
 /** @brief Update the simulation box for a given list of bodies.
  *
  * It creates a rectangular there dimensional box to include
@@ -129,9 +164,9 @@ void msm4g_body_print(Body *body);
  * integration.
  *
  * @todo If a body escapes from the box, the box should be updated.
- * But there is a question of how to keep the interior grid points 
- * intact. As soon as the box is enlarged, new grid points should be 
- * created. MSM may start from scratch whenever the box is updated, 
+ * But there is a question of how to keep the interior grid points
+ * intact. As soon as the box is enlarged, new grid points should be
+ * created. MSM may start from scratch whenever the box is updated,
  * but it seems quite waste of time.
  *
  * @param[in,out] box    The rectangular simulation box.
@@ -139,6 +174,24 @@ void msm4g_body_print(Body *body);
  * @param[in]     margin The box is enlarged `margin` percent (0.10 default).
  */
 void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin);
+
+/** @brief Print the details of the simulation box.
+ *
+ * The location, width and other features of the simulation
+ * box is printed to the standard output.
+ *
+ * @param[in] box The box whose information is to be printed.
+ */
+void msm4g_box_print(SimulationBox *box);
+
+/** @brief Deallocates the simulation box
+ * 
+ * The simulation box can be deallocated by using this function.
+ *
+ * @param[in] box The simulation box to be deallocated.
+ */
+void msm4g_box_destroy(SimulationBox *box);
+
 /*
  * Force calculation
  */

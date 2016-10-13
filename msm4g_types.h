@@ -10,6 +10,16 @@ typedef enum
     true     /*!< logical true  */
 } Boolean;
 
+/** @brief 3-dimensional double vector.
+ *
+ * Since, the domain is 3-dimensional, it can be handy to define
+ * a structure to hold three values in one entity
+ */
+typedef struct D3Vector
+{
+    double value[3];
+} D3Vector;
+
 /** @brief An element of a LinkedList.
  *
  * A LinkedList is composed of a collection of LinkedListElement structure
@@ -84,8 +94,8 @@ typedef struct SimulationParameters
  */
 typedef struct SimulationBox
 {
-    double location[3]; /**< Location of the lower left corner */
-    double width[3];    /**< Width of each side */
+    D3Vector location; /**< Location of the lower left corner */
+    D3Vector width;    /**< Width of each side */
 } SimulationBox;
 
 /** @brief Top level information about the simulation.

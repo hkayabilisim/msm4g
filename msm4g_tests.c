@@ -9,10 +9,12 @@ void msm4g_unit_test_all()
     testFunctionType *testFunction;
     LinkedList *list = msm4g_linkedlist_new();
     
-    msm4g_linkedlist_add(list, msm4g_unit_test_1);
-    msm4g_linkedlist_add(list, msm4g_unit_test_2);
-    msm4g_linkedlist_add(list, msm4g_unit_test_3);
-    msm4g_linkedlist_add(list, msm4g_unit_test_4);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_1);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_2);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_3);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_4);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_5);
+
     
     numberoftests = msm4g_linkedlist_size(list);
 
@@ -61,9 +63,10 @@ Boolean msm4g_unit_test_2()
     LinkedListElement *curr;
     Body x[10];
     Body *y;
-    Boolean status = true;
+    Boolean status ;
     int i;
     
+    status = true;
     list = msm4g_linkedlist_new();
     
     for (i=0;i<10;i++)
@@ -97,9 +100,10 @@ Boolean msm4g_unit_test_3()
     LinkedListElement *curr;
     Body x[10];
     Body *y;
-    Boolean status = true;
+    Boolean status ;
     int i;
     
+    status = true;
     list = msm4g_linkedlist_new();
     
     for (i=0;i<10;i++)
@@ -132,8 +136,8 @@ Boolean msm4g_unit_test_4()
     FILE *fp;
     const int DIM = 3;
     const int N = 3; /**< Number of bodies in eight.ini */
-    double mass,r[DIM],v[DIM];
-    Body bodies[N], bodiesInFile[N];
+    double mass,r[3],v[3];
+    Body bodies[3], bodiesInFile[3];
     int i,j;
     int ibody;
     
@@ -199,11 +203,48 @@ Boolean msm4g_unit_test_4()
 
 Boolean msm4g_unit_test_5()
 {
-    Boolean status = true;
+    int i,n;
+    Boolean status ;
+    LinkedList *list ;
+    Body *bodies;
+    SimulationBox *box;
+    D3Vector z;
+    D3Vector expectedLocation ;
+    D3Vector expectedWidth    ;
     
-    LinkedList *bodies ;
+    msm4g_d3vector_set(&expectedLocation, -1.5, -3.0, -4.5);
+    msm4g_d3vector_set(&expectedWidth,     3.0,  6.0,  9.0);
     
-    bodies = msm4g_linkedlist_new();
+    n=10;
+    status = true;
+    bodies = msm4g_body_rand(n);
+    
+    list = msm4g_linkedlist_new();
+    for (i=0;i<n;i++)
+    {
+        msm4g_linkedlist_add(list, bodies+i);
+    }
+    
+    (bodies+5)->r[0] = -1.0;
+    (bodies+5)->r[1] = -2.0;
+    (bodies+5)->r[2] = -3.0;
+    
+    (bodies+7)->r[0] =  1.0;
+    (bodies+7)->r[1] =  2.0;
+    (bodies+7)->r[2] =  3.0;
+    
+    box = msm4g_box_new();
+    msm4g_box_update(box, list, 0.0);
+    msm4g_box_print(box);
+    msm4g_box_update(box, list, 0.5);
+    msm4g_box_print(box);
+
+    msm4g_d3vector_daxpy(&z, -1.0, &(box->location), &expectedLocation);
+    
+    
+    free(bodies);
+    msm4g_box_destroy(box);
+    msm4g_linkedlist_destroy(list);
     
     return status;
 }
