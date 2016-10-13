@@ -10,6 +10,46 @@
 #include <sys/time.h>
 #include "msm4g_types.h"
 
+/** @brief Creates an empty linked list.
+ *
+ * This function allocates an empty linked list and returns
+ * its pointer to the caller. A linked list created with this
+ * function should be deallocated at the end of the program
+ * by calling `msm4g_linkedlist_destroy` function.
+ *
+ * In order to add data to the newly creaded linked list,
+ * one may use `msm4g_linkedlist_add` function.
+ *
+ * @return The pointer of the new linked list.
+ */
+LinkedList *msm4g_linkedlist_new();
+
+/** @brief Adds a data pointer to a linked list.
+ *
+ * This function is used to add a data pointer to the end
+ * of a linked list. Please note that, only the pointer to
+ * the data is copied into the linked list. The actual data content
+ * should be prepared before calling this function. And for
+ * the same reason, when the linked list is deallocated, the original
+ * data is not touched. Deallocation of the data should be handled
+ * separately.
+ *
+ * @param[in,out] list The linked list to be updated.
+ * @param[in]     data Pointer to the data.
+ */
+void msm4g_linkedlist_add(LinkedList *list,void *data);
+
+/** @brief Determines the number of elements in a linked list.
+ *
+ * By traversing from head element to the tail, this function
+ * counts the number of elements of a given linked list.
+ *
+ * @param[in] list The linked list whose size is to be determined.
+ *
+ * @return The number of elements inside the linked list.
+ */
+int msm4g_linkedlist_size(LinkedList *list);
+
 /** @brief Deaallocate the linked list.
  * 
  * Since the elements of a linked list are dynamically allocated,
@@ -26,50 +66,15 @@
  */
 void msm4g_linkedlist_destroy(LinkedList *list);
 
-/** @brief Adds a data pointer to a linked list.
- * 
- * This function is used to add a data pointer to the end 
- * of a linked list. Please note that, only the pointer to 
- * the data is copied into the linked list. The actual data content
- * should be prepared before calling this function. And for 
- * the same reason, when the linked list is deallocated, the original
- * data is not touched. Deallocation of the data should be handled
- * separately.
+/** @brief Creates a new body with given properties.
  *
- * @param[in,out] list The linked list to be updated.
- * @param[in]     data Pointer to the data.
+ * @param[in] mass     The mass of the body.
+ * @param[in] location 3-element double array of location.
+ * @param[in] velocity 3-element double array of velocity.
+ *
+ * @return The pointer of the newly allocated ::Body.
  */
-void msm4g_linkedlist_add(LinkedList *list,void *data);
-
-/** @brief Creates an empty linked list.
- *
- * This function allocates an empty linked list and returns 
- * its pointer to the caller. A linked list created with this
- * function should be deallocated at the end of the program
- * by calling `msm4g_linkedlist_destroy` function.
- * 
- * In order to add data to the newly creaded linked list,
- * one may use `msm4g_linkedlist_add` function.
- *
- * @return The pointer of the new linked list.
- */
-LinkedList *msm4g_linkedlist_new();
-
-/** @brief Determines the number of elements in a linked list.
- *
- * By traversing from head element to the tail, this function
- * counts the number of elements of a given linked list.
- *
- * @param[in] list The linked list whose size is to be determined.
- *
- * @return The number of elements inside the linked list.
- */
-int msm4g_linkedlist_size(LinkedList *list);
-
-
-/* Body related */
-Body *msm4g_newbody(double mass,double *location,double *velocity);
-Body *msm4g_newzerobody();
+Body *msm4g_body_new(double mass,double *location,double *velocity);
 
 /** @brief Creates `n` number of random bodies.
  *
@@ -92,6 +97,15 @@ Body *msm4g_body_rand(int n);
  * @return The pointer of the input body.
  */
 Body *msm4g_body_reset(Body *body);
+
+/** @brief Print the properties of a body.
+ *
+ * The mass, location, velocity, and other properties if it has any
+ * are printed to the standard output.
+ *
+ * @param[in] body The body whose properties are to be printed.
+ */
+void msm4g_body_print(Body *body);
 
 /** @brief Update the simulation box for a given list of bodies.
  *
@@ -142,9 +156,7 @@ void msm4g_leapfrog(double *r,double *v,double *a,double *a1,double dt,int n,int
 /*
  * IO-related
  */
-void msm4g_print_body(double *r,double *v,double *a,int i);
 void msm4g_print_energy(double pot0,double kin0,double tot0,double pot,double kin,double tot);
-void msm4g_printbody(Body *body);
 
 /*
  * Memory related

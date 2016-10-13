@@ -57,8 +57,6 @@ void msm4g_linkedlist_destroy(LinkedList *list)
     free(list);
 }
 
-
-
 void msm4g_forwardeuler(double *r,double *v,double *a,double dt,int n,int d,double *m,double G)
 {
     int i;
@@ -135,7 +133,7 @@ Body *msm4g_body_rand(int n)
     return body;
 }
 
-Body *msm4g_newbody(double mass,double *location,double *velocity)
+Body *msm4g_body_new(double mass,double *location,double *velocity)
 {
     Body *body;
     body = malloc(sizeof(Body));
@@ -152,22 +150,7 @@ Body *msm4g_newbody(double mass,double *location,double *velocity)
     return body;
 }
 
-Body *msm4g_newzerobody()
-{
-    Body *body;
-    int i;
-    body = malloc(sizeof(Body));
-    body->m = 0.0;
-    for (i = 0 ; i < 3; i++)
-    {
-        body->v[i] = i;
-        body->r[i] = i;
-        body->f[i] = i;
-    }
-    return body;
-}
-
-void msm4g_printbody(Body *body)
+void msm4g_body_print(Body *body)
 {
     printf("m:%8.2E ",body->m);
     printf("r:%8.2E %8.2E %8.2E ",body->r[0],body->r[1],body->r[2]);
@@ -235,11 +218,7 @@ void msm4g_energy(double *pot,double *kin,double *tot,double *r,double *v,int n,
     
 }
 
-void msm4g_print_body(double *r,double *v,double *a,int i)
-{
-    printf("%10.3E %10.3E %10.3E %10.3E %10.3E %10.3E %10.3E %10.3E %10.3E\n",
-           r[i],r[i+1],r[i+2],v[i],v[i+1],v[i+2],a[i],a[i+1],a[i+2]);
-}
+
 
 void msm4g_print_energy(double pot0,double kin0,double tot0,double pot,double kin,double tot)
 {

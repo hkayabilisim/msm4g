@@ -5,15 +5,28 @@
 void msm4g_unit_test_all()
 {
     Boolean status;
+    int testid, numberoftests,failed;
+    typedef Boolean (*testFunctionType)();
+    LinkedList *list = msm4g_linkedlist_new();
+    
+    msm4g_linkedlist_add(list, msm4g_unit_test_1);
+    msm4g_linkedlist_add(list, msm4g_unit_test_2);
+    msm4g_linkedlist_add(list, msm4g_unit_test_3);
+    msm4g_linkedlist_add(list, msm4g_unit_test_4);
+
+    msm4g_linkedlist_size(list);
+
+    
+    msm4g_linkedlist_destroy(list);
+    
     Boolean (*unitTests[4])() = {
         msm4g_unit_test_1,
         msm4g_unit_test_2,
         msm4g_unit_test_3,
         msm4g_unit_test_4
     };
-    int testid, numberoftests,failed;
     
-    numberoftests = sizeof(unitTests)/sizeof(unitTests[0]);
+    numberoftests = msm4g_linkedlist_size(list);
     failed=0;
     for (testid = 0; testid < numberoftests ; testid++)
     {

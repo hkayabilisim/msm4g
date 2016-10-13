@@ -15,12 +15,10 @@ var menudata={children:[
 {text:'f',url:'globals.html#index_f'},
 {text:'l',url:'globals.html#index_l'},
 {text:'m',url:'globals.html#index_m'},
-{text:'n',url:'globals.html#index_n'},
 {text:'s',url:'globals.html#index_s'},
 {text:'t',url:'globals.html#index_t'}]},
 {text:'Functions',url:'globals_func.html',children:[
-{text:'m',url:'globals_func.html#index_m'},
-{text:'n',url:'globals_func.html#index_n'}]},
+{text:'m',url:'globals_func.html#index_m'}]},
 {text:'Typedefs',url:'globals_type.html'},
 {text:'Enumerations',url:'globals_enum.html'},
 {text:'Enumerator',url:'globals_eval.html'}]}]}]}
