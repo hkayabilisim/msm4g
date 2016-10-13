@@ -1,3 +1,5 @@
+#ifndef MSM4G_TYPES_H
+#define MSM4G_TYPES_H
 /** @brief A custom definition of boolean type.
  *
  * Although, C99 has boolean type, I prefer to stay on ANSI C.
@@ -96,3 +98,5 @@ typedef struct Simulation
     struct SimulationBox        simulationBox;        /**< Geometry of the simulation. */
     struct LinkedList          *bodies;               /**< The collection of the bodies in the SimulationBox */
 } Simulation;
+
+#endif /* MSM4G_TYPES_H */

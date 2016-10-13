@@ -4,11 +4,12 @@
  *
  */
 
-#include "nbody_lib.h"
+#include "msm4g_lib.h"
+#include "msm4g_tests.h"
 
 int main()
 {
-    nbody_unit_test_all();
+    msm4g_unit_test_all();
     
     return 0;
 }
