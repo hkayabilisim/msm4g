@@ -44,6 +44,27 @@ void msm4g_linkedlist_add(LinkedList *list,void *data)
     }
 }
 
+void *msm4g_linkedlist_get(LinkedList *list, int index)
+{
+    void *data = NULL;
+    LinkedListElement *curr;
+    int i;
+    
+    curr = list->head;
+    i=0;
+    while (curr != NULL)
+    {
+        if (i == index)
+        {
+            data = curr->data;
+            break;
+        }
+        i++;
+        curr = curr->next;        
+    }
+    return data;
+}
+
 void msm4g_linkedlist_destroy(LinkedList *list)
 {
     LinkedListElement *current, *next;
@@ -55,6 +76,7 @@ void msm4g_linkedlist_destroy(LinkedList *list)
         current=next;
     }
     free(list);
+    list = NULL;
 }
 
 void msm4g_forwardeuler(double *r,double *v,double *a,double dt,int n,int d,double *m,double G)
@@ -99,6 +121,12 @@ void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin)
                 min[i] = body->r[i];
         }
         curr = curr->next;
+    }
+    
+    for (i=0;i<DIM;i++)
+    {
+        box->location[i] = min[i];
+        box->width[i] = max[i]-min[i];
     }
 }
 

@@ -1,46 +1,38 @@
 #include "msm4g_lib.h"
 #include "msm4g_tests.h"
 
-/** @brief Running all unit tests sequentially. */
 void msm4g_unit_test_all()
 {
     Boolean status;
-    int testid, numberoftests,failed;
-    typedef Boolean (*testFunctionType)();
+    int index, numberoftests,failed;
+    typedef Boolean (testFunctionType)();
+    testFunctionType *testFunction;
     LinkedList *list = msm4g_linkedlist_new();
     
     msm4g_linkedlist_add(list, msm4g_unit_test_1);
     msm4g_linkedlist_add(list, msm4g_unit_test_2);
     msm4g_linkedlist_add(list, msm4g_unit_test_3);
     msm4g_linkedlist_add(list, msm4g_unit_test_4);
-
-    msm4g_linkedlist_size(list);
-
-    
-    msm4g_linkedlist_destroy(list);
-    
-    Boolean (*unitTests[4])() = {
-        msm4g_unit_test_1,
-        msm4g_unit_test_2,
-        msm4g_unit_test_3,
-        msm4g_unit_test_4
-    };
     
     numberoftests = msm4g_linkedlist_size(list);
+
     failed=0;
-    for (testid = 0; testid < numberoftests ; testid++)
+    for (index = 0; index < numberoftests ; index++)
     {
-        status = unitTests[testid]();
+        testFunction = (testFunctionType *)msm4g_linkedlist_get(list, index);
+        status = testFunction();
         if (status == false)
         {
             failed++;
-            fprintf(stderr,"Unit test %3d: %s\n",testid+1,"failed");
+            fprintf(stderr,"Unit test %3d: %s\n",index+1,"failed");
         }
     }
     printf("%d of %d passed, %d failed\n",numberoftests-failed,numberoftests,failed);
+    
+    msm4g_linkedlist_destroy(list);
+
 }
 
-/** @brief Checking size() function of the linked list implementation. */
 Boolean msm4g_unit_test_1()
 {
     LinkedList *list;
@@ -63,10 +55,6 @@ Boolean msm4g_unit_test_1()
     return true;
 }
 
-/** @brief A test function for linked list implementation.
- *
- *
- */
 Boolean msm4g_unit_test_2()
 {
     LinkedList *list;
@@ -103,7 +91,6 @@ Boolean msm4g_unit_test_2()
     return status;
 }
 
-/** @brief Traversing from head to tail. */
 Boolean msm4g_unit_test_3()
 {
     LinkedList *list;
@@ -121,7 +108,6 @@ Boolean msm4g_unit_test_3()
         msm4g_linkedlist_add(list,&x[i]);
     }
     
-    /**< Iterating from tail to head */
     i=0;
     curr=list->head;
     while (curr != NULL)
@@ -214,6 +200,10 @@ Boolean msm4g_unit_test_4()
 Boolean msm4g_unit_test_5()
 {
     Boolean status = true;
+    
+    LinkedList *bodies ;
+    
+    bodies = msm4g_linkedlist_new();
     
     return status;
 }

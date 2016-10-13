@@ -39,6 +39,19 @@ LinkedList *msm4g_linkedlist_new();
  */
 void msm4g_linkedlist_add(LinkedList *list,void *data);
 
+/** @brief Get a specific element from a linked list.
+ * 
+ * In some situations, one may require to get a specific element
+ * from the linked list by giving its exact location in the list.
+ *
+ * @param[in] list  The linked listed to be searched.
+ * @param[in] index The zero-based index of the element.
+ *
+ * @return The void pointer of the requested data. 
+ * If there is no data, then NULL pointer is returned.
+ */
+void *msm4g_linkedlist_get(LinkedList *list, int index);
+
 /** @brief Determines the number of elements in a linked list.
  *
  * By traversing from head element to the tail, this function
