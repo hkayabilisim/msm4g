@@ -96,9 +96,7 @@ $(document).ready(function(){initNavTree('msm4g__tests_8c.html','');});
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="msm4g__lib_8h_source.html">msm4g_lib.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="msm4g__tests_8h_source.html">msm4g_tests.h</a>&quot;</code><br />
-</div>
-<p><a href="msm4g__tests_8c_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ae812fb020c68bd5fbf74555684d4a292"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__tests_8c.html#ae812fb020c68bd5fbf74555684d4a292">msm4g_unit_test_all</a> ()</td></tr>
@@ -126,8 +124,6 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The test functions to check the functionality of the MSM4G package. </p>
 <p>This is probably the best place one can learn how to use the package. These test functions are used to check the outcomes of the functions by comparing with expected results. </p>
-
-<p>Definition in file <a class="el" href="msm4g__tests_8c_source.html">msm4g_tests.c</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="ae812fb020c68bd5fbf74555684d4a292"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae812fb020c68bd5fbf74555684d4a292">&sect;&nbsp;</a></span>msm4g_unit_test_all()</h2>
@@ -146,8 +142,6 @@ Functions</h2></td></tr>
 
 <p>Runs all tests. </p>
 <p>All test functions are sequentiall run and their results are printed to standard output. If one of the tests is failed, then the corresponding test information is printed to the standard error. </p>
-
-<p>Definition at line <a class="el" href="msm4g__tests_8c_source.html#l00011">11</a> of file <a class="el" href="msm4g__tests_8c_source.html">msm4g_tests.c</a>.</p>
 
 </div>
 </div>
@@ -168,8 +162,6 @@ Functions</h2></td></tr>
 
 <p>Checks the size() functionality of linked lists. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the test is succesfull, false otherwise. </dd></dl>
-
-<p>Definition at line <a class="el" href="msm4g__tests_8c_source.html#l00045">45</a> of file <a class="el" href="msm4g__tests_8c_source.html">msm4g_tests.c</a>.</p>
 
 </div>
 </div>
@@ -192,8 +184,6 @@ Functions</h2></td></tr>
 <p>Using the <code>prev</code> pointer element in the <code><a class="el" href="struct_linked_list_element.html" title="An element of a LinkedList. ">LinkedListElement</a></code> one can travel from the tail element to the head.</p>
 <dl class="section return"><dt>Returns</dt><dd>true if the test is succesfull, false otherwise. </dd></dl>
 
-<p>Definition at line <a class="el" href="msm4g__tests_8c_source.html#l00067">67</a> of file <a class="el" href="msm4g__tests_8c_source.html">msm4g_tests.c</a>.</p>
-
 </div>
 </div>
 <a id="aad96d7cad03aaf31e01bb4afc6c87455"></a>
@@ -213,8 +203,6 @@ Functions</h2></td></tr>
 
 <p>Traversing the list from head to tail. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the test is succesfull, false otherwise. </dd></dl>
-
-<p>Definition at line <a class="el" href="msm4g__tests_8c_source.html#l00104">104</a> of file <a class="el" href="msm4g__tests_8c_source.html">msm4g_tests.c</a>.</p>
 
 </div>
 </div>
@@ -238,8 +226,6 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>true if the test is succesfull, false otherwise. </dd></dl>
 <p>&lt; Number of bodies in eight.ini </p>
 
-<p>Definition at line <a class="el" href="msm4g__tests_8c_source.html#l00141">141</a> of file <a class="el" href="msm4g__tests_8c_source.html">msm4g_tests.c</a>.</p>
-
 </div>
 </div>
 <a id="a4a688906f44be2134257cb4afd61a924"></a>
@@ -260,8 +246,6 @@ Functions</h2></td></tr>
 <p>Creating a box surrounding the bodies. </p>
 <p>Given a collection of bodies, this test determines a rectangular simulation box surrounding all of them and compares the result with the expected box. In this example, 10 random bodies are created in unit 3D cube. Then the location of one of them is set to [-1,-2,-3]. Another one is set to [1,2,3]. Given this configuration the location, and the width of the box shoould be [-1,-2,-3] and [2,4,6] respectively. But then a 0.5 margin is also used to enlarge the box. Then the new width should be [3,6,9]. The location should also be shifted so that the there is a margin on both minus and plus axis. So the new location is [-1.3,-3,-4.5]. At the end of the test, the calculated location and width is compared with the expecteds.</p>
 <dl class="section return"><dt>Returns</dt><dd>true if the test is succesfull, false otherwise. </dd></dl>
-
-<p>Definition at line <a class="el" href="msm4g__tests_8c_source.html#l00197">197</a> of file <a class="el" href="msm4g__tests_8c_source.html">msm4g_tests.c</a>.</p>
 
 </div>
 </div>
@@ -306,8 +290,6 @@ Functions</h2></td></tr>
                                            2 0 2   3         none
     0----------10---------20---------30    1 2 0   4,5,6     [1,1,0]
        i=0         i=1         i=2</pre> 
-<p>Definition at line <a class="el" href="msm4g__tests_8c_source.html#l00249">249</a> of file <a class="el" href="msm4g__tests_8c_source.html">msm4g_tests.c</a>.</p>
-
 </div>
 </div>
 </div><!-- contents -->
