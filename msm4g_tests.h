@@ -46,7 +46,16 @@ Boolean msm4g_unit_test_4();
 /** @brief Creating a box surrounding the bodies.
  *
  * Given a collection of bodies, this test determines a rectangular
- * simulation box surrounding all of them.
+ * simulation box surrounding all of them and compares the result
+ * with the expected box. In this example, 10 random bodies are created
+ * in unit 3D cube. Then the location of one of them is set to [-1,-2,-3].
+ * Another one is set to [1,2,3]. Given this configuration the location,
+ * and the width of the box shoould be [-1,-2,-3] and [2,4,6] respectively.
+ * But then a 0.5 margin is also used to enlarge the box. Then the new width
+ * should be [3,6,9]. The location should also be shifted so that the there is
+ * a margin on both minus and plus axis. So the new location is [-1.3,-3,-4.5].
+ * At the end of the test, the calculated location and width is compared with the
+ * expecteds.
  *
  * @return true if the test is succesfull, false otherwise.
  */

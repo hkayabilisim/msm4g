@@ -20,6 +20,14 @@ typedef struct D3Vector
     double value[3];
 } D3Vector;
 
+/** @brief 3-dimensional integer vector.
+ */
+typedef struct I3Vector
+{
+    int value[3];
+} I3Vector;
+
+
 /** @brief An element of a LinkedList.
  *
  * A LinkedList is composed of a collection of LinkedListElement structure
@@ -66,14 +74,15 @@ typedef struct Body
     double f[3];        /**< force     */
 } Body;
 
-/** @brief The cubical domains obtained by dividing the lattice.
+/** @brief The cubical domains obtained by dividing the simulation box.
+ * 
+ * Bin is a rectangular box created by dividing the simulation box.
  */
 typedef struct Bin
 {
-    int i;
-    int j;
-    int k;
-    LinkedList *neighbors;
+    I3Vector index;         /**< The index of the bin balong each axis */
+    LinkedList *neighbors;  /**< The list of neightbor bins containing at leeast one body */
+    LinkedList *bodies;     /**< The list of bodies in the bin */
 } Bin;
 
 /** @brief The collection of simulation parameters.

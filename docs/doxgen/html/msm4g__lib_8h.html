@@ -19,6 +19,12 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -98,12 +104,27 @@ $(document).ready(function(){initNavTree('msm4g__lib_8h.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a1ff044293b82f2d35ee8bc008689a45a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#a1ff044293b82f2d35ee8bc008689a45a">msm4g_d3vector_set</a> (<a class="el" href="struct_d3_vector.html">D3Vector</a> *d3vector, double x, double y, double z)</td></tr>
+<tr class="memdesc:a1ff044293b82f2d35ee8bc008689a45a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the elements of a 3-element vector.  <a href="#a1ff044293b82f2d35ee8bc008689a45a">More...</a><br /></td></tr>
+<tr class="separator:a1ff044293b82f2d35ee8bc008689a45a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ada40d036ff26b54fa30ec08d9e8294"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#a2ada40d036ff26b54fa30ec08d9e8294">msm4g_d3vector_daxpy</a> (<a class="el" href="struct_d3_vector.html">D3Vector</a> *z, <a class="el" href="struct_d3_vector.html">D3Vector</a> *x, double a, <a class="el" href="struct_d3_vector.html">D3Vector</a> *y)</td></tr>
+<tr class="memdesc:a2ada40d036ff26b54fa30ec08d9e8294"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implemention of z = x + a*y.  <a href="#a2ada40d036ff26b54fa30ec08d9e8294">More...</a><br /></td></tr>
+<tr class="separator:a2ada40d036ff26b54fa30ec08d9e8294"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed411ae95db99a044a5f4ee350aa3e01"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#aed411ae95db99a044a5f4ee350aa3e01">msm4g_d3vector_norm</a> (<a class="el" href="struct_d3_vector.html">D3Vector</a> *x)</td></tr>
+<tr class="memdesc:aed411ae95db99a044a5f4ee350aa3e01"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Euclidean norm of a 3-dimensional double vector.  <a href="#aed411ae95db99a044a5f4ee350aa3e01">More...</a><br /></td></tr>
+<tr class="separator:aed411ae95db99a044a5f4ee350aa3e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91d22eba05717019d010cf1aa09fdbdf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#a91d22eba05717019d010cf1aa09fdbdf">msm4g_d3vector_print</a> (<a class="el" href="struct_d3_vector.html">D3Vector</a> *x)</td></tr>
+<tr class="memdesc:a91d22eba05717019d010cf1aa09fdbdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a 3D vector.  <a href="#a91d22eba05717019d010cf1aa09fdbdf">More...</a><br /></td></tr>
+<tr class="separator:a91d22eba05717019d010cf1aa09fdbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59f42003181a205bde46e8417d559e19"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_linked_list.html">LinkedList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#a59f42003181a205bde46e8417d559e19">msm4g_linkedlist_new</a> ()</td></tr>
 <tr class="memdesc:a59f42003181a205bde46e8417d559e19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an empty linked list.  <a href="#a59f42003181a205bde46e8417d559e19">More...</a><br /></td></tr>
 <tr class="separator:a59f42003181a205bde46e8417d559e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd1f20a439a3327f797aa6ffa13c50ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#acd1f20a439a3327f797aa6ffa13c50ca">msm4g_linkedlist_add</a> (<a class="el" href="struct_linked_list.html">LinkedList</a> *list, void *data)</td></tr>
 <tr class="memdesc:acd1f20a439a3327f797aa6ffa13c50ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a data pointer to a linked list.  <a href="#acd1f20a439a3327f797aa6ffa13c50ca">More...</a><br /></td></tr>
 <tr class="separator:acd1f20a439a3327f797aa6ffa13c50ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0099958f0b9170993468fba6b933f459"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#a0099958f0b9170993468fba6b933f459">msm4g_linkedlist_get</a> (<a class="el" href="struct_linked_list.html">LinkedList</a> *list, int index)</td></tr>
+<tr class="memdesc:a0099958f0b9170993468fba6b933f459"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a specific element from a linked list.  <a href="#a0099958f0b9170993468fba6b933f459">More...</a><br /></td></tr>
+<tr class="separator:a0099958f0b9170993468fba6b933f459"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e6dad4254e2dac97b508d1370208666"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#a8e6dad4254e2dac97b508d1370208666">msm4g_linkedlist_size</a> (<a class="el" href="struct_linked_list.html">LinkedList</a> *list)</td></tr>
 <tr class="memdesc:a8e6dad4254e2dac97b508d1370208666"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the number of elements in a linked list.  <a href="#a8e6dad4254e2dac97b508d1370208666">More...</a><br /></td></tr>
 <tr class="separator:a8e6dad4254e2dac97b508d1370208666"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,9 +143,21 @@ Functions</h2></td></tr>
 <tr class="memitem:aa79c011e4cd54e679c0d2521363b1054"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#aa79c011e4cd54e679c0d2521363b1054">msm4g_body_print</a> (<a class="el" href="struct_body.html">Body</a> *body)</td></tr>
 <tr class="memdesc:aa79c011e4cd54e679c0d2521363b1054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the properties of a body.  <a href="#aa79c011e4cd54e679c0d2521363b1054">More...</a><br /></td></tr>
 <tr class="separator:aa79c011e4cd54e679c0d2521363b1054"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af503a5f9d47fd175b5228200e675bf82"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_simulation_box.html">SimulationBox</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#af503a5f9d47fd175b5228200e675bf82">msm4g_box_new</a> ()</td></tr>
+<tr class="memdesc:af503a5f9d47fd175b5228200e675bf82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a unit cube for simulation.  <a href="#af503a5f9d47fd175b5228200e675bf82">More...</a><br /></td></tr>
+<tr class="separator:af503a5f9d47fd175b5228200e675bf82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fc92f114fbbcda989a23747bc4e6a51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#a7fc92f114fbbcda989a23747bc4e6a51">msm4g_box_update</a> (<a class="el" href="struct_simulation_box.html">SimulationBox</a> *box, <a class="el" href="struct_linked_list.html">LinkedList</a> *list, double margin)</td></tr>
 <tr class="memdesc:a7fc92f114fbbcda989a23747bc4e6a51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the simulation box for a given list of bodies.  <a href="#a7fc92f114fbbcda989a23747bc4e6a51">More...</a><br /></td></tr>
 <tr class="separator:a7fc92f114fbbcda989a23747bc4e6a51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4811f16dd6349887a76ca27cc23b7de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#af4811f16dd6349887a76ca27cc23b7de">msm4g_box_print</a> (<a class="el" href="struct_simulation_box.html">SimulationBox</a> *box)</td></tr>
+<tr class="memdesc:af4811f16dd6349887a76ca27cc23b7de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the details of the simulation box.  <a href="#af4811f16dd6349887a76ca27cc23b7de">More...</a><br /></td></tr>
+<tr class="separator:af4811f16dd6349887a76ca27cc23b7de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac160890bed34fc65d1eeeed4a3470144"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#ac160890bed34fc65d1eeeed4a3470144">msm4g_box_destroy</a> (<a class="el" href="struct_simulation_box.html">SimulationBox</a> *box)</td></tr>
+<tr class="memdesc:ac160890bed34fc65d1eeeed4a3470144"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocates the simulation box.  <a href="#ac160890bed34fc65d1eeeed4a3470144">More...</a><br /></td></tr>
+<tr class="separator:ac160890bed34fc65d1eeeed4a3470144"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c2caa99ffaebaf3339bf9396b0dda03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_linked_list.html">LinkedList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#a0c2caa99ffaebaf3339bf9396b0dda03">msm4g_bin_generate</a> (<a class="el" href="struct_simulation_box.html">SimulationBox</a> *box, <a class="el" href="struct_linked_list.html">LinkedList</a> *bodies)</td></tr>
+<tr class="memdesc:a0c2caa99ffaebaf3339bf9396b0dda03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate bins for a given simulation box and body list.  <a href="#a0c2caa99ffaebaf3339bf9396b0dda03">More...</a><br /></td></tr>
+<tr class="separator:a0c2caa99ffaebaf3339bf9396b0dda03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab76d5924437982e279c8bd8e6e4b63f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#ab76d5924437982e279c8bd8e6e4b63f2">msm4g_acceleration</a> (double *a, double *r, int n, int d, double *m, double G)</td></tr>
 <tr class="separator:ab76d5924437982e279c8bd8e6e4b63f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af96cf01ddbea1560a7454f7fe894b726"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8h.html#af96cf01ddbea1560a7454f7fe894b726">msm4g_energy</a> (double *pot, double *kin, double *tot, double *r, double *v, int n, int d, double *m, double G)</td></tr>
@@ -189,6 +222,44 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0c2caa99ffaebaf3339bf9396b0dda03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c2caa99ffaebaf3339bf9396b0dda03">&sect;&nbsp;</a></span>msm4g_bin_generate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_linked_list.html">LinkedList</a>* msm4g_bin_generate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_simulation_box.html">SimulationBox</a> *&#160;</td>
+          <td class="paramname"><em>box</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_linked_list.html">LinkedList</a> *&#160;</td>
+          <td class="paramname"><em>bodies</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Generate bins for a given simulation box and body list. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">box</td><td>The simulation box. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bodies</td><td>The list of bodies.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The list of allocated bins. </dd></dl>
 
 </div>
 </div>
@@ -314,6 +385,82 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ac160890bed34fc65d1eeeed4a3470144"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac160890bed34fc65d1eeeed4a3470144">&sect;&nbsp;</a></span>msm4g_box_destroy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void msm4g_box_destroy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_simulation_box.html">SimulationBox</a> *&#160;</td>
+          <td class="paramname"><em>box</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deallocates the simulation box. </p>
+<p>The simulation box can be deallocated by using this function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">box</td><td>The simulation box to be deallocated. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af503a5f9d47fd175b5228200e675bf82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af503a5f9d47fd175b5228200e675bf82">&sect;&nbsp;</a></span>msm4g_box_new()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_simulation_box.html">SimulationBox</a>* msm4g_box_new </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a unit cube for simulation. </p>
+<p>Allocates a new simulation box whose location is at the origin</p>
+<dl class="section warning"><dt>Warning</dt><dd>It is the responsibility of the caller to deallocate the box by using msm4g_box_destory function.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The new simulation box. </dd></dl>
+
+</div>
+</div>
+<a id="af4811f16dd6349887a76ca27cc23b7de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4811f16dd6349887a76ca27cc23b7de">&sect;&nbsp;</a></span>msm4g_box_print()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void msm4g_box_print </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_simulation_box.html">SimulationBox</a> *&#160;</td>
+          <td class="paramname"><em>box</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print the details of the simulation box. </p>
+<p>The location, width and other features of the simulation box is printed to the standard output.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">box</td><td>The box whose information is to be printed. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a7fc92f114fbbcda989a23747bc4e6a51"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7fc92f114fbbcda989a23747bc4e6a51">&sect;&nbsp;</a></span>msm4g_box_update()</h2>
 
@@ -354,6 +501,167 @@ Functions</h2></td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">box</td><td>The rectangular simulation box. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The list of bodies. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">margin</td><td>The box is enlarged <code>margin</code> percent (0.10 default). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2ada40d036ff26b54fa30ec08d9e8294"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ada40d036ff26b54fa30ec08d9e8294">&sect;&nbsp;</a></span>msm4g_d3vector_daxpy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void msm4g_d3vector_daxpy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_d3_vector.html">D3Vector</a> *&#160;</td>
+          <td class="paramname"><em>z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_d3_vector.html">D3Vector</a> *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_d3_vector.html">D3Vector</a> *&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Implemention of z = x + a*y. </p>
+<p>A very simple DAXPY (BLAS) implementation. The first argument z, is the output. So it should be allocated before calling the function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">z</td><td>The z vector in z = x + a*y. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The x vector. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>The scalar in front of y vector. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The y vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aed411ae95db99a044a5f4ee350aa3e01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed411ae95db99a044a5f4ee350aa3e01">&sect;&nbsp;</a></span>msm4g_d3vector_norm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double msm4g_d3vector_norm </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_d3_vector.html">D3Vector</a> *&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The Euclidean norm of a 3-dimensional double vector. </p>
+<p>This function simple calculates the Euclidean norm a vector: </p><p class="formulaDsp">
+\[ ||x||=\sqrt{\sum_{i=1}^3 x^2_i} \]
+</p>
+<p><b>Example:</b> </p>
+<div class="fragment"><div class="line"><a class="code" href="struct_d3_vector.html">D3Vector</a> x;</div><div class="line"><span class="keywordtype">double</span> norm;</div><div class="line"></div><div class="line"><a class="code" href="msm4g__lib_8c.html#a1ff044293b82f2d35ee8bc008689a45a">msm4g_d3vector_set</a>(&amp;x,3.0,0.0,4.0);</div><div class="line">norm = <a class="code" href="msm4g__lib_8c.html#aed411ae95db99a044a5f4ee350aa3e01">msm4g_d3vector_norm</a>(&amp;x)</div><div class="line"><span class="comment">// norm variable is 5.0 now.</span></div></div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>A 3-dimensional double vector.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The norm of the vector. </dd></dl>
+
+</div>
+</div>
+<a id="a91d22eba05717019d010cf1aa09fdbdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91d22eba05717019d010cf1aa09fdbdf">&sect;&nbsp;</a></span>msm4g_d3vector_print()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void msm4g_d3vector_print </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_d3_vector.html">D3Vector</a> *&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print a 3D vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>A 3-dimensional double vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1ff044293b82f2d35ee8bc008689a45a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ff044293b82f2d35ee8bc008689a45a">&sect;&nbsp;</a></span>msm4g_d3vector_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void msm4g_d3vector_set </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_d3_vector.html">D3Vector</a> *&#160;</td>
+          <td class="paramname"><em>d3vector</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the elements of a 3-element vector. </p>
+<p>The elements of a 3DVector is set to the given values of x,y, and z.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">d3vector</td><td>A pointer to a 3-element double vector. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The first element. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The second element. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">z</td><td>The third element. </td></tr>
   </table>
   </dd>
 </dl>
@@ -643,6 +951,45 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a0099958f0b9170993468fba6b933f459"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0099958f0b9170993468fba6b933f459">&sect;&nbsp;</a></span>msm4g_linkedlist_get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* msm4g_linkedlist_get </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_linked_list.html">LinkedList</a> *&#160;</td>
+          <td class="paramname"><em>list</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a specific element from a linked list. </p>
+<p>In some situations, one may require to get a specific element from the linked list by giving its exact location in the list.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The linked listed to be searched. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>The zero-based index of the element.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The void pointer of the requested data. If there is no data, then NULL pointer is returned. </dd></dl>
 
 </div>
 </div>

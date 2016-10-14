@@ -12,7 +12,9 @@ var menudata={children:[
 {text:'Globals',url:'globals.html',children:[
 {text:'All',url:'globals.html',children:[
 {text:'b',url:'globals.html#index_b'},
+{text:'d',url:'globals.html#index_d'},
 {text:'f',url:'globals.html#index_f'},
+{text:'i',url:'globals.html#index_i'},
 {text:'l',url:'globals.html#index_l'},
 {text:'m',url:'globals.html#index_m'},
 {text:'s',url:'globals.html#index_s'},

@@ -19,6 +19,12 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -127,8 +133,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Checks the size() functionality of linked lists. </p>
-<dl class="section return"><dt>Returns</dt><dd>true if the test is succesfull, false otherwise.</dd></dl>
-<p>Checks the size() functionality of linked lists. </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the test is succesfull, false otherwise. </dd></dl>
 
 </div>
 </div>
@@ -149,8 +154,7 @@ Functions</h2></td></tr>
 
 <p>Traversing the linked list from tail to head. </p>
 <p>Using the <code>prev</code> pointer element in the <code><a class="el" href="struct_linked_list_element.html" title="An element of a LinkedList. ">LinkedListElement</a></code> one can travel from the tail element to the head.</p>
-<dl class="section return"><dt>Returns</dt><dd>true if the test is succesfull, false otherwise.</dd></dl>
-<p>Traversing the linked list from tail to head. </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the test is succesfull, false otherwise. </dd></dl>
 
 </div>
 </div>
@@ -170,8 +174,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Traversing the list from head to tail. </p>
-<dl class="section return"><dt>Returns</dt><dd>true if the test is succesfull, false otherwise.</dd></dl>
-<p>Traversing the list from head to tail. </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the test is succesfull, false otherwise. </dd></dl>
 
 </div>
 </div>
@@ -213,7 +216,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Creating a box surrounding the bodies. </p>
-<p>Given a collection of bodies, this test determines a rectangular simulation box surrounding all of them.</p>
+<p>Given a collection of bodies, this test determines a rectangular simulation box surrounding all of them and compares the result with the expected box. In this example, 10 random bodies are created in unit 3D cube. Then the location of one of them is set to [-1,-2,-3]. Another one is set to [1,2,3]. Given this configuration the location, and the width of the box shoould be [-1,-2,-3] and [2,4,6] respectively. But then a 0.5 margin is also used to enlarge the box. Then the new width should be [3,6,9]. The location should also be shifted so that the there is a margin on both minus and plus axis. So the new location is [-1.3,-3,-4.5]. At the end of the test, the calculated location and width is compared with the expecteds.</p>
 <dl class="section return"><dt>Returns</dt><dd>true if the test is succesfull, false otherwise. </dd></dl>
 
 </div>
@@ -234,8 +237,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Runs all tests. </p>
-<p>All test functions are sequentiall run and their results are printed to standard output. If one of the tests is failed, then the corresponding test information is printed to the standard error.</p>
-<p>Runs all tests. </p>
+<p>All test functions are sequentiall run and their results are printed to standard output. If one of the tests is failed, then the corresponding test information is printed to the standard error. </p>
 
 </div>
 </div>

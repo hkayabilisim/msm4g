@@ -19,6 +19,12 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -93,23 +99,23 @@ $(document).ready(function(){initNavTree('struct_simulation_box.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a95cda27f33ac1484424adb055846a6de"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation_box.html#a95cda27f33ac1484424adb055846a6de">location</a> [3]</td></tr>
-<tr class="separator:a95cda27f33ac1484424adb055846a6de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02079f68df9f00f088db5a3985bd30a1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation_box.html#a02079f68df9f00f088db5a3985bd30a1">width</a> [3]</td></tr>
-<tr class="separator:a02079f68df9f00f088db5a3985bd30a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ed37119f85f80acce697eeec035fcc9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d3_vector.html">D3Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation_box.html#a3ed37119f85f80acce697eeec035fcc9">location</a></td></tr>
+<tr class="separator:a3ed37119f85f80acce697eeec035fcc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4973afc281dddfcbd50e1e357d772d7b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_d3_vector.html">D3Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation_box.html#a4973afc281dddfcbd50e1e357d772d7b">width</a></td></tr>
+<tr class="separator:a4973afc281dddfcbd50e1e357d772d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The geomatric boundaries of the simulation. </p>
 <p>The algorithm requires that the simulation is confined into a rectangular box. The location and the width vectors are sufficient to desribe the domain. </p>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="a95cda27f33ac1484424adb055846a6de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95cda27f33ac1484424adb055846a6de">&sect;&nbsp;</a></span>location</h2>
+<a id="a3ed37119f85f80acce697eeec035fcc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ed37119f85f80acce697eeec035fcc9">&sect;&nbsp;</a></span>location</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double location[3]</td>
+          <td class="memname"><a class="el" href="struct_d3_vector.html">D3Vector</a> location</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -117,14 +123,14 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
-<a id="a02079f68df9f00f088db5a3985bd30a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02079f68df9f00f088db5a3985bd30a1">&sect;&nbsp;</a></span>width</h2>
+<a id="a4973afc281dddfcbd50e1e357d772d7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4973afc281dddfcbd50e1e357d772d7b">&sect;&nbsp;</a></span>width</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double width[3]</td>
+          <td class="memname"><a class="el" href="struct_d3_vector.html">D3Vector</a> width</td>
         </tr>
       </table>
 </div><div class="memdoc">

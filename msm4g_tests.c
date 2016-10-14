@@ -208,12 +208,13 @@ Boolean msm4g_unit_test_5()
     LinkedList *list ;
     Body *bodies;
     SimulationBox *box;
-    D3Vector z;
-    D3Vector expectedLocation ;
-    D3Vector expectedWidth    ;
+    D3Vector locationError;
+    D3Vector locationExpected ;
+    D3Vector widthExpected;
+    D3Vector widthError;
     
-    msm4g_d3vector_set(&expectedLocation, -1.5, -3.0, -4.5);
-    msm4g_d3vector_set(&expectedWidth,     3.0,  6.0,  9.0);
+    msm4g_d3vector_set(&locationExpected, -1.5, -3.0, -4.5);
+    msm4g_d3vector_set(&widthExpected,     3.0,  6.0,  9.0);
     
     n=10;
     status = true;
@@ -234,13 +235,16 @@ Boolean msm4g_unit_test_5()
     (bodies+7)->r[2] =  3.0;
     
     box = msm4g_box_new();
-    msm4g_box_update(box, list, 0.0);
-    msm4g_box_print(box);
     msm4g_box_update(box, list, 0.5);
-    msm4g_box_print(box);
 
-    msm4g_d3vector_daxpy(&z, -1.0, &(box->location), &expectedLocation);
+    msm4g_d3vector_daxpy(&locationError, &locationExpected,-1.0,&(box->location));
+    msm4g_d3vector_daxpy(&widthError,    &widthExpected,   -1.0,&(box->width));
     
+    if (msm4g_d3vector_norm(&locationError) > DBL_EPSILON ||
+        msm4g_d3vector_norm(&widthError)    > DBL_EPSILON )
+    {
+        status = false;
+    }
     
     free(bodies);
     msm4g_box_destroy(box);

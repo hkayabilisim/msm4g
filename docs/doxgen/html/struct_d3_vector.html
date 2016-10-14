@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.12"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MSM4G: Bin Struct Reference</title>
+<title>MSM4G: D3Vector Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('struct_bin.html','');});
+$(document).ready(function(){initNavTree('struct_d3_vector.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -88,70 +88,35 @@ $(document).ready(function(){initNavTree('struct_bin.html','');});
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">Bin Struct Reference</div>  </div>
+<div class="title">D3Vector Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>The cubical domains obtained by dividing the simulation box.  
- <a href="struct_bin.html#details">More...</a></p>
+<p>3-dimensional double vector.  
+ <a href="struct_d3_vector.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:aacfbf6c1593bfe400bf24a823d91b1f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_i3_vector.html">I3Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_bin.html#aacfbf6c1593bfe400bf24a823d91b1f4">index</a></td></tr>
-<tr class="separator:aacfbf6c1593bfe400bf24a823d91b1f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a517f42bb55d44c1311e698d953131a62"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_linked_list.html">LinkedList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_bin.html#a517f42bb55d44c1311e698d953131a62">neighbors</a></td></tr>
-<tr class="separator:a517f42bb55d44c1311e698d953131a62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3844fe89a62ca9c1cdcd9ba24cb31ebb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_linked_list.html">LinkedList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_bin.html#a3844fe89a62ca9c1cdcd9ba24cb31ebb">bodies</a></td></tr>
-<tr class="separator:a3844fe89a62ca9c1cdcd9ba24cb31ebb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33354218d4cd947d0d9dc2d43b931e2c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_d3_vector.html#a33354218d4cd947d0d9dc2d43b931e2c">value</a> [3]</td></tr>
+<tr class="separator:a33354218d4cd947d0d9dc2d43b931e2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The cubical domains obtained by dividing the simulation box. </p>
-<p><a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a> is a rectangular box created by dividing the simulation box. </p>
+<div class="textblock"><p>3-dimensional double vector. </p>
+<p>Since, the domain is 3-dimensional, it can be handy to define a structure to hold three values in one entity </p>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="a3844fe89a62ca9c1cdcd9ba24cb31ebb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3844fe89a62ca9c1cdcd9ba24cb31ebb">&sect;&nbsp;</a></span>bodies</h2>
+<a id="a33354218d4cd947d0d9dc2d43b931e2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33354218d4cd947d0d9dc2d43b931e2c">&sect;&nbsp;</a></span>value</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_linked_list.html">LinkedList</a>* bodies</td>
+          <td class="memname">double value[3]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The list of bodies in the bin </p>
-
-</div>
-</div>
-<a id="aacfbf6c1593bfe400bf24a823d91b1f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aacfbf6c1593bfe400bf24a823d91b1f4">&sect;&nbsp;</a></span>index</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_i3_vector.html">I3Vector</a> index</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The index of the bin balong each axis </p>
-
-</div>
-</div>
-<a id="a517f42bb55d44c1311e698d953131a62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a517f42bb55d44c1311e698d953131a62">&sect;&nbsp;</a></span>neighbors</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_linked_list.html">LinkedList</a>* neighbors</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>The list of neightbor bins containing at leeast one body </p>
 
 </div>
 </div>
@@ -163,7 +128,7 @@ Data Fields</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="struct_bin.html">Bin</a></li>
+    <li class="navelem"><a class="el" href="struct_d3_vector.html">D3Vector</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.12 </li>

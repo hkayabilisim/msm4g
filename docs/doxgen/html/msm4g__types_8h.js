@@ -1,5 +1,7 @@
 var msm4g__types_8h =
 [
+    [ "D3Vector", "struct_d3_vector.html", "struct_d3_vector" ],
+    [ "I3Vector", "struct_i3_vector.html", "struct_i3_vector" ],
     [ "LinkedListElement", "struct_linked_list_element.html", "struct_linked_list_element" ],
     [ "LinkedList", "struct_linked_list.html", "struct_linked_list" ],
     [ "Body", "struct_body.html", "struct_body" ],
@@ -9,6 +11,8 @@ var msm4g__types_8h =
     [ "Simulation", "struct_simulation.html", "struct_simulation" ],
     [ "Bin", "msm4g__types_8h.html#a02faf04c3df32406f4af59687ab29026", null ],
     [ "Body", "msm4g__types_8h.html#af8b3c899c550fcfb372af97413b1b646", null ],
+    [ "D3Vector", "msm4g__types_8h.html#a3944c44182540668f86ce739f91291b4", null ],
+    [ "I3Vector", "msm4g__types_8h.html#acc311979c59a7a74dcfec7084f0ada3f", null ],
     [ "LinkedList", "msm4g__types_8h.html#ac88c416443c70449f417f26a05fd6265", null ],
     [ "LinkedListElement", "msm4g__types_8h.html#adb5acc7fc708cec106accdf2a83490af", null ],
     [ "Simulation", "msm4g__types_8h.html#ad43311de2ce549cd715095669dd8d18b", null ],

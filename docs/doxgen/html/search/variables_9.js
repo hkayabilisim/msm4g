@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['m',['m',['../struct_body.html#a5175b356eac1d83a42608b42a25d00b9',1,'Body']]]
+  ['prev',['prev',['../struct_linked_list_element.html#ab2a338dd2c3ebf3033210507766f2529',1,'LinkedListElement']]]
 ];

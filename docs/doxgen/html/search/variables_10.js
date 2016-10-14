@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['width',['width',['../struct_simulation_box.html#a02079f68df9f00f088db5a3985bd30a1',1,'SimulationBox']]]
+  ['width',['width',['../struct_simulation_box.html#a4973afc281dddfcbd50e1e357d772d7b',1,'SimulationBox']]]
 ];

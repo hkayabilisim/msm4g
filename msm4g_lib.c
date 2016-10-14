@@ -7,12 +7,33 @@ void msm4g_d3vector_set(D3Vector *d3vector,double x,double y,double z)
     d3vector->value[2] = z;
 }
 
-void msm4g_d3vector_daxpy(D3Vector *z,double a,D3Vector *x,D3Vector *y)
+void msm4g_d3vector_daxpy(D3Vector *z,D3Vector *x,double a,D3Vector *y)
 {
     int i;
     for (i=0; i<3; i++)
     {
-        z->value[i] += a*x->value[i] + y->value[i];
+        z->value[i] = x->value[i] + a*y->value[i];
+    }
+}
+
+double msm4g_d3vector_norm(D3Vector *x)
+{
+    double norm = 0.0;
+    int i;
+    for (i=0; i<3; i++)
+    {
+        norm += x->value[i] * x->value[i];
+    }
+    norm = sqrt(norm);
+    return norm;
+}
+
+void msm4g_d3vector_print(D3Vector *x)
+{
+    int i;
+    for (i=0; i<3; i++)
+    {
+        printf("%10.3E ",x->value[i]);
     }
 }
 
@@ -104,13 +125,6 @@ void msm4g_forwardeuler(double *r,double *v,double *a,double dt,int n,int d,doub
     for (i=0;i<n*d;i++)
         v[i] += a[i]*dt ;
 }
-
-void msm4g_addbinlist(Bin **binlist,Body *body)
-{
-    
-    
-}
-
 
 SimulationBox *msm4g_box_new()
 {

@@ -22,17 +22,47 @@
  */
 void msm4g_d3vector_set(D3Vector *d3vector,double x,double y,double z);
 
-/** @brief Implemention of z = a*x + y.
+/** @brief Implemention of z = x + a*y.
  *
  * A very simple DAXPY (BLAS) implementation. The first argument z,
  * is the output. So it should be allocated before calling the function.
  *
- * @param[in,out] z The z vector in z=a*x+y.
- * @param[in]     a The scalar in front of x vector.
+ * @param[in,out] z The z vector in z = x + a*y.
  * @param[in]     x The x vector.
- * @param[in]     y The z vector.
+ * @param[in]     a The scalar in front of y vector.
+ * @param[in]     y The y vector.
  */
-void msm4g_d3vector_daxpy(D3Vector *z,double a,D3Vector *x,D3Vector *y);
+void msm4g_d3vector_daxpy(D3Vector *z,D3Vector *x,double a,D3Vector *y);
+
+/** @brief The Euclidean norm of a 3-dimensional double vector.
+ *
+ * This function simple calculates the Euclidean norm a vector:
+ \f[
+ ||x||=\sqrt{\sum_{i=1}^3 x^2_i}
+ \f]
+ *
+ * @b Example:
+ *
+ * @code
+ * D3Vector x;
+ * double norm;
+ *
+ * msm4g_d3vector_set(&x,3.0,0.0,4.0);
+ * norm = msm4g_d3vector_norm(&x)
+ * // norm variable is 5.0 now.
+ * @endcode
+ *
+ * @param[in] x A 3-dimensional double vector.
+ * 
+ * @return The norm of the vector.
+ */
+double msm4g_d3vector_norm(D3Vector *x);
+
+/** @brief Print a 3D vector.
+ *
+ * @param[in] x A 3-dimensional double vector.
+ */
+void msm4g_d3vector_print(D3Vector *x);
 
 /** @brief Creates an empty linked list.
  *
@@ -192,6 +222,14 @@ void msm4g_box_print(SimulationBox *box);
  */
 void msm4g_box_destroy(SimulationBox *box);
 
+/** @brief Generate bins for a given simulation box and body list.
+ *
+ * @param[in] box    The simulation box.
+ * @param[in] bodies The list of bodies.
+ * 
+ * @return The list of allocated bins.
+ */
+LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *bodies);
 /*
  * Force calculation
  */

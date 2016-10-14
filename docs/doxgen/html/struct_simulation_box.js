@@ -1,5 +1,5 @@
 var struct_simulation_box =
 [
-    [ "location", "struct_simulation_box.html#a95cda27f33ac1484424adb055846a6de", null ],
-    [ "width", "struct_simulation_box.html#a02079f68df9f00f088db5a3985bd30a1", null ]
+    [ "location", "struct_simulation_box.html#a3ed37119f85f80acce697eeec035fcc9", null ],
+    [ "width", "struct_simulation_box.html#a4973afc281dddfcbd50e1e357d772d7b", null ]
 ];

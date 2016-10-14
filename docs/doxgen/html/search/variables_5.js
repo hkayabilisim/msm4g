@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['i',['i',['../struct_bin.html#acb559820d9ca11295b4500f179ef6392',1,'Bin']]]
+  ['index',['index',['../struct_bin.html#aacfbf6c1593bfe400bf24a823d91b1f4',1,'Bin']]]
 ];
