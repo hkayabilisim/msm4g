@@ -1,6 +1,16 @@
 /** @mainpage
  *
- * Multi-Level Summation Method for Gravitational N-Body problems.
+ * @section Introduction
+ *
+ * MSM4G program is aimed to apply the Multi-Level Summation Method (MSM) for (4)
+ * Gravitational (G) N-Body problems. 
+ *
+ * @section datastructures Data Structures
+ *
+ * - Body is used to represent a celestial object.
+ * - LinkedList is a generic two-way linked listed implementation.
+ * - Bin is a container to hold the bodies in geometric hashing.
+ * - SimulationBox is a rectangular box enclosing all of the bodies.
  *
  */
 
