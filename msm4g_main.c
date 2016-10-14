@@ -1,7 +1,5 @@
 /** @mainpage
  *
- * @section Introduction
- *
  * MSM4G program is aimed to apply the Multi-Level Summation Method (MSM) for (4)
  * Gravitational (G) N-Body problems. 
  *

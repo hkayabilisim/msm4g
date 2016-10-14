@@ -1,7 +1,6 @@
 var NAVTREE =
 [
   [ "MSM4G", "index.html", [
-    [ "Introduction", "index.html#Introduction", null ],
     [ "Data Structures", "index.html#datastructures", null ],
     [ "Todo List", "todo.html", null ],
     [ "Data Structures", "annotated.html", [
