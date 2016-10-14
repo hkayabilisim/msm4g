@@ -1,3 +1,6 @@
+/** @file msm4g_lib.h
+ * @brief The declarations of the functions.
+ */
 #ifndef MSM4G_LIB_H
 #define MSM4G_LIB_H
 
@@ -17,7 +20,8 @@
  *   - Calculate the short-range forces between the bodies in the bin
  *   - Calculate the pairwise force calculatin between the neighbor bins.
  *
- * @param[in,out] binlist The list of bins.
+ * @param[in,out] binlist    The list of bins.
+ * @param[in]     threshold  The range of the short-range force.
  */
 void msm4g_force_short(LinkedList *binlist,double threshold);
 
@@ -104,6 +108,12 @@ void msm4g_i3vector_copy(I3Vector *to, I3Vector from);
  */
 Boolean msm4g_i3vector_isequal(I3Vector *x,I3Vector *y);
 
+/** @brief Print a 3D int vector in [%d,%d,%d] format
+ *
+ * @param[in] x A 3-element integer array
+ */
+void msm4g_i3vector_print(I3Vector *x);
+
 /** @brief Creates an empty linked list.
  *
  * This function allocates an empty linked list and returns
@@ -183,6 +193,16 @@ void msm4g_linkedlist_destroy(LinkedList *list);
  */
 void msm4g_linkedlist_destroyWithData(LinkedList *list);
 
+/** @brief Allocates a brand-new empty body.
+ *
+ * This functions is the only place inside which a memory allocation
+ * is carried to create a new body. This function holds a static body index
+ * to keep track the newly born bodies.
+ *
+ * @return A pointer to the newly allocated Body structure.
+ */
+Body *msm4g_body_empty();
+
 /** @brief Creates a new body with given properties.
  *
  * @param[in] mass     The mass of the body.
@@ -193,7 +213,7 @@ void msm4g_linkedlist_destroyWithData(LinkedList *list);
  */
 Body *msm4g_body_new(double mass,double *location,double *velocity);
 
-/** @brief Creates `n` number of random bodies.
+/** @brief Creates an array of andom bodies.
  *
  * This function creates an array of `Body` structures whose properties
  * are randomly created in the range [0-1]. Therefore, the bodies reside
@@ -201,7 +221,7 @@ Body *msm4g_body_new(double mass,double *location,double *velocity);
  *
  * @return The pointer to the first element of the allocated array.
  */
-Body *msm4g_body_rand(int n);
+Body **msm4g_body_rand(int n);
 
 /** @brief Load the body configuration from a text file.
  *
@@ -240,6 +260,19 @@ void msm4g_body_print(Body *body);
  * @param[in] bodylist The list of bodies to be printed.
  */
 void msm4g_body_printlist(LinkedList *bodylist);
+
+/** @brief Deallocates a single body object
+ *
+ * @param[in,out] body The body to be deallocated.
+ */
+void msm4g_body_destroy(Body *body);
+
+/** @brief Deallocates an array of body objects.
+ *
+ * @param[in,out] bodyarray The array to be deallocates.
+ * @param[in]     length    The length of the array.
+ */
+void msm4g_body_destroyarray(Body **bodyarray,int length);
 
 /** @brief Create a unit cube for simulation 
  * 

@@ -1,7 +1,14 @@
+/** @file msm4g_tests.h
+ * @brief The declarations of the test functions.
+ *
+ * The test functions are self-contained so they don't require
+ * inputs. They only return a boolean indicating the fate of the
+ * test. The test function msm4g_unit_test_all() runs all of the tests.
+ */
 #ifndef MSM4G_TESTS_H
 #define MSM4G_TESTS_H
 
-#include "msm4g_types.h"
+#include "msm4g_lib.h"
 
 /** @brief Runs all tests.
  *

@@ -1,5 +1,35 @@
+/** @file msm4g_lib.c
+ * @brief The definitions of all core functions of MSM4G package.
+ */
 #include "msm4g_lib.h"
 
+void msm4g_force_short(LinkedList *binlist,double threshold)
+{
+    Bin *bin;
+    Bin *binNeighbor;
+    LinkedListElement *curr;
+    LinkedListElement *currNeighbor;
+    curr=binlist->head;
+    while (curr != NULL)
+    {
+        bin = (Bin *)curr->data;
+        
+        currNeighbor = bin->neighbors->head;
+        while (currNeighbor != NULL)
+        {
+            binNeighbor = (Bin *)currNeighbor->data;
+            currNeighbor=currNeighbor->next;
+            printf("Source bin index: "); msm4g_i3vector_print(&(bin->index)); printf("\n");
+            printf("target bin index: "); msm4g_i3vector_print(&(binNeighbor->index)); printf("\n");
+            
+            
+
+        }
+        
+        
+        curr = curr->next;
+    }
+}
 void msm4g_d3vector_set(D3Vector *d3vector,double x,double y,double z)
 {
     d3vector->value[0] = x;
@@ -62,6 +92,11 @@ Boolean msm4g_i3vector_isequal(I3Vector *x,I3Vector *y)
             return false;
     }
     return true;
+}
+
+void msm4g_i3vector_print(I3Vector *x)
+{
+    printf("[%d,%d,%d] ",x->value[0],x->value[1],x->value[2]);
 }
 
 int msm4g_linkedlist_size(LinkedList *list)
@@ -401,7 +436,7 @@ void msm4g_bin_print(Bin *bin)
     while (curr != NULL)
     {
         body = (Body *)curr->data;
-        printf("  body: [%f,%f,%f]\n",body->r[0],body->r[1],body->r[2]);
+        printf("  body: %d [%f,%f,%f]\n",body->index,body->r[0],body->r[1],body->r[2]);
         curr = curr->next;
     }
 }
@@ -409,6 +444,22 @@ void msm4g_bin_print(Bin *bin)
 void msm4g_bin_printlist(LinkedList *binlist)
 {
     
+}
+
+void msm4g_bin_destroy(LinkedList *binlist)
+{
+    LinkedListElement *curr;
+    Bin *bin;
+    
+    curr = binlist->head;
+    while (curr != NULL)
+    {
+        bin = (Bin *)curr->data;
+        msm4g_linkedlist_destroy(bin->bodies);
+        msm4g_linkedlist_destroy(bin->neighbors);
+        curr = curr->next;
+    }
+    msm4g_linkedlist_destroyWithData(binlist);
 }
 
 Body *msm4g_body_reset(Body *body)
@@ -424,19 +475,22 @@ Body *msm4g_body_reset(Body *body)
     return body;
 }
 
-Body *msm4g_body_rand(int n)
+Body **msm4g_body_rand(int n)
 {
-    Body *body;
+    Body **body;
     int i,j;
-    body = malloc(sizeof(Body)*n);
+    
+    body = malloc(sizeof(Body *)*n);
+    
     for (j=0;j<n;j++)
     {
-        (body+j)->m = (double)rand()/RAND_MAX;
+        body[j] = msm4g_body_empty();
+        body[j]->m = (double)rand()/RAND_MAX;
         for (i=0; i<3; i++)
         {
-            (body+j)->r[i] = (double)rand()/RAND_MAX;
-            (body+j)->v[i] = (double)rand()/RAND_MAX;
-            (body+j)->f[i] = (double)rand()/RAND_MAX;
+            body[j]->r[i] = (double)rand()/RAND_MAX;
+            body[j]->v[i] = (double)rand()/RAND_MAX;
+            body[j]->f[i] = (double)rand()/RAND_MAX;
         }
     }
     return body;
@@ -447,8 +501,7 @@ LinkedList *msm4g_body_read(const char *filename)
     LinkedList *bodies;
     Body *body;
     FILE *fp;
-    int ibody,i;
-    int DIM=3;
+    int ibody;
     double mass;
     double r[3];
     double v[3];
@@ -466,14 +519,7 @@ LinkedList *msm4g_body_read(const char *filename)
         int ret = fscanf(fp,"%lf %lf %lf %lf %lf %lf %lf",&mass,&r[0],&r[1],&r[2],&v[0],&v[1],&v[2]);
         if (ret == 7)
         {
-            body = malloc(sizeof(Body));
-            body->m = mass;
-            for (i=0;i<DIM;i++)
-            {
-                body->r[i] = r[i];
-                body->v[i] = v[i];
-                body->f[i] = 0.0;
-            }
+            body = msm4g_body_new(mass, r, v);
             msm4g_linkedlist_add(bodies, body);
             ibody++;
         } else if (ret == EOF)
@@ -483,10 +529,31 @@ LinkedList *msm4g_body_read(const char *filename)
     
     return bodies;
 }
+
+Body *msm4g_body_empty()
+{
+    static int index = 0;
+    int i;
+    Body *body;
+    
+    body = malloc(sizeof(Body));
+    body->index = index;
+    body->m = 0.0;
+    for (i=0; i<3; i++)
+    {
+        body->r[i] = 0.0;
+        body->v[i] = 0.0;
+        body->f[i] = 0.0;
+    }
+    
+    index++;
+    return body;
+}
+
 Body *msm4g_body_new(double mass,double *location,double *velocity)
 {
     Body *body;
-    body = malloc(sizeof(Body));
+    body = msm4g_body_empty();
     body->m = mass;
     body->r[0] = location[0];
     body->r[1] = location[1];
@@ -494,14 +561,12 @@ Body *msm4g_body_new(double mass,double *location,double *velocity)
     body->v[0] = velocity[0];
     body->v[1] = velocity[1];
     body->v[2] = velocity[2];
-    body->f[0] = 0.0;
-    body->f[1] = 0.0;
-    body->f[2] = 0.0;
     return body;
 }
 
 void msm4g_body_print(Body *body)
 {
+    printf("i:%d ",body->index);
     printf("m:%8.2E ",body->m);
     printf("r:%8.2E %8.2E %8.2E ",body->r[0],body->r[1],body->r[2]);
     printf("v:%8.2E %8.2E %8.2E ",body->v[0],body->v[1],body->v[2]);
@@ -527,21 +592,25 @@ void msm4g_body_printlist(LinkedList *bodylist)
     }
 }
 
-void msm4g_bin_destroy(LinkedList *binlist)
+void msm4g_body_destroy(Body *body)
 {
-    LinkedListElement *curr;
-    Bin *bin;
-    
-    curr = binlist->head;
-    while (curr != NULL)
-    {
-        bin = (Bin *)curr->data;
-        msm4g_linkedlist_destroy(bin->bodies);
-        msm4g_linkedlist_destroy(bin->neighbors);
-        curr = curr->next;
-    }
-    msm4g_linkedlist_destroyWithData(binlist);
+    free(body);
+    body=NULL;
 }
+
+void msm4g_body_destroyarray(Body **bodyarray,int length)
+{
+    int i;
+    for (i=0; i<length; i++)
+    {
+        free(bodyarray[i]);
+        bodyarray[i] = NULL;
+    }
+    free(bodyarray);
+    bodyarray = NULL;
+}
+
+
 
 void msm4g_acceleration(double *a,double *r,int n,int d,double *m,double G)
 {

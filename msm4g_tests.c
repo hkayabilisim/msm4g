@@ -1,3 +1,10 @@
+/** @file msm4g_tests.c
+ * @brief The test functions to check the functionality of the MSM4G package.
+ *
+ * This is probably the best place one can learn how to use the package.
+ * These test functions are used to check the outcomes of the functions
+ * by comparing with expected results.
+ */
 #include "msm4g_lib.h"
 #include "msm4g_tests.h"
 
@@ -192,7 +199,7 @@ Boolean msm4g_unit_test_5()
     int i,n;
     Boolean status ;
     LinkedList *list ;
-    Body *bodies;
+    Body **bodies;
     SimulationBox *box;
     D3Vector locationError;
     D3Vector locationExpected ;
@@ -209,16 +216,16 @@ Boolean msm4g_unit_test_5()
     list = msm4g_linkedlist_new();
     for (i=0;i<n;i++)
     {
-        msm4g_linkedlist_add(list, bodies+i);
+        msm4g_linkedlist_add(list, bodies[i]);
     }
     
-    (bodies+5)->r[0] = -1.0;
-    (bodies+5)->r[1] = -2.0;
-    (bodies+5)->r[2] = -3.0;
+    bodies[5]->r[0] = -1.0;
+    bodies[5]->r[1] = -2.0;
+    bodies[5]->r[2] = -3.0;
     
-    (bodies+7)->r[0] =  1.0;
-    (bodies+7)->r[1] =  2.0;
-    (bodies+7)->r[2] =  3.0;
+    bodies[7]->r[0] =  1.0;
+    bodies[7]->r[1] =  2.0;
+    bodies[7]->r[2] =  3.0;
     
     box = msm4g_box_new();
     msm4g_box_update(box, list, 0.5);
@@ -232,9 +239,9 @@ Boolean msm4g_unit_test_5()
         status = false;
     }
     
-    free(bodies);
-    msm4g_box_destroy(box);
     msm4g_linkedlist_destroy(list);
+    msm4g_body_destroyarray(bodies, n);
+    msm4g_box_destroy(box);
     
     return status;
 }
@@ -256,6 +263,7 @@ Boolean msm4g_unit_test_6()
     }
     
     binlist=msm4g_bin_generate(&box,bodylist,binwidth);
+    msm4g_force_short(binlist, 10.0);
     
     msm4g_bin_destroy(binlist);
     msm4g_linkedlist_destroyWithData(bodylist);

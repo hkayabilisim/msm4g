@@ -1,5 +1,12 @@
+/** @file msm4g_types.h
+ * @brief The data type definitions required in the package.
+ *
+ * It is already included in @link msm4g_lib.h, so that it
+ * doesn't have to be explicity included by the user.
+ */
 #ifndef MSM4G_TYPES_H
 #define MSM4G_TYPES_H
+
 /** @brief A custom definition of boolean type.
  *
  * Although, C99 has boolean type, I prefer to stay on ANSI C.
@@ -65,9 +72,16 @@ typedef struct LinkedList
  * Every celestial body in the gravitational n-body problem is 
  * represented with this simple Body structure containing basic features
  * such as mass, location, velocity, and force.
+ *
+ * @warning The index is supposed to be read-only in the user-end.
+ * This variable is created when the body is allocated for the very first 
+ * time inside the msm4g_body_empty() function. This means that user should
+ * not allocate a body manually. He/She should always use msm4g_body functions
+ * to handle the bodies.
  */
 typedef struct Body
 {
+    int    index;       /**< Index of the body (see warning in the description) */
     double m;           /**< mass      */
     double r[3];        /**< location  */
     double v[3];        /**< velocity  */
