@@ -100,6 +100,9 @@ typedef struct SimulationParameters
  *
  * The algorithm requires that the simulation is confined into a rectangular 
  * box. The location and the width vectors are sufficient to desribe the domain.
+ *
+ * @todo If the width along on one of the axis is zero or too small, then
+ * the bin should be allowed to extend beyond the simulation box.
  */
 typedef struct SimulationBox
 {

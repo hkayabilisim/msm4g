@@ -37,6 +37,33 @@ void msm4g_d3vector_print(D3Vector *x)
     }
 }
 
+void msm4g_i3vector_set(I3Vector *i3vector,int x,int y,int z)
+{
+    i3vector->value[0] = x;
+    i3vector->value[1] = y;
+    i3vector->value[2] = z;
+}
+
+void msm4g_i3vector_copy(I3Vector *to, I3Vector from)
+{
+    to->value[0] = from.value[0];
+    to->value[1] = from.value[1];
+    to->value[2] = from.value[2];
+}
+
+Boolean msm4g_i3vector_isequal(I3Vector *x,I3Vector *y)
+{
+    int i;
+    if (x == NULL || y == NULL)
+        return false;
+    for (i=0;i<3;i++)
+    {
+        if (x->value[i] != y->value[i])
+            return false;
+    }
+    return true;
+}
+
 int msm4g_linkedlist_size(LinkedList *list)
 {
     int size = 0;
@@ -116,6 +143,18 @@ void msm4g_linkedlist_destroy(LinkedList *list)
     list = NULL;
 }
 
+void msm4g_linkedlist_destroyWithData(LinkedList *list)
+{
+    LinkedListElement *curr;
+    curr = list->head;
+    while (curr != NULL)
+    {
+        free(curr->data);
+        curr = curr->next;
+    }
+    
+    msm4g_linkedlist_destroy(list);
+}
 void msm4g_forwardeuler(double *r,double *v,double *a,double dt,int n,int d,double *m,double G)
 {
     int i;
@@ -181,6 +220,35 @@ void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin)
     }
 }
 
+void msm4g_box_translate(SimulationBox *box, LinkedList *bodies,D3Vector delta)
+{
+    int i;
+    int n;
+    n=3;
+    LinkedListElement *curr;
+    Body *body;
+    
+    for (i=0;i<n;i++)
+        box->location.value[i] += delta.value[i];
+    curr = bodies->head;
+    while (curr != NULL)
+    {
+        body = (Body *)curr->data;
+        for (i=0;i<n;i++)
+            body->r[i] += delta.value[i];
+        curr = curr->next;
+    }
+}
+
+void msm4g_box_translateToOrigin(SimulationBox *box, LinkedList *bodies)
+{
+    D3Vector delta;
+    delta.value[0] =  -box->location.value[0];
+    delta.value[1] =  -box->location.value[1];
+    delta.value[2] =  -box->location.value[2];
+    msm4g_box_translate(box,bodies,delta);
+}
+
 void msm4g_box_print(SimulationBox *box)
 {
     printf("Box Location: %f %f %f\n",
@@ -196,6 +264,151 @@ void msm4g_box_print(SimulationBox *box)
 void msm4g_box_destroy(SimulationBox *box)
 {
     free(box);
+}
+
+Bin *msm4g_bin_new(I3Vector index)
+{
+    Bin *bin;
+    bin = malloc(sizeof(Bin));
+    bin->bodies = msm4g_linkedlist_new();
+    bin->neighbors = msm4g_linkedlist_new();
+    msm4g_i3vector_set(&(bin->index), index.value[0], index.value[1], index.value[2]);
+    return bin;
+}
+
+LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *bodies,double binwidth)
+{
+    LinkedList *binlist;
+    LinkedListElement *curr;
+    Body *body;
+    Bin *bin;
+    I3Vector binindex;
+    int i;
+
+    binlist = msm4g_linkedlist_new();
+    
+    curr = bodies->head;
+    while (curr != NULL)
+    {
+        body = (Body *)curr->data;
+        msm4g_i3vector_set(&binindex, -1, -1, -1);
+        for (i=0;i<3;i++)
+        {
+            binindex.value[i] = floor(body->r[i]/binwidth);
+        }
+        bin = msm4g_bin_searchByIndex(binlist,binindex);
+        if (bin == NULL)
+        {
+            bin = msm4g_bin_new(binindex);
+            msm4g_linkedlist_add(binlist, bin);
+        }
+        msm4g_linkedlist_add(bin->bodies, body);
+        curr = curr->next;
+    }
+    
+    msm4g_bin_findneighbors(binlist);
+    
+    curr = binlist->head;
+    while (curr != NULL)
+    {
+        bin = (Bin *)curr->data;
+        msm4g_bin_print(bin);
+        curr = curr->next;
+    }
+    return binlist;
+}
+
+void msm4g_bin_findneighbors(LinkedList *binlist)
+{
+    Bin *bin;
+    Bin *neighborBin;
+    LinkedListElement *curr;
+    I3Vector index;
+    int i,j,k;
+    
+    curr = binlist->head;
+    while (curr != NULL)
+    {
+        bin = (Bin *)curr->data;
+        for (i=-1; i < 2; i++)
+        {
+            for (j=-1; j<2; j++)
+            {
+                for (k=-1; k<2 ; k++)
+                {
+                    if (i==0 && j==0 && k==0)
+                        continue;
+                    msm4g_i3vector_copy(&index, bin->index);
+                    index.value[0] += i;
+                    index.value[1] += j;
+                    index.value[2] += k;
+                    neighborBin = msm4g_bin_searchByIndex(binlist, index);
+                    if (neighborBin != NULL)
+                    {
+                        msm4g_linkedlist_add(bin->neighbors,neighborBin);
+                    }
+                }
+            }
+        }
+        curr = curr->next;
+    }
+}
+
+Bin *msm4g_bin_searchByIndex(LinkedList *binlist,I3Vector index)
+{
+    LinkedListElement *curr;
+    Bin *bin = NULL;
+    curr = binlist->head;
+    while (curr != NULL)
+    {
+        bin = (Bin *)curr->data;
+        if (msm4g_i3vector_isequal(&index, &(bin->index)))
+        {
+           /*  printf("%d-%d %d-%d %d-%d\n",
+                   index.value[0],bin->index.value[0],
+                   index.value[1],bin->index.value[1],
+                   index.value[2],bin->index.value[2]); */
+            return bin;
+        }
+        curr = curr->next;
+    }
+    
+    return NULL;
+}
+
+void msm4g_bin_print(Bin *bin)
+{
+    Bin *neighborBin;
+    Body *body;
+    LinkedListElement *curr;
+    
+    printf("[%d,%d,%d]\n",bin->index.value[0],bin->index.value[1],bin->index.value[2]);
+    
+    /* Printing neighbor bins */
+    curr = bin->neighbors->head;
+    while (curr != NULL)
+    {
+        neighborBin = (Bin *)curr->data;
+        printf("  neighbor: [%d,%d,%d]\n",neighborBin->index.value[0],
+                               neighborBin->index.value[1],
+                               neighborBin->index.value[2]);
+
+        curr = curr->next;
+    }
+    
+    /* Printing bodies */
+    curr = bin->bodies->head;
+    while (curr != NULL)
+    {
+        body = (Body *)curr->data;
+        printf("  body: [%f,%f,%f]\n",body->r[0],body->r[1],body->r[2]);
+        curr = curr->next;
+    }
+}
+
+void msm4g_bin_printlist(LinkedList *binlist)
+{
+    
 }
 
 Body *msm4g_body_reset(Body *body)
@@ -229,6 +442,47 @@ Body *msm4g_body_rand(int n)
     return body;
 }
 
+LinkedList *msm4g_body_read(const char *filename)
+{
+    LinkedList *bodies;
+    Body *body;
+    FILE *fp;
+    int ibody,i;
+    int DIM=3;
+    double mass;
+    double r[3];
+    double v[3];
+    
+    bodies = msm4g_linkedlist_new();
+    fp = fopen(filename,"r");
+    if (fp == NULL)
+    {
+        return bodies;
+    }
+    
+    ibody = 0;
+    while (true)
+    {
+        int ret = fscanf(fp,"%lf %lf %lf %lf %lf %lf %lf",&mass,&r[0],&r[1],&r[2],&v[0],&v[1],&v[2]);
+        if (ret == 7)
+        {
+            body = malloc(sizeof(Body));
+            body->m = mass;
+            for (i=0;i<DIM;i++)
+            {
+                body->r[i] = r[i];
+                body->v[i] = v[i];
+                body->f[i] = 0.0;
+            }
+            msm4g_linkedlist_add(bodies, body);
+            ibody++;
+        } else if (ret == EOF)
+            break;
+    }
+    fclose(fp);
+    
+    return bodies;
+}
 Body *msm4g_body_new(double mass,double *location,double *velocity)
 {
     Body *body;
@@ -254,6 +508,39 @@ void msm4g_body_print(Body *body)
     printf("f:%8.2E %8.2E %8.2E ",body->f[0],body->f[1],body->f[2]);
     printf("\n");
     
+}
+
+void msm4g_body_printlist(LinkedList *bodylist)
+{
+    Body *body;
+    LinkedListElement *curr;
+    int i=0;
+    curr = bodylist->head;
+    while (curr != NULL)
+    {
+        body = curr->data;
+        printf("Body index: %d\n",i);
+        msm4g_body_print(body);
+        
+        i++;
+        curr=curr->next;
+    }
+}
+
+void msm4g_bin_destroy(LinkedList *binlist)
+{
+    LinkedListElement *curr;
+    Bin *bin;
+    
+    curr = binlist->head;
+    while (curr != NULL)
+    {
+        bin = (Bin *)curr->data;
+        msm4g_linkedlist_destroy(bin->bodies);
+        msm4g_linkedlist_destroy(bin->neighbors);
+        curr = curr->next;
+    }
+    msm4g_linkedlist_destroyWithData(binlist);
 }
 
 void msm4g_acceleration(double *a,double *r,int n,int d,double *m,double G)

@@ -10,6 +10,18 @@
 #include <sys/time.h>
 #include "msm4g_types.h"
 
+
+/** @brief Short-range force calculation.
+ * 
+ * - For each bin in the linked list
+ *   - Calculate the short-range forces between the bodies in the bin
+ *   - Calculate the pairwise force calculatin between the neighbor bins.
+ *
+ * @param[in,out] binlist The list of bins.
+ */
+void msm4g_force_short(LinkedList *binlist,double threshold);
+
+
 /** @brief Sets the elements of a 3-element vector.
  *
  * The elements of a 3DVector is set to the given
@@ -63,6 +75,34 @@ double msm4g_d3vector_norm(D3Vector *x);
  * @param[in] x A 3-dimensional double vector.
  */
 void msm4g_d3vector_print(D3Vector *x);
+
+/** @brief Sets the elements of a 3-element vector.
+ *
+ * The elements of a 3D-integer vector is set to the given
+ * values of x,y, and z.
+ *
+ * @param[in,out] i3vector A pointer to a 3-element integer vector.
+ * @param[in]     x        The first element.
+ * @param[in]     y        The second element.
+ * @param[in]     z        The third element.
+ */
+void msm4g_i3vector_set(I3Vector *i3vector,int x,int y,int z);
+
+/** @brief Copy the content of a I3Vector to another.
+ *
+ * @param[in,out] to    The updated vector.
+ * @param[in]     from  The source vector.
+ */
+void msm4g_i3vector_copy(I3Vector *to, I3Vector from);
+
+/** @brief Compare two 3D integer vector.
+ *
+ * @param[in] x The first vector.
+ * @param[in] y The second vector.
+ *
+ * @return True if the vectors are same, false otherwise.
+ */
+Boolean msm4g_i3vector_isequal(I3Vector *x,I3Vector *y);
 
 /** @brief Creates an empty linked list.
  *
@@ -133,6 +173,16 @@ int msm4g_linkedlist_size(LinkedList *list);
  */
 void msm4g_linkedlist_destroy(LinkedList *list);
 
+/** @brief Destroy the linked list including the data.
+ *
+ * Almost the same with the function msm4g_linkedlist_destroy
+ * except that the data contained in the linked list elements 
+ * are also deallocated.
+ *
+ * @param[in,out] list The list to be destroyed.
+ */
+void msm4g_linkedlist_destroyWithData(LinkedList *list);
+
 /** @brief Creates a new body with given properties.
  *
  * @param[in] mass     The mass of the body.
@@ -152,6 +202,14 @@ Body *msm4g_body_new(double mass,double *location,double *velocity);
  * @return The pointer to the first element of the allocated array.
  */
 Body *msm4g_body_rand(int n);
+
+/** @brief Load the body configuration from a text file.
+ *
+ * @param[in] filename The name of the file containing the body properties.
+ *
+ * @return The list of bodies in a linked list container.
+ */
+LinkedList *msm4g_body_read(const char *filename);
 
 /** @brief Sets all of the properties of a body to zero value.
  *
@@ -173,6 +231,15 @@ Body *msm4g_body_reset(Body *body);
  * @param[in] body The body whose properties are to be printed.
  */
 void msm4g_body_print(Body *body);
+
+/** @brief Print all bodies in a linked list.
+ * 
+ * This functions assumes that the linked list 
+ * elements point to Body data types.
+ *
+ * @param[in] bodylist The list of bodies to be printed.
+ */
+void msm4g_body_printlist(LinkedList *bodylist);
 
 /** @brief Create a unit cube for simulation 
  * 
@@ -205,6 +272,24 @@ SimulationBox *msm4g_box_new();
  */
 void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin);
 
+/** @brief Translate the box and the bodies by `delta` vector.
+ *
+ * @param[in,out] box    The simulation box.
+ * @param[in,out] bodies The list of bodies.
+ * @param[in]     delta  Translation amoun.
+ */
+void msm4g_box_translate(SimulationBox *box, LinkedList *bodies,D3Vector delta);
+
+/** @brief Translate the box and the bodies so that the location of box is zero vector.
+ *
+ * This function is equivalant to msm4g_box_translate with delta vector is opposite to the
+ * location of the box.
+ *
+ * @param[in,out] box    The simulation box.
+ * @param[in,out] bodies The list of bodies.
+ */
+void msm4g_box_translateToOrigin(SimulationBox *box, LinkedList *bodies);
+
 /** @brief Print the details of the simulation box.
  *
  * The location, width and other features of the simulation
@@ -222,14 +307,70 @@ void msm4g_box_print(SimulationBox *box);
  */
 void msm4g_box_destroy(SimulationBox *box);
 
+/** @brief Create a new Bin for a given index.
+ *
+ * @param[in] index The new bin will have this index.
+ */
+Bin *msm4g_bin_new(I3Vector index);
+
 /** @brief Generate bins for a given simulation box and body list.
+ *
+ * The bodies are supposed to be contained in the box. And also the
+ * the location of the simulation box is expected to be [0,0,0]. If not
+ * the caller should translate the box and the bodies so that the location 
+ * of the box is at the origin.
  *
  * @param[in] box    The simulation box.
  * @param[in] bodies The list of bodies.
  * 
  * @return The list of allocated bins.
  */
-LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *bodies);
+LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *bodies,double width);
+
+/** @brief Find the neigbhors of each Bin.
+ * 
+ * - For each Bin in the linked list.
+ *   - Check if there is a Bin in one of the 26 neighbor cubes.
+ *   - If there is a bin, then add it to the neighbor list.
+ *
+ * @param[in,out] binlist The linked list of Bin's.
+ */
+void msm4g_bin_findneighbors(LinkedList *binlist);
+
+/** @brief Returns the bin with given index vector.
+ *
+ * This function loops over binlist to find a bin with same
+ * index information given in the argument.
+ *
+ * @param[in] binlist The list of bins.
+ * @param[in] index   The 3-dimensional index vector.
+ *
+ * @return The pointer to the selected bin. Returns NULL if there is no such bin.
+ */
+Bin *msm4g_bin_searchByIndex(LinkedList *binlist,I3Vector index);
+
+/** @brief Print the contents of a bin.
+ * 
+ * @param[in] bin The bin to be printed.
+ */
+void msm4g_bin_print(Bin *bin);
+
+/** @brief Print all bins in a linked list.
+ * 
+ * @param[in] binlist The list of bin's.
+ */
+void msm4g_bin_printlist(LinkedList *binlist);
+
+/** @brief Deallocates a bin list.
+ *
+ * - For each Bin in the list
+ *    - Deallocate the neighbor list (without data)
+ *    - Deallocate the body list (without data)
+ * - Deallocate the bin list
+ *
+ * @param[in,out] binlist The linked list of Bin's.
+ */
+void msm4g_bin_destroy(LinkedList *binlist);
 /*
  * Force calculation
  */

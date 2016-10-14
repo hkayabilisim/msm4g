@@ -14,7 +14,7 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_3);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_4);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_5);
-
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_6);
     
     numberoftests = msm4g_linkedlist_size(list);
 
@@ -133,18 +133,16 @@ Boolean msm4g_unit_test_3()
 
 Boolean msm4g_unit_test_4()
 {
-    FILE *fp;
     const int DIM = 3;
     const int N = 3; /**< Number of bodies in eight.ini */
-    double mass,r[3],v[3];
-    Body bodies[3], bodiesInFile[3];
+    Body bodies[3];
+    LinkedList *bodiesInFile;
+    Body *bodyInFile;
     int i,j;
-    int ibody;
     
     for (i=0;i<N;i++)
     {
         msm4g_body_reset(&bodies[i]);
-        msm4g_body_reset(&bodiesInFile[i]);
         bodies[i].m = 1.0;
     }
     bodies[0].r[0] =   0.97000436 ;
@@ -160,44 +158,32 @@ Boolean msm4g_unit_test_4()
     bodies[2].v[0] =  -0.93240737;
     bodies[2].v[1] =  -0.86473146;
     
-    fp = fopen("data/eight.ini","r");
-    if (fp == NULL) return false;
     
-    ibody = 0;
-    while (true)
-    {
-        int ret = fscanf(fp,"%lf %lf %lf %lf %lf %lf %lf",&mass,&r[0],&r[1],&r[2],&v[0],&v[1],&v[2]);
-        if (ret == 7)
-        {
-            bodiesInFile[ibody].m = mass;
-            for (i=0;i<DIM;i++)
-            {
-                bodiesInFile[ibody].r[i] = r[i];
-                bodiesInFile[ibody].v[i] = v[i];
-            }
-            ibody++;
-        } else if (ret == EOF)
-            break;
-        else
-        {
-            fclose(fp);
-            return false;
-        }
-    }
+    bodiesInFile=msm4g_body_read("data/eight.ini");
+   
     
     for (i=0;i<N;i++) /* for each body */
     {
-        if (fabs(bodies[i].m-bodiesInFile[i].m)>DBL_EPSILON )
+        bodyInFile = msm4g_linkedlist_get(bodiesInFile,i);
+        if (fabs(bodies[i].m - bodyInFile->m)>DBL_EPSILON )
             return false;
         for (j=0;j<DIM;j++) /* for each dimension */
         {
-            if (fabs(bodies[i].r[j]-bodiesInFile[i].r[j]) > DBL_EPSILON)
+            if (fabs(bodies[i].r[j]-bodyInFile->r[j]) > DBL_EPSILON)
                 return false;
-            if (fabs(bodies[i].v[j]-bodiesInFile[i].v[j]) > DBL_EPSILON)
+            if (fabs(bodies[i].v[j]-bodyInFile->v[j]) > DBL_EPSILON)
                 return false;
         }
     }
-    fclose(fp);
+    
+    /* Deallocate the bodies */
+    for (i=0;i<N;i++)
+    {
+        bodyInFile = msm4g_linkedlist_get(bodiesInFile, i);
+        free(bodyInFile);
+    }
+    msm4g_linkedlist_destroy(bodiesInFile);
+    
     return true;
 }
 
@@ -250,5 +236,28 @@ Boolean msm4g_unit_test_5()
     msm4g_box_destroy(box);
     msm4g_linkedlist_destroy(list);
     
+    return status;
+}
+
+Boolean msm4g_unit_test_6()
+{
+    Boolean status = true;
+    LinkedList *bodylist;
+    LinkedList *binlist;
+    SimulationBox box;
+    double binwidth = 10;
+    int i;
+    
+    bodylist = msm4g_body_read("data/bintest.ini");
+    for (i=0;i<3;i++)
+    {
+        box.location.value[i] = 0.0;
+        box.width.value[i]    = 30.0;
+    }
+    
+    binlist=msm4g_bin_generate(&box,bodylist,binwidth);
+    
+    msm4g_bin_destroy(binlist);
+    msm4g_linkedlist_destroyWithData(bodylist);
     return status;
 }

@@ -61,4 +61,37 @@ Boolean msm4g_unit_test_4();
  */
 Boolean msm4g_unit_test_5();
 
+/** @brief Generating bins for the bodies in eight.ini file.
+ *
+ * The flow of this test is as follows:
+ * 
+ * - Loading the bodies from eight.ini file
+ * - Creating a simulation box around the bodies with 0.5 extra margin
+ * - Generating the bins
+ *
+ * @verbatim
+ 30  +----------+----------+----------+     Bin Width: 10
+ |   |          |  4       |          |
+ |   |          |   5      |          |     Particle Location
+ |   |          |    6     |          |     -------- --------
+ |   |          |          |          |     1        [15,15, 5]
+ 20  +----------+----------+----------+     2        [15,12, 5]
+ |   |          |          |          |     3        [29, 2,25]
+ |   |          |     1    |          |     4        [12,26, 5]
+ |   |          |          |          |     5        [13,25, 5]
+ |   |          |     2    |          |     6        [14,24, 5]
+ 10  +----------+----------+----------+
+ |   |          |          |          |     Bins
+ |   |          |          |          |     ----
+ |   |          |          |          |     i j k   Particles Neighbor Bins
+ |   |          |          |         3|     - - -   --------- -------------
+ 0   +----------+----------+----------+     1 1 0   1,2       [1,2,0]
+                                            2 0 2   3         none
+     0----------10---------20---------30    1 2 0   4,5,6     [1,1,0]
+        i=0         i=1         i=2
+
+  @endverbatim
+ */
+Boolean msm4g_unit_test_6();
+
 #endif /* MSM4G_TESTS_H */
