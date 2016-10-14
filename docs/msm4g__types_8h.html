@@ -254,7 +254,8 @@ Enumerations</h2></td></tr>
 </div><div class="memdoc">
 
 <p>A basic representation of a celestial body. </p>
-<p>Every celestial body in the gravitational n-body problem is represented with this simple <a class="el" href="struct_body.html" title="A basic representation of a celestial body. ">Body</a> structure containing basic features such as mass, location, velocity, and force. </p>
+<p>Every celestial body in the gravitational n-body problem is represented with this simple <a class="el" href="struct_body.html" title="A basic representation of a celestial body. ">Body</a> structure containing basic features such as mass, location, velocity, and force.</p>
+<dl class="section warning"><dt>Warning</dt><dd>The index is supposed to be read-only in the user-end. This variable is created when the body is allocated for the very first time inside the <a class="el" href="msm4g__lib_8c.html#ac363121208977e673ca0ccec78b52309" title="Allocates a brand-new empty body. ">msm4g_body_empty()</a> function. This means that user should not allocate a body manually. He/She should always use msm4g_body functions to handle the bodies. </dd></dl>
 
 </div>
 </div>
