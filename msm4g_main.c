@@ -13,15 +13,16 @@
  *
  * @section datastructures Data Structures
  *
- * - Body is used to represent a celestial object.
+ * - Particle is used to represent a celestial object.
  * - LinkedList is a generic two-way linked listed implementation.
- * - Bin is a container to hold the bodies in geometric hashing.
- * - SimulationBox is a rectangular box enclosing all of the bodies.
+ * - Bin is a container to hold the particles in geometric hashing.
+ * - SimulationBox is a rectangular box enclosing all of the particles.
  *
  */
 
 #include "msm4g_lib.h"
 #include "msm4g_tests.h"
+
 
 int main()
 {

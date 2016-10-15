@@ -216,7 +216,7 @@ void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin)
     double oldwidth,newwidth;
     int i;
     LinkedListElement *curr ;
-    Body *body;
+    Particle *particle;
     for (i=0;i<3;i++)
     {
         min[i] = DBL_MAX;
@@ -226,13 +226,13 @@ void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin)
     curr = list->head;
     while (curr != NULL)
     {
-        body = (Body *) (curr->data);
+        particle = (Particle *) (curr->data);
         for (i=0; i<3; i++)
         {
-            if (body->r[i] >= max[i])
-                max[i] = body->r[i];
-            if (body->r[i] <= min[i])
-                min[i] = body->r[i];
+            if (particle->r[i] >= max[i])
+                max[i] = particle->r[i];
+            if (particle->r[i] <= min[i])
+                min[i] = particle->r[i];
         }
         curr = curr->next;
     }
@@ -255,33 +255,33 @@ void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin)
     }
 }
 
-void msm4g_box_translate(SimulationBox *box, LinkedList *bodies,D3Vector delta)
+void msm4g_box_translate(SimulationBox *box, LinkedList *particles,D3Vector delta)
 {
     int i;
     int n;
     n=3;
     LinkedListElement *curr;
-    Body *body;
+    Particle *particle;
     
     for (i=0;i<n;i++)
         box->location.value[i] += delta.value[i];
-    curr = bodies->head;
+    curr = particles->head;
     while (curr != NULL)
     {
-        body = (Body *)curr->data;
+        particle = (Particle *)curr->data;
         for (i=0;i<n;i++)
-            body->r[i] += delta.value[i];
+            particle->r[i] += delta.value[i];
         curr = curr->next;
     }
 }
 
-void msm4g_box_translateToOrigin(SimulationBox *box, LinkedList *bodies)
+void msm4g_box_translateToOrigin(SimulationBox *box, LinkedList *particles)
 {
     D3Vector delta;
     delta.value[0] =  -box->location.value[0];
     delta.value[1] =  -box->location.value[1];
     delta.value[2] =  -box->location.value[2];
-    msm4g_box_translate(box,bodies,delta);
+    msm4g_box_translate(box,particles,delta);
 }
 
 void msm4g_box_print(SimulationBox *box)
@@ -305,31 +305,31 @@ Bin *msm4g_bin_new(I3Vector index)
 {
     Bin *bin;
     bin = malloc(sizeof(Bin));
-    bin->bodies = msm4g_linkedlist_new();
+    bin->particles = msm4g_linkedlist_new();
     bin->neighbors = msm4g_linkedlist_new();
     msm4g_i3vector_set(&(bin->index), index.value[0], index.value[1], index.value[2]);
     return bin;
 }
 
-LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *bodies,double binwidth)
+LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *particles,double binwidth)
 {
     LinkedList *binlist;
     LinkedListElement *curr;
-    Body *body;
+    Particle *particle;
     Bin *bin;
     I3Vector binindex;
     int i;
 
     binlist = msm4g_linkedlist_new();
     
-    curr = bodies->head;
+    curr = particles->head;
     while (curr != NULL)
     {
-        body = (Body *)curr->data;
+        particle = (Particle *)curr->data;
         msm4g_i3vector_set(&binindex, -1, -1, -1);
         for (i=0;i<3;i++)
         {
-            binindex.value[i] = floor(body->r[i]/binwidth);
+            binindex.value[i] = floor(particle->r[i]/binwidth);
         }
         bin = msm4g_bin_searchByIndex(binlist,binindex);
         if (bin == NULL)
@@ -337,7 +337,7 @@ LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *bodies,double binw
             bin = msm4g_bin_new(binindex);
             msm4g_linkedlist_add(binlist, bin);
         }
-        msm4g_linkedlist_add(bin->bodies, body);
+        msm4g_linkedlist_add(bin->particles, particle);
         curr = curr->next;
     }
     
@@ -414,7 +414,7 @@ Bin *msm4g_bin_searchByIndex(LinkedList *binlist,I3Vector index)
 void msm4g_bin_print(Bin *bin)
 {
     Bin *neighborBin;
-    Body *body;
+    Particle *particle;
     LinkedListElement *curr;
     
     printf("[%d,%d,%d]\n",bin->index.value[0],bin->index.value[1],bin->index.value[2]);
@@ -431,12 +431,12 @@ void msm4g_bin_print(Bin *bin)
         curr = curr->next;
     }
     
-    /* Printing bodies */
-    curr = bin->bodies->head;
+    /* Printing particles */
+    curr = bin->particles->head;
     while (curr != NULL)
     {
-        body = (Body *)curr->data;
-        printf("  body: %d [%f,%f,%f]\n",body->index,body->r[0],body->r[1],body->r[2]);
+        particle = (Particle *)curr->data;
+        printf("  particle: %d [%f,%f,%f]\n",particle->index,particle->r[0],particle->r[1],particle->r[2]);
         curr = curr->next;
     }
 }
@@ -455,159 +455,159 @@ void msm4g_bin_destroy(LinkedList *binlist)
     while (curr != NULL)
     {
         bin = (Bin *)curr->data;
-        msm4g_linkedlist_destroy(bin->bodies);
+        msm4g_linkedlist_destroy(bin->particles);
         msm4g_linkedlist_destroy(bin->neighbors);
         curr = curr->next;
     }
     msm4g_linkedlist_destroyWithData(binlist);
 }
 
-Body *msm4g_body_reset(Body *body)
+Particle *msm4g_particle_reset(Particle *particle)
 {
     int i;
-    body->m = 0.0;
+    particle->m = 0.0;
     for (i=0; i<3; i++)
     {
-        body->r[i] = 0.0;
-        body->v[i] = 0.0;
-        body->f[i] = 0.0;
+        particle->r[i] = 0.0;
+        particle->v[i] = 0.0;
+        particle->f[i] = 0.0;
     }
-    return body;
+    return particle;
 }
 
-Body **msm4g_body_rand(int n)
+Particle **msm4g_particle_rand(int n)
 {
-    Body **body;
+    Particle **particle;
     int i,j;
     
-    body = malloc(sizeof(Body *)*n);
+    particle = malloc(sizeof(Particle *)*n);
     
     for (j=0;j<n;j++)
     {
-        body[j] = msm4g_body_empty();
-        body[j]->m = (double)rand()/RAND_MAX;
+        particle[j] = msm4g_particle_empty();
+        particle[j]->m = (double)rand()/RAND_MAX;
         for (i=0; i<3; i++)
         {
-            body[j]->r[i] = (double)rand()/RAND_MAX;
-            body[j]->v[i] = (double)rand()/RAND_MAX;
-            body[j]->f[i] = (double)rand()/RAND_MAX;
+            particle[j]->r[i] = (double)rand()/RAND_MAX;
+            particle[j]->v[i] = (double)rand()/RAND_MAX;
+            particle[j]->f[i] = (double)rand()/RAND_MAX;
         }
     }
-    return body;
+    return particle;
 }
 
-LinkedList *msm4g_body_read(const char *filename)
+LinkedList *msm4g_particle_read(const char *filename)
 {
-    LinkedList *bodies;
-    Body *body;
+    LinkedList *particles;
+    Particle *particle;
     FILE *fp;
-    int ibody;
+    int iparticle;
     double mass;
     double r[3];
     double v[3];
     
-    bodies = msm4g_linkedlist_new();
+    particles = msm4g_linkedlist_new();
     fp = fopen(filename,"r");
     if (fp == NULL)
     {
-        return bodies;
+        return particles;
     }
     
-    ibody = 0;
+    iparticle = 0;
     while (true)
     {
         int ret = fscanf(fp,"%lf %lf %lf %lf %lf %lf %lf",&mass,&r[0],&r[1],&r[2],&v[0],&v[1],&v[2]);
         if (ret == 7)
         {
-            body = msm4g_body_new(mass, r, v);
-            msm4g_linkedlist_add(bodies, body);
-            ibody++;
+            particle = msm4g_particle_new(mass, r, v);
+            msm4g_linkedlist_add(particles, particle);
+            iparticle++;
         } else if (ret == EOF)
             break;
     }
     fclose(fp);
     
-    return bodies;
+    return particles;
 }
 
-Body *msm4g_body_empty()
+Particle *msm4g_particle_empty()
 {
     static int index = 0;
     int i;
-    Body *body;
+    Particle *particle;
     
-    body = malloc(sizeof(Body));
-    body->index = index;
-    body->m = 0.0;
+    particle = malloc(sizeof(Particle));
+    particle->index = index;
+    particle->m = 0.0;
     for (i=0; i<3; i++)
     {
-        body->r[i] = 0.0;
-        body->v[i] = 0.0;
-        body->f[i] = 0.0;
+        particle->r[i] = 0.0;
+        particle->v[i] = 0.0;
+        particle->f[i] = 0.0;
     }
     
     index++;
-    return body;
+    return particle;
 }
 
-Body *msm4g_body_new(double mass,double *location,double *velocity)
+Particle *msm4g_particle_new(double mass,double *location,double *velocity)
 {
-    Body *body;
-    body = msm4g_body_empty();
-    body->m = mass;
-    body->r[0] = location[0];
-    body->r[1] = location[1];
-    body->r[2] = location[2];
-    body->v[0] = velocity[0];
-    body->v[1] = velocity[1];
-    body->v[2] = velocity[2];
-    return body;
+    Particle *particle;
+    particle = msm4g_particle_empty();
+    particle->m = mass;
+    particle->r[0] = location[0];
+    particle->r[1] = location[1];
+    particle->r[2] = location[2];
+    particle->v[0] = velocity[0];
+    particle->v[1] = velocity[1];
+    particle->v[2] = velocity[2];
+    return particle;
 }
 
-void msm4g_body_print(Body *body)
+void msm4g_particle_print(Particle *particle)
 {
-    printf("i:%d ",body->index);
-    printf("m:%8.2E ",body->m);
-    printf("r:%8.2E %8.2E %8.2E ",body->r[0],body->r[1],body->r[2]);
-    printf("v:%8.2E %8.2E %8.2E ",body->v[0],body->v[1],body->v[2]);
-    printf("f:%8.2E %8.2E %8.2E ",body->f[0],body->f[1],body->f[2]);
+    printf("i:%d ",particle->index);
+    printf("m:%8.2E ",particle->m);
+    printf("r:%8.2E %8.2E %8.2E ",particle->r[0],particle->r[1],particle->r[2]);
+    printf("v:%8.2E %8.2E %8.2E ",particle->v[0],particle->v[1],particle->v[2]);
+    printf("f:%8.2E %8.2E %8.2E ",particle->f[0],particle->f[1],particle->f[2]);
     printf("\n");
     
 }
 
-void msm4g_body_printlist(LinkedList *bodylist)
+void msm4g_particle_printlist(LinkedList *particlelist)
 {
-    Body *body;
+    Particle *particle;
     LinkedListElement *curr;
     int i=0;
-    curr = bodylist->head;
+    curr = particlelist->head;
     while (curr != NULL)
     {
-        body = curr->data;
-        printf("Body index: %d\n",i);
-        msm4g_body_print(body);
+        particle = curr->data;
+        printf("Particle index: %d\n",i);
+        msm4g_particle_print(particle);
         
         i++;
         curr=curr->next;
     }
 }
 
-void msm4g_body_destroy(Body *body)
+void msm4g_particle_destroy(Particle *particle)
 {
-    free(body);
-    body=NULL;
+    free(particle);
+    particle=NULL;
 }
 
-void msm4g_body_destroyarray(Body **bodyarray,int length)
+void msm4g_particle_destroyarray(Particle **particlearray,int length)
 {
     int i;
     for (i=0; i<length; i++)
     {
-        free(bodyarray[i]);
-        bodyarray[i] = NULL;
+        free(particlearray[i]);
+        particlearray[i] = NULL;
     }
-    free(bodyarray);
-    bodyarray = NULL;
+    free(particlearray);
+    particlearray = NULL;
 }
 
 

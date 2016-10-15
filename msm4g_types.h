@@ -70,23 +70,23 @@ typedef struct LinkedList
 /** @brief A basic representation of a celestial body.
  *
  * Every celestial body in the gravitational n-body problem is 
- * represented with this simple Body structure containing basic features
+ * represented with this simple Particle structure containing basic features
  * such as mass, location, velocity, and force.
  *
  * @warning The index is supposed to be read-only in the user-end.
- * This variable is created when the body is allocated for the very first 
- * time inside the msm4g_body_empty() function. This means that user should
- * not allocate a body manually. He/She should always use msm4g_body functions
- * to handle the bodies.
+ * This variable is created when the particle is allocated for the very first 
+ * time inside the msm4g_particle_empty() function. This means that user should
+ * not allocate a particle manually. He/She should always use msm4g_particle functions
+ * to handle the particles.
  */
-typedef struct Body
+typedef struct Particle
 {
-    int    index;       /**< Index of the body (see warning in the description) */
+    int    index;       /**< Index of the particle (see warning in the description) */
     double m;           /**< mass      */
     double r[3];        /**< location  */
     double v[3];        /**< velocity  */
     double f[3];        /**< force     */
-} Body;
+} Particle;
 
 /** @brief The cubical domains obtained by dividing the simulation box.
  * 
@@ -95,8 +95,8 @@ typedef struct Body
 typedef struct Bin
 {
     I3Vector index;         /**< The index of the bin balong each axis */
-    LinkedList *neighbors;  /**< The list of neightbor bins containing at leeast one body */
-    LinkedList *bodies;     /**< The list of bodies in the bin */
+    LinkedList *neighbors;  /**< The list of neightbor bins containing at leeast one particle */
+    LinkedList *particles;     /**< The list of particles in the bin */
 } Bin;
 
 /** @brief The collection of simulation parameters.
@@ -132,7 +132,7 @@ typedef struct Simulation
 {
     struct SimulationParameters simulationParameters; /**< Parameters of the algorithm. */
     struct SimulationBox        simulationBox;        /**< Geometry of the simulation. */
-    struct LinkedList          *bodies;               /**< The collection of the bodies in the SimulationBox */
+    struct LinkedList           *particles;           /**< The collection of the particles in the SimulationBox */
 } Simulation;
 
 #endif /* MSM4G_TYPES_H */

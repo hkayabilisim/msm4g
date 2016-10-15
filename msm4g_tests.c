@@ -45,14 +45,14 @@ void msm4g_unit_test_all()
 Boolean msm4g_unit_test_1()
 {
     LinkedList *list;
-    Body x[10];
+    Particle x[10];
     int i;
     
     list = msm4g_linkedlist_new();
     
     for (i=0;i<10;i++)
     {
-        msm4g_body_reset(x+i);
+        msm4g_particle_reset(x+i);
         msm4g_linkedlist_add(list,&x[i]);
     }
     if (msm4g_linkedlist_size(list) != 10)
@@ -68,8 +68,8 @@ Boolean msm4g_unit_test_2()
 {
     LinkedList *list;
     LinkedListElement *curr;
-    Body x[10];
-    Body *y;
+    Particle x[10];
+    Particle *y;
     Boolean status ;
     int i;
     
@@ -87,7 +87,7 @@ Boolean msm4g_unit_test_2()
     curr=list->tail;
     while (curr != NULL)
     {
-        y =  (Body *)curr->data;
+        y =  (Particle *)curr->data;
         if (fabs(i - (y->m)) > DBL_EPSILON)
         {
             status = false;
@@ -105,8 +105,8 @@ Boolean msm4g_unit_test_3()
 {
     LinkedList *list;
     LinkedListElement *curr;
-    Body x[10];
-    Body *y;
+    Particle x[10];
+    Particle *y;
     Boolean status ;
     int i;
     
@@ -123,7 +123,7 @@ Boolean msm4g_unit_test_3()
     curr=list->head;
     while (curr != NULL)
     {
-        y =  (Body *)curr->data;
+        y =  (Particle *)curr->data;
         if (fabs(i - (y->m)) > DBL_EPSILON)
         {
             status = false;
@@ -141,55 +141,55 @@ Boolean msm4g_unit_test_3()
 Boolean msm4g_unit_test_4()
 {
     const int DIM = 3;
-    const int N = 3; /**< Number of bodies in eight.ini */
-    Body bodies[3];
-    LinkedList *bodiesInFile;
-    Body *bodyInFile;
+    const int N = 3; /**< Number of particles in eight.ini */
+    Particle particles[3];
+    LinkedList *particlesInFile;
+    Particle *particleInFile;
     int i,j;
     
     for (i=0;i<N;i++)
     {
-        msm4g_body_reset(&bodies[i]);
-        bodies[i].m = 1.0;
+        msm4g_particle_reset(&particles[i]);
+        particles[i].m = 1.0;
     }
-    bodies[0].r[0] =   0.97000436 ;
-    bodies[0].r[1] =  -0.24308753 ;
-    bodies[0].v[0] =   0.466203685 ;
-    bodies[0].v[1] =   0.43236573 ;
+    particles[0].r[0] =   0.97000436 ;
+    particles[0].r[1] =  -0.24308753 ;
+    particles[0].v[0] =   0.466203685 ;
+    particles[0].v[1] =   0.43236573 ;
     
-    bodies[1].r[0] =  -0.97000436;
-    bodies[1].r[1] =   0.24308753;
-    bodies[1].v[0] =   0.466203685;
-    bodies[1].v[1] =   0.43236573;
+    particles[1].r[0] =  -0.97000436;
+    particles[1].r[1] =   0.24308753;
+    particles[1].v[0] =   0.466203685;
+    particles[1].v[1] =   0.43236573;
     
-    bodies[2].v[0] =  -0.93240737;
-    bodies[2].v[1] =  -0.86473146;
+    particles[2].v[0] =  -0.93240737;
+    particles[2].v[1] =  -0.86473146;
     
     
-    bodiesInFile=msm4g_body_read("data/eight.ini");
+    particlesInFile=msm4g_particle_read("data/eight.ini");
    
     
-    for (i=0;i<N;i++) /* for each body */
+    for (i=0;i<N;i++) /* for each particle */
     {
-        bodyInFile = msm4g_linkedlist_get(bodiesInFile,i);
-        if (fabs(bodies[i].m - bodyInFile->m)>DBL_EPSILON )
+        particleInFile = msm4g_linkedlist_get(particlesInFile,i);
+        if (fabs(particles[i].m - particleInFile->m)>DBL_EPSILON )
             return false;
         for (j=0;j<DIM;j++) /* for each dimension */
         {
-            if (fabs(bodies[i].r[j]-bodyInFile->r[j]) > DBL_EPSILON)
+            if (fabs(particles[i].r[j]-particleInFile->r[j]) > DBL_EPSILON)
                 return false;
-            if (fabs(bodies[i].v[j]-bodyInFile->v[j]) > DBL_EPSILON)
+            if (fabs(particles[i].v[j]-particleInFile->v[j]) > DBL_EPSILON)
                 return false;
         }
     }
     
-    /* Deallocate the bodies */
+    /* Deallocate the particles */
     for (i=0;i<N;i++)
     {
-        bodyInFile = msm4g_linkedlist_get(bodiesInFile, i);
-        free(bodyInFile);
+        particleInFile = msm4g_linkedlist_get(particlesInFile, i);
+        free(particleInFile);
     }
-    msm4g_linkedlist_destroy(bodiesInFile);
+    msm4g_linkedlist_destroy(particlesInFile);
     
     return true;
 }
@@ -199,7 +199,7 @@ Boolean msm4g_unit_test_5()
     int i,n;
     Boolean status ;
     LinkedList *list ;
-    Body **bodies;
+    Particle **particles;
     SimulationBox *box;
     D3Vector locationError;
     D3Vector locationExpected ;
@@ -211,21 +211,21 @@ Boolean msm4g_unit_test_5()
     
     n=10;
     status = true;
-    bodies = msm4g_body_rand(n);
+    particles = msm4g_particle_rand(n);
     
     list = msm4g_linkedlist_new();
     for (i=0;i<n;i++)
     {
-        msm4g_linkedlist_add(list, bodies[i]);
+        msm4g_linkedlist_add(list, particles[i]);
     }
     
-    bodies[5]->r[0] = -1.0;
-    bodies[5]->r[1] = -2.0;
-    bodies[5]->r[2] = -3.0;
+    particles[5]->r[0] = -1.0;
+    particles[5]->r[1] = -2.0;
+    particles[5]->r[2] = -3.0;
     
-    bodies[7]->r[0] =  1.0;
-    bodies[7]->r[1] =  2.0;
-    bodies[7]->r[2] =  3.0;
+    particles[7]->r[0] =  1.0;
+    particles[7]->r[1] =  2.0;
+    particles[7]->r[2] =  3.0;
     
     box = msm4g_box_new();
     msm4g_box_update(box, list, 0.5);
@@ -240,7 +240,7 @@ Boolean msm4g_unit_test_5()
     }
     
     msm4g_linkedlist_destroy(list);
-    msm4g_body_destroyarray(bodies, n);
+    msm4g_particle_destroyarray(particles, n);
     msm4g_box_destroy(box);
     
     return status;
@@ -249,23 +249,23 @@ Boolean msm4g_unit_test_5()
 Boolean msm4g_unit_test_6()
 {
     Boolean status = true;
-    LinkedList *bodylist;
+    LinkedList *particlelist;
     LinkedList *binlist;
     SimulationBox box;
     double binwidth = 10;
     int i;
     
-    bodylist = msm4g_body_read("data/bintest.ini");
+    particlelist = msm4g_particle_read("data/bintest.ini");
     for (i=0;i<3;i++)
     {
         box.location.value[i] = 0.0;
         box.width.value[i]    = 30.0;
     }
     
-    binlist=msm4g_bin_generate(&box,bodylist,binwidth);
+    binlist=msm4g_bin_generate(&box,particlelist,binwidth);
     msm4g_force_short(binlist, 10.0);
     
     msm4g_bin_destroy(binlist);
-    msm4g_linkedlist_destroyWithData(bodylist);
+    msm4g_linkedlist_destroyWithData(particlelist);
     return status;
 }

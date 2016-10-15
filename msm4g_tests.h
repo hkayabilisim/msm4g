@@ -40,9 +40,9 @@ Boolean msm4g_unit_test_2();
  */
 
 Boolean msm4g_unit_test_3();
-/** @brief Reading body configurations from a text file.
+/** @brief Reading particle configurations from a text file.
  *
- * The masses, locations and velocities of three bodies are read from
+ * The masses, locations and velocities of three particles are read from
  * eight.ini file and compared to the true values. If there is a slight
  * variation, the test returns with fail.
  *
@@ -50,11 +50,11 @@ Boolean msm4g_unit_test_3();
  */
 Boolean msm4g_unit_test_4();
 
-/** @brief Creating a box surrounding the bodies.
+/** @brief Creating a box surrounding the particles.
  *
- * Given a collection of bodies, this test determines a rectangular
+ * Given a collection of particles, this test determines a rectangular
  * simulation box surrounding all of them and compares the result
- * with the expected box. In this example, 10 random bodies are created
+ * with the expected box. In this example, 10 random particles are created
  * in unit 3D cube. Then the location of one of them is set to [-1,-2,-3].
  * Another one is set to [1,2,3]. Given this configuration the location,
  * and the width of the box shoould be [-1,-2,-3] and [2,4,6] respectively.
@@ -68,12 +68,12 @@ Boolean msm4g_unit_test_4();
  */
 Boolean msm4g_unit_test_5();
 
-/** @brief Generating bins for the bodies in eight.ini file.
+/** @brief Generating bins for the particles in eight.ini file.
  *
  * The flow of this test is as follows:
  * 
- * - Loading the bodies from eight.ini file
- * - Creating a simulation box around the bodies with 0.5 extra margin
+ * - Loading the particles from eight.ini file
+ * - Creating a simulation box around the particles with 0.5 extra margin
  * - Generating the bins
  *
  * @verbatim

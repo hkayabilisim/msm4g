@@ -17,7 +17,7 @@
 /** @brief Short-range force calculation.
  * 
  * - For each bin in the linked list
- *   - Calculate the short-range forces between the bodies in the bin
+ *   - Calculate the short-range forces between the particles in the bin
  *   - Calculate the pairwise force calculatin between the neighbor bins.
  *
  * @param[in,out] binlist    The list of bins.
@@ -193,86 +193,86 @@ void msm4g_linkedlist_destroy(LinkedList *list);
  */
 void msm4g_linkedlist_destroyWithData(LinkedList *list);
 
-/** @brief Allocates a brand-new empty body.
+/** @brief Allocates a brand-new empty Particle.
  *
  * This functions is the only place inside which a memory allocation
- * is carried to create a new body. This function holds a static body index
- * to keep track the newly born bodies.
+ * is carried to create a new Particle. This function holds a static Particle index
+ * to keep track the newly born particles.
  *
- * @return A pointer to the newly allocated Body structure.
+ * @return A pointer to the newly allocated Particle structure.
  */
-Body *msm4g_body_empty();
+Particle *msm4g_particle_empty();
 
-/** @brief Creates a new body with given properties.
+/** @brief Creates a new Particle with given properties.
  *
- * @param[in] mass     The mass of the body.
+ * @param[in] mass     The mass of the Particle.
  * @param[in] location 3-element double array of location.
  * @param[in] velocity 3-element double array of velocity.
  *
- * @return The pointer of the newly allocated ::Body.
+ * @return The pointer of the newly allocated ::Particle.
  */
-Body *msm4g_body_new(double mass,double *location,double *velocity);
+Particle *msm4g_particle_new(double mass,double *location,double *velocity);
 
-/** @brief Creates an array of andom bodies.
+/** @brief Creates an array of andom particles.
  *
- * This function creates an array of `Body` structures whose properties
- * are randomly created in the range [0-1]. Therefore, the bodies reside
+ * This function creates an array of `Particle` structures whose properties
+ * are randomly created in the range [0-1]. Therefore, the particles reside
  * in three-dimensional unit cube.
  *
  * @return The pointer to the first element of the allocated array.
  */
-Body **msm4g_body_rand(int n);
+Particle **msm4g_particle_rand(int n);
 
-/** @brief Load the body configuration from a text file.
+/** @brief Load the Particle configuration from a text file.
  *
- * @param[in] filename The name of the file containing the body properties.
+ * @param[in] filename The name of the file containing the Particle properties.
  *
- * @return The list of bodies in a linked list container.
+ * @return The list of particles in a linked list container.
  */
-LinkedList *msm4g_body_read(const char *filename);
+LinkedList *msm4g_particle_read(const char *filename);
 
-/** @brief Sets all of the properties of a body to zero value.
+/** @brief Sets all of the properties of a Particle to zero value.
  *
- * Sometimes, it is desirable to use already created bodies, but with
+ * Sometimes, it is desirable to use already created particles, but with
  * different properties. Then this function becomes handy, to reset its
  * properties to zero value.
  *
- * @param[in,out] body The body whose properties to be reset.
+ * @param[in,out] Particle The Particle whose properties to be reset.
  *
- * @return The pointer of the input body.
+ * @return The pointer of the input Particle.
  */
-Body *msm4g_body_reset(Body *body);
+Particle *msm4g_particle_reset(Particle *Particle);
 
-/** @brief Print the properties of a body.
+/** @brief Print the properties of a Particle.
  *
  * The mass, location, velocity, and other properties if it has any
  * are printed to the standard output.
  *
- * @param[in] body The body whose properties are to be printed.
+ * @param[in] Particle The Particle whose properties are to be printed.
  */
-void msm4g_body_print(Body *body);
+void msm4g_particle_print(Particle *Particle);
 
-/** @brief Print all bodies in a linked list.
+/** @brief Print all particles in a linked list.
  * 
  * This functions assumes that the linked list 
- * elements point to Body data types.
+ * elements point to Particle data types.
  *
- * @param[in] bodylist The list of bodies to be printed.
+ * @param[in] Particlelist The list of particles to be printed.
  */
-void msm4g_body_printlist(LinkedList *bodylist);
+void msm4g_particle_printlist(LinkedList *Particlelist);
 
-/** @brief Deallocates a single body object
+/** @brief Deallocates a single Particle object
  *
- * @param[in,out] body The body to be deallocated.
+ * @param[in,out] Particle The Particle to be deallocated.
  */
-void msm4g_body_destroy(Body *body);
+void msm4g_particle_destroy(Particle *Particle);
 
-/** @brief Deallocates an array of body objects.
+/** @brief Deallocates an array of Particle objects.
  *
- * @param[in,out] bodyarray The array to be deallocates.
+ * @param[in,out] Particlearray The array to be deallocates.
  * @param[in]     length    The length of the array.
  */
-void msm4g_body_destroyarray(Body **bodyarray,int length);
+void msm4g_particle_destroyarray(Particle **Particlearray,int length);
 
 /** @brief Create a unit cube for simulation 
  * 
@@ -285,43 +285,43 @@ void msm4g_body_destroyarray(Body **bodyarray,int length);
  */
 SimulationBox *msm4g_box_new();
 
-/** @brief Update the simulation box for a given list of bodies.
+/** @brief Update the simulation box for a given list of particles.
  *
  * It creates a rectangular there dimensional box to include
- * all of the bodies given in the argument. The width of the box
+ * all of the particles given in the argument. The width of the box
  * is also enlarged `margin` percent in each dimension to give some
- * slack to the bodies so that they will stay in the box after time
+ * slack to the particles so that they will stay in the box after time
  * integration.
  *
- * @todo If a body escapes from the box, the box should be updated.
+ * @todo If a Particle escapes from the box, the box should be updated.
  * But there is a question of how to keep the interior grid points
  * intact. As soon as the box is enlarged, new grid points should be
  * created. MSM may start from scratch whenever the box is updated,
  * but it seems quite waste of time.
  *
  * @param[in,out] box    The rectangular simulation box.
- * @param[in]     list   The list of bodies.
+ * @param[in]     list   The list of particles.
  * @param[in]     margin The box is enlarged `margin` percent (0.10 default).
  */
 void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin);
 
-/** @brief Translate the box and the bodies by `delta` vector.
+/** @brief Translate the box and the particles by `delta` vector.
  *
  * @param[in,out] box    The simulation box.
- * @param[in,out] bodies The list of bodies.
+ * @param[in,out] particles The list of particles.
  * @param[in]     delta  Translation amoun.
  */
-void msm4g_box_translate(SimulationBox *box, LinkedList *bodies,D3Vector delta);
+void msm4g_box_translate(SimulationBox *box, LinkedList *particles,D3Vector delta);
 
-/** @brief Translate the box and the bodies so that the location of box is zero vector.
+/** @brief Translate the box and the particles so that the location of box is zero vector.
  *
  * This function is equivalant to msm4g_box_translate with delta vector is opposite to the
  * location of the box.
  *
  * @param[in,out] box    The simulation box.
- * @param[in,out] bodies The list of bodies.
+ * @param[in,out] particles The list of particles.
  */
-void msm4g_box_translateToOrigin(SimulationBox *box, LinkedList *bodies);
+void msm4g_box_translateToOrigin(SimulationBox *box, LinkedList *particles);
 
 /** @brief Print the details of the simulation box.
  *
@@ -346,19 +346,19 @@ void msm4g_box_destroy(SimulationBox *box);
  */
 Bin *msm4g_bin_new(I3Vector index);
 
-/** @brief Generate bins for a given simulation box and body list.
+/** @brief Generate bins for a given simulation box and Particle list.
  *
- * The bodies are supposed to be contained in the box. And also the
+ * The particles are supposed to be contained in the box. And also the
  * the location of the simulation box is expected to be [0,0,0]. If not
- * the caller should translate the box and the bodies so that the location 
+ * the caller should translate the box and the particles so that the location 
  * of the box is at the origin.
  *
  * @param[in] box    The simulation box.
- * @param[in] bodies The list of bodies.
+ * @param[in] particles The list of particles.
  * 
  * @return The list of allocated bins.
  */
-LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *bodies,double width);
+LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *particles,double width);
 
 /** @brief Find the neigbhors of each Bin.
  * 
@@ -398,7 +398,7 @@ void msm4g_bin_printlist(LinkedList *binlist);
  *
  * - For each Bin in the list
  *    - Deallocate the neighbor list (without data)
- *    - Deallocate the body list (without data)
+ *    - Deallocate the Particle list (without data)
  * - Deallocate the bin list
  *
  * @param[in,out] binlist The linked list of Bin's.
@@ -420,14 +420,14 @@ void msm4g_forwardeuler(double *r,double *v,double *a,double dt,int n,int d,doub
 
 /** @brief Leap-Frog time-integration scheme.
  *
- * @param[in,out] r  The locations of the bodies.
- * @param[in,out] v  The velocities of the bodies.
- * @param[in,out] a  The acceleration of the bodies.
- * @param[in,out] a1 The acceleration of the bodies on half-step time.
+ * @param[in,out] r  The locations of the particles.
+ * @param[in,out] v  The velocities of the particles.
+ * @param[in,out] a  The acceleration of the particles.
+ * @param[in,out] a1 The acceleration of the particles on half-step time.
  * @param[in]     dt The timestep.
- * @param[in]     n  The number of bodies.
+ * @param[in]     n  The number of particles.
  * @param[in]     d  The spatial dimension.
- * @param[in]     m  The mass of the bodies.
+ * @param[in]     m  The mass of the particles.
  * @param[in]     G  the gravitational constant.
  */
 void msm4g_leapfrog(double *r,double *v,double *a,double *a1,double dt,int n,int d,double *m,double G);
