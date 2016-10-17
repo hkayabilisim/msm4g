@@ -101,4 +101,11 @@ Boolean msm4g_unit_test_5();
  */
 Boolean msm4g_unit_test_6();
 
+/** @brief Testing Cantor pairing function.
+ *
+ *
+ */
+Boolean msm4g_unit_test_7();
+
+
 #endif /* MSM4G_TESTS_H */

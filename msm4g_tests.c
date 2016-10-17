@@ -22,6 +22,7 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_4);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_5);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_6);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_7);
     
     numberoftests = msm4g_linkedlist_size(list);
 
@@ -267,5 +268,35 @@ Boolean msm4g_unit_test_6()
     
     msm4g_bin_destroy(binlist);
     msm4g_linkedlist_destroyWithData(particlelist);
+    return status;
+}
+
+Boolean msm4g_unit_test_7()
+{
+    Boolean status = true;
+    int i,j;
+    int inp[6] = {0, 1, 2, 3,  4, 5  };
+    int out[6] = {1, 1, 2, 6, 24, 120};
+    int x[4][4];
+    int vector2d[2];
+    
+    
+    
+    /* Checking factorial function */
+    for (i=0; i<6; i++)
+        if (msm4g_math_factorial(inp[i]) != out[i])
+            return false;
+    for (i=0; i<4; i++)
+    {
+        for (j=0; j<4; j++)
+        {
+            vector2d[0] = i; vector2d[1]=j;
+            x[i][j] = msm4g_math_cantor(vector2d,2);
+            printf("%2d ",x[i][j]);
+            
+        }
+        printf("\n");
+        
+    }
     return status;
 }

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['prev',['prev',['../struct_linked_list_element.html#ab2a338dd2c3ebf3033210507766f2529',1,'LinkedListElement']]]
+  ['neighbors',['neighbors',['../struct_bin.html#a517f42bb55d44c1311e698d953131a62',1,'Bin']]],
+  ['next',['next',['../struct_linked_list_element.html#a475866f9885e1659a1704a6b24c81af2',1,'LinkedListElement']]]
 ];

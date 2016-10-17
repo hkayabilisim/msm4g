@@ -18,12 +18,12 @@ void msm4g_force_short(LinkedList *binlist,double threshold)
         while (currNeighbor != NULL)
         {
             binNeighbor = (Bin *)currNeighbor->data;
-            currNeighbor=currNeighbor->next;
+            
             printf("Source bin index: "); msm4g_i3vector_print(&(bin->index)); printf("\n");
             printf("target bin index: "); msm4g_i3vector_print(&(binNeighbor->index)); printf("\n");
             
             
-
+            currNeighbor=currNeighbor->next;
         }
         
         
@@ -694,3 +694,39 @@ void msm4g_zeros(double *x,int n)
     for (i=0;i<n;i++)
         x[i]=0.0;
 }
+
+int msm4g_math_cantor(int *x,int n)
+{
+    int i,j,h;
+    int hsum = 0;
+    int jprod = 1;
+    int isum=0;
+    for (h=1; h<=n; h++)
+    {
+        jprod = 1;
+        for (j=0; j<= h-1; j++)
+        {
+            isum = 0;
+            for (i=1; i<=h; i++)
+            {
+                isum += x[i-1];
+            }
+            jprod *= isum + j;
+        }
+        hsum += jprod/msm4g_math_factorial(h);
+    }
+    return hsum;
+}
+
+int msm4g_math_factorial(int n)
+{
+    int factorial = 1;
+    int i;
+    if (n==0) return 1;
+    for (i=1; i<= n; i++)
+    {
+        factorial *= i;
+    }
+    return factorial;
+}
+

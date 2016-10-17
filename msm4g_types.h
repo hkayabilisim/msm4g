@@ -1,7 +1,7 @@
 /** @file msm4g_types.h
  * @brief The data type definitions required in the package.
  *
- * It is already included in @link msm4g_lib.h, so that it
+ * It is already included in @link msm4g_lib.h @endlink so that it
  * doesn't have to be explicity included by the user.
  */
 #ifndef MSM4G_TYPES_H
@@ -91,12 +91,16 @@ typedef struct Particle
 /** @brief The cubical domains obtained by dividing the simulation box.
  * 
  * Bin is a rectangular box created by dividing the simulation box.
+ * The member cantorindex is used to assign a unique number to each
+ * bin. This number is calculated only during the generation of a new
+ * Bin.
  */
 typedef struct Bin
 {
     I3Vector index;         /**< The index of the bin balong each axis */
+    int      cantorindex;   /**< Cantor index corresponding to index variable */
     LinkedList *neighbors;  /**< The list of neightbor bins containing at leeast one particle */
-    LinkedList *particles;     /**< The list of particles in the bin */
+    LinkedList *particles;  /**< The list of particles in the bin */
 } Bin;
 
 /** @brief The collection of simulation parameters.

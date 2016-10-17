@@ -353,9 +353,9 @@ Bin *msm4g_bin_new(I3Vector index);
  * the caller should translate the box and the particles so that the location 
  * of the box is at the origin.
  *
- * @param[in] box    The simulation box.
+ * @param[in] box       The simulation box.
  * @param[in] particles The list of particles.
- * 
+ * @param[in] width     The width of the bins.
  * @return The list of allocated bins.
  */
 LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *particles,double width);
@@ -413,6 +413,7 @@ void msm4g_acceleration(double *a,double *r,int n,int d,double *m,double G);
  *Energy calculations
  */
 void msm4g_energy(double *pot,double *kin,double *tot,double *r,double *v,int n,int d,double *m,double G);
+
 /*
  * Time integration schemes
  */
@@ -440,6 +441,31 @@ void msm4g_print_energy(double pot0,double kin0,double tot0,double pot,double ki
  * Memory related
  */
 void msm4g_zeros(double *x,int n);
+
+/** @brief n-degree generalized Cantor pairing function.
+ *
+ * This method is the direct implementation of 
+ * the n-degree generalized Cantor pairing function
+ * defined in Theorem 2.1 in Lisi, M. (2007). Some remarks on 
+ * the Cantor pairing function. Le Matematiche, 62(1), 55–65.
+ *
+ * \f[
+  <x_1,\ldots,x_2> = \sum_{h=1}^n\left\{ \frac{1}{h!}\prod_{j=0}^{h-1} \left[ \left( \sum_{i=1}^hx_i\right)+j\right] \right\}
+ \f]
+ *
+ * @param[in] x An integer vector in N^n.
+ * @param[in] n The dimension.
+ *
+ * @return The output of n-degree generalized Cantor pairing function.
+ */
+int msm4g_math_cantor(int *x,int n);
+
+/** @brief Factorial function.
+ *
+ * @param[in] n A natural number.
+ * @return factorial of n.
+ */
+int msm4g_math_factorial(int n);
 
 #endif /* MSM4G_LIB_H */
 
