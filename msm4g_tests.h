@@ -98,14 +98,49 @@ Boolean msm4g_unit_test_5();
         i=0         i=1         i=2
 
   @endverbatim
+ * @return true if the test is succesfull, false otherwise.
  */
 Boolean msm4g_unit_test_6();
 
 /** @brief Testing Cantor pairing function.
  *
+ * The test function is used to check the output of 
+ * Cantor pairing function msm4g_math_cantor() applied to a 4x4 matrix.
+ * If the enumeration is not equal to the one below, 
+ * the test returns false.
+ * The test also checks the output of msm4g_math_factorial() function 
+ * for the integers, 0, 1, 2, 3,  4, and 5.
  *
+ * i/j | j=0 | j=1 | j=2 | j=4 |
+ * --- | --- | --- | --- | --- |
+ * i=0 |  0  |  1  |  3  |  6  |
+ * i=1 |  2  |  4  |  7  |  11 |
+ * i=2 |  5  |  8  |  12 |  17 |
+ * i=3 |  9  |  13 |  18 |  24 |
+ *
+ * @return true if the test is succesfull, false otherwise.
  */
 Boolean msm4g_unit_test_7();
 
+/** @brief Testing smoothing functions.
+ *
+ * Checks the implementation of the smoothing functions and their
+ * derivatives on p=0.0 and p=1.0;
+ * The \f$ \gamma \f$ functions tested are msm4g_smoothing_C1(),
+ * msm4g_smoothing_C2(), and msm4g_smoothing_C3().
+ *
+ * @return true if the test is succesfull, false otherwise.
+ */
+Boolean msm4g_unit_test_8();
+
+/** @brief Short-range force calculation test.
+ *
+ * The setup of the particles and the simulation box is the same
+ * with msm4g_unit_test_6(). This time short-range force calculation
+ * is carried out.
+ *
+ * @return true if the test is succesfull, false otherwise.
+ */
+Boolean msm4g_unit_test_9();
 
 #endif /* MSM4G_TESTS_H */

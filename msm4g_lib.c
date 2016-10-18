@@ -3,33 +3,158 @@
  */
 #include "msm4g_lib.h"
 
-void msm4g_force_short(LinkedList *binlist,double threshold)
+double msm4g_smoothing_C1(double rho,int derivative)
 {
-    Bin *bin;
-    Bin *binNeighbor;
-    LinkedListElement *curr;
-    LinkedListElement *currNeighbor;
-    curr=binlist->head;
-    while (curr != NULL)
+    double rho2 ;
+    rho2 = rho*rho;
+    
+    if (derivative == 1)
     {
-        bin = (Bin *)curr->data;
-        
-        currNeighbor = bin->neighbors->head;
-        while (currNeighbor != NULL)
-        {
-            binNeighbor = (Bin *)currNeighbor->data;
-            
-            printf("Source bin index: "); msm4g_i3vector_print(&(bin->index)); printf("\n");
-            printf("target bin index: "); msm4g_i3vector_print(&(binNeighbor->index)); printf("\n");
-            
-            
-            currNeighbor=currNeighbor->next;
-        }
-        
-        
-        curr = curr->next;
+        if (rho >= 1.0)
+            return -1.0/rho2;
+        else
+            return -rho;
+    } else
+    {
+        if (rho >= 1.0)
+            return 1.0/rho;
+        else
+            return 0.5*(3.0 - rho2);
     }
 }
+
+double msm4g_smoothing_C2(double rho,int derivative)
+{
+    double rho2,rho3,rho4;
+    rho2 = rho*rho;
+
+    if (derivative == 1)
+    {
+        if (rho >= 1.0)
+            return -1.0/rho2;
+        else
+        {
+            rho3 = rho2*rho;
+            return 0.5*(-5.0*rho + 3.0*rho3);
+        }
+
+    } else
+    {
+    if (rho >= 1.0)
+        return 1.0/rho;
+    else
+    {
+        rho2 = rho*rho;
+        rho4 = rho2*rho2;
+        return 0.125*(15.0 - 10.0*rho2 + 3.0*rho4);
+    }
+    }
+}
+
+double msm4g_smoothing_C3(double rho,int derivative)
+{
+    double rho2,rho3,rho4,rho5,rho6;
+    rho2 = rho*rho;
+    if (derivative == 1)
+    {
+        if (rho >= 1.0)
+            return -1.0/rho2;
+        else
+        {
+            rho3 = rho2*rho;
+            rho5 = rho2*rho3;
+            return 0.125*(-35.0*rho + 42.0*rho3 - 15.0*rho5);
+        }
+    }
+    else
+    {
+        if (rho >= 1.0)
+            return 1.0/rho;
+        else
+        {
+            rho2 = rho*rho;
+            rho4 = rho2*rho2;
+            rho6 = rho2*rho4;
+            return 0.0625*(35.0 - 35.0*rho2 + 21*rho4 - 5*rho6);
+        }
+    }
+}
+
+void msm4g_force_short(LinkedList *binlist,double threshold, msm4g_smoothing_handler smoothing_function)
+{
+    Bin *bin;
+    Bin *neighbor;
+    LinkedListElement *currBin;
+    LinkedListElement *neighborBin;
+    
+    currBin=binlist->head;
+    while (currBin != NULL)
+    {
+        bin = (Bin *)currBin->data;
+        msm4g_force_short_withinBin(bin->particles,threshold,smoothing_function);
+        
+        neighborBin = bin->neighbors->head;
+        while (neighborBin != NULL)
+        {
+            neighbor = (Bin *)neighborBin->data;
+            if (neighbor->cantorindex > bin->cantorindex )
+            {
+                printf("Source bin index: "); msm4g_i3vector_print(&(bin->index)); printf("\n");
+                printf("target bin index: "); msm4g_i3vector_print(&(neighbor->index)); printf("\n");
+            }
+            neighborBin=neighborBin->next;
+        }
+        currBin = currBin->next;
+    }
+}
+
+void msm4g_force_short_withinBin(LinkedList *particles, double threshold, msm4g_smoothing_handler smoothing_function)
+{
+    Particle *particleI;
+    Particle *particleJ;
+    LinkedListElement *currI;
+    LinkedListElement *currJ;
+    
+
+    
+    
+    currI = particles->head;
+    while (currI->next != NULL)
+    {
+        particleI = (Particle *)currI->data;
+        currJ = currI->next;
+        while (currJ != NULL)
+        {
+            particleJ = (Particle *)currJ->data;
+            printf("%d versus %d\n",particleI->index,particleJ->index);
+            msm4g_force_short_particlePair(particleI,particleJ,threshold,smoothing_function);
+            
+            currJ = currJ->next;
+        }
+        currI = currI->next;
+    }
+}
+
+void msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double a, msm4g_smoothing_handler gamma)
+{
+    D3Vector rij;
+    double r,r2;
+    double smoothedkernel;
+    
+    
+    /* rij = rj - ri */
+    msm4g_d3vector_daxpy(&rij, &(particleJ->r), -1.0, &(particleI->r));
+    /* r^2 = |rij|^2 */
+    r2=msm4g_d3vector_normsquare(&rij);
+    r=sqrt(r2);
+    /* If only the particles are closer than cut-off distance */
+    if (r2 < a*a)
+    {
+        smoothedkernel = (1.0/r2 - gamma(r/a,0)/a);
+    }
+    
+}
+
 void msm4g_d3vector_set(D3Vector *d3vector,double x,double y,double z)
 {
     d3vector->value[0] = x;
@@ -48,14 +173,18 @@ void msm4g_d3vector_daxpy(D3Vector *z,D3Vector *x,double a,D3Vector *y)
 
 double msm4g_d3vector_norm(D3Vector *x)
 {
-    double norm = 0.0;
+    return sqrt(msm4g_d3vector_normsquare(x));
+}
+
+double msm4g_d3vector_normsquare(D3Vector *x)
+{
+    double normsquare = 0.0;
     int i;
     for (i=0; i<3; i++)
     {
-        norm += x->value[i] * x->value[i];
+        normsquare += x->value[i] * x->value[i];
     }
-    norm = sqrt(norm);
-    return norm;
+    return normsquare;
 }
 
 void msm4g_d3vector_print(D3Vector *x)
@@ -229,10 +358,10 @@ void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin)
         particle = (Particle *) (curr->data);
         for (i=0; i<3; i++)
         {
-            if (particle->r[i] >= max[i])
-                max[i] = particle->r[i];
-            if (particle->r[i] <= min[i])
-                min[i] = particle->r[i];
+            if (particle->r.value[i] >= max[i])
+                max[i] = particle->r.value[i];
+            if (particle->r.value[i] <= min[i])
+                min[i] = particle->r.value[i];
         }
         curr = curr->next;
     }
@@ -270,7 +399,7 @@ void msm4g_box_translate(SimulationBox *box, LinkedList *particles,D3Vector delt
     {
         particle = (Particle *)curr->data;
         for (i=0;i<n;i++)
-            particle->r[i] += delta.value[i];
+            particle->r.value[i] += delta.value[i];
         curr = curr->next;
     }
 }
@@ -308,6 +437,7 @@ Bin *msm4g_bin_new(I3Vector index)
     bin->particles = msm4g_linkedlist_new();
     bin->neighbors = msm4g_linkedlist_new();
     msm4g_i3vector_set(&(bin->index), index.value[0], index.value[1], index.value[2]);
+    bin->cantorindex = msm4g_math_cantor(index.value, 3);
     return bin;
 }
 
@@ -329,7 +459,7 @@ LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *particles,double b
         msm4g_i3vector_set(&binindex, -1, -1, -1);
         for (i=0;i<3;i++)
         {
-            binindex.value[i] = floor(particle->r[i]/binwidth);
+            binindex.value[i] = floor(particle->r.value[i]/binwidth);
         }
         bin = msm4g_bin_searchByIndex(binlist,binindex);
         if (bin == NULL)
@@ -343,13 +473,6 @@ LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *particles,double b
     
     msm4g_bin_findneighbors(binlist);
     
-    curr = binlist->head;
-    while (curr != NULL)
-    {
-        bin = (Bin *)curr->data;
-        msm4g_bin_print(bin);
-        curr = curr->next;
-    }
     return binlist;
 }
 
@@ -417,7 +540,9 @@ void msm4g_bin_print(Bin *bin)
     Particle *particle;
     LinkedListElement *curr;
     
-    printf("[%d,%d,%d]\n",bin->index.value[0],bin->index.value[1],bin->index.value[2]);
+    printf("[%d,%d,%d] cantor index: %d\n",
+           bin->index.value[0],bin->index.value[1],bin->index.value[2],
+           bin->cantorindex);
     
     /* Printing neighbor bins */
     curr = bin->neighbors->head;
@@ -436,7 +561,10 @@ void msm4g_bin_print(Bin *bin)
     while (curr != NULL)
     {
         particle = (Particle *)curr->data;
-        printf("  particle: %d [%f,%f,%f]\n",particle->index,particle->r[0],particle->r[1],particle->r[2]);
+        printf("  particle: %d [%f,%f,%f]\n",particle->index,
+               particle->r.value[0],
+               particle->r.value[1],
+               particle->r.value[2]);
         curr = curr->next;
     }
 }
@@ -464,14 +592,10 @@ void msm4g_bin_destroy(LinkedList *binlist)
 
 Particle *msm4g_particle_reset(Particle *particle)
 {
-    int i;
     particle->m = 0.0;
-    for (i=0; i<3; i++)
-    {
-        particle->r[i] = 0.0;
-        particle->v[i] = 0.0;
-        particle->f[i] = 0.0;
-    }
+    msm4g_d3vector_set(&(particle->r), 0, 0, 0);
+    msm4g_d3vector_set(&(particle->v), 0, 0, 0);
+    msm4g_d3vector_set(&(particle->f), 0, 0, 0);
     return particle;
 }
 
@@ -488,9 +612,9 @@ Particle **msm4g_particle_rand(int n)
         particle[j]->m = (double)rand()/RAND_MAX;
         for (i=0; i<3; i++)
         {
-            particle[j]->r[i] = (double)rand()/RAND_MAX;
-            particle[j]->v[i] = (double)rand()/RAND_MAX;
-            particle[j]->f[i] = (double)rand()/RAND_MAX;
+            particle[j]->r.value[i] = (double)rand()/RAND_MAX;
+            particle[j]->v.value[i] = (double)rand()/RAND_MAX;
+            particle[j]->f.value[i] = (double)rand()/RAND_MAX;
         }
     }
     return particle;
@@ -541,9 +665,9 @@ Particle *msm4g_particle_empty()
     particle->m = 0.0;
     for (i=0; i<3; i++)
     {
-        particle->r[i] = 0.0;
-        particle->v[i] = 0.0;
-        particle->f[i] = 0.0;
+        particle->r.value[i] = 0.0;
+        particle->v.value[i] = 0.0;
+        particle->f.value[i] = 0.0;
     }
     
     index++;
@@ -555,12 +679,12 @@ Particle *msm4g_particle_new(double mass,double *location,double *velocity)
     Particle *particle;
     particle = msm4g_particle_empty();
     particle->m = mass;
-    particle->r[0] = location[0];
-    particle->r[1] = location[1];
-    particle->r[2] = location[2];
-    particle->v[0] = velocity[0];
-    particle->v[1] = velocity[1];
-    particle->v[2] = velocity[2];
+    particle->r.value[0] = location[0];
+    particle->r.value[1] = location[1];
+    particle->r.value[2] = location[2];
+    particle->v.value[0] = velocity[0];
+    particle->v.value[1] = velocity[1];
+    particle->v.value[2] = velocity[2];
     return particle;
 }
 
@@ -568,9 +692,9 @@ void msm4g_particle_print(Particle *particle)
 {
     printf("i:%d ",particle->index);
     printf("m:%8.2E ",particle->m);
-    printf("r:%8.2E %8.2E %8.2E ",particle->r[0],particle->r[1],particle->r[2]);
-    printf("v:%8.2E %8.2E %8.2E ",particle->v[0],particle->v[1],particle->v[2]);
-    printf("f:%8.2E %8.2E %8.2E ",particle->f[0],particle->f[1],particle->f[2]);
+    printf("r:%8.2E %8.2E %8.2E ",particle->r.value[0],particle->r.value[1],particle->r.value[2]);
+    printf("v:%8.2E %8.2E %8.2E ",particle->v.value[0],particle->v.value[1],particle->v.value[2]);
+    printf("f:%8.2E %8.2E %8.2E ",particle->f.value[0],particle->f.value[1],particle->f.value[2]);
     printf("\n");
     
 }

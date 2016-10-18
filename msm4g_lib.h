@@ -13,6 +13,87 @@
 #include <sys/time.h>
 #include "msm4g_types.h"
 
+/** @brief C1 smoothing function.
+ 
+ \f[
+ \gamma(\rho) = \left\{
+ \begin{array}{ll}
+ (3- \rho^2)/2, & \rho \le 1 \\
+ 1/\rho, & \rho \ge 1.
+ \end{array}
+ \right.
+ \f]
+ 
+ * @b Example:
+ * 
+ * To calculate \f$ \gamma(1) \f$ and \f$ \gamma'(1) \f$:
+ * 
+ * @code
+ * double y      = msm4g_smoothing_C1(1.0, 0);
+ * double yprime = msm4g_smoothing_C1(1.0, 1);
+ * @endcode
+ *
+ * @param[in] rho        Input variable \f$ \rho \f$
+ * @param[in] derivative Use the derivative of specified order.
+ *
+ * @return Returns \f$ \gamma(\rho) \f$.
+ *
+ */
+double msm4g_smoothing_C1(double rho,int derivative);
+
+/** @brief C2 smoothing function.
+ 
+ \f[
+ \gamma(\rho) = \left\{
+ \begin{array}{ll}
+ (15-10\rho^2 +3\rho^4)/8, & \rho \le 1 \\
+ 1/\rho, & \rho \ge 1.
+ \end{array}
+ \right.
+ \f]
+ *
+ * @b Example:
+ *
+ * To calculate \f$ \gamma(1) \f$ and \f$ \gamma'(1) \f$:
+ *
+ * @code
+ * double y      = msm4g_smoothing_C2(1.0, 0);
+ * double yprime = msm4g_smoothing_C2(1.0, 1);
+ * @endcode
+ *
+ * @param[in] rho        Input variable \f$ \rho \f$
+ * @param[in] derivative Use the derivative of specified order.
+ *
+ * @return Returns \f$ \gamma(\rho) \f$.
+ */
+double msm4g_smoothing_C2(double rho,int derivative);
+
+/** @brief C3 smoothing function.
+ 
+ \f[
+ \gamma(\rho) = \left\{
+ \begin{array}{ll}
+ (35- 35\rho^2 +21\rho^4 - 5\rho^6)/16, & \rho \le 1 \\
+ 1/\rho, & \rho \ge 1.
+ \end{array}
+ \right.
+ \f]
+ *
+ * @b Example:
+ *
+ * To calculate \f$ \gamma(1) \f$ and \f$ \gamma'(1) \f$:
+ *
+ * @code
+ * double y      = msm4g_smoothing_C3(1.0, 0);
+ * double yprime = msm4g_smoothing_C3(1.0, 1);
+ * @endcode
+ *
+ * @param[in] rho        Input variable \f$ \rho \f$
+ * @param[in] derivative Use the derivative of specified order.
+ *
+ * @return Returns \f$ \gamma(\rho) \f$.
+ */
+double msm4g_smoothing_C3(double rho,int derivative);
 
 /** @brief Short-range force calculation.
  * 
@@ -20,11 +101,31 @@
  *   - Calculate the short-range forces between the particles in the bin
  *   - Calculate the pairwise force calculatin between the neighbor bins.
  *
- * @param[in,out] binlist    The list of bins.
- * @param[in]     threshold  The range of the short-range force.
+ * @param[in,out] binlist            The list of bins.
+ * @param[in]     threshold          The range of the short-range force.
+ * @param[in]     smoothing_function Pointer to the smoothing function.
  */
-void msm4g_force_short(LinkedList *binlist,double threshold);
+void msm4g_force_short(LinkedList *binlist,double threshold,msm4g_smoothing_handler smoothing_function);
 
+/** @brief Calculates short-range forces directly.
+ *
+ * Given a list of particles, a cut-off parameter and smoothing function
+ * it calculates the short-range force interactions withing the particles.
+ *
+ * @param[in,out] particles          The list of particles.
+ * @param[in]     threshold          Cut-off parameter.
+ * @param[in]     smoothing_function The smoothing function handler.
+ */
+void msm4g_force_short_withinBin(LinkedList *particles, double threshold,msm4g_smoothing_handler smoothing_function);
+
+/** @brief Calculated short-range force between a particle pair.
+ *
+ * @param[in,out] particleI          The first particle.
+ * @param[in,out] particleJ          The second particle.
+ * @param[in]     threshold          Cut-off parameter.
+ * @param[in]     smoothing_function The smoothing function handler.
+ */
+void msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double threshold, msm4g_smoothing_handler smoothing_function);
 
 /** @brief Sets the elements of a 3-element vector.
  *
@@ -73,6 +174,24 @@ void msm4g_d3vector_daxpy(D3Vector *z,D3Vector *x,double a,D3Vector *y);
  * @return The norm of the vector.
  */
 double msm4g_d3vector_norm(D3Vector *x);
+
+/** @brief Calculates norm square of a vector.
+ *
+ * @param[in] x 3-element double vector x.
+ * @return Returns \f$ ||x||^2 \f$
+ *
+ * @b Example:
+ *
+ * @code
+ * D3Vector x;
+ * double normsquare;
+ *
+ * msm4g_d3vector_set(&x,3.0,0.0,4.0);
+ * normsquare = msm4g_d3vector_normsquare(&x)
+ * // norm variable is 25.0 now.
+ * @endcode
+ */
+double msm4g_d3vector_normsquare(D3Vector *x);
 
 /** @brief Print a 3D vector.
  *

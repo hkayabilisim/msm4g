@@ -1,9 +1,15 @@
 var msm4g__lib_8c =
 [
-    [ "msm4g_force_short", "msm4g__lib_8c.html#a310b7d46634cd4845546c74efc989682", null ],
+    [ "msm4g_smoothing_C1", "msm4g__lib_8c.html#ad1f164d3d1d61c925febc0953fd6061e", null ],
+    [ "msm4g_smoothing_C2", "msm4g__lib_8c.html#a4f213287faa51dc9ee170c058e6f1a9b", null ],
+    [ "msm4g_smoothing_C3", "msm4g__lib_8c.html#ad46c36589348c7cf14ff585a90908f7e", null ],
+    [ "msm4g_force_short", "msm4g__lib_8c.html#a0800fbb707b989b481967d6ecf8e301b", null ],
+    [ "msm4g_force_short_withinBin", "msm4g__lib_8c.html#a35920e595aeccf6cb2b050ba3f885aa9", null ],
+    [ "msm4g_force_short_particlePair", "msm4g__lib_8c.html#ae97c1d711d9e32ac02fcbcdcf07faee4", null ],
     [ "msm4g_d3vector_set", "msm4g__lib_8c.html#a1ff044293b82f2d35ee8bc008689a45a", null ],
     [ "msm4g_d3vector_daxpy", "msm4g__lib_8c.html#a2ada40d036ff26b54fa30ec08d9e8294", null ],
     [ "msm4g_d3vector_norm", "msm4g__lib_8c.html#aed411ae95db99a044a5f4ee350aa3e01", null ],
+    [ "msm4g_d3vector_normsquare", "msm4g__lib_8c.html#a11e21e6936e78b758bbcd2d6cee1ff2c", null ],
     [ "msm4g_d3vector_print", "msm4g__lib_8c.html#a91d22eba05717019d010cf1aa09fdbdf", null ],
     [ "msm4g_i3vector_set", "msm4g__lib_8c.html#ad7bb942760d5af689cb6509182cdf1ea", null ],
     [ "msm4g_i3vector_copy", "msm4g__lib_8c.html#a76444bad8df35a3268d1c388534982ec", null ],
@@ -43,5 +49,6 @@ var msm4g__lib_8c =
     [ "msm4g_print_energy", "msm4g__lib_8c.html#ac7e12eacedcc9d82e019689f6c9b280b", null ],
     [ "msm4g_leapfrog", "msm4g__lib_8c.html#aedb664c05960ce7a61a82ad30e528504", null ],
     [ "msm4g_zeros", "msm4g__lib_8c.html#a59c8a9065f9a34571319a0e70fd6cec7", null ],
-    [ "msm4g_cantor", "msm4g__lib_8c.html#abc569308a917c71357bf07c47ceadb91", null ]
+    [ "msm4g_math_cantor", "msm4g__lib_8c.html#ad34e4f356364ec04cb734d5c49be7431", null ],
+    [ "msm4g_math_factorial", "msm4g__lib_8c.html#afcd1178b2cbe19df1c46f599886b792e", null ]
 ];

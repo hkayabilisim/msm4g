@@ -81,11 +81,11 @@ typedef struct LinkedList
  */
 typedef struct Particle
 {
-    int    index;       /**< Index of the particle (see warning in the description) */
-    double m;           /**< mass      */
-    double r[3];        /**< location  */
-    double v[3];        /**< velocity  */
-    double f[3];        /**< force     */
+    int    index;      /**< Index of the particle (see warning in the description) */
+    double m;          /**< mass      */
+    D3Vector r;        /**< location  */
+    D3Vector v;        /**< velocity  */
+    D3Vector f;        /**< force     */
 } Particle;
 
 /** @brief The cubical domains obtained by dividing the simulation box.
@@ -103,6 +103,17 @@ typedef struct Bin
     LinkedList *particles;  /**< The list of particles in the bin */
 } Bin;
 
+/** @brief Smoothing function handler
+ *
+ * A function pointer to represent smoothing functions
+ * which takes a double argument and the order of
+ * the derivative and returns the output
+ * as a double variable.
+ *
+ * If the derivative is set to zero, then no derivative is carried out.
+ */
+typedef double (*msm4g_smoothing_handler)(double rho,int derivative);
+
 /** @brief The collection of simulation parameters.
  *
  * The simulation parameters such as the cut-off threshold, the type 
@@ -111,7 +122,8 @@ typedef struct Bin
  */
 typedef struct SimulationParameters
 {
-    double a; /**< Cut-off parameter */
+    double                  a;                        /**< Cut-off parameter */
+    msm4g_smoothing_handler msm4g_smoothing_function; /**< Smoothing function */
 } SimulationParameters;
 
 /** @brief The geomatric boundaries of the simulation.
