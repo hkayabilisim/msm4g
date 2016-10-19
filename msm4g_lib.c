@@ -139,18 +139,20 @@ void msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, do
 {
     D3Vector rij;
     double r,r2;
-    double smoothedkernel;
-    
+    double a2;
+    double smoothedkernel, smoothedkernelderivative;
     
     /* rij = rj - ri */
     msm4g_d3vector_daxpy(&rij, &(particleJ->r), -1.0, &(particleI->r));
     /* r^2 = |rij|^2 */
     r2=msm4g_d3vector_normsquare(&rij);
     r=sqrt(r2);
+    a2=a*a;
     /* If only the particles are closer than cut-off distance */
-    if (r2 < a*a)
+    if (r2 < a2)
     {
-        smoothedkernel = (1.0/r2 - gamma(r/a,0)/a);
+        smoothedkernel = 1.0/r - gamma(r/a,0)/a;
+        smoothedkernelderivative = 1.0/r2 - gamma(r/a,1)/a2;
     }
     
 }

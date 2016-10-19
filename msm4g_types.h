@@ -85,7 +85,8 @@ typedef struct Particle
     double m;          /**< mass      */
     D3Vector r;        /**< location  */
     D3Vector v;        /**< velocity  */
-    D3Vector f;        /**< force     */
+    D3Vector f;        /**< force produced by short-range interactions. */
+    D3Vector flong;    /**< force produced by long-range interactions.  */
 } Particle;
 
 /** @brief The cubical domains obtained by dividing the simulation box.
