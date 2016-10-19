@@ -95,7 +95,9 @@ $(document).ready(function(){initNavTree('msm4g__lib_8c.html','');});
 <p>The definitions of all core functions of MSM4G package.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="msm4g__lib_8h_source.html">msm4g_lib.h</a>&quot;</code><br />
-</div><table class="memberdecls">
+</div>
+<p><a href="msm4g__lib_8c_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ad1f164d3d1d61c925febc0953fd6061e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#ad1f164d3d1d61c925febc0953fd6061e">msm4g_smoothing_C1</a> (double rho, int derivative)</td></tr>
@@ -107,15 +109,18 @@ Functions</h2></td></tr>
 <tr class="memitem:ad46c36589348c7cf14ff585a90908f7e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#ad46c36589348c7cf14ff585a90908f7e">msm4g_smoothing_C3</a> (double rho, int derivative)</td></tr>
 <tr class="memdesc:ad46c36589348c7cf14ff585a90908f7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">C3 smoothing function.  <a href="#ad46c36589348c7cf14ff585a90908f7e">More...</a><br /></td></tr>
 <tr class="separator:ad46c36589348c7cf14ff585a90908f7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0800fbb707b989b481967d6ecf8e301b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#a0800fbb707b989b481967d6ecf8e301b">msm4g_force_short</a> (<a class="el" href="struct_linked_list.html">LinkedList</a> *binlist, double threshold, <a class="el" href="msm4g__types_8h.html#a005ca126eae4332050d524f4dca88667">msm4g_smoothing_handler</a> smoothing_function)</td></tr>
-<tr class="memdesc:a0800fbb707b989b481967d6ecf8e301b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Short-range force calculation.  <a href="#a0800fbb707b989b481967d6ecf8e301b">More...</a><br /></td></tr>
-<tr class="separator:a0800fbb707b989b481967d6ecf8e301b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35920e595aeccf6cb2b050ba3f885aa9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#a35920e595aeccf6cb2b050ba3f885aa9">msm4g_force_short_withinBin</a> (<a class="el" href="struct_linked_list.html">LinkedList</a> *particles, double threshold, <a class="el" href="msm4g__types_8h.html#a005ca126eae4332050d524f4dca88667">msm4g_smoothing_handler</a> smoothing_function)</td></tr>
-<tr class="memdesc:a35920e595aeccf6cb2b050ba3f885aa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates short-range forces directly.  <a href="#a35920e595aeccf6cb2b050ba3f885aa9">More...</a><br /></td></tr>
-<tr class="separator:a35920e595aeccf6cb2b050ba3f885aa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae97c1d711d9e32ac02fcbcdcf07faee4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#ae97c1d711d9e32ac02fcbcdcf07faee4">msm4g_force_short_particlePair</a> (<a class="el" href="struct_particle.html">Particle</a> *particleI, <a class="el" href="struct_particle.html">Particle</a> *particleJ, double a, <a class="el" href="msm4g__types_8h.html#a005ca126eae4332050d524f4dca88667">msm4g_smoothing_handler</a> gamma)</td></tr>
-<tr class="memdesc:ae97c1d711d9e32ac02fcbcdcf07faee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculated short-range force between a particle pair.  <a href="#ae97c1d711d9e32ac02fcbcdcf07faee4">More...</a><br /></td></tr>
-<tr class="separator:ae97c1d711d9e32ac02fcbcdcf07faee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1ec90c2c9a30efa12ce0b39ca197eaf"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#ae1ec90c2c9a30efa12ce0b39ca197eaf">msm4g_force_short</a> (<a class="el" href="struct_linked_list.html">LinkedList</a> *binlist, double threshold, <a class="el" href="msm4g__types_8h.html#a005ca126eae4332050d524f4dca88667">msm4g_smoothing_handler</a> smoothing_function)</td></tr>
+<tr class="memdesc:ae1ec90c2c9a30efa12ce0b39ca197eaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Short-range force and potential energy calculation.  <a href="#ae1ec90c2c9a30efa12ce0b39ca197eaf">More...</a><br /></td></tr>
+<tr class="separator:ae1ec90c2c9a30efa12ce0b39ca197eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4c4d54b8241876308842f6e30b298ca"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#ac4c4d54b8241876308842f6e30b298ca">msm4g_force_short_withinBin</a> (<a class="el" href="struct_linked_list.html">LinkedList</a> *particles, double threshold, <a class="el" href="msm4g__types_8h.html#a005ca126eae4332050d524f4dca88667">msm4g_smoothing_handler</a> smoothing_function)</td></tr>
+<tr class="memdesc:ac4c4d54b8241876308842f6e30b298ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates short-range forces and potential energy.  <a href="#ac4c4d54b8241876308842f6e30b298ca">More...</a><br /></td></tr>
+<tr class="separator:ac4c4d54b8241876308842f6e30b298ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91130d99073f145b721ebcb9ada227ef"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#a91130d99073f145b721ebcb9ada227ef">msm4g_force_short_betweenBin</a> (<a class="el" href="struct_linked_list.html">LinkedList</a> *particlesI, <a class="el" href="struct_linked_list.html">LinkedList</a> *particlesJ, double threshold, <a class="el" href="msm4g__types_8h.html#a005ca126eae4332050d524f4dca88667">msm4g_smoothing_handler</a> smoothing_function)</td></tr>
+<tr class="memdesc:a91130d99073f145b721ebcb9ada227ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates short-range interactions between two set of particles.  <a href="#a91130d99073f145b721ebcb9ada227ef">More...</a><br /></td></tr>
+<tr class="separator:a91130d99073f145b721ebcb9ada227ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf4b45c5e233cb7e883d7e37754cf42f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#acf4b45c5e233cb7e883d7e37754cf42f">msm4g_force_short_particlePair</a> (<a class="el" href="struct_particle.html">Particle</a> *particleI, <a class="el" href="struct_particle.html">Particle</a> *particleJ, double a, <a class="el" href="msm4g__types_8h.html#a005ca126eae4332050d524f4dca88667">msm4g_smoothing_handler</a> gamma)</td></tr>
+<tr class="memdesc:acf4b45c5e233cb7e883d7e37754cf42f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Short-range force and potential energy for a pair of particles.  <a href="#acf4b45c5e233cb7e883d7e37754cf42f">More...</a><br /></td></tr>
+<tr class="separator:acf4b45c5e233cb7e883d7e37754cf42f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ff044293b82f2d35ee8bc008689a45a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#a1ff044293b82f2d35ee8bc008689a45a">msm4g_d3vector_set</a> (<a class="el" href="struct_d3_vector.html">D3Vector</a> *d3vector, double x, double y, double z)</td></tr>
 <tr class="memdesc:a1ff044293b82f2d35ee8bc008689a45a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the elements of a 3-element vector.  <a href="#a1ff044293b82f2d35ee8bc008689a45a">More...</a><br /></td></tr>
 <tr class="separator:a1ff044293b82f2d35ee8bc008689a45a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -249,6 +254,8 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The definitions of all core functions of MSM4G package. </p>
+
+<p>Definition in file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="ad1f164d3d1d61c925febc0953fd6061e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad1f164d3d1d61c925febc0953fd6061e">&sect;&nbsp;</a></span>msm4g_smoothing_C1()</h2>
@@ -290,6 +297,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns \( \gamma(\rho) \). </dd></dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00006">6</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -334,6 +343,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns \( \gamma(\rho) \). </dd></dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00026">26</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="ad46c36589348c7cf14ff585a90908f7e"></a>
@@ -377,16 +388,18 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns \( \gamma(\rho) \). </dd></dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00054">54</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
-<a id="a0800fbb707b989b481967d6ecf8e301b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0800fbb707b989b481967d6ecf8e301b">&sect;&nbsp;</a></span>msm4g_force_short()</h2>
+<a id="ae1ec90c2c9a30efa12ce0b39ca197eaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1ec90c2c9a30efa12ce0b39ca197eaf">&sect;&nbsp;</a></span>msm4g_force_short()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void msm4g_force_short </td>
+          <td class="memname">double msm4g_force_short </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="struct_linked_list.html">LinkedList</a> *&#160;</td>
           <td class="paramname"><em>binlist</em>, </td>
@@ -411,7 +424,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Short-range force calculation. </p>
+<p>Short-range force and potential energy calculation. </p>
 <ul>
 <li>For each bin in the linked list<ul>
 <li>Calculate the short-range forces between the particles in the bin</li>
@@ -423,21 +436,24 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">binlist</td><td>The list of bins. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">threshold</td><td>The range of the short-range force. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">smoothing_function</td><td>Pointer to the smoothing function. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">smoothing_function</td><td>Pointer to the smoothing function.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Total short-range potential energy in the list of bins. </dd></dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00083">83</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
-<a id="a35920e595aeccf6cb2b050ba3f885aa9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35920e595aeccf6cb2b050ba3f885aa9">&sect;&nbsp;</a></span>msm4g_force_short_withinBin()</h2>
+<a id="ac4c4d54b8241876308842f6e30b298ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4c4d54b8241876308842f6e30b298ca">&sect;&nbsp;</a></span>msm4g_force_short_withinBin()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void msm4g_force_short_withinBin </td>
+          <td class="memname">double msm4g_force_short_withinBin </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="struct_linked_list.html">LinkedList</a> *&#160;</td>
           <td class="paramname"><em>particles</em>, </td>
@@ -462,27 +478,85 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Calculates short-range forces directly. </p>
-<p>Given a list of particles, a cut-off parameter and smoothing function it calculates the short-range force interactions withing the particles.</p>
+<p>Calculates short-range forces and potential energy. </p>
+<p>Given a list of particles, a cut-off parameter and smoothing function it calculates the short-range force interactions within the particles.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">particles</td><td>The list of particles. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">threshold</td><td>Cut-off parameter. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">smoothing_function</td><td>The smoothing function handler. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">smoothing_function</td><td>The smoothing function handler.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Short-range potential energy in the <a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a>. </dd></dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00115">115</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
-<a id="ae97c1d711d9e32ac02fcbcdcf07faee4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae97c1d711d9e32ac02fcbcdcf07faee4">&sect;&nbsp;</a></span>msm4g_force_short_particlePair()</h2>
+<a id="a91130d99073f145b721ebcb9ada227ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91130d99073f145b721ebcb9ada227ef">&sect;&nbsp;</a></span>msm4g_force_short_betweenBin()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void msm4g_force_short_particlePair </td>
+          <td class="memname">double msm4g_force_short_betweenBin </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_linked_list.html">LinkedList</a> *&#160;</td>
+          <td class="paramname"><em>particlesI</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_linked_list.html">LinkedList</a> *&#160;</td>
+          <td class="paramname"><em>particlesJ</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>threshold</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="msm4g__types_8h.html#a005ca126eae4332050d524f4dca88667">msm4g_smoothing_handler</a>&#160;</td>
+          <td class="paramname"><em>smoothing_function</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculates short-range interactions between two set of particles. </p>
+<p>Given two list of particles, a cut-off parameter and smoothing function it calculates the short-range interactions between two set of particles.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">particlesI</td><td>A list of particles. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">particlesJ</td><td>Another list of particles. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">threshold</td><td>Cut-off parameter. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">smoothing_function</td><td>The smoothing function handler.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Short-range potential energy between the bins. </dd></dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00141">141</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
+</div>
+</div>
+<a id="acf4b45c5e233cb7e883d7e37754cf42f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf4b45c5e233cb7e883d7e37754cf42f">&sect;&nbsp;</a></span>msm4g_force_short_particlePair()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double msm4g_force_short_particlePair </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="struct_particle.html">Particle</a> *&#160;</td>
           <td class="paramname"><em>particleI</em>, </td>
@@ -513,16 +587,19 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Calculated short-range force between a particle pair. </p>
+<p>Short-range force and potential energy for a pair of particles. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">particleI</td><td>The first particle. </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">particleJ</td><td>The second particle. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">threshold</td><td>Cut-off parameter. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">smoothing_function</td><td>The smoothing function handler. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">smoothing_function</td><td>The smoothing function handler.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Short-range potential energy. </dd></dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00163">163</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -576,6 +653,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00193">193</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="a2ada40d036ff26b54fa30ec08d9e8294"></a>
@@ -628,6 +707,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00200">200</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="aed411ae95db99a044a5f4ee350aa3e01"></a>
@@ -659,6 +740,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The norm of the vector. </dd></dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00209">209</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="a11e21e6936e78b758bbcd2d6cee1ff2c"></a>
@@ -687,6 +770,8 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>Returns \( ||x||^2 \)</dd></dl>
 <p><b>Example:</b> </p>
 <div class="fragment"><div class="line"><a class="code" href="struct_d3_vector.html">D3Vector</a> x;</div><div class="line"><span class="keywordtype">double</span> normsquare;</div><div class="line"></div><div class="line"><a class="code" href="msm4g__lib_8c.html#a1ff044293b82f2d35ee8bc008689a45a">msm4g_d3vector_set</a>(&amp;x,3.0,0.0,4.0);</div><div class="line">normsquare = <a class="code" href="msm4g__lib_8c.html#a11e21e6936e78b758bbcd2d6cee1ff2c">msm4g_d3vector_normsquare</a>(&amp;x)</div><div class="line"><span class="comment">// norm variable is 25.0 now.</span></div></div><!-- fragment --> 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00214">214</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="a91d22eba05717019d010cf1aa09fdbdf"></a>
@@ -712,6 +797,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00225">225</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -765,6 +852,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00234">234</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="a76444bad8df35a3268d1c388534982ec"></a>
@@ -801,6 +890,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00241">241</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -840,6 +931,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the vectors are same, false otherwise. </dd></dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00248">248</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="afbb4a3743e2e92a244a03cf6640e8bfc"></a>
@@ -865,6 +958,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00261">261</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -894,6 +989,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of elements inside the linked list. </dd></dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00266">266</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="a59f42003181a205bde46e8417d559e19"></a>
@@ -915,6 +1012,8 @@ Functions</h2></td></tr>
 <p>This function allocates an empty linked list and returns its pointer to the caller. A linked list created with this function should be deallocated at the end of the program by calling <code>msm4g_linkedlist_destroy</code> function.</p>
 <p>In order to add data to the newly creaded linked list, one may use <code>msm4g_linkedlist_add</code> function.</p>
 <dl class="section return"><dt>Returns</dt><dd>The pointer of the new linked list. </dd></dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00279">279</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -953,6 +1052,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00288">288</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -993,6 +1094,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The void pointer of the requested data. If there is no data, then NULL pointer is returned. </dd></dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00310">310</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="ac0076673c9bc4e1987bbf10014b06f17"></a>
@@ -1021,6 +1124,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00331">331</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="acd489ee45fbc08bf132169868de5bfc2"></a>
@@ -1047,6 +1152,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00345">345</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -1112,6 +1219,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00357">357</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="af503a5f9d47fd175b5228200e675bf82"></a>
@@ -1133,6 +1242,8 @@ Functions</h2></td></tr>
 <p>Allocates a new simulation box whose location is at the origin</p>
 <dl class="section warning"><dt>Warning</dt><dd>It is the responsibility of the caller to deallocate the box by using msm4g_box_destory function.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The new simulation box. </dd></dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00367">367</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -1180,6 +1291,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00376">376</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="a374229ce78b91b817327e75f960a967b"></a>
@@ -1224,6 +1337,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00422">422</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="acb61c51ac4735df3439dee53e131800f"></a>
@@ -1262,6 +1377,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00442">442</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="af4811f16dd6349887a76ca27cc23b7de"></a>
@@ -1288,6 +1405,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00451">451</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -1316,6 +1435,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00463">463</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="aabfbd81799f2633c74d0b165462148a3"></a>
@@ -1341,6 +1462,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00468">468</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -1388,6 +1511,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The list of allocated bins. </dd></dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00479">479</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="aeb323731478a9fabb63ea1177cd8dae8"></a>
@@ -1420,6 +1545,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00514">514</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -1460,6 +1587,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The pointer to the selected bin. Returns NULL if there is no such bin. </dd></dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00550">550</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="a8e3bec721c04f8dd6f38a4a9ce3a59eb"></a>
@@ -1486,6 +1615,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00572">572</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="a5d17af0a64c3977b2821670387a627eb"></a>
@@ -1511,6 +1642,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00607">607</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -1546,6 +1679,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00612">612</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="aa04786a4d17517af90778528e268b5cb"></a>
@@ -1574,6 +1709,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The pointer of the input <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a>. </dd></dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00628">628</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="a0a9ad34fca9950a0997709a7a9959c18"></a>
@@ -1595,6 +1732,8 @@ Functions</h2></td></tr>
 <p>Creates an array of andom particles. </p>
 <p>This function creates an array of <code><a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a></code> structures whose properties are randomly created in the range [0-1]. Therefore, the particles reside in three-dimensional unit cube.</p>
 <dl class="section return"><dt>Returns</dt><dd>The pointer to the first element of the allocated array. </dd></dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00638">638</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -1623,6 +1762,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The list of particles in a linked list container. </dd></dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00660">660</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="ab04a6d1a76e6368466896e4e711b62c5"></a>
@@ -1643,6 +1784,8 @@ Functions</h2></td></tr>
 <p>Allocates a brand-new empty <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a>. </p>
 <p>This functions is the only place inside which a memory allocation is carried to create a new <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a>. This function holds a static <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a> index to keep track the newly born particles.</p>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the newly allocated <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a> structure. </dd></dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00694">694</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -1689,6 +1832,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The pointer of the newly allocated <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a>. </dd></dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00715">715</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="aaf84121f73389948f7ccd16c986fc9cb"></a>
@@ -1715,6 +1860,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00729">729</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -1743,6 +1890,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00741">741</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="aa219180a123f1d642ad8f0a2568fc0f9"></a>
@@ -1768,6 +1917,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00758">758</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -1805,6 +1956,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00764">764</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -1857,6 +2010,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00778">778</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -1928,6 +2083,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00802">802</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="ac7e12eacedcc9d82e019689f6c9b280b"></a>
@@ -1979,6 +2136,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00838">838</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -2066,6 +2225,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00843">843</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="a59c8a9065f9a34571319a0e70fd6cec7"></a>
@@ -2093,6 +2254,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00854">854</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -2136,6 +2299,8 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The output of n-degree generalized Cantor pairing function. </dd></dl>
 
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00861">861</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
 </div>
 </div>
 <a id="afcd1178b2cbe19df1c46f599886b792e"></a>
@@ -2162,6 +2327,8 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>factorial of n. </dd></dl>
+
+<p>Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00884">884</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>

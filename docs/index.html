@@ -89,15 +89,23 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="title">MSM4G Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>MSM4G program is aimed to apply the Multi-Level Summation Method (MSM) for (4) Gravitational (G) N-Body problems.</p>
+<div class="textblock"><p>MSM4G program is aimed to use the Multi-Level Summation Method (MSM) for (4) Gravitational (G) N-Body problems.</p>
 <h1><a class="anchor" id="datastructures"></a>
 Data Structures</h1>
 <ul>
 <li><a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a> is used to represent a celestial object.</li>
 <li><a class="el" href="struct_linked_list.html" title="A structure for dual linked list implementation. ">LinkedList</a> is a generic two-way linked listed implementation.</li>
 <li><a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a> is a container to hold the particles in geometric hashing.</li>
-<li><a class="el" href="struct_simulation_box.html" title="The geomatric boundaries of the simulation. ">SimulationBox</a> is a rectangular box enclosing all of the particles. </li>
+<li><a class="el" href="struct_simulation_box.html" title="The geomatric boundaries of the simulation. ">SimulationBox</a> is a rectangular box enclosing all of the particles.</li>
 </ul>
+<h1><a class="anchor" id="shortrange"></a>
+Short-Range Calculations</h1>
+<p>The simulation domain is divided into cubic boxes called <a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a> whose edges are set to the cut-off parameter. Depending on the particle distribution and the arrangement of the simulation box, there might be considerable amount of <a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a>'s containing no particles. In order to save some space, the <a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a>'s are stored as a linked list. Only the <a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a>'s containing at least one particle are stored in the linked list.</p>
+<p>The neighbors of a specific <a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a> are also stored in a linked list. Again, a <a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a> is added as a neighbor only if it contains at least a particle.</p>
+<p>In order to exploit the Newton's third law during the short-range calculations, each <a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a> is enumerated by a unique integer corresponding to its index in the three dimensional simulation box. An exotic choise is Cantor's generalized pairing function (See. <a class="el" href="msm4g__lib_8c.html#ad34e4f356364ec04cb734d5c49be7431" title="n-degree generalized Cantor pairing function. ">msm4g_math_cantor()</a>). Whenever a new <a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a> is allocated, its cantor index is calculated and stored in the <a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a> structure. Since the <a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a> structure already has the index information, there is no need to invert the cantor index.</p>
+<h1><a class="anchor" id="tests"></a>
+Test Functions</h1>
+<p>A user who wants to use MSM4G in his/her application or tries to understand the details of the package may prefer to look at the test functions in <a class="el" href="msm4g__tests_8c.html" title="The test functions to check the functionality of the MSM4G package. ">msm4g_tests.c</a> as they are self-contained and test various features individually. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

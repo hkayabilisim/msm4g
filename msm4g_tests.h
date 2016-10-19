@@ -133,11 +133,19 @@ Boolean msm4g_unit_test_7();
  */
 Boolean msm4g_unit_test_8();
 
-/** @brief Short-range force calculation test.
+/** @brief Short-range energy calculation test.
  *
  * The setup of the particles and the simulation box is the same
- * with msm4g_unit_test_6(). This time short-range force calculation
+ * with msm4g_unit_test_6(). This time short-range force and energy calculation
  * is carried out.
+ * 
+ * The manually calculated short-range potential regarding to the setup
+ * is 1.51303181237454868855 which is compared to the calculated potential energy.
+ * If the relative error in the potential energy is greater than 1E-15, the test 
+ * is failed.
+ *
+ * @note In this test, C1 gamma smoothing function msm4g_smoothing_C1() is used with
+ * cut-off parameter a=10.
  *
  * @return true if the test is succesfull, false otherwise.
  */

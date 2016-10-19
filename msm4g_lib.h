@@ -95,7 +95,7 @@ double msm4g_smoothing_C2(double rho,int derivative);
  */
 double msm4g_smoothing_C3(double rho,int derivative);
 
-/** @brief Short-range force calculation.
+/** @brief Short-range force and potential energy calculation.
  * 
  * - For each bin in the linked list
  *   - Calculate the short-range forces between the particles in the bin
@@ -104,28 +104,48 @@ double msm4g_smoothing_C3(double rho,int derivative);
  * @param[in,out] binlist            The list of bins.
  * @param[in]     threshold          The range of the short-range force.
  * @param[in]     smoothing_function Pointer to the smoothing function.
+ *
+ * @return Total short-range potential energy in the list of bins.
  */
-void msm4g_force_short(LinkedList *binlist,double threshold,msm4g_smoothing_handler smoothing_function);
+double msm4g_force_short(LinkedList *binlist,double threshold,msm4g_smoothing_handler smoothing_function);
 
-/** @brief Calculates short-range forces directly.
+/** @brief Calculates short-range forces and potential energy.
  *
  * Given a list of particles, a cut-off parameter and smoothing function
- * it calculates the short-range force interactions withing the particles.
+ * it calculates the short-range force interactions within the particles.
  *
  * @param[in,out] particles          The list of particles.
  * @param[in]     threshold          Cut-off parameter.
  * @param[in]     smoothing_function The smoothing function handler.
+ *
+ * @return Short-range potential energy in the Bin.
  */
-void msm4g_force_short_withinBin(LinkedList *particles, double threshold,msm4g_smoothing_handler smoothing_function);
+double msm4g_force_short_withinBin(LinkedList *particles, double threshold,msm4g_smoothing_handler smoothing_function);
 
-/** @brief Calculated short-range force between a particle pair.
+/** @brief Calculates short-range interactions between two set of particles.
+ *
+ * Given two list of particles, a cut-off parameter and smoothing function
+ * it calculates the short-range interactions between two set of particles.
+ *
+ * @param[in,out] particlesI         A list of particles.
+ * @param[in,out] particlesJ         Another list of particles.
+ * @param[in]     threshold          Cut-off parameter.
+ * @param[in]     smoothing_function The smoothing function handler.
+ *
+ * @return Short-range potential energy between the bins.
+ */
+double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particlesJ, double threshold,msm4g_smoothing_handler smoothing_function);
+
+/** @brief Short-range force and potential energy for a pair of particles.
  *
  * @param[in,out] particleI          The first particle.
  * @param[in,out] particleJ          The second particle.
  * @param[in]     threshold          Cut-off parameter.
  * @param[in]     smoothing_function The smoothing function handler.
+ * 
+ * @return Short-range potential energy.
  */
-void msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double threshold, msm4g_smoothing_handler smoothing_function);
+double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double threshold, msm4g_smoothing_handler smoothing_function);
 
 /** @brief Sets the elements of a 3-element vector.
  *

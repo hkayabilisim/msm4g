@@ -80,18 +80,21 @@ double msm4g_smoothing_C3(double rho,int derivative)
     }
 }
 
-void msm4g_force_short(LinkedList *binlist,double threshold, msm4g_smoothing_handler smoothing_function)
+double msm4g_force_short(LinkedList *binlist,double threshold, msm4g_smoothing_handler smoothing_function)
 {
     Bin *bin;
     Bin *neighbor;
     LinkedListElement *currBin;
     LinkedListElement *neighborBin;
+    double potentialTotal = 0.0;
+    double potential;
     
     currBin=binlist->head;
     while (currBin != NULL)
     {
         bin = (Bin *)currBin->data;
-        msm4g_force_short_withinBin(bin->particles,threshold,smoothing_function);
+        potential = msm4g_force_short_withinBin(bin->particles,threshold,smoothing_function);
+        potentialTotal += potential;
         
         neighborBin = bin->neighbors->head;
         while (neighborBin != NULL)
@@ -99,24 +102,24 @@ void msm4g_force_short(LinkedList *binlist,double threshold, msm4g_smoothing_han
             neighbor = (Bin *)neighborBin->data;
             if (neighbor->cantorindex > bin->cantorindex )
             {
-                printf("Source bin index: "); msm4g_i3vector_print(&(bin->index)); printf("\n");
-                printf("target bin index: "); msm4g_i3vector_print(&(neighbor->index)); printf("\n");
+                potential = msm4g_force_short_betweenBin(bin->particles,neighbor->particles,threshold,smoothing_function);
+                potentialTotal += potential;
             }
             neighborBin=neighborBin->next;
         }
         currBin = currBin->next;
     }
+    return potentialTotal;
 }
 
-void msm4g_force_short_withinBin(LinkedList *particles, double threshold, msm4g_smoothing_handler smoothing_function)
+double msm4g_force_short_withinBin(LinkedList *particles, double threshold, msm4g_smoothing_handler smoothing_function)
 {
     Particle *particleI;
     Particle *particleJ;
     LinkedListElement *currI;
     LinkedListElement *currJ;
-    
-
-    
+    double potentialTotal = 0.0;
+    double potential;
     
     currI = particles->head;
     while (currI->next != NULL)
@@ -126,21 +129,45 @@ void msm4g_force_short_withinBin(LinkedList *particles, double threshold, msm4g_
         while (currJ != NULL)
         {
             particleJ = (Particle *)currJ->data;
-            printf("%d versus %d\n",particleI->index,particleJ->index);
-            msm4g_force_short_particlePair(particleI,particleJ,threshold,smoothing_function);
-            
+            potential = msm4g_force_short_particlePair(particleI,particleJ,threshold,smoothing_function);
+            potentialTotal += potential;
             currJ = currJ->next;
         }
         currI = currI->next;
     }
+    return potentialTotal;
 }
 
-void msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double a, msm4g_smoothing_handler gamma)
+double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particlesJ,double threshold, msm4g_smoothing_handler smoothing_function)
+{
+    LinkedListElement *currI, *currJ;
+    Particle *particleI,*particleJ;
+    double potential, potentialTotal = 0.0;
+    currI = particlesI->head;
+    while (currI != NULL)
+    {
+        particleI = (Particle *)currI->data;
+        currJ = particlesJ->head;
+        while (currJ != NULL)
+        {
+            particleJ = (Particle *)currJ->data;
+            potential = msm4g_force_short_particlePair(particleI,particleJ,threshold,smoothing_function);
+            potentialTotal += potential;
+            currJ = currJ->next;
+        }
+        currI = currI->next;
+    }
+    return potentialTotal;
+}
+
+double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double a, msm4g_smoothing_handler gamma)
 {
     D3Vector rij;
     double r,r2;
     double a2;
-    double smoothedkernel, smoothedkernelderivative;
+    double smoothedkernel,smoothedkernelderivative;
+    double coeff;
+    double potential = 0.0;
     
     /* rij = rj - ri */
     msm4g_d3vector_daxpy(&rij, &(particleJ->r), -1.0, &(particleI->r));
@@ -153,8 +180,14 @@ void msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, do
     {
         smoothedkernel = 1.0/r - gamma(r/a,0)/a;
         smoothedkernelderivative = 1.0/r2 - gamma(r/a,1)/a2;
+        coeff = particleI->m * particleJ->m * smoothedkernelderivative/r;
+        /* f_j = f_j + coeff*rij */
+        msm4g_d3vector_daxpy(&(particleJ->fshort) , &(particleJ->fshort), coeff, &rij);
+        /* f_i = f_i - coeff*rij */
+        msm4g_d3vector_daxpy(&(particleI->fshort) , &(particleI->fshort), coeff, &rij);
+        potential = particleI->m * particleJ->m * smoothedkernel;
     }
-    
+    return potential;
 }
 
 void msm4g_d3vector_set(D3Vector *d3vector,double x,double y,double z)
@@ -597,7 +630,8 @@ Particle *msm4g_particle_reset(Particle *particle)
     particle->m = 0.0;
     msm4g_d3vector_set(&(particle->r), 0, 0, 0);
     msm4g_d3vector_set(&(particle->v), 0, 0, 0);
-    msm4g_d3vector_set(&(particle->f), 0, 0, 0);
+    msm4g_d3vector_set(&(particle->fshort), 0, 0, 0);
+    msm4g_d3vector_set(&(particle->flong), 0, 0, 0);
     return particle;
 }
 
@@ -616,7 +650,8 @@ Particle **msm4g_particle_rand(int n)
         {
             particle[j]->r.value[i] = (double)rand()/RAND_MAX;
             particle[j]->v.value[i] = (double)rand()/RAND_MAX;
-            particle[j]->f.value[i] = (double)rand()/RAND_MAX;
+            particle[j]->fshort.value[i] = (double)rand()/RAND_MAX;
+            particle[j]->flong.value[i] = (double)rand()/RAND_MAX;
         }
     }
     return particle;
@@ -669,7 +704,8 @@ Particle *msm4g_particle_empty()
     {
         particle->r.value[i] = 0.0;
         particle->v.value[i] = 0.0;
-        particle->f.value[i] = 0.0;
+        particle->fshort.value[i] = 0.0;
+        particle->flong.value[i] = 0.0;
     }
     
     index++;
@@ -696,7 +732,8 @@ void msm4g_particle_print(Particle *particle)
     printf("m:%8.2E ",particle->m);
     printf("r:%8.2E %8.2E %8.2E ",particle->r.value[0],particle->r.value[1],particle->r.value[2]);
     printf("v:%8.2E %8.2E %8.2E ",particle->v.value[0],particle->v.value[1],particle->v.value[2]);
-    printf("f:%8.2E %8.2E %8.2E ",particle->f.value[0],particle->f.value[1],particle->f.value[2]);
+    printf("fshort:%8.2E %8.2E %8.2E ",particle->fshort.value[0],particle->fshort.value[1],particle->fshort.value[2]);
+    printf("flong:%8.2E %8.2E %8.2E ",particle->flong.value[0],particle->flong.value[1],particle->flong.value[2]);
     printf("\n");
     
 }

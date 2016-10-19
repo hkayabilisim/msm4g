@@ -146,7 +146,7 @@ Boolean msm4g_unit_test_3()
 Boolean msm4g_unit_test_4()
 {
     const int DIM = 3;
-    const int N = 3; /**< Number of particles in eight.ini */
+    const int N = 3; /* Number of particles in eight.ini */
     Particle particles[3];
     LinkedList *particlesInFile;
     Particle *particleInFile;
@@ -365,6 +365,8 @@ Boolean msm4g_unit_test_9()
     LinkedList *binlist;
     SimulationBox box;
     double binwidth = 10;
+    double potential;
+    double potentialExpected;
     int i;
     
     particlelist = msm4g_particle_read("data/bintest.ini");
@@ -374,8 +376,12 @@ Boolean msm4g_unit_test_9()
         box.width.value[i]    = 30.0;
     }
     binlist=msm4g_bin_generate(&box,particlelist,binwidth);
-    msm4g_force_short(binlist, 10.0, msm4g_smoothing_C1);
-    
+    potential = msm4g_force_short(binlist, 10.0, msm4g_smoothing_C1);
+    /* expected = bin1 + bin2 + (bin1 <-> bin2) */
+    potentialExpected =  1127.0/6000 + (5000*sqrt(2.0)-1776.0)/4000.0 + (2000*sqrt(82.0)-17876.0)/164000.0;
+
+    /* If relative error > 1E-15 then there is something wrong in the calculations; */
+    if (fabs(potentialExpected-potential)/potential  > 1E-15) return false;
     msm4g_bin_destroy(binlist);
     msm4g_linkedlist_destroyWithData(particlelist);
     return status;

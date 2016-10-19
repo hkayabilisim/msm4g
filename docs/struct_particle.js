@@ -4,5 +4,6 @@ var struct_particle =
     [ "m", "struct_particle.html#a5175b356eac1d83a42608b42a25d00b9", null ],
     [ "r", "struct_particle.html#a47ec5c5ce0b9e20e7bdb99c0ae37620f", null ],
     [ "v", "struct_particle.html#adc314a372d9e85962d837ad0cedd5d05", null ],
-    [ "f", "struct_particle.html#ac7ccda4801b7636eba863a58506cf679", null ]
+    [ "fshort", "struct_particle.html#a52708e46b2d5c43376e1372c3ba232d9", null ],
+    [ "flong", "struct_particle.html#ae0165f3336fdb2da1904918c8d243a87", null ]
 ];
