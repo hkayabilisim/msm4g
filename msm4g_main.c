@@ -4,7 +4,7 @@
  * @mainpage
  *
  * MSM4G program is aimed to use the Multi-Level Summation Method (MSM) for (4)
- * Gravitational (G) N-Body problems. 
+ * Gravitational (G) N-Body problems @anchor logonote *.
  *
  * @section datastructures Data Structures
  *
@@ -38,6 +38,10 @@
  * tries to understand the details of the package may prefer
  * to look at the test functions in msm4g_tests.c as they are
  * self-contained and test various features individually.
+ *
+ * @ref logonote "*" The artwork at top of the page is the picture of the Andromeda Galaxy
+ * which is taken using amateur refractor telescope. Courtesy of Kanwar Singh. 
+ * The link to the higher resolutions is: https://commons.wikimedia.org/wiki/File:ANDROMEDA_GALAXY.jpg
  */
 
 #include "msm4g_lib.h"
