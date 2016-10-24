@@ -2,6 +2,7 @@ var annotated_dup =
 [
     [ "Bin", "struct_bin.html", "struct_bin" ],
     [ "D3Vector", "struct_d3_vector.html", "struct_d3_vector" ],
+    [ "DenseGrid", "struct_dense_grid.html", "struct_dense_grid" ],
     [ "I3Vector", "struct_i3_vector.html", "struct_i3_vector" ],
     [ "LinkedList", "struct_linked_list.html", "struct_linked_list" ],
     [ "LinkedListElement", "struct_linked_list_element.html", "struct_linked_list_element" ],

@@ -147,9 +147,81 @@ typedef struct SimulationBox
  */
 typedef struct Simulation
 {
-    struct SimulationParameters simulationParameters; /**< Parameters of the algorithm. */
+    struct SimulationParameters simulationParameters; /**< @brief All of the parameters of the algorithm. */
     struct SimulationBox        simulationBox;        /**< Geometry of the simulation. */
     struct LinkedList           *particles;           /**< The collection of the particles in the SimulationBox */
 } Simulation;
+
+/** @brief A 3-dimensional grid implementation based on dense matrices.
+ *
+ * In this grid implementation, the 3D simulation domain is repeatedly divided into
+ * grids whose nodes are stored in a dense matrix. The visualiazation of a Grid is
+ * shown below. In this 2D example (3D case is the straightforward generalization)
+ * there are nx  and ny grid nodes in each axis and the lattice spacing is h.
+ *
+ * In this setup, there will be nx * ny grid nodes that should be stored which
+ * is done by allocating a vector sufficient enough to hold all the values.
+ *
+ @verbatim
+ (ny-1)*h +=======+=======+=======+=======+
+          |       |       |       |       |
+ .        |       |       |       |       |
+ .        |       |       |       |       |
+ .        +=======+=======+=======+=======+
+          |       |       |       |       |
+          |       |       |       |       |
+          |       |       |       |       |
+ h        +=======+=======+=======+=======+
+          |       |       |       |       |
+          |       |       |       |       |
+          |       |       |       |       |
+ 0        +=======+=======+=======+=======+
+          0       h       2h     ....  (nx-1)*h
+ 
+ @endverbatim
+ */
+typedef struct DenseGrid
+{
+    /** @brief The lattice spacing.
+     *
+     * The distance between the grid nodes along each axis.
+     * Please note that, one can also use different spacings along
+     * each direction but simplicity, it is chosen the same for all directions.
+     */
+    double h;
+    
+    /** @brief The number of nodes along x-axis.
+     *
+     * This member defines the number of nodes
+     * in the x-axis. Hence the number of boxes aling the axis will
+     * nx-1. The coordinate of the last node will be (nx-1)*h.
+     */
+    int nx;
+    
+    /** @brief The number of nodes along y-axis.
+     *
+     * This member defines the number of nodes
+     * in the y-axis. Hence the number of boxes aling the axis will
+     * ny-1. The coordinate of the last node will be (ny-1)*h.
+     */
+    int ny;
+    
+    /** @brief The number of nodes along z-axis.
+     *
+     * This member defines the number of nodes
+     * in the z-axis. Hence the number of boxes aling the axis will
+     * nz-1. The coordinate of the last node will be (nz-1)*h.
+     */
+    int nz;
+    
+    /** @brief Internal data structure to store all the values on the nodes.
+     * 
+     * This data is meant to be modified by calling the functions related
+     * with the grid structures. The size of the array is nx x ny x nz.
+     */
+    double *data;
+    
+} DenseGrid;
+
 
 #endif /* MSM4G_TYPES_H */

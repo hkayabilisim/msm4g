@@ -1,5 +1,8 @@
 var msm4g__lib_8h =
 [
+    [ "msm4g_grid_dense_new", "msm4g__lib_8h.html#a53fb9fb9851d30665147fc1de97f88ba", null ],
+    [ "msm4g_grid_dense_reset", "msm4g__lib_8h.html#a7b7c8c2b0281d9be00ffbc6dd4c240d3", null ],
+    [ "msm4g_grid_dense_destroy", "msm4g__lib_8h.html#ab9190f2febd0fdcbc671c127d990e24a", null ],
     [ "msm4g_smoothing_C1", "msm4g__lib_8h.html#ad1f164d3d1d61c925febc0953fd6061e", null ],
     [ "msm4g_smoothing_C2", "msm4g__lib_8h.html#a4f213287faa51dc9ee170c058e6f1a9b", null ],
     [ "msm4g_smoothing_C3", "msm4g__lib_8h.html#ad46c36589348c7cf14ff585a90908f7e", null ],

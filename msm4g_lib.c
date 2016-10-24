@@ -3,6 +3,45 @@
  */
 #include "msm4g_lib.h"
 
+DenseGrid *msm4g_grid_dense_new(double h, int nx, int ny, int nz)
+{
+    DenseGrid *grid;
+    
+    grid = malloc(sizeof(DenseGrid));
+    grid->h  = h;
+    grid->nx = nx;
+    grid->ny = ny;
+    grid->nz = nz;
+    grid->data = malloc(sizeof(double)*nx*ny*nz);
+    
+    return grid;
+}
+
+void msm4g_grid_dense_reset(DenseGrid *grid)
+{
+    int i,j,k;
+    int offset;
+    for (k=0; k<grid->nz; k++)
+    {
+        offset = k*grid->nz;
+        for (j=0; j<grid->ny; j++)
+        {
+            for (i=0 ; i < grid->nx ; i++)
+            {
+                
+            }
+        }
+    }
+}
+
+void msm4g_grid_dense_destroy(DenseGrid **densegrid)
+{
+    free((*densegrid)->data);
+    (*densegrid)->data = NULL;
+    free(*densegrid);
+    *densegrid = NULL;
+}
+
 double msm4g_smoothing_C1(double rho,int derivative)
 {
     double rho2 ;

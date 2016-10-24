@@ -151,4 +151,14 @@ Boolean msm4g_unit_test_8();
  */
 Boolean msm4g_unit_test_9();
 
+/** @brief Testing DenseGrid implementation.
+ * 
+ * This function tests the basic functionality of DenseGrid related 
+ * functions.
+ *
+ * @return true if the test is succesfull, false otherwise.
+ */
+Boolean msm4g_unit_test_10();
+
+
 #endif /* MSM4G_TESTS_H */

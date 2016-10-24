@@ -13,6 +13,36 @@
 #include <sys/time.h>
 #include "msm4g_types.h"
 
+/** @brief Allocates a new dense grid.
+ *
+ * It create a new DenseGrid structure to hold all the values 
+ * on the grid nodes. The allocated structure should be destroyed
+ * using msm4g_grid_dense_destroy function.
+ *
+ * @param[in] h   The lattice spacing.
+ * @param[in] nx  The number of nodes along x-axis.
+ * @param[in] ny  The number of nodes along y-axis.
+ * @param[in] nz  The number of nodes along z-axis.
+ *
+ * @return A new DenseGrid structure.
+ */
+DenseGrid *msm4g_grid_dense_new(double h, int nx, int ny, int nz);
+
+/** @brief Reset all values to zero.
+ *
+ * @param[in,out] grid A grid to be reset.
+ */
+void msm4g_grid_dense_reset(DenseGrid *grid);
+
+/** @brief Deallocates a given DenseGrid structure.
+ *
+ * Every DenseGrid structure should be deallocated by using this function to
+ * properly deallocate the internal structures so that there is no memory leak.
+ *
+ * @param[in,out] densegrid A pointer to the DenseGrid strucuture to be deallocated.
+ */
+void msm4g_grid_dense_destroy(DenseGrid **densegrid);
+
 /** @brief C1 smoothing function.
  
  \f[

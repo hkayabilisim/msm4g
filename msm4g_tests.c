@@ -25,8 +25,7 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_7);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_8);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_9);
-
-
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_10);
     
     numberoftests = msm4g_linkedlist_size(list);
 
@@ -384,5 +383,26 @@ Boolean msm4g_unit_test_9()
     if (fabs(potentialExpected-potential)/potential  > 1E-15) return false;
     msm4g_bin_destroy(binlist);
     msm4g_linkedlist_destroyWithData(particlelist);
+    return status;
+}
+
+Boolean msm4g_unit_test_10()
+{
+    Boolean status = true;
+    DenseGrid *grid;
+    double h = 1.0;
+    int nx = 10;
+    int ny = 10;
+    int nz = 10;
+    
+    grid = msm4g_grid_dense_new(h,nx,ny,nz);
+    /* Check if it could allocate the grid */
+    if (grid == NULL) return false;
+    
+    msm4g_grid_dense_destroy(&grid);
+    
+    /* The grid should point to NULL after destruction */
+    if (grid != NULL) return false;
+    
     return status;
 }
