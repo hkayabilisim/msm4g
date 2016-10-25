@@ -152,6 +152,10 @@ typedef struct Simulation
     struct LinkedList           *particles;           /**< The collection of the particles in the SimulationBox */
 } Simulation;
 
+
+typedef void (*msm4g_grid_set_handler)(void *grid,int i,int j,int k,double value);
+
+
 /** @brief A 3-dimensional grid implementation based on dense matrices.
  *
  * In this grid implementation, the 3D simulation domain is repeatedly divided into
@@ -221,7 +225,21 @@ typedef struct DenseGrid
      */
     double *data;
     
+    /** @brief The pointer to the function who is responsible for setting a single value.
+     *
+     */
+    msm4g_grid_set_handler set;
+
 } DenseGrid;
 
+/** @brief An abstract structure for grid implementations.
+ *
+ * All grid implementations should set the related functions during
+ * initialization.
+ */
+typedef struct Grid
+{
+    msm4g_grid_set_handler set;
+} Grid;
 
 #endif /* MSM4G_TYPES_H */

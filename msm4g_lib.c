@@ -13,22 +13,34 @@ DenseGrid *msm4g_grid_dense_new(double h, int nx, int ny, int nz)
     grid->ny = ny;
     grid->nz = nz;
     grid->data = malloc(sizeof(double)*nx*ny*nz);
+    grid->set = msm4g_grid_dense_set;
     
     return grid;
 }
 
-void msm4g_grid_dense_reset(DenseGrid *grid)
+void msm4g_grid_dense_set(void *grid,int i,int j,int k,double value)
 {
-    int i,j,k;
-    int offset;
-    for (k=0; k<grid->nz; k++)
+    DenseGrid *densegrid = grid;
+    int position;
+    
+    position =  k * densegrid->nx * densegrid->ny + j * densegrid->nx  + i;
+    densegrid->data[position] = value;
+}
+
+void msm4g_grid_dense_reset(void *grid)
+{
+    DenseGrid *densegrid;
+    int i, j, k;
+    
+    densegrid = (DenseGrid *)grid;
+    
+    for (k = 0; k < densegrid->nz; k++)
     {
-        offset = k*grid->nz;
-        for (j=0; j<grid->ny; j++)
+        for (j = 0; j < densegrid->ny; j++)
         {
-            for (i=0 ; i < grid->nx ; i++)
+            for (i = 0; i < densegrid->nx; i++)
             {
-                
+                msm4g_grid_dense_set(grid, i, j, k, 0.0);
             }
         }
     }

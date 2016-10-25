@@ -13,6 +13,9 @@
 #include <sys/time.h>
 #include "msm4g_types.h"
 
+
+void msm4g_anterpolation_subgrid();
+
 /** @brief Allocates a new dense grid.
  *
  * It create a new DenseGrid structure to hold all the values 
@@ -28,11 +31,23 @@
  */
 DenseGrid *msm4g_grid_dense_new(double h, int nx, int ny, int nz);
 
+/** @brief Sets a value to a specific coordinate of the Grid.
+ *
+ * With this function, one can change a single element of DenseGrid.
+ *
+ * @param[in,out] grid  A DenseGrid whose element is changed.
+ * @param[in]     i     The coordinate in the x-axis.
+ * @param[in]     j     The coordinate in the y-axis.
+ * @param[in]     k     The coordinate in the z-axis.
+ * @param[in]     value The new value of the element.
+ */
+void msm4g_grid_dense_set(void *grid,int i,int j,int k,double value);
+
 /** @brief Reset all values to zero.
  *
  * @param[in,out] grid A grid to be reset.
  */
-void msm4g_grid_dense_reset(DenseGrid *grid);
+void msm4g_grid_dense_reset(void *grid);
 
 /** @brief Deallocates a given DenseGrid structure.
  *
