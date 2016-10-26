@@ -160,5 +160,9 @@ Boolean msm4g_unit_test_9();
  */
 Boolean msm4g_unit_test_10();
 
+/** @brief Testing anterpolation.
+ * @return true if the test is succesfull, false otherwise.
+ */
+Boolean msm4g_unit_test_11();
 
 #endif /* MSM4G_TESTS_H */

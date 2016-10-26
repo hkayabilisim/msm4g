@@ -26,6 +26,8 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_8);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_9);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_10);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_11);
+
     
     numberoftests = msm4g_linkedlist_size(list);
 
@@ -158,16 +160,16 @@ Boolean msm4g_unit_test_4()
     }
     particles[0].r.value[0] =   0.97000436 ;
     particles[0].r.value[1] =  -0.24308753 ;
-    particles[0].v.value[0] =   0.466203685 ;
-    particles[0].v.value[1] =   0.43236573 ;
+    /*  particles[0].v.value[0] =   0.466203685 ;
+        particles[0].v.value[1] =   0.43236573  ; */
     
     particles[1].r.value[0] =  -0.97000436;
     particles[1].r.value[1] =   0.24308753;
-    particles[1].v.value[0] =   0.466203685;
-    particles[1].v.value[1] =   0.43236573;
+    /* particles[1].v.value[0] =   0.466203685;
+       particles[1].v.value[1] =   0.43236573;
     
-    particles[2].v.value[0] =  -0.93240737;
-    particles[2].v.value[1] =  -0.86473146;
+       particles[2].v.value[0] =  -0.93240737;
+       particles[2].v.value[1] =  -0.86473146; */
     
     
     particlesInFile=msm4g_particle_read("data/eight.ini");
@@ -395,18 +397,34 @@ Boolean msm4g_unit_test_10()
     int nx = 3;
     int ny = 3;
     int nz = 3;
-    
+        
     grid = msm4g_grid_dense_new(nx,ny,nz,h);
     /* Check if it could allocated the object */
     if (grid == NULL) return false;
     
     grid->reset(grid,1.0);
     
-    grid->setElement(grid,0,1,2,10.0);
+    grid->setElement(grid,0,1,2,10.0); 
     
     msm4g_grid_destroy(&grid);
     /* The grid should point to NULL after destruction */
     if (grid != NULL) return false;
     
     return status;
+}
+
+Boolean msm4g_unit_test_11()
+{
+    LinkedList *particles ;
+    AbstractGrid *grid ;
+    
+    particles = msm4g_linkedlist_new();
+    msm4g_linkedlist_add(particles, msm4g_particle_new(1, 10.0, 10.0, 10.0));
+    grid = msm4g_grid_dense_new(4, 4, 4, 10);
+    
+    msm4g_anterpolation(grid, particles, CubicHermite);
+    
+    msm4g_linkedlist_destroyWithData(particles);
+    msm4g_grid_destroy(&grid);
+    return true;
 }

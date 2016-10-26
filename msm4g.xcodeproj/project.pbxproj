@@ -11,6 +11,7 @@
 		4A076F5A1DA6B50A00C849BF /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A076F551DA6B33000C849BF /* data */; };
 		4A076F601DA6E5B300C849BF /* msm4g_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A076F5F1DA6E5B300C849BF /* msm4g_main.c */; };
 		4A0F05611DA89A6900703FAB /* msm4g_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F055F1DA89A6900703FAB /* msm4g_lib.c */; };
+		4A601D291DC10F3400BC697E /* msm4g_bases.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A601D271DC10F3400BC697E /* msm4g_bases.c */; };
 		4A6CA0FD1DAF0AE900E88EEE /* msm4g_tests.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6CA0FB1DAF0AE900E88EEE /* msm4g_tests.c */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,8 @@
 		4A076F5F1DA6E5B300C849BF /* msm4g_main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = msm4g_main.c; sourceTree = "<group>"; };
 		4A0F055F1DA89A6900703FAB /* msm4g_lib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = msm4g_lib.c; sourceTree = "<group>"; };
 		4A0F05601DA89A6900703FAB /* msm4g_lib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msm4g_lib.h; sourceTree = "<group>"; };
+		4A601D271DC10F3400BC697E /* msm4g_bases.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = msm4g_bases.c; sourceTree = "<group>"; };
+		4A601D281DC10F3400BC697E /* msm4g_bases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msm4g_bases.h; sourceTree = "<group>"; };
 		4A6CA0FB1DAF0AE900E88EEE /* msm4g_tests.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = msm4g_tests.c; sourceTree = "<group>"; };
 		4A6CA0FC1DAF0AE900E88EEE /* msm4g_tests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msm4g_tests.h; sourceTree = "<group>"; };
 		4AF70D821DA5D82900EC22D9 /* msm4g */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = msm4g; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +55,8 @@
 		4AF70D791DA5D82900EC22D9 = {
 			isa = PBXGroup;
 			children = (
+				4A601D271DC10F3400BC697E /* msm4g_bases.c */,
+				4A601D281DC10F3400BC697E /* msm4g_bases.h */,
 				4A0F055F1DA89A6900703FAB /* msm4g_lib.c */,
 				4A0F05601DA89A6900703FAB /* msm4g_lib.h */,
 				4A6CA0FB1DAF0AE900E88EEE /* msm4g_tests.c */,
@@ -143,6 +148,7 @@
 				4A0F05611DA89A6900703FAB /* msm4g_lib.c in Sources */,
 				4A6CA0FD1DAF0AE900E88EEE /* msm4g_tests.c in Sources */,
 				4A076F601DA6E5B300C849BF /* msm4g_main.c in Sources */,
+				4A601D291DC10F3400BC697E /* msm4g_bases.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,8 @@
 #ifndef MSM4G_TYPES_H
 #define MSM4G_TYPES_H
 
+#define MAX_POLY_DEGREE  20
+
 /** @brief A custom definition of boolean type.
  *
  * Although, C99 has boolean type, I prefer to stay on ANSI C.
@@ -321,5 +323,6 @@ typedef struct DenseGrid
     double *data;
     
 } DenseGrid;
+
 
 #endif /* MSM4G_TYPES_H */

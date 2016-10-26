@@ -11,10 +11,11 @@
 #include <string.h>
 #include <float.h>
 #include <sys/time.h>
+#include <assert.h>
 #include "msm4g_types.h"
+#include "msm4g_bases.h"
 
-
-void msm4g_anterpolation(AbstractGrid *gridmass,LinkedList *particles);
+void msm4g_anterpolation(AbstractGrid *gridmass,LinkedList *particles,const BaseFunction *base);
 
 /** @brief Deallocates a grid.
  *
@@ -419,12 +420,13 @@ Particle *msm4g_particle_empty();
 /** @brief Creates a new Particle with given properties.
  *
  * @param[in] mass     The mass of the Particle.
- * @param[in] location 3-element double array of location.
- * @param[in] velocity 3-element double array of velocity.
+ * @param[in] x        x-axis of the location.
+ * @param[in] y        y-axis of the location.
+ * @param[in] z        z-axis of the location.
  *
  * @return The pointer of the newly allocated ::Particle.
  */
-Particle *msm4g_particle_new(double mass,double *location,double *velocity);
+Particle *msm4g_particle_new(double mass,double x, double y,double z);
 
 /** @brief Creates an array of andom particles.
  *
@@ -458,7 +460,7 @@ Particle *msm4g_particle_reset(Particle *Particle);
 
 /** @brief Print the properties of a Particle.
  *
- * The mass, location, velocity, and other properties if it has any
+ * The mass, location, and other properties if it has any
  * are printed to the standard output.
  *
  * @param[in] Particle The Particle whose properties are to be printed.

@@ -11,6 +11,7 @@ var msm4g__types_8h =
     [ "Simulation", "struct_simulation.html", "struct_simulation" ],
     [ "AbstractGrid", "struct_abstract_grid.html", "struct_abstract_grid" ],
     [ "DenseGrid", "struct_dense_grid.html", "struct_dense_grid" ],
+    [ "MAX_POLY_DEGREE", "msm4g__types_8h.html#ad45f6c8ce5dd25eb295cdd22d6c295ab", null ],
     [ "D3Vector", "msm4g__types_8h.html#a3944c44182540668f86ce739f91291b4", null ],
     [ "I3Vector", "msm4g__types_8h.html#acc311979c59a7a74dcfec7084f0ada3f", null ],
     [ "LinkedListElement", "msm4g__types_8h.html#adb5acc7fc708cec106accdf2a83490af", null ],

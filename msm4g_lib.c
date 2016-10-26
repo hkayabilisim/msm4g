@@ -2,22 +2,66 @@
  * @brief The definitions of all core functions of MSM4G package.
  */
 #include "msm4g_lib.h"
+#include "msm4g_bases.h"
 
-void msm4g_anterpolation(AbstractGrid *gridmass, LinkedList *particles)
+void msm4g_anterpolation(AbstractGrid *gridmass, LinkedList *particles,const BaseFunction *base)
 {
     int i0,j0,k0;
-    int p;
+    int i,j,k;
+    double g;
+    double mass;
+    int p = base->p;
+    int v;
+    double x,y,z;
+    double rx_hx,ry_hy,rz_hz;
+    int s_edge;
     double h = gridmass->h;
+    double tx,ty,tz;
+    double phix[MAX_POLY_DEGREE], phiy[MAX_POLY_DEGREE], phiz[MAX_POLY_DEGREE];
     LinkedListElement *curr;
     Particle *particle;
+    
+    s_edge = (p-1)/2;
     curr = particles->head;
     while (curr != NULL)
     {
         particle = (Particle *)curr->data;
-        i0 = particle->r.value[0]/h - (p-1)/2;
-        j0 = particle->r.value[1]/h - (p-1)/2;
-        k0 = particle->r.value[2]/h - (p-1)/2;
+        x =  particle->r.value[0];
+        y =  particle->r.value[1];
+        z =  particle->r.value[2];
+        mass = particle->m;
+        msm4g_particle_print(particle);
         
+        rx_hx = x / h;
+        ry_hy = y / h;
+        rz_hz = z / h;
+        
+        i0 = floor(rx_hx) - s_edge;
+        j0 = floor(ry_hy) - s_edge;
+        k0 = floor(rz_hz) - s_edge;
+        
+        for (v = 0; v < p + 1; v++)
+        {
+            tx = rx_hx - i0 - v;
+            ty = ry_hy - j0 - v;
+            tz = rz_hz - k0 - v;
+            phix[v] = base->region[v](tx);
+            phiy[v] = base->region[v](ty);
+            phiz[v] = base->region[v](tz);
+        }
+        
+        for (i=0; i<p+1; i++)
+        {
+            for (j=0;j<p+1; j++)
+            {
+                for (k=0; k<p+1; k++)
+                {
+                    g = phix[i] * phiy[j] * phiz[k] * mass;
+                    printf("%d %d %d --> %f\n",i+i0,j+j0,k+k0,g);
+                    /* gridmass->setElement(gridmass,i+i0,j+j0,k+k0,g); */
+                }
+            }
+        }
         curr = curr->next;
     }
 }
@@ -435,7 +479,8 @@ void msm4g_linkedlist_destroyWithData(LinkedList *list)
     curr = list->head;
     while (curr != NULL)
     {
-        free(curr->data);
+        if (curr->data)
+            free(curr->data);
         curr = curr->next;
     }
     
@@ -767,7 +812,7 @@ LinkedList *msm4g_particle_read(const char *filename)
         int ret = fscanf(fp,"%lf %lf %lf %lf %lf %lf %lf",&mass,&r[0],&r[1],&r[2],&v[0],&v[1],&v[2]);
         if (ret == 7)
         {
-            particle = msm4g_particle_new(mass, r, v);
+            particle = msm4g_particle_new(mass, r[0],r[1],r[2]);
             msm4g_linkedlist_add(particles, particle);
             iparticle++;
         } else if (ret == EOF)
@@ -799,17 +844,14 @@ Particle *msm4g_particle_empty()
     return particle;
 }
 
-Particle *msm4g_particle_new(double mass,double *location,double *velocity)
+Particle *msm4g_particle_new(double mass,double x,double y,double z)
 {
     Particle *particle;
     particle = msm4g_particle_empty();
     particle->m = mass;
-    particle->r.value[0] = location[0];
-    particle->r.value[1] = location[1];
-    particle->r.value[2] = location[2];
-    particle->v.value[0] = velocity[0];
-    particle->v.value[1] = velocity[1];
-    particle->v.value[2] = velocity[2];
+    particle->r.value[0] = x;
+    particle->r.value[1] = y;
+    particle->r.value[2] = z;
     return particle;
 }
 
