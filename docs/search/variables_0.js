@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['a',['a',['../struct_simulation_parameters.html#a1031d0e0a97a340abfe0a6ab9e831045',1,'SimulationParameters']]]
+  ['_5f',['_',['../struct_dense_grid.html#acca8b1cafec81a8691672eef4f415c9f',1,'DenseGrid']]]
 ];

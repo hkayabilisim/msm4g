@@ -3,55 +3,91 @@
  */
 #include "msm4g_lib.h"
 
-DenseGrid *msm4g_grid_dense_new(double h, int nx, int ny, int nz)
+void msm4g_anterpolation(AbstractGrid *gridmass, LinkedList *particles)
 {
-    DenseGrid *grid;
+    int i0,j0,k0;
+    int p;
+    double h = gridmass->h;
+    LinkedListElement *curr;
+    Particle *particle;
+    curr = particles->head;
+    while (curr != NULL)
+    {
+        particle = (Particle *)curr->data;
+        i0 = particle->r.value[0]/h - (p-1)/2;
+        j0 = particle->r.value[1]/h - (p-1)/2;
+        k0 = particle->r.value[2]/h - (p-1)/2;
+        
+        curr = curr->next;
+    }
+}
+
+void msm4g_grid_destroy(AbstractGrid **grid)
+{
+    (*grid)->destructor(grid);
+    free(*grid);
+    *grid = NULL;
+}
+
+AbstractGrid *msm4g_grid_dense_new(int nx, int ny, int nz,double h)
+{
+    AbstractGrid *grid;
+    DenseGrid *densegrid;
     
-    grid = malloc(sizeof(DenseGrid));
+    densegrid = malloc(sizeof(DenseGrid));
+    grid = (AbstractGrid *)densegrid;
     grid->h  = h;
     grid->nx = nx;
     grid->ny = ny;
     grid->nz = nz;
-    grid->data = malloc(sizeof(double)*nx*ny*nz);
-    grid->set = msm4g_grid_dense_set;
+    grid->constructor = msm4g_grid_dense_new;
+    grid->destructor  = msm4g_grid_dense_destroy;
+    grid->setElement  = msm4g_grid_dense_setElement;
+    grid->getElement  = msm4g_grid_dense_getElement;
+    grid->reset       = msm4g_grid_dense_reset;
+
+    densegrid->data = malloc(sizeof(double)*nx*ny*nz);
+    
     
     return grid;
 }
 
-void msm4g_grid_dense_set(void *grid,int i,int j,int k,double value)
+void msm4g_grid_dense_setElement(AbstractGrid *grid,int i,int j,int k,double value)
 {
-    DenseGrid *densegrid = grid;
+    DenseGrid *densegrid = (DenseGrid *)grid;
     int position;
     
-    position =  k * densegrid->nx * densegrid->ny + j * densegrid->nx  + i;
+    position =  k * grid->nx * grid->ny + j * grid->nx  + i;
     densegrid->data[position] = value;
 }
 
-void msm4g_grid_dense_reset(void *grid)
+double msm4g_grid_dense_getElement(AbstractGrid *grid,int i,int j,int k)
 {
-    DenseGrid *densegrid;
-    int i, j, k;
+    DenseGrid *densegrid = (DenseGrid *) grid;
+    int position;
     
-    densegrid = (DenseGrid *)grid;
-    
-    for (k = 0; k < densegrid->nz; k++)
+    position =  k * grid->nx * grid->ny + j * grid->nx  + i;
+    return densegrid->data[position];
+}
+
+void msm4g_grid_dense_reset(AbstractGrid *grid,double value)
+{
+    int i,size;
+    DenseGrid *self;
+    self = (DenseGrid *)grid;
+    size = grid->nx * grid->ny * grid->nz ;
+    for (i=0; i<size; i++)
     {
-        for (j = 0; j < densegrid->ny; j++)
-        {
-            for (i = 0; i < densegrid->nx; i++)
-            {
-                msm4g_grid_dense_set(grid, i, j, k, 0.0);
-            }
-        }
+        self->data[i] = value;
     }
 }
 
-void msm4g_grid_dense_destroy(DenseGrid **densegrid)
+void msm4g_grid_dense_destroy(AbstractGrid **grid)
 {
-    free((*densegrid)->data);
-    (*densegrid)->data = NULL;
-    free(*densegrid);
-    *densegrid = NULL;
+    DenseGrid *densegrid;
+    densegrid = (DenseGrid *)(*grid);
+    free(densegrid->data);
+    densegrid->data = NULL;
 }
 
 double msm4g_smoothing_C1(double rho,int derivative)

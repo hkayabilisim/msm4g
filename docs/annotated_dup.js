@@ -1,5 +1,6 @@
 var annotated_dup =
 [
+    [ "AbstractGrid", "struct_abstract_grid.html", "struct_abstract_grid" ],
     [ "Bin", "struct_bin.html", "struct_bin" ],
     [ "D3Vector", "struct_d3_vector.html", "struct_d3_vector" ],
     [ "DenseGrid", "struct_dense_grid.html", "struct_dense_grid" ],

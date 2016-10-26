@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['i3vector',['I3Vector',['../struct_i3_vector.html',1,'']]]
+  ['d3vector',['D3Vector',['../struct_d3_vector.html',1,'']]],
+  ['densegrid',['DenseGrid',['../struct_dense_grid.html',1,'']]]
 ];

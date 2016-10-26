@@ -14,24 +14,33 @@
 #include "msm4g_types.h"
 
 
-void msm4g_anterpolation_subgrid();
+void msm4g_anterpolation(AbstractGrid *gridmass,LinkedList *particles);
 
-/** @brief Allocates a new dense grid.
+/** @brief Deallocates a grid.
+ *
+ * This function first calls the destructor of the 
+ * grid, and then deallocates itself.
+ *
+ * @param[in,out] grid The grid to be allocated.
+ */
+void msm4g_grid_destroy(AbstractGrid **grid);
+
+/** @brief A DenseGrid constructor.
  *
  * It create a new DenseGrid structure to hold all the values 
- * on the grid nodes. The allocated structure should be destroyed
- * using msm4g_grid_dense_destroy function.
+ * on the grid nodes. The internal data structure is later dealocated
+ * in the msm4g_grid_dense_destroy() function.
  *
- * @param[in] h   The lattice spacing.
  * @param[in] nx  The number of nodes along x-axis.
  * @param[in] ny  The number of nodes along y-axis.
  * @param[in] nz  The number of nodes along z-axis.
+ * @param[in] h   The lattice spacing.
  *
  * @return A new DenseGrid structure.
  */
-DenseGrid *msm4g_grid_dense_new(double h, int nx, int ny, int nz);
+AbstractGrid *msm4g_grid_dense_new(int nx, int ny, int nz,double h);
 
-/** @brief Sets a value to a specific coordinate of the Grid.
+/** @brief Sets a value to a specific coordinate of the DenseGrid.
  *
  * With this function, one can change a single element of DenseGrid.
  *
@@ -41,22 +50,42 @@ DenseGrid *msm4g_grid_dense_new(double h, int nx, int ny, int nz);
  * @param[in]     k     The coordinate in the z-axis.
  * @param[in]     value The new value of the element.
  */
-void msm4g_grid_dense_set(void *grid,int i,int j,int k,double value);
+void msm4g_grid_dense_setElement(AbstractGrid *grid,int i,int j,int k,double value);
 
-/** @brief Reset all values to zero.
+
+/** @brief Gets a single element from a DenseGrid object.
  *
- * @param[in,out] grid A grid to be reset.
+ * Returns the (i,j,k) element of the dense matrix.
+ *
+ * @param[in] grid The AbstractGrid object.
+ * @param[in] i    The coordinate in the x-axis.
+ * @param[in] j    The coordinate in the y-axis.
+ * @param[in] k    The coordinate in the z-axis.
+ *
+ * @return The value of the element corresponding to (i,j,k) coordinate.
  */
-void msm4g_grid_dense_reset(void *grid);
+double msm4g_grid_dense_getElement(AbstractGrid *grid,int i,int j,int k);
 
-/** @brief Deallocates a given DenseGrid structure.
+
+/** @brief Reset all values in the grid to the given value.
  *
- * Every DenseGrid structure should be deallocated by using this function to
- * properly deallocate the internal structures so that there is no memory leak.
+ * This function resets the elements of the internal
+ * dense matrix to the given value.
+ *
+ * @param[in,out] grid   A grid to be reset.
+ * @param[in]     value  The grid is to be reset to value.
+ */
+void msm4g_grid_dense_reset(AbstractGrid *grid,double value);
+
+/** @brief Deconstructor for the DenseGrid object.
+ *
+ * Internal data structure used in a DenseGrid object is deallocated by using 
+ * this function. The deallocation of the grid object itself is handled in 
+ * msm4g_grid_destroy() function.
  *
  * @param[in,out] densegrid A pointer to the DenseGrid strucuture to be deallocated.
  */
-void msm4g_grid_dense_destroy(DenseGrid **densegrid);
+void msm4g_grid_dense_destroy(AbstractGrid **densegrid);
 
 /** @brief C1 smoothing function.
  

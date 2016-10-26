@@ -1,8 +1,12 @@
 var msm4g__lib_8c =
 [
-    [ "msm4g_grid_dense_new", "msm4g__lib_8c.html#a53fb9fb9851d30665147fc1de97f88ba", null ],
-    [ "msm4g_grid_dense_reset", "msm4g__lib_8c.html#a7b7c8c2b0281d9be00ffbc6dd4c240d3", null ],
-    [ "msm4g_grid_dense_destroy", "msm4g__lib_8c.html#ab9190f2febd0fdcbc671c127d990e24a", null ],
+    [ "msm4g_anterpolation", "msm4g__lib_8c.html#abdac7bb8e28a810e1329d882c94f5d05", null ],
+    [ "msm4g_grid_destroy", "msm4g__lib_8c.html#a0ac5f1ca0792dc9571a729dd62e18978", null ],
+    [ "msm4g_grid_dense_new", "msm4g__lib_8c.html#a46f87dc8195ab7a7d214486ee89b47a4", null ],
+    [ "msm4g_grid_dense_setElement", "msm4g__lib_8c.html#a0b6c45590e6c66f1c7212d7cb2b60981", null ],
+    [ "msm4g_grid_dense_getElement", "msm4g__lib_8c.html#a817e1fa2666637a48066220fcbbcbc4a", null ],
+    [ "msm4g_grid_dense_reset", "msm4g__lib_8c.html#a0206da519893c9ed9dd8e7f56dc5cc6e", null ],
+    [ "msm4g_grid_dense_destroy", "msm4g__lib_8c.html#ae53249ba7bbf9d377f4a0f4a52551e25", null ],
     [ "msm4g_smoothing_C1", "msm4g__lib_8c.html#ad1f164d3d1d61c925febc0953fd6061e", null ],
     [ "msm4g_smoothing_C2", "msm4g__lib_8c.html#a4f213287faa51dc9ee170c058e6f1a9b", null ],
     [ "msm4g_smoothing_C3", "msm4g__lib_8c.html#ad46c36589348c7cf14ff585a90908f7e", null ],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bin',['Bin',['../struct_bin.html',1,'']]]
+  ['abstractgrid',['AbstractGrid',['../struct_abstract_grid.html',1,'']]]
 ];

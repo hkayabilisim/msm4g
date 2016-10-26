@@ -130,8 +130,11 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation.html">Simulation</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Top level information about the simulation.  <a href="struct_simulation.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_abstract_grid.html">AbstractGrid</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An abstract 3-dimensional grid structure.  <a href="struct_abstract_grid.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_dense_grid.html">DenseGrid</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A 3-dimensional grid implementation based on dense matrices.  <a href="struct_dense_grid.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> implementation for the <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a>.  <a href="struct_dense_grid.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -166,8 +169,11 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ad43311de2ce549cd715095669dd8d18b"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_simulation.html">Simulation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#ad43311de2ce549cd715095669dd8d18b">Simulation</a></td></tr>
 <tr class="memdesc:ad43311de2ce549cd715095669dd8d18b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Top level information about the simulation.  <a href="#ad43311de2ce549cd715095669dd8d18b">More...</a><br /></td></tr>
 <tr class="separator:ad43311de2ce549cd715095669dd8d18b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e4d0e490ada8938b9574925116794b7"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_abstract_grid.html">AbstractGrid</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#a6e4d0e490ada8938b9574925116794b7">AbstractGrid</a></td></tr>
+<tr class="memdesc:a6e4d0e490ada8938b9574925116794b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">An abstract 3-dimensional grid structure.  <a href="#a6e4d0e490ada8938b9574925116794b7">More...</a><br /></td></tr>
+<tr class="separator:a6e4d0e490ada8938b9574925116794b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69dc9a1a65291dcb9c5dcdb2c095bfc7"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_dense_grid.html">DenseGrid</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#a69dc9a1a65291dcb9c5dcdb2c095bfc7">DenseGrid</a></td></tr>
-<tr class="memdesc:a69dc9a1a65291dcb9c5dcdb2c095bfc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A 3-dimensional grid implementation based on dense matrices.  <a href="#a69dc9a1a65291dcb9c5dcdb2c095bfc7">More...</a><br /></td></tr>
+<tr class="memdesc:a69dc9a1a65291dcb9c5dcdb2c095bfc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> implementation for the <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a>.  <a href="#a69dc9a1a65291dcb9c5dcdb2c095bfc7">More...</a><br /></td></tr>
 <tr class="separator:a69dc9a1a65291dcb9c5dcdb2c095bfc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -359,21 +365,21 @@ Enumerations</h2></td></tr>
 
 </div>
 </div>
-<a id="a69dc9a1a65291dcb9c5dcdb2c095bfc7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69dc9a1a65291dcb9c5dcdb2c095bfc7">&sect;&nbsp;</a></span>DenseGrid</h2>
+<a id="a6e4d0e490ada8938b9574925116794b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e4d0e490ada8938b9574925116794b7">&sect;&nbsp;</a></span>AbstractGrid</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef struct <a class="el" href="struct_dense_grid.html">DenseGrid</a>  <a class="el" href="struct_dense_grid.html">DenseGrid</a></td>
+          <td class="memname">typedef struct <a class="el" href="struct_abstract_grid.html">AbstractGrid</a>  <a class="el" href="struct_abstract_grid.html">AbstractGrid</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>A 3-dimensional grid implementation based on dense matrices. </p>
-<p>In this grid implementation, the 3D simulation domain is repeatedly divided into grids whose nodes are stored in a dense matrix. The visualiazation of a Grid is shown below. In this 2D example (3D case is the straightforward generalization) there are nx and ny grid nodes in each axis and the lattice spacing is h.</p>
-<p>In this setup, there will be nx * ny grid nodes that should be stored which is done by allocating a vector sufficient enough to hold all the values.</p>
+<p>An abstract 3-dimensional grid structure. </p>
+<p>This <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> structure defines the interfaces that the grid implementations should follow. Its main aim is to hide the details of different grid implementations as much as possible and increase the code reuse.</p>
+<p>Independant from the implementation, a 3D simulation domain is repeatedly divided into grids whose nodes are stored is internal data structures of the implemention grid object such as <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> or SparseGrid. The visualiazation of an <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> is shown below. In this 2D example (3D case is the straightforward generalization) there are nx and ny grid nodes in each axis and the lattice spacing is h.</p>
 <pre class="fragment">(ny-1)*h +=======+=======+=======+=======+
          |       |       |       |       |
 .        |       |       |       |       |
@@ -387,7 +393,26 @@ h        +=======+=======+=======+=======+
          |       |       |       |       |
          |       |       |       |       |
 0        +=======+=======+=======+=======+
-         0       h       2h     ....  (nx-1)*h</pre> 
+         0       h       2h     ....  (nx-1)*h</pre><p>In order to use <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> in the code, one should first use a constructor designed for an implementation. After that, the methods msm4g_grid_xxx can be be used without dealing with details regarding the grid implementation.</p>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> <a class="code" href="struct_abstract_grid.html#a02d47a4f36ec0bcce348696534567e30">nx</a>=10; </div><div class="line"><span class="keywordtype">int</span> <a class="code" href="struct_abstract_grid.html#a9f4e20a91b26459133b83992e9d8d381">ny</a>=10;</div><div class="line"><span class="keywordtype">int</span> <a class="code" href="struct_abstract_grid.html#ac2eda98bb6d7e89cc3239973db2800cf">nz</a>=10;</div><div class="line"><span class="keywordtype">double</span> <a class="code" href="struct_abstract_grid.html#a8ee9be1b5aa75abae556de3088cba6d9">h</a>=1.0;</div><div class="line"><span class="keywordtype">double</span> element;</div><div class="line">AsbtractGrid *grid;</div><div class="line"></div><div class="line">grid = msm4g_dense_grid_new(nx,ny,nz,h);</div><div class="line"></div><div class="line">grid-&gt;reset(grid, 0.0);</div><div class="line"></div><div class="line">grid-&gt;setElement(grid,3,4,5,10.0);</div><div class="line"></div><div class="line">element = grid-&gt;getElement(grid,3,4,5);</div><div class="line"></div><div class="line"><a class="code" href="msm4g__lib_8c.html#a0ac5f1ca0792dc9571a729dd62e18978">msm4g_grid_destroy</a>(&amp;grid);</div></div><!-- fragment --> 
+</div>
+</div>
+<a id="a69dc9a1a65291dcb9c5dcdb2c095bfc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69dc9a1a65291dcb9c5dcdb2c095bfc7">&sect;&nbsp;</a></span>DenseGrid</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct_dense_grid.html">DenseGrid</a>  <a class="el" href="struct_dense_grid.html">DenseGrid</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> implementation for the <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a>. </p>
+<p>In this implementation, the nodes in the grid are stored consecutively in a dense matrix which is flattened into a long vector with size nx * ny * nz.</p>
+<p>The constructor, destructor, setter and other methods related with the implementation are defined in msm4g_grid_dense_xxx functions. They are later attached to the object during the construction of the object. </p>
+
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>

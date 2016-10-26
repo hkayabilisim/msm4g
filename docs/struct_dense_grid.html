@@ -94,130 +94,45 @@ $(document).ready(function(){initNavTree('struct_dense_grid.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p>A 3-dimensional grid implementation based on dense matrices.  
+<p>A <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> implementation for the <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a>.  
  <a href="struct_dense_grid.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a8ee9be1b5aa75abae556de3088cba6d9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_dense_grid.html#a8ee9be1b5aa75abae556de3088cba6d9">h</a></td></tr>
-<tr class="memdesc:a8ee9be1b5aa75abae556de3088cba6d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The lattice spacing.  <a href="#a8ee9be1b5aa75abae556de3088cba6d9">More...</a><br /></td></tr>
-<tr class="separator:a8ee9be1b5aa75abae556de3088cba6d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02d47a4f36ec0bcce348696534567e30"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_dense_grid.html#a02d47a4f36ec0bcce348696534567e30">nx</a></td></tr>
-<tr class="memdesc:a02d47a4f36ec0bcce348696534567e30"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of nodes along x-axis.  <a href="#a02d47a4f36ec0bcce348696534567e30">More...</a><br /></td></tr>
-<tr class="separator:a02d47a4f36ec0bcce348696534567e30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f4e20a91b26459133b83992e9d8d381"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_dense_grid.html#a9f4e20a91b26459133b83992e9d8d381">ny</a></td></tr>
-<tr class="memdesc:a9f4e20a91b26459133b83992e9d8d381"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of nodes along y-axis.  <a href="#a9f4e20a91b26459133b83992e9d8d381">More...</a><br /></td></tr>
-<tr class="separator:a9f4e20a91b26459133b83992e9d8d381"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2eda98bb6d7e89cc3239973db2800cf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_dense_grid.html#ac2eda98bb6d7e89cc3239973db2800cf">nz</a></td></tr>
-<tr class="memdesc:ac2eda98bb6d7e89cc3239973db2800cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of nodes along z-axis.  <a href="#ac2eda98bb6d7e89cc3239973db2800cf">More...</a><br /></td></tr>
-<tr class="separator:ac2eda98bb6d7e89cc3239973db2800cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acca8b1cafec81a8691672eef4f415c9f"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="struct_abstract_grid.html">AbstractGrid</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_dense_grid.html#acca8b1cafec81a8691672eef4f415c9f">_</a></td></tr>
+<tr class="memdesc:acca8b1cafec81a8691672eef4f415c9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The members inherited from <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a>.  <a href="#acca8b1cafec81a8691672eef4f415c9f">More...</a><br /></td></tr>
+<tr class="separator:acca8b1cafec81a8691672eef4f415c9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23436a7a2b44939627b59df11be7ad75"><td class="memItemLeft" align="right" valign="top">double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_dense_grid.html#a23436a7a2b44939627b59df11be7ad75">data</a></td></tr>
 <tr class="memdesc:a23436a7a2b44939627b59df11be7ad75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal data structure to store all the values on the nodes.  <a href="#a23436a7a2b44939627b59df11be7ad75">More...</a><br /></td></tr>
 <tr class="separator:a23436a7a2b44939627b59df11be7ad75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A 3-dimensional grid implementation based on dense matrices. </p>
-<p>In this grid implementation, the 3D simulation domain is repeatedly divided into grids whose nodes are stored in a dense matrix. The visualiazation of a Grid is shown below. In this 2D example (3D case is the straightforward generalization) there are nx and ny grid nodes in each axis and the lattice spacing is h.</p>
-<p>In this setup, there will be nx * ny grid nodes that should be stored which is done by allocating a vector sufficient enough to hold all the values.</p>
-<pre class="fragment">(ny-1)*h +=======+=======+=======+=======+
-         |       |       |       |       |
-.        |       |       |       |       |
-.        |       |       |       |       |
-.        +=======+=======+=======+=======+
-         |       |       |       |       |
-         |       |       |       |       |
-         |       |       |       |       |
-h        +=======+=======+=======+=======+
-         |       |       |       |       |
-         |       |       |       |       |
-         |       |       |       |       |
-0        +=======+=======+=======+=======+
-         0       h       2h     ....  (nx-1)*h</pre> 
-<p>Definition at line <a class="el" href="msm4g__types_8h_source.html#l00183">183</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
+<div class="textblock"><p>A <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> implementation for the <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a>. </p>
+<p>In this implementation, the nodes in the grid are stored consecutively in a dense matrix which is flattened into a long vector with size nx * ny * nz.</p>
+<p>The constructor, destructor, setter and other methods related with the implementation are defined in msm4g_grid_dense_xxx functions. They are later attached to the object during the construction of the object. </p>
+
+<p>Definition at line <a class="el" href="msm4g__types_8h_source.html#l00293">293</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="a8ee9be1b5aa75abae556de3088cba6d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ee9be1b5aa75abae556de3088cba6d9">&sect;&nbsp;</a></span>h</h2>
+<a id="acca8b1cafec81a8691672eef4f415c9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acca8b1cafec81a8691672eef4f415c9f">&sect;&nbsp;</a></span>_</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">double h</td>
+          <td class="memname">struct <a class="el" href="struct_abstract_grid.html">AbstractGrid</a> _</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>The lattice spacing. </p>
-<p>The distance between the grid nodes along each axis. Please note that, one can also use different spacings along each direction but simplicity, it is chosen the same for all directions. </p>
+<p>The members inherited from <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a>. </p>
+<p>The members common to all grid implementations are already defined in the <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> structure. In order to get rid of copy-paste of all members from <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> to <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a>, the content of <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> is inserted at the top of the <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> structure.</p>
+<dl class="section note"><dt>Note</dt><dd>It is very important to inlide the <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> at the top because it is the only way to type cast a (<a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> *) to (<a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> *) or visa versa in a secure way.</dd></dl>
+<p>The members inherited from the <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> should not meant to be directly accessed. Therefore the name will never be used in the code. That's why, an obscure "_" symbol is used. </p>
 
-<p>Definition at line <a class="el" href="msm4g__types_8h_source.html#l00191">191</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
-
-<p>Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00006">msm4g_grid_dense_new()</a>.</p>
-
-</div>
-</div>
-<a id="a02d47a4f36ec0bcce348696534567e30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02d47a4f36ec0bcce348696534567e30">&sect;&nbsp;</a></span>nx</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int nx</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The number of nodes along x-axis. </p>
-<p>This member defines the number of nodes in the x-axis. Hence the number of boxes aling the axis will nx-1. The coordinate of the last node will be (nx-1)*h. </p>
-
-<p>Definition at line <a class="el" href="msm4g__types_8h_source.html#l00199">199</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
-
-<p>Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00006">msm4g_grid_dense_new()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00020">msm4g_grid_dense_reset()</a>.</p>
-
-</div>
-</div>
-<a id="a9f4e20a91b26459133b83992e9d8d381"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f4e20a91b26459133b83992e9d8d381">&sect;&nbsp;</a></span>ny</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int ny</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The number of nodes along y-axis. </p>
-<p>This member defines the number of nodes in the y-axis. Hence the number of boxes aling the axis will ny-1. The coordinate of the last node will be (ny-1)*h. </p>
-
-<p>Definition at line <a class="el" href="msm4g__types_8h_source.html#l00207">207</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
-
-<p>Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00006">msm4g_grid_dense_new()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00020">msm4g_grid_dense_reset()</a>.</p>
-
-</div>
-</div>
-<a id="ac2eda98bb6d7e89cc3239973db2800cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2eda98bb6d7e89cc3239973db2800cf">&sect;&nbsp;</a></span>nz</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int nz</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The number of nodes along z-axis. </p>
-<p>This member defines the number of nodes in the z-axis. Hence the number of boxes aling the axis will nz-1. The coordinate of the last node will be (nz-1)*h. </p>
-
-<p>Definition at line <a class="el" href="msm4g__types_8h_source.html#l00215">215</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
-
-<p>Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00006">msm4g_grid_dense_new()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00020">msm4g_grid_dense_reset()</a>.</p>
+<p>Definition at line <a class="el" href="msm4g__types_8h_source.html#l00311">311</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
 
 </div>
 </div>
@@ -234,11 +149,11 @@ h        +=======+=======+=======+=======+
 </div><div class="memdoc">
 
 <p>Internal data structure to store all the values on the nodes. </p>
-<p>This data is meant to be modified by calling the functions related with the grid structures. The size of the array is nx x ny x nz. </p>
+<p>This is the internal data structure to hold all of the elements of the grid. It is important to define this member after inherided members. The data array should be allocated in the constructor of the grid and properly deallocated in the destructor. </p>
 
-<p>Definition at line <a class="el" href="msm4g__types_8h_source.html#l00222">222</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
+<p>Definition at line <a class="el" href="msm4g__types_8h_source.html#l00321">321</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
 
-<p>Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00006">msm4g_grid_dense_new()</a>.</p>
+<p>Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00085">msm4g_grid_dense_destroy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00064">msm4g_grid_dense_getElement()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00032">msm4g_grid_dense_new()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00055">msm4g_grid_dense_setElement()</a>.</p>
 
 </div>
 </div>

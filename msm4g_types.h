@@ -152,19 +152,17 @@ typedef struct Simulation
     struct LinkedList           *particles;           /**< The collection of the particles in the SimulationBox */
 } Simulation;
 
-
-typedef void (*msm4g_grid_set_handler)(void *grid,int i,int j,int k,double value);
-
-
-/** @brief A 3-dimensional grid implementation based on dense matrices.
+/** @brief An abstract 3-dimensional grid structure.
  *
- * In this grid implementation, the 3D simulation domain is repeatedly divided into
- * grids whose nodes are stored in a dense matrix. The visualiazation of a Grid is
+ * This AbstractGrid structure defines the interfaces that the grid implementations
+ * should follow. Its main aim is to hide the details of different grid implementations
+ * as much as possible and increase the code reuse.
+ 
+ * Independant from the implementation, a 3D simulation domain is repeatedly divided into
+ * grids whose nodes are stored is internal data structures of the implemention grid object
+ * such as DenseGrid or SparseGrid. The visualiazation of an AbstractGrid is
  * shown below. In this 2D example (3D case is the straightforward generalization)
  * there are nx  and ny grid nodes in each axis and the lattice spacing is h.
- *
- * In this setup, there will be nx * ny grid nodes that should be stored which
- * is done by allocating a vector sufficient enough to hold all the values.
  *
  @verbatim
  (ny-1)*h +=======+=======+=======+=======+
@@ -183,8 +181,31 @@ typedef void (*msm4g_grid_set_handler)(void *grid,int i,int j,int k,double value
           0       h       2h     ....  (nx-1)*h
  
  @endverbatim
+ *
+ * In order to use AbstractGrid in the code, one should first use a constructor
+ * designed for an implementation. After that, the methods msm4g_grid_xxx can be 
+ * be used without dealing with details regarding the grid implementation.
+ *
+ * @code
+   int nx=10; 
+   int ny=10;
+   int nz=10;
+   double h=1.0;
+   double element;
+   AsbtractGrid *grid;
+ 
+   grid = msm4g_dense_grid_new(nx,ny,nz,h);
+   
+   grid->reset(grid, 0.0);
+ 
+   grid->setElement(grid,3,4,5,10.0);
+ 
+   element = grid->getElement(grid,3,4,5);
+ 
+   msm4g_grid_destroy(&grid);
+ * @endcode
  */
-typedef struct DenseGrid
+typedef struct AbstractGrid
 {
     /** @brief The lattice spacing.
      *
@@ -218,28 +239,87 @@ typedef struct DenseGrid
      */
     int nz;
     
-    /** @brief Internal data structure to store all the values on the nodes.
+    /** @brief A pointer to the grid constructor.
+     *
+     * This function pointer determines the prototype of a grid
+     * constructor which every grid implementations should create
+     * a one.
+     */
+    struct AbstractGrid * (*constructor) (int nx,int ny,int nz, double h);
+    
+    /** @brief A pointer to the grid destructor.
+     *
+     * Every grid implementations should define a function satisfying 
+     * this destructor prototype. But the implementations should only
+     * deallocate their internal data structures.
+     */
+    void                  (*destructor)  (struct AbstractGrid **grid);
+
+
+    /** @brief A pointer to the setter function.
+     *
+     * Every grid implementation should provide a setter function to set
+     * a specific value to the given coordinates.
+     */
+    void   (*setElement)  (struct AbstractGrid *grid,int i,int j,int k,double value);
+    
+    /** @brief A pointer to the function prototype for getting a single element.
+     *
+     * The grid implementations should implement a function complying to this
+     * prototype.
+     */
+    double (*getElement)   (struct AbstractGrid *grid,int i,int j,int k);
+    
+    /** @brief A pointer to the reset function.
      * 
-     * This data is meant to be modified by calling the functions related
-     * with the grid structures. The size of the array is nx x ny x nz.
+     * Sets all elements in the grid to the given value.
+     */
+    void   (*reset)        (struct AbstractGrid *grid,double value);
+
+
+} AbstractGrid;
+
+/** @brief A DenseGrid implementation for the AbstractGrid.
+ *
+ * In this implementation, the nodes in the grid are stored 
+ * consecutively in a dense matrix which is flattened into a
+ * long vector with size nx * ny * nz.
+ *
+ * The constructor, destructor, setter and other methods 
+ * related with the implementation are defined in msm4g_grid_dense_xxx
+ * functions. They are later attached to the object during the 
+ * construction of the object.
+ */
+typedef struct DenseGrid
+{
+    /** @brief The members inherited from AbstractGrid.
+     *
+     * The members common to all grid implementations are already
+     * defined in the AbstractGrid structure. In order to get rid of
+     * copy-paste of all members from AbstractGrid to DenseGrid, 
+     * the content of AbstractGrid is inserted at the top of the 
+     * DenseGrid structure. 
+     *
+     * @note It is very important to inlide the AbstractGrid at the
+     * top because it is the only way to type cast a (DenseGrid *) to
+     * (AbstractGrid *) or visa versa in a secure way.
+     *
+     * The members inherited from the AbstractGrid should not
+     * meant to be directly accessed. Therefore the name will never be used
+     * in the code. That's why, an obscure "_" symbol is used.
+     */
+    struct AbstractGrid _;
+    
+    /** @brief Internal data structure to store all the values on the nodes.
+     *
+     * This is the internal data structure to hold all of the
+     * elements of the grid. It is important to define this member
+     * after inherided members. The data array should be allocated in
+     * the constructor of the grid and properly deallocated in the
+     * destructor.
      */
     double *data;
     
-    /** @brief The pointer to the function who is responsible for setting a single value.
-     *
-     */
-    msm4g_grid_set_handler set;
-
 } DenseGrid;
-
-/** @brief An abstract structure for grid implementations.
- *
- * All grid implementations should set the related functions during
- * initialization.
- */
-typedef struct Grid
-{
-    msm4g_grid_set_handler set;
-} Grid;
 
 #endif /* MSM4G_TYPES_H */

@@ -389,22 +389,22 @@ Boolean msm4g_unit_test_9()
 Boolean msm4g_unit_test_10()
 {
     Boolean status = true;
-    DenseGrid *grid;
+    AbstractGrid *grid;
     
     double h = 1.0;
     int nx = 3;
     int ny = 3;
     int nz = 3;
     
-    grid = msm4g_grid_dense_new(h,nx,ny,nz);
-    
-    /* Check if it could allocate the grid */
+    grid = msm4g_grid_dense_new(nx,ny,nz,h);
+    /* Check if it could allocated the object */
     if (grid == NULL) return false;
     
+    grid->reset(grid,1.0);
     
-    msm4g_grid_dense_reset((Grid *)grid);
+    grid->setElement(grid,0,1,2,10.0);
     
-    msm4g_grid_dense_destroy(&grid);
+    msm4g_grid_destroy(&grid);
     /* The grid should point to NULL after destruction */
     if (grid != NULL) return false;
     

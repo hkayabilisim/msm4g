@@ -9,6 +9,7 @@ var msm4g__types_8h =
     [ "SimulationParameters", "struct_simulation_parameters.html", "struct_simulation_parameters" ],
     [ "SimulationBox", "struct_simulation_box.html", "struct_simulation_box" ],
     [ "Simulation", "struct_simulation.html", "struct_simulation" ],
+    [ "AbstractGrid", "struct_abstract_grid.html", "struct_abstract_grid" ],
     [ "DenseGrid", "struct_dense_grid.html", "struct_dense_grid" ],
     [ "D3Vector", "msm4g__types_8h.html#a3944c44182540668f86ce739f91291b4", null ],
     [ "I3Vector", "msm4g__types_8h.html#acc311979c59a7a74dcfec7084f0ada3f", null ],
@@ -20,6 +21,7 @@ var msm4g__types_8h =
     [ "SimulationParameters", "msm4g__types_8h.html#a9438238b86685ca53c938d4f32c3054f", null ],
     [ "SimulationBox", "msm4g__types_8h.html#afb1d06d7544e4e26d4fedb08cfdd9d71", null ],
     [ "Simulation", "msm4g__types_8h.html#ad43311de2ce549cd715095669dd8d18b", null ],
+    [ "AbstractGrid", "msm4g__types_8h.html#a6e4d0e490ada8938b9574925116794b7", null ],
     [ "DenseGrid", "msm4g__types_8h.html#a69dc9a1a65291dcb9c5dcdb2c095bfc7", null ],
     [ "Boolean", "msm4g__types_8h.html#ae7d38601dfbd73adbe5c1b3ec34e0e13", [
       [ "false", "msm4g__types_8h.html#ae7d38601dfbd73adbe5c1b3ec34e0e13ae9de385ef6fe9bf3360d1038396b884c", null ],
