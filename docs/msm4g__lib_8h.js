@@ -1,6 +1,7 @@
 var msm4g__lib_8h =
 [
-    [ "msm4g_anterpolation", "msm4g__lib_8h.html#aa74ef2b0ed9c2a254866b732a2bd7ee5", null ],
+    [ "msm4g_anterpolation", "msm4g__lib_8h.html#a66555a35eb4218719594795ee9a34c01", null ],
+    [ "msm4g_grid_print", "msm4g__lib_8h.html#aaf7252680c922957ba01de7fd65508d9", null ],
     [ "msm4g_grid_destroy", "msm4g__lib_8h.html#a0ac5f1ca0792dc9571a729dd62e18978", null ],
     [ "msm4g_grid_dense_new", "msm4g__lib_8h.html#a46f87dc8195ab7a7d214486ee89b47a4", null ],
     [ "msm4g_grid_dense_setElement", "msm4g__lib_8h.html#a0b6c45590e6c66f1c7212d7cb2b60981", null ],
@@ -39,7 +40,7 @@ var msm4g__lib_8h =
     [ "msm4g_particle_destroy", "msm4g__lib_8h.html#a77ac1a01dd57ef6fcface6810b394863", null ],
     [ "msm4g_particle_destroyarray", "msm4g__lib_8h.html#a0d2466cda357a63840d9f5e8f75faee4", null ],
     [ "msm4g_box_new", "msm4g__lib_8h.html#af503a5f9d47fd175b5228200e675bf82", null ],
-    [ "msm4g_box_update", "msm4g__lib_8h.html#a7fc92f114fbbcda989a23747bc4e6a51", null ],
+    [ "msm4g_box_update", "msm4g__lib_8h.html#a0a41a17666e5da6e6f28b384ec476d9d", null ],
     [ "msm4g_box_translate", "msm4g__lib_8h.html#a374229ce78b91b817327e75f960a967b", null ],
     [ "msm4g_box_translateToOrigin", "msm4g__lib_8h.html#acb61c51ac4735df3439dee53e131800f", null ],
     [ "msm4g_box_print", "msm4g__lib_8h.html#af4811f16dd6349887a76ca27cc23b7de", null ],

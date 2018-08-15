@@ -60,7 +60,7 @@ Boolean msm4g_unit_test_4();
  * and the width of the box shoould be [-1,-2,-3] and [2,4,6] respectively.
  * But then a 0.5 margin is also used to enlarge the box. Then the new width
  * should be [3,6,9]. The location should also be shifted so that the there is
- * a margin on both minus and plus axis. So the new location is [-1.3,-3,-4.5].
+ * a margin on both minus and plus axis. So the new location is [-1.5,-3,-4.5].
  * At the end of the test, the calculated location and width is compared with the
  * expecteds.
  *
@@ -161,8 +161,44 @@ Boolean msm4g_unit_test_9();
 Boolean msm4g_unit_test_10();
 
 /** @brief Testing anterpolation.
+ *
+ * In this test, 8 unit mass particles are created on the following locations.
+ * The degree of base polynomials is set to p=3. Then a simulation box
+ * is created with margin=0. Since p=3, an extra padding is added around the
+ * boundary as shown in the following figure. Then the anterpolation is run.
+ * Since Hermite nodal basis functions are used in the anterpolation, the grid
+ * masses on the 8 interior nodes will be 1, and the rest should be zero.
+ * 
+ @verbatim
+ 30  +----------+----------+----------+     Lattice spacing (h): 10
+ |   |          |          |          |
+ |   |          |          |          |     Particle Location
+ |   |          |          |          |     -------- --------
+ |   |          |          |          |     1        [10,10,10]
+ 20  +----------O----------O----------+     2        [10,10,20]
+ |   |          |          |          |     3        [10,20,10]
+ |   |          |          |          |     4        [10,20,20]
+ |   |          |          |          |     5        [20,10,10]
+ |   |          |          |          |     6        [20,10,20]
+ 10  +----------O----------O----------+     7        [20,20,10]
+ |   |          |          |          |     8        [20,20,20]
+ |   |          |          |          |
+ |   |          |          |          |
+ |   |          |          |          |
+ 0   +----------+----------+----------+
+ 
+     0----------10---------20---------30
+ @endverbatim
  * @return true if the test is succesfull, false otherwise.
  */
 Boolean msm4g_unit_test_11();
+
+/** @brief To be or not to be!
+ * 
+
+ *
+ * @return true if the test is succesfull, false otherwise.
+ */
+Boolean msm4g_unit_test_12();
 
 #endif /* MSM4G_TESTS_H */

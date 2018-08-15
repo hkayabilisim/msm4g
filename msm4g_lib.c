@@ -4,15 +4,16 @@
 #include "msm4g_lib.h"
 #include "msm4g_bases.h"
 
-void msm4g_anterpolation(AbstractGrid *gridmass, LinkedList *particles,const BaseFunction *base)
+void msm4g_anterpolation(AbstractGrid *gridmass,SimulationBox *box,LinkedList *particles,const BaseFunction *base)
 {
     int i0,j0,k0;
     int i,j,k;
-    double g;
+    double g,gold;
     double mass;
     int p = base->p;
     int v;
     double x,y,z;
+    double x0,y0,z0;
     double rx_hx,ry_hy,rz_hz;
     int s_edge;
     double h = gridmass->h;
@@ -21,7 +22,11 @@ void msm4g_anterpolation(AbstractGrid *gridmass, LinkedList *particles,const Bas
     LinkedListElement *curr;
     Particle *particle;
     
-    s_edge = (p-1)/2;
+    x0 = box->location.value[0];
+    y0 = box->location.value[1];
+    z0 = box->location.value[2];
+
+    s_edge = p/2-1;
     curr = particles->head;
     while (curr != NULL)
     {
@@ -30,17 +35,16 @@ void msm4g_anterpolation(AbstractGrid *gridmass, LinkedList *particles,const Bas
         y =  particle->r.value[1];
         z =  particle->r.value[2];
         mass = particle->m;
-        msm4g_particle_print(particle);
         
-        rx_hx = x / h;
-        ry_hy = y / h;
-        rz_hz = z / h;
+        rx_hx = (x-x0) / h;
+        ry_hy = (y-y0) / h;
+        rz_hz = (z-z0) / h;
         
         i0 = floor(rx_hx) - s_edge;
         j0 = floor(ry_hy) - s_edge;
         k0 = floor(rz_hz) - s_edge;
         
-        for (v = 0; v < p + 1; v++)
+        for (v = 0; v < p ; v++)
         {
             tx = rx_hx - i0 - v;
             ty = ry_hy - j0 - v;
@@ -50,19 +54,48 @@ void msm4g_anterpolation(AbstractGrid *gridmass, LinkedList *particles,const Bas
             phiz[v] = base->region[v](tz);
         }
         
-        for (i=0; i<p+1; i++)
+        for (i = 0; i < p ; i++)
         {
-            for (j=0;j<p+1; j++)
+            for (j = 0 ; j < p ; j++)
             {
-                for (k=0; k<p+1; k++)
+                for (k = 0; k < p ; k++)
                 {
                     g = phix[i] * phiy[j] * phiz[k] * mass;
-                    printf("%d %d %d --> %f\n",i+i0,j+j0,k+k0,g);
-                    /* gridmass->setElement(gridmass,i+i0,j+j0,k+k0,g); */
+                    /* printf("%d %d %d --> %f\n",i+i0,j+j0,k+k0,g); */
+                    gold = gridmass->getElement(gridmass,i+i0,j+j0,k+k0);
+                    gridmass->setElement(gridmass,i+i0,j+j0,k+k0,g+gold);
                 }
             }
         }
         curr = curr->next;
+    }
+}
+
+void msm4g_grid_print(AbstractGrid *grid)
+{
+    int nx,ny,nz;
+    int i,j,k;
+    nx = grid->nx;
+    ny = grid->ny;
+    nz = grid->nz;
+    for (k=0;k<nz;k++)
+    {
+        printf("k:%-2d\n",k);
+        printf("%4s ","----");
+        for (i=0; i<nx ; i++)
+        {
+            printf("i:%-7d ",i);
+        }
+        printf("\n");
+        for (j=ny-1;j >= 0 ; j--)
+        {
+            printf("j:%-2d ",j);
+            for (i=0; i<nx ; i++)
+            {
+                printf("%-9.5f ",grid->getElement(grid,i,j,k));
+            }
+            printf("\n");
+        }
     }
 }
 
@@ -90,8 +123,7 @@ AbstractGrid *msm4g_grid_dense_new(int nx, int ny, int nz,double h)
     grid->getElement  = msm4g_grid_dense_getElement;
     grid->reset       = msm4g_grid_dense_reset;
 
-    densegrid->data = malloc(sizeof(double)*nx*ny*nz);
-    
+    densegrid->data = calloc(nx*ny*nz,sizeof(double));
     
     return grid;
 }
@@ -501,11 +533,11 @@ SimulationBox *msm4g_box_new()
     SimulationBox *box;
     box = malloc(sizeof(SimulationBox));
     msm4g_d3vector_set(&(box->location), 0.0,0.0,0.0);
-    msm4g_d3vector_set(&(box->width), 1.0,1.0,1.0);
+    msm4g_d3vector_set(&(box->width), 0.0,0.0,0.0);
     return box;
 }
 
-void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin)
+void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin,double h,double p)
 {
     double min[3];
     double max[3];
@@ -533,12 +565,25 @@ void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin)
         curr = curr->next;
     }
     
+    /* enclosing the particles tightly */
     for (i=0;i<3;i++)
     {
-        box->location.value[i] = min[i];
-        box->width.value[i] = max[i]-min[i];
+        /* If the width in ith dimension is effectively zero,
+         * we artificaially add some width (h) so that
+         * a grid can be created.
+         */
+        if (fabs(max[i]-min[i]) < DBL_EPSILON )
+        {
+            box->location.value[i] = min[i]-h*0.50;
+            box->width.value[i]    = h;
+        } else
+        {
+            box->location.value[i] = min[i];
+            box->width.value[i] = max[i]-min[i];
+        }
     }
     
+    /* enlarging the box <margin> percent. */
     if (margin > 0.0)
     {
         for (i=0;i<3;i++)
@@ -548,6 +593,24 @@ void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin)
             box->location.value[i] -= 0.5*(newwidth-oldwidth);
             box->width.value[i] = newwidth;
         }
+    }
+    
+    /* make sure the widths are multiple of h */
+    for (i=0;i<3;i++)
+    {
+        oldwidth = box->width.value[i];
+        newwidth = fabs(floor(oldwidth/h)-oldwidth/h) < 0.0001 ? oldwidth : (floor(oldwidth/h)+1)*h;
+        box->width.value[i] = newwidth;
+        box->location.value[i] -= (newwidth-oldwidth)*0.5;
+    }
+    
+    /* add p/2-1 boxes around the boundary */
+    for (i=0;i<3;i++)
+    {
+        oldwidth = box->width.value[i];
+        newwidth = oldwidth + (p-2)*h ;
+        box->width.value[i] = newwidth;
+        box->location.value[i] -= h*(p/2-1);
     }
 }
 
@@ -901,8 +964,6 @@ void msm4g_particle_destroyarray(Particle **particlearray,int length)
     free(particlearray);
     particlearray = NULL;
 }
-
-
 
 void msm4g_acceleration(double *a,double *r,int n,int d,double *m,double G)
 {

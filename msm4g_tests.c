@@ -27,6 +27,8 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_9);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_10);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_11);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_12);
+
 
     
     numberoftests = msm4g_linkedlist_size(list);
@@ -202,7 +204,7 @@ Boolean msm4g_unit_test_4()
 
 Boolean msm4g_unit_test_5()
 {
-    int i,n;
+    int i,n,p;
     Boolean status ;
     LinkedList *list ;
     Particle **particles;
@@ -211,6 +213,8 @@ Boolean msm4g_unit_test_5()
     D3Vector locationExpected ;
     D3Vector widthExpected;
     D3Vector widthError;
+    double h,margin;
+    
     
     msm4g_d3vector_set(&locationExpected, -1.5, -3.0, -4.5);
     msm4g_d3vector_set(&widthExpected,     3.0,  6.0,  9.0);
@@ -234,8 +238,11 @@ Boolean msm4g_unit_test_5()
     particles[7]->r.value[2] =  3.0;
     
     box = msm4g_box_new();
-    msm4g_box_update(box, list, 0.5);
-
+    margin = 0.5; /* enlarge the box 50 percent */
+    h=1.0; /* Lattice spacing in the finest level */
+    p=2; /* degree of base polynomials. if p=1 there is no need for padding around the boundary */
+    msm4g_box_update(box, list, 0.5,h,p);
+    
     msm4g_d3vector_daxpy(&locationError, &locationExpected,-1.0,&(box->location));
     msm4g_d3vector_daxpy(&widthError,    &widthExpected,   -1.0,&(box->width));
     
@@ -402,7 +409,7 @@ Boolean msm4g_unit_test_10()
     /* Check if it could allocated the object */
     if (grid == NULL) return false;
     
-    grid->reset(grid,1.0);
+    grid->reset(grid,0.0);
     
     grid->setElement(grid,0,1,2,10.0); 
     
@@ -417,14 +424,48 @@ Boolean msm4g_unit_test_11()
 {
     LinkedList *particles ;
     AbstractGrid *grid ;
-    
+    SimulationBox *box;
+    int nx,ny,nz,i,j,k;
+    double h;
+    int p = 4;
+    h=1.5;
+    double phix[4] = {1, 23, 23, 1};
+
     particles = msm4g_linkedlist_new();
-    msm4g_linkedlist_add(particles, msm4g_particle_new(1, 10.0, 10.0, 10.0));
-    grid = msm4g_grid_dense_new(4, 4, 4, 10);
+    msm4g_linkedlist_add(particles, msm4g_particle_new(48.0*48*48,   0,   0,   0));
+
+
+
+    box = msm4g_box_new();
+    msm4g_box_update(box, particles, 0.0, h, p);
+    nx = box->width.value[0]/h + 1;
+    ny = box->width.value[1]/h + 1;
+    nz = box->width.value[2]/h + 1;
+    grid = msm4g_grid_dense_new(nx, ny, nz, h);
+    grid->reset(grid,0.0);
+    msm4g_anterpolation(grid, box,particles, CubicBSpline);
     
-    msm4g_anterpolation(grid, particles, CubicHermite);
+    for (i = 0 ; i < nx ; i++)
+        for (j = 0 ; j < ny ; j++)
+            for (k = 0 ; k < nz ; k++)
+                if (fabs(grid->getElement(grid,i,j,k)-phix[i]*phix[j]*phix[k]) > FLT_EPSILON)
+                    return false;
     
+
+
+    msm4g_box_destroy(box);
     msm4g_linkedlist_destroyWithData(particles);
     msm4g_grid_destroy(&grid);
+    return true;
+}
+
+Boolean msm4g_unit_test_12()
+{
+    /* for (int p=4 ; p <= 6; p = p + 2)
+    {
+        int i = p/2 - 2;
+        for (int mu=0; mu < MAX_MU; mu++ )
+            printf("OMEGA[%d][%d] (p=%d) : %25.16e\n",i,mu,p,OMEGA[i][mu]);
+    } */
     return true;
 }

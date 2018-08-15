@@ -7,6 +7,8 @@
 #ifndef MSM4G_TYPES_H
 #define MSM4G_TYPES_H
 
+#include "msm4g_bases.h"
+
 #define MAX_POLY_DEGREE  20
 
 /** @brief A custom definition of boolean type.
@@ -122,10 +124,15 @@ typedef double (*msm4g_smoothing_handler)(double rho,int derivative);
  * The simulation parameters such as the cut-off threshold, the type 
  * of interpolating polynomials, the number of multi-levels are defined
  * in this structures.
+ *
+ * @todo Implement the recommendation: maxlevel < floor(log2(L/h))
  */
 typedef struct SimulationParameters
 {
     double                  a;                        /**< Cut-off parameter */
+    double                  h;                        /**< Finest level grid spacing */
+    BaseFunction           *basefunction;             /**< Basis function. */
+    int                     maxlevel;                 /**< Maximum number of levels. */
     msm4g_smoothing_handler msm4g_smoothing_function; /**< Smoothing function */
 } SimulationParameters;
 

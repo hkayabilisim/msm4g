@@ -14,8 +14,18 @@
 #include <assert.h>
 #include "msm4g_types.h"
 #include "msm4g_bases.h"
+#include "msm4g_constants.h"
 
-void msm4g_anterpolation(AbstractGrid *gridmass,LinkedList *particles,const BaseFunction *base);
+/** @brief Anterpolation
+ * @image html box.png
+ */
+void msm4g_anterpolation(AbstractGrid *gridmass,SimulationBox *box, LinkedList *particles,const BaseFunction *base);
+
+/** @brief Print the content of grid to the stdout.
+ *
+ * @param[in] grid A grid to be printed.
+ */
+void msm4g_grid_print(AbstractGrid *grid);
 
 /** @brief Deallocates a grid.
  *
@@ -508,17 +518,27 @@ SimulationBox *msm4g_box_new();
  * slack to the particles so that they will stay in the box after time
  * integration.
  *
+ * The width of the box is arranged to be a multiple of lattice
+ * spacing h. 
+ *
+ * The degree of the base polynomials is also needed to make sure that
+ * there is enough extra padding around the boundary.
+ *
  * @todo If a Particle escapes from the box, the box should be updated.
  * But there is a question of how to keep the interior grid points
  * intact. As soon as the box is enlarged, new grid points should be
  * created. MSM may start from scratch whenever the box is updated,
  * but it seems quite waste of time.
  *
- * @param[in,out] box    The rectangular simulation box.
- * @param[in]     list   The list of particles.
- * @param[in]     margin The box is enlarged `margin` percent (0.10 default).
+ * @todo Make sure that the width is of the form 2^k * h for some k.
+ *
+ * @param[in,out] box       The rectangular simulation box.
+ * @param[in]     particles The list of particles.
+ * @param[in]     margin    The box is enlarged `margin` percent (0.10 default).
+ * @param[in]     h         Lattice spacing in the finest level grid.
+ * @param[in]     p         The degree of the base polynomials. p should be odd and larger than 0. 
  */
-void msm4g_box_update(SimulationBox *box,LinkedList *list,double margin);
+void msm4g_box_update(SimulationBox *box,LinkedList *particles,double margin,double h,double p);
 
 /** @brief Translate the box and the particles by `delta` vector.
  *

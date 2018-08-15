@@ -12,6 +12,7 @@ typedef struct BaseFunction
 } BaseFunction;
 
 extern const BaseFunction *CubicHermite;
+extern const BaseFunction *CubicBSpline;
 
 
 
