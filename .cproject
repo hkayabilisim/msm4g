@@ -14,30 +14,29 @@
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.llvm.clang.win32.cygwin.exe.debug.1170116269" name="Debug" parent="cdt.managedbuild.config.llvm.clang.win32.cygwin.exe.debug">
 					<folderInfo id="cdt.managedbuild.config.llvm.clang.win32.cygwin.exe.debug.1170116269." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.llvm.clang.win32.cygwin.exe.debug.1537253802" name="LLVM with Clang (Windows) (Cygwin)" superClass="cdt.managedbuild.toolchain.llvm.clang.win32.cygwin.exe.debug">
-							<targetPlatform archList="all" id="cdt.managedbuild.target.llvm.clang.win32.cygwin.platform.exe.debug.1245720755" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.llvm.clang.win32.cygwin.platform.exe.debug"/>
-							<builder buildPath="${workspace_loc:/msm4g}/Debug" id="cdt.managedbuild.target.llvm.clang.win32.cygwin.builder.exe.debug.1356565733" managedBuildOn="true" name="CDT Internal Builder.Debug" superClass="cdt.managedbuild.target.llvm.clang.win32.cygwin.builder.exe.debug"/>
-							<tool id="cdt.managedbuild.tool.llvm.clang.win32.cygwin.assembler.exe.debug.1508828470" name="LLVM assembler" superClass="cdt.managedbuild.tool.llvm.clang.win32.cygwin.assembler.exe.debug"/>
-							<tool id="cdt.managedbuild.tool.llvm.archiver.base.1412826756" name="LLVM archiver" superClass="cdt.managedbuild.tool.llvm.archiver.base"/>
-							<tool id="cdt.managedbuild.tool.llvm.clang.win32.cygwin.c.compiler.exe.debug.1500109689" name="LLVM Clang" superClass="cdt.managedbuild.tool.llvm.clang.win32.cygwin.c.compiler.exe.debug">
-								<option id="llvm.c_cpp.compiler.option.optimization.level.1447387294" superClass="llvm.c_cpp.compiler.option.optimization.level" value="llvm.c_cpp.compiler.optimization.level.none" valueType="enumerated"/>
-								<option id="llvm.c_cpp.compiler.option.debugging.level.1381205535" superClass="llvm.c_cpp.compiler.option.debugging.level" value="llvm.c_cpp.compiler.debugging.level.max" valueType="enumerated"/>
-								<inputType id="cdt.managedbuild.tool.llvm.c.compiler.input.347786442" superClass="cdt.managedbuild.tool.llvm.c.compiler.input"/>
+						<toolChain id="cdt.managedbuild.toolchain.gnu.cygwin.base.774917871" name="Cygwin GCC" superClass="cdt.managedbuild.toolchain.gnu.cygwin.base">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.Cygwin_PE" id="cdt.managedbuild.target.gnu.platform.cygwin.base.505352521" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.cygwin.base"/>
+							<builder buildPath="${workspace_loc:/msm4g}/Debug" id="org.eclipse.cdt.build.core.internal.builder.1758139074" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.cygwin.base.1990743989" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.cygwin.base">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.469228280" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
-							<tool id="cdt.managedbuild.tool.llvm.clang.win32.cygwin.cpp.compiler.exe.debug.291117894" name="LLVM Clang++" superClass="cdt.managedbuild.tool.llvm.clang.win32.cygwin.cpp.compiler.exe.debug">
-								<option id="llvm.c_cpp.compiler.option.optimization.level.1841509887" superClass="llvm.c_cpp.compiler.option.optimization.level" value="llvm.c_cpp.compiler.optimization.level.none" valueType="enumerated"/>
-								<option id="llvm.c_cpp.compiler.option.debugging.level.2119964156" superClass="llvm.c_cpp.compiler.option.debugging.level" value="llvm.c_cpp.compiler.debugging.level.max" valueType="enumerated"/>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.cygwin.base.2012636948" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.cygwin.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.base.246662598" name="Cygwin C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.base">
+								<option id="gnu.cpp.compiler.option.optimization.level.1912603633" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.debugging.level.1203796235" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 							</tool>
-							<tool id="cdt.managedbuild.tool.llvm.clang.win32.cygwin.c.linker.exe.debug.397195806" name="LLVM Clang C linker" superClass="cdt.managedbuild.tool.llvm.clang.win32.cygwin.c.linker.exe.debug">
-								<option defaultValue="false" id="llvm.c.link.option.nativeCBackEnd.1972808093" superClass="llvm.c.link.option.nativeCBackEnd" valueType="boolean"/>
-								<inputType id="cdt.managedbuild.tool.llvm.c.linker.input.1644925965" superClass="cdt.managedbuild.tool.llvm.c.linker.input">
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.cygwin.base.14166167" name="Cygwin C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.cygwin.base">
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.759049968" superClass="gnu.c.compiler.option.optimization.level" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.debugging.level.2105093523" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.cygwin.248543777" superClass="cdt.managedbuild.tool.gnu.c.compiler.input.cygwin"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.cygwin.base.530401735" name="Cygwin C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.cygwin.base">
+								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1548048474" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="cdt.managedbuild.tool.llvm.clang.win32.cygwin.cpp.linker.exe.debug.1160956087" name="LLVM Clang C++ linker" superClass="cdt.managedbuild.tool.llvm.clang.win32.cygwin.cpp.linker.exe.debug">
-								<option defaultValue="false" id="llvm.c.link.option.nativeCBackEnd.1652839120" superClass="llvm.c.link.option.nativeCBackEnd" valueType="boolean"/>
-							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.base.471372312" name="Cygwin C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.base"/>
 						</toolChain>
 					</folderInfo>
 				</configuration>
@@ -55,32 +54,31 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.llvm.clang.win32.cygwin..exe.release.167903705" name="Release" parent="cdt.managedbuild.config.llvm.clang.win32.cygwin..exe.release">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.llvm.clang.win32.cygwin..exe.release.167903705" name="Release" optionalBuildProperties="" parent="cdt.managedbuild.config.llvm.clang.win32.cygwin..exe.release">
 					<folderInfo id="cdt.managedbuild.config.llvm.clang.win32.cygwin..exe.release.167903705." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.llvm.clang.win32.cygwin.exe.release.1605924108" name="LLVM with Clang (Windows) (Cygwin)" superClass="cdt.managedbuild.toolchain.llvm.clang.win32.cygwin.exe.release">
-							<targetPlatform archList="all" id="cdt.managedbuild.target.llvm.clang.win32.cygwin.platform.exe.release.343967378" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.llvm.clang.win32.cygwin.platform.exe.release"/>
-							<builder buildPath="${workspace_loc:/msm4g}/Release" id="cdt.managedbuild.target.llvm.clang.win32.cygwin.builder.exe.release.878911747" managedBuildOn="true" name="CDT Internal Builder.Release" superClass="cdt.managedbuild.target.llvm.clang.win32.cygwin.builder.exe.release"/>
-							<tool id="cdt.managedbuild.tool.llvm.clang.win32.cygwin.assembler.exe.release.225755684" name="LLVM assembler" superClass="cdt.managedbuild.tool.llvm.clang.win32.cygwin.assembler.exe.release"/>
-							<tool id="cdt.managedbuild.tool.llvm.archiver.base.860729693" name="LLVM archiver" superClass="cdt.managedbuild.tool.llvm.archiver.base"/>
-							<tool id="cdt.managedbuild.tool.llvm.clang.win32.cygwin.c.compiler.exe.release.1578978539" name="LLVM Clang" superClass="cdt.managedbuild.tool.llvm.clang.win32.cygwin.c.compiler.exe.release">
-								<option id="llvm.c_cpp.compiler.option.optimization.level.1681763331" superClass="llvm.c_cpp.compiler.option.optimization.level" value="llvm.c_cpp.compiler.optimization.level.most" valueType="enumerated"/>
-								<option id="llvm.c_cpp.compiler.option.debugging.level.436236542" superClass="llvm.c_cpp.compiler.option.debugging.level" value="llvm.c_cpp.compiler.debugging.level.none" valueType="enumerated"/>
-								<inputType id="cdt.managedbuild.tool.llvm.c.compiler.input.2014012868" superClass="cdt.managedbuild.tool.llvm.c.compiler.input"/>
+						<toolChain id="cdt.managedbuild.toolchain.gnu.cygwin.base.1509403377" name="Cygwin GCC" superClass="cdt.managedbuild.toolchain.gnu.cygwin.base">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.Cygwin_PE" id="cdt.managedbuild.target.gnu.platform.cygwin.base.34294451" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.cygwin.base"/>
+							<builder buildPath="${workspace_loc:/msm4g}/Release" id="org.eclipse.cdt.build.core.internal.builder.133244938" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.cygwin.base.2099444709" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.cygwin.base">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.29935381" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
-							<tool id="cdt.managedbuild.tool.llvm.clang.win32.cygwin.cpp.compiler.exe.release.1671881501" name="LLVM Clang++" superClass="cdt.managedbuild.tool.llvm.clang.win32.cygwin.cpp.compiler.exe.release">
-								<option id="llvm.c_cpp.compiler.option.optimization.level.273623820" superClass="llvm.c_cpp.compiler.option.optimization.level" value="llvm.c_cpp.compiler.optimization.level.most" valueType="enumerated"/>
-								<option id="llvm.c_cpp.compiler.option.debugging.level.1416557881" superClass="llvm.c_cpp.compiler.option.debugging.level" value="llvm.c_cpp.compiler.debugging.level.none" valueType="enumerated"/>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.cygwin.base.762946899" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.cygwin.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.base.1418260090" name="Cygwin C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.base">
+								<option id="gnu.cpp.compiler.option.optimization.level.1511152372" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.debugging.level.387209184" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 							</tool>
-							<tool id="cdt.managedbuild.tool.llvm.clang.win32.cygwin.c.linker.exe.release.844288892" name="LLVM Clang C linker" superClass="cdt.managedbuild.tool.llvm.clang.win32.cygwin.c.linker.exe.release">
-								<option defaultValue="false" id="llvm.c.link.option.nativeCBackEnd.540701504" superClass="llvm.c.link.option.nativeCBackEnd" valueType="boolean"/>
-								<inputType id="cdt.managedbuild.tool.llvm.c.linker.input.1250767313" superClass="cdt.managedbuild.tool.llvm.c.linker.input">
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.cygwin.base.1357566723" name="Cygwin C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.cygwin.base">
+								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.option.optimization.level.263708796" superClass="gnu.c.compiler.option.optimization.level" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.debugging.level.1159888628" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.cygwin.1212509067" superClass="cdt.managedbuild.tool.gnu.c.compiler.input.cygwin"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.cygwin.base.1005856397" name="Cygwin C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.cygwin.base">
+								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.559373884" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="cdt.managedbuild.tool.llvm.clang.win32.cygwin.cpp.linker.exe.release.1284024052" name="LLVM Clang C++ linker" superClass="cdt.managedbuild.tool.llvm.clang.win32.cygwin.cpp.linker.exe.release">
-								<option defaultValue="false" id="llvm.c.link.option.nativeCBackEnd.1151540106" superClass="llvm.c.link.option.nativeCBackEnd" valueType="boolean"/>
-							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.base.1925248350" name="Cygwin C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.base"/>
 						</toolChain>
 					</folderInfo>
 				</configuration>
@@ -91,9 +89,24 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="msm4g.cdt.managedbuild.target.llvm.clang.win32.cygwin.exe.332731067" name="Executable" projectType="cdt.managedbuild.target.llvm.clang.win32.cygwin.exe"/>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/msm4g"/>
+		</configuration>
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/msm4g"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.llvm.clang.win32.cygwin.exe.debug.1170116269;cdt.managedbuild.config.llvm.clang.win32.cygwin.exe.debug.1170116269.;cdt.managedbuild.tool.gnu.c.compiler.cygwin.base.14166167;cdt.managedbuild.tool.gnu.c.compiler.input.cygwin.248543777">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.llvm.clang.win32.cygwin..exe.release.167903705;cdt.managedbuild.config.llvm.clang.win32.cygwin..exe.release.167903705.;cdt.managedbuild.tool.gnu.c.compiler.cygwin.base.1357566723;cdt.managedbuild.tool.gnu.c.compiler.input.cygwin.1212509067">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+	</storageModule>
 </cproject>
