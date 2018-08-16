@@ -10,7 +10,6 @@
 #include <math.h>
 #include <string.h>
 #include <float.h>
-#include <sys/time.h>
 #include <assert.h>
 #include "msm4g_types.h"
 #include "msm4g_bases.h"
