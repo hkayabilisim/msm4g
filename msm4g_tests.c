@@ -213,7 +213,7 @@ Boolean msm4g_unit_test_5()
     D3Vector locationExpected ;
     D3Vector widthExpected;
     D3Vector widthError;
-    double h,margin;
+    double h;
     
     
     msm4g_d3vector_set(&locationExpected, -1.5, -3.0, -4.5);
@@ -238,7 +238,6 @@ Boolean msm4g_unit_test_5()
     particles[7]->r.value[2] =  3.0;
     
     box = msm4g_box_new();
-    margin = 0.5; /* enlarge the box 50 percent */
     h=1.0; /* Lattice spacing in the finest level */
     p=2; /* degree of base polynomials. if p=1 there is no need for padding around the boundary */
     msm4g_box_update(box, list, 0.5,h,p);
@@ -314,7 +313,7 @@ Boolean msm4g_unit_test_7()
     int inp[6] = {0, 1, 2, 3,  4, 5  };
     int out[6] = {1, 1, 2, 6, 24, 120};
     int x[4][4];
-    int xexpected[4][4] = {0,1,3,6,2,4,7,11,5,8,12,17,9,13,18,24};
+    int xexpected[4][4] = {{0,1,3,6},{2,4,7,11},{5,8,12,17},{9,13,18,24}};
     int vector2d[2];
     
     
