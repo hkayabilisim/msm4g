@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['neighbors',['neighbors',['../struct_bin.html#a517f42bb55d44c1311e698d953131a62',1,'Bin']]],
-  ['next',['next',['../struct_linked_list_element.html#a475866f9885e1659a1704a6b24c81af2',1,'LinkedListElement']]],
-  ['nx',['nx',['../struct_abstract_grid.html#a02d47a4f36ec0bcce348696534567e30',1,'AbstractGrid']]],
-  ['ny',['ny',['../struct_abstract_grid.html#a9f4e20a91b26459133b83992e9d8d381',1,'AbstractGrid']]],
-  ['nz',['nz',['../struct_abstract_grid.html#ac2eda98bb6d7e89cc3239973db2800cf',1,'AbstractGrid']]]
+  ['m',['m',['../struct_particle.html#a5175b356eac1d83a42608b42a25d00b9',1,'Particle']]],
+  ['maxlevel',['maxlevel',['../struct_simulation_parameters.html#a5acf4533b01561a4478b88bc895cc026',1,'SimulationParameters']]],
+  ['msm4g_5fsmoothing_5ffunction',['msm4g_smoothing_function',['../struct_simulation_parameters.html#a80711afac20dbeb274c0607f1f6ea42e',1,'SimulationParameters']]]
 ];

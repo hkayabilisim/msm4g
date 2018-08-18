@@ -59,5 +59,9 @@ var msm4g__lib_8h =
     [ "msm4g_print_energy", "msm4g__lib_8h.html#ac7e12eacedcc9d82e019689f6c9b280b", null ],
     [ "msm4g_zeros", "msm4g__lib_8h.html#a59c8a9065f9a34571319a0e70fd6cec7", null ],
     [ "msm4g_math_cantor", "msm4g__lib_8h.html#ad34e4f356364ec04cb734d5c49be7431", null ],
-    [ "msm4g_math_factorial", "msm4g__lib_8h.html#afcd1178b2cbe19df1c46f599886b792e", null ]
+    [ "msm4g_math_factorial", "msm4g__lib_8h.html#afcd1178b2cbe19df1c46f599886b792e", null ],
+    [ "msm4g_util_omegaprime", "msm4g__lib_8h.html#a1d36a12635e059cb43bb28f08ecd6e6d", null ],
+    [ "msm4g_util_norm", "msm4g__lib_8h.html#aef4fbe19570920ff5f6f2ae56ae722fc", null ],
+    [ "msm4g_util_diffnorm", "msm4g__lib_8h.html#aa38fafe1f51a5f28184a6528652369f5", null ],
+    [ "msm4g_util_gausssolver", "msm4g__lib_8h.html#a428520440fee50b90fcff0e68a6743ce", null ]
 ];
