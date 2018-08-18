@@ -133,7 +133,7 @@ Data Structures</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The collection of simulation parameters.  <a href="struct_simulation_parameters.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation_box.html">SimulationBox</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The geomatric boundaries of the simulation.  <a href="struct_simulation_box.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The geometric boundaries of the simulation.  <a href="struct_simulation_box.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation.html">Simulation</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Top level information about the simulation.  <a href="struct_simulation.html#details">More...</a><br /></td></tr>
@@ -170,14 +170,11 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a02faf04c3df32406f4af59687ab29026"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_bin.html">Bin</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#a02faf04c3df32406f4af59687ab29026">Bin</a></td></tr>
 <tr class="memdesc:a02faf04c3df32406f4af59687ab29026"><td class="mdescLeft">&#160;</td><td class="mdescRight">The cubical domains obtained by dividing the simulation box.  <a href="#a02faf04c3df32406f4af59687ab29026">More...</a><br /></td></tr>
 <tr class="separator:a02faf04c3df32406f4af59687ab29026"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a005ca126eae4332050d524f4dca88667"><td class="memItemLeft" align="right" valign="top">typedef double(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#a005ca126eae4332050d524f4dca88667">msm4g_smoothing_handler</a>) (double rho, int derivative)</td></tr>
-<tr class="memdesc:a005ca126eae4332050d524f4dca88667"><td class="mdescLeft">&#160;</td><td class="mdescRight">Smoothing function handler.  <a href="#a005ca126eae4332050d524f4dca88667">More...</a><br /></td></tr>
-<tr class="separator:a005ca126eae4332050d524f4dca88667"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9438238b86685ca53c938d4f32c3054f"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_simulation_parameters.html">SimulationParameters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#a9438238b86685ca53c938d4f32c3054f">SimulationParameters</a></td></tr>
 <tr class="memdesc:a9438238b86685ca53c938d4f32c3054f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The collection of simulation parameters.  <a href="#a9438238b86685ca53c938d4f32c3054f">More...</a><br /></td></tr>
 <tr class="separator:a9438238b86685ca53c938d4f32c3054f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb1d06d7544e4e26d4fedb08cfdd9d71"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_simulation_box.html">SimulationBox</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#afb1d06d7544e4e26d4fedb08cfdd9d71">SimulationBox</a></td></tr>
-<tr class="memdesc:afb1d06d7544e4e26d4fedb08cfdd9d71"><td class="mdescLeft">&#160;</td><td class="mdescRight">The geomatric boundaries of the simulation.  <a href="#afb1d06d7544e4e26d4fedb08cfdd9d71">More...</a><br /></td></tr>
+<tr class="memdesc:afb1d06d7544e4e26d4fedb08cfdd9d71"><td class="mdescLeft">&#160;</td><td class="mdescRight">The geometric boundaries of the simulation.  <a href="#afb1d06d7544e4e26d4fedb08cfdd9d71">More...</a><br /></td></tr>
 <tr class="separator:afb1d06d7544e4e26d4fedb08cfdd9d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad43311de2ce549cd715095669dd8d18b"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_simulation.html">Simulation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#ad43311de2ce549cd715095669dd8d18b">Simulation</a></td></tr>
 <tr class="memdesc:ad43311de2ce549cd715095669dd8d18b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Top level information about the simulation.  <a href="#ad43311de2ce549cd715095669dd8d18b">More...</a><br /></td></tr>
@@ -323,26 +320,6 @@ Enumerations</h2></td></tr>
 
 </div>
 </div>
-<a id="a005ca126eae4332050d524f4dca88667"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a005ca126eae4332050d524f4dca88667">&#9670;&nbsp;</a></span>msm4g_smoothing_handler</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef double(* msm4g_smoothing_handler) (double rho, int derivative)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Smoothing function handler. </p>
-<p>A function pointer to represent smoothing functions which takes a double argument and the order of the derivative and returns the output as a double variable.</p>
-<p>If the derivative is set to zero, then no derivative is carried out. </p>
-
-<p class="definition">Definition at line <a class="el" href="msm4g__types_8h_source.html#l00120">120</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
-
-</div>
-</div>
 <a id="a9438238b86685ca53c938d4f32c3054f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9438238b86685ca53c938d4f32c3054f">&#9670;&nbsp;</a></span>SimulationParameters</h2>
 
@@ -356,8 +333,12 @@ Enumerations</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The collection of simulation parameters. </p>
-<p>The simulation parameters such as the cut-off threshold, the type of interpolating polynomials, the number of multi-levels are defined in this structures.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Implement the recommendation: maxlevel &lt; floor(log2(L/h)) </dd></dl>
+<p>Definition of the parameters:</p><ul>
+<li>abar: relative cutoff: It is better to work with relative cutoff due to flexibility to fit various types of simulation geometries.</li>
+<li>h: grid spacing: In practice, the grid spacing is automatically calculated at the beginning of the simulation and thus read-only. But one may want to manually adjust it for some reason.</li>
+<li>nu: order of accuracy: It specifies the order of B-Splines used in the quasi-interpolation. The same value is also used in even-powered softener.</li>
+<li>L: number of levels: Similar to grid-spacing, it is also automatically determined in the beginning, so it is read-only. </li>
+</ul>
 
 </div>
 </div>
@@ -373,9 +354,9 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>The geomatric boundaries of the simulation. </p>
+<p>The geometric boundaries of the simulation. </p>
 <p>The algorithm requires that the simulation is confined into a rectangular box. The location and the width vectors are sufficient to desribe the domain.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>If the width along on one of the axis is zero or too small, then the bin should be allowed to extend beyond the simulation box. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>If the width along on one of the axis is zero or too small, then the bin should be allowed to extend beyond the simulation box. </dd></dl>
 
 </div>
 </div>

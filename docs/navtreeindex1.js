@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"struct_dense_grid.html#acca8b1cafec81a8691672eef4f415c9f":[4,0,4,0],
 "struct_i3_vector.html":[4,0,5],
 "struct_i3_vector.html#afb5b0ff80f63a460f1b78346081a6530":[4,0,5,0],
 "struct_linked_list.html":[4,0,6],
@@ -24,10 +25,9 @@ var NAVTREEINDEX1 =
 "struct_simulation_box.html#a3ed37119f85f80acce697eeec035fcc9":[4,0,10,0],
 "struct_simulation_box.html#a4973afc281dddfcbd50e1e357d772d7b":[4,0,10,1],
 "struct_simulation_parameters.html":[4,0,11],
-"struct_simulation_parameters.html#a023908571680d7814e0cc10e697583ae":[4,0,11,2],
-"struct_simulation_parameters.html#a1031d0e0a97a340abfe0a6ab9e831045":[4,0,11,0],
-"struct_simulation_parameters.html#a5acf4533b01561a4478b88bc895cc026":[4,0,11,3],
-"struct_simulation_parameters.html#a80711afac20dbeb274c0607f1f6ea42e":[4,0,11,4],
+"struct_simulation_parameters.html#a61b43f3326e96036caf1c76875b794cc":[4,0,11,3],
 "struct_simulation_parameters.html#a8ee9be1b5aa75abae556de3088cba6d9":[4,0,11,1],
+"struct_simulation_parameters.html#a9aa3b048ed7335ed8c152711b060ea1c":[4,0,11,0],
+"struct_simulation_parameters.html#adb40d5e571adca5a45efc67a2cd82f38":[4,0,11,2],
 "todo.html":[3]
 };

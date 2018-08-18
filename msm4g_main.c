@@ -12,6 +12,7 @@
  * - LinkedList is a generic two-way linked listed implementation.
  * - Bin is a container to hold the particles in geometric hashing.
  * - SimulationBox is a rectangular box enclosing all of the particles.
+ * - SimulationParameters contains relative cutoff, order of B-splines, etc.
  *
  * @section shortrange Short-Range Calculations
  * 

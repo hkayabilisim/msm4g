@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['index',['index',['../struct_particle.html#a750b5d744c39a06bfb13e6eb010e35d0',1,'Particle::index()'],['../struct_bin.html#aacfbf6c1593bfe400bf24a823d91b1f4',1,'Bin::index()']]]
+  ['l',['L',['../struct_simulation_parameters.html#a61b43f3326e96036caf1c76875b794cc',1,'SimulationParameters']]],
+  ['location',['location',['../struct_simulation_box.html#a3ed37119f85f80acce697eeec035fcc9',1,'SimulationBox']]]
 ];

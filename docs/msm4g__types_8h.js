@@ -18,7 +18,6 @@ var msm4g__types_8h =
     [ "LinkedList", "msm4g__types_8h.html#ac88c416443c70449f417f26a05fd6265", null ],
     [ "Particle", "msm4g__types_8h.html#aeaa4f715238c24bf147c7af545845701", null ],
     [ "Bin", "msm4g__types_8h.html#a02faf04c3df32406f4af59687ab29026", null ],
-    [ "msm4g_smoothing_handler", "msm4g__types_8h.html#a005ca126eae4332050d524f4dca88667", null ],
     [ "SimulationParameters", "msm4g__types_8h.html#a9438238b86685ca53c938d4f32c3054f", null ],
     [ "SimulationBox", "msm4g__types_8h.html#afb1d06d7544e4e26d4fedb08cfdd9d71", null ],
     [ "Simulation", "msm4g__types_8h.html#ad43311de2ce549cd715095669dd8d18b", null ],

@@ -102,20 +102,18 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dd>Using the recursive definition is easy and appearently not too costly but it is one of the first places to look for if overall MSM has some performance issues. </dd>
 <dt><a class="anchor" id="_todo000002"></a>Global <a class="el" href="msm4g__bases_8h.html#a68b42a358b34bc5f6165b5b695232995">msm4g_bases_bsplineprime</a>  (int k, double u)</dt>
 <dd>Like its non-derivative version, it also uses a recursive definition. So it is also one of the first places to look for if overall MSM has some performance issues. </dd>
-<dt><a class="anchor" id="_todo000003"></a>Global <a class="el" href="msm4g__lib_8h.html#a0a41a17666e5da6e6f28b384ec476d9d">msm4g_box_update</a>  (<a class="el" href="struct_simulation_box.html" title="The geomatric boundaries of the simulation. ">SimulationBox</a> *box, <a class="el" href="struct_linked_list.html" title="A structure for dual linked list implementation. ">LinkedList</a> *particles, double margin, double h, double p)</dt>
+<dt><a class="anchor" id="_todo000003"></a>Global <a class="el" href="msm4g__lib_8h.html#a0a41a17666e5da6e6f28b384ec476d9d">msm4g_box_update</a>  (<a class="el" href="struct_simulation_box.html" title="The geometric boundaries of the simulation. ">SimulationBox</a> *box, <a class="el" href="struct_linked_list.html" title="A structure for dual linked list implementation. ">LinkedList</a> *particles, double margin, double h, double p)</dt>
 <dd><p class="startdd">If a <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a> escapes from the box, the box should be updated. But there is a question of how to keep the interior grid points intact. As soon as the box is enlarged, new grid points should be created. MSM may start from scratch whenever the box is updated, but it seems quite waste of time.</p>
 <p class="enddd">Make sure that the width is of the form 2^k * h for some k. </p>
 </dd>
-<dt><a class="anchor" id="_todo000003"></a>Global <a class="el" href="msm4g__lib_8h.html#a0a41a17666e5da6e6f28b384ec476d9d">msm4g_box_update</a>  (<a class="el" href="struct_simulation_box.html" title="The geomatric boundaries of the simulation. ">SimulationBox</a> *box, <a class="el" href="struct_linked_list.html" title="A structure for dual linked list implementation. ">LinkedList</a> *particles, double margin, double h, double p)</dt>
+<dt><a class="anchor" id="_todo000003"></a>Global <a class="el" href="msm4g__lib_8h.html#a0a41a17666e5da6e6f28b384ec476d9d">msm4g_box_update</a>  (<a class="el" href="struct_simulation_box.html" title="The geometric boundaries of the simulation. ">SimulationBox</a> *box, <a class="el" href="struct_linked_list.html" title="A structure for dual linked list implementation. ">LinkedList</a> *particles, double margin, double h, double p)</dt>
 <dd><p class="startdd">If a <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a> escapes from the box, the box should be updated. But there is a question of how to keep the interior grid points intact. As soon as the box is enlarged, new grid points should be created. MSM may start from scratch whenever the box is updated, but it seems quite waste of time.</p>
 <p class="enddd">Make sure that the width is of the form 2^k * h for some k. </p>
 </dd>
 <dt><a class="anchor" id="_todo000005"></a>Global <a class="el" href="msm4g__lib_8h.html#a1d36a12635e059cb43bb28f08ecd6e6d">msm4g_util_omegaprime</a>  (int mu, int p)</dt>
 <dd>Quasi-interpolation coefficients can only be determined for p=4 (Cubic) and p=6 (Quintic) B-Splines. It should be written in more generic way to cover higher order B-Splines. </dd>
-<dt><a class="anchor" id="_todo000007"></a>Global <a class="el" href="msm4g__types_8h.html#afb1d06d7544e4e26d4fedb08cfdd9d71">SimulationBox</a>  </dt>
-<dd>If the width along on one of the axis is zero or too small, then the bin should be allowed to extend beyond the simulation box.  </dd>
-<dt><a class="anchor" id="_todo000006"></a>Global <a class="el" href="msm4g__types_8h.html#a9438238b86685ca53c938d4f32c3054f">SimulationParameters</a>  </dt>
-<dd>Implement the recommendation: maxlevel &lt; floor(log2(L/h)) </dd>
+<dt><a class="anchor" id="_todo000006"></a>Global <a class="el" href="msm4g__types_8h.html#afb1d06d7544e4e26d4fedb08cfdd9d71">SimulationBox</a>  </dt>
+<dd>If the width along on one of the axis is zero or too small, then the bin should be allowed to extend beyond the simulation box. </dd>
 </dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
