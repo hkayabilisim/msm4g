@@ -21,7 +21,7 @@ void msm4g_unit_test_all();
 
 /** @brief Checks the size() functionality of linked lists.
  *
- * @return true if the test is succesfull, false otherwise.
+ * @return true if the test is successful, false otherwise.
  */
 Boolean msm4g_unit_test_1();
 
@@ -30,13 +30,13 @@ Boolean msm4g_unit_test_1();
  * Using the `prev` pointer element in the `LinkedListElement`
  * one can travel from the tail element to the head.
  *
- * @return true if the test is succesfull, false otherwise.
+ * @return true if the test is successful, false otherwise.
  */
 Boolean msm4g_unit_test_2();
 
 /** @brief Traversing the list from head to tail.
  *
- *  @return true if the test is succesfull, false otherwise.
+ *  @return true if the test is successful, false otherwise.
  */
 
 Boolean msm4g_unit_test_3();
@@ -46,7 +46,7 @@ Boolean msm4g_unit_test_3();
  * eight.ini file and compared to the true values. If there is a slight
  * variation, the test returns with fail.
  *
- * @return true if the test is succesfull, false otherwise.
+ * @return true if the test is successful, false otherwise.
  */
 Boolean msm4g_unit_test_4();
 
@@ -64,7 +64,7 @@ Boolean msm4g_unit_test_4();
  * At the end of the test, the calculated location and width is compared with the
  * expecteds.
  *
- * @return true if the test is succesfull, false otherwise.
+ * @return true if the test is successful, false otherwise.
  */
 Boolean msm4g_unit_test_5();
 
@@ -98,7 +98,7 @@ Boolean msm4g_unit_test_5();
         i=0         i=1         i=2
 
   @endverbatim
- * @return true if the test is succesfull, false otherwise.
+ * @return true if the test is successful, false otherwise.
  */
 Boolean msm4g_unit_test_6();
 
@@ -118,7 +118,7 @@ Boolean msm4g_unit_test_6();
  * i=2 |  5  |  8  |  12 |  17 |
  * i=3 |  9  |  13 |  18 |  24 |
  *
- * @return true if the test is succesfull, false otherwise.
+ * @return true if the test is successful, false otherwise.
  */
 Boolean msm4g_unit_test_7();
 
@@ -129,7 +129,7 @@ Boolean msm4g_unit_test_7();
  * The \f$ \gamma \f$ functions tested are msm4g_smoothing_C1(),
  * msm4g_smoothing_C2(), and msm4g_smoothing_C3().
  *
- * @return true if the test is succesfull, false otherwise.
+ * @return true if the test is successful, false otherwise.
  */
 Boolean msm4g_unit_test_8();
 
@@ -147,7 +147,7 @@ Boolean msm4g_unit_test_8();
  * @note In this test, C1 gamma smoothing function msm4g_smoothing_C1() is used with
  * cut-off parameter a=10.
  *
- * @return true if the test is succesfull, false otherwise.
+ * @return true if the test is successful, false otherwise.
  */
 Boolean msm4g_unit_test_9();
 
@@ -156,7 +156,7 @@ Boolean msm4g_unit_test_9();
  * This function tests the basic functionality of DenseGrid related 
  * functions.
  *
- * @return true if the test is succesfull, false otherwise.
+ * @return true if the test is successful, false otherwise.
  */
 Boolean msm4g_unit_test_10();
 
@@ -189,7 +189,7 @@ Boolean msm4g_unit_test_10();
  
      0----------10---------20---------30
  @endverbatim
- * @return true if the test is succesfull, false otherwise.
+ * @return true if the test is successful, false otherwise.
  */
 Boolean msm4g_unit_test_11();
 
@@ -200,7 +200,7 @@ Boolean msm4g_unit_test_11();
  * The test calculates the coefficients for Cubic and Quintic B-Spline cases
  * and compare them to the ones published in the Table I of the same article. 
  *
- * @return true if the test is succesfull, false otherwise.
+ * @return true if the test is successful, false otherwise.
  */
 Boolean msm4g_unit_test_12();
 
