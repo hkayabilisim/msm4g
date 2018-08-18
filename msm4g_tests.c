@@ -28,7 +28,7 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_10);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_11);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_12);
-
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_13);
 
     
     numberoftests = msm4g_linkedlist_size(list);
@@ -476,5 +476,32 @@ Boolean msm4g_unit_test_12()
     }
     free(omegaprimeCubicCalculated);
     free(omegaprimeQuinticCalculated);
+    return true;
+}
+
+Boolean msm4g_unit_test_13()
+{
+    const int ntest = 9;
+    const int cubic = 4;
+    const int quintic = 6;
+    const double mathematicaCubic[9]        = {0 ,1,   8,   23,   32,   23,   8,  1,0}; /* divided by    48 */
+    const double mathematicaCubicPrime[9]   = {0 ,1,   4,    5,    0,   -5,  -4, -1,0}; /* divided by     8 */
+    const double mathematicaQuintic[9]      = {0,81,2528,13438,22528,13438,2528, 81,0}; /* divided by 40960 */
+    const double mathematicaQuinticPrime[9] = {0,27, 400,  942,    0, -942,-400,-27,0}; /* divided by  2048 */
+
+    for (int i = 0 ; i < ntest ; i++) {
+      double expectedCubic        = mathematicaCubic[i]       /   48.0 ;
+      double expectedCubicPrime   = mathematicaCubicPrime[i]  /    8.0 ;
+      double expectedQuintic      = mathematicaQuintic[i]     /40960.0 ;
+      double expectedQuinticPrime = mathematicaQuinticPrime[i]/ 2048.0 ;
+      double calculatedCubic        = msm4g_bases_bspline     (cubic  ,cubic  *i/(double)(ntest-1));
+      double calculatedCubicPrime   = msm4g_bases_bsplineprime(cubic  ,cubic  *i/(double)(ntest-1));
+      double calculatedQuintic      = msm4g_bases_bspline     (quintic,quintic*i/(double)(ntest-1));
+      double calculatedQuinticPrime = msm4g_bases_bsplineprime(quintic,quintic*i/(double)(ntest-1));
+      if (fabs(expectedCubic       -calculatedCubic)        > DBL_EPSILON) return false;
+      if (fabs(expectedCubicPrime  -calculatedCubicPrime)   > DBL_EPSILON) return false;
+      if (fabs(expectedQuintic     -calculatedQuintic)      > DBL_EPSILON) return false;
+      if (fabs(expectedQuinticPrime-calculatedQuinticPrime) > DBL_EPSILON) return false;
+    }
     return true;
 }

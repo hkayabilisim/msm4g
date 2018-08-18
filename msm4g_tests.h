@@ -204,4 +204,26 @@ Boolean msm4g_unit_test_11();
  */
 Boolean msm4g_unit_test_12();
 
+/** @brief Checks B-Spline implementation
+ *
+ * To check the implementation, I compare the results of
+ * MSM implementation to the ones I previously obtained
+ * by using Mathematica'a BSpline function for which
+ * the domain is always [0,1] in contrast to [0,k] in MSM.
+ * The test is successful if the following relation holds for
+ * points u = k*i/8 where i=0,...,8 and k is either 4 (cubic) or 6 (quintic).
+ *
+ @verbatim
+  MSM Implementation                  Mathematica
+  ------------------                  -----------
+  msm4g_bases_bspline     (k, u)   =    BSpline[k-1,u/k]
+  msm4g_bases_bsplineprime(k, u)   =  D[BSpline[k-1,u/k]]/k
+  
+  where u is in [0,k] and k is the order of B-Spline.
+ @endverbatim
+ *
+ * @return true if the test is successful, false otherwise.
+ */
+Boolean msm4g_unit_test_13();
+
 #endif /* MSM4G_TESTS_H */
