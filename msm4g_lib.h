@@ -701,5 +701,57 @@ int msm4g_math_cantor(int *x,int n);
  */
 int msm4g_math_factorial(int n);
 
+/** @brief Calculates Quasi-interpolation coefficients 
+ * 
+ * Calculates the coefficients (referred as omegaprime in doi:10.1063/1.4943868) 
+ * required in Quasi-interpolation. They depend on the order of B-Spline
+ * and some adjustable parameter mu.
+ * 
+ * The output of this function is used to build the stencils.
+ * Large mu means more accurate interpolation but at the same it increases the cost.
+ *
+ * The callee is responsible to deallocate the array when it is no longer needed.
+ *
+ * @todo Quasi-interpolation coefficients can only be determined for p=4 (Cubic) and
+ * p=6 (Quintic) B-Splines. It should be written in more generic way to cover higher
+ * order B-Splines.
+ *
+ * @param[in] mu Quasi-interpolation parameter
+ * @param[in] p Order of B-Spline. It can be 4 (Cubic) and 6 (Quintic) only.
+ * @return Quasi-interpolation coefficient array of size mu + p/2 + 1.
+ */
+double *msm4g_util_omegaprime(int mu,int p) ;
+
+/** @brief L2-norm of a vector
+ * 
+ * @param[in] x input vector
+ * @param[in] n size of the input vector
+ * @return L2-norm of the vector x
+ */
+double msm4g_util_norm(double x[], int n);
+
+/** @brief L2-norm of x-y
+ *
+ * @param[in] x first vector
+ * @param[in] y second vector
+ * @param[in] n size of the vectors
+ * @return L2-norm of x-y
+ */
+double msm4g_util_diffnorm(double x[], double y[], int n);
+
+/** @brief Solve Ax=y by Gaussian elimination
+ *
+ * This solver is very simple featuring:
+ *   - Does not use any pivoting.
+ *   - Overwrites the matrix A and vector y.
+ *   - At the end of the process, the right-hand side vector 
+ *     y becomes the solution.
+ *
+ * @param[in] n size of the system
+ * @param[in] A matrix of size n by n
+ * @param[in,out] y right hand-size vector of size n. It is also the solution.
+ */
+void msm4g_util_gausssolver(int n, double *A, double *y);
+
 #endif /* MSM4G_LIB_H */
 

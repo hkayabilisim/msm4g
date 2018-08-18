@@ -1083,3 +1083,224 @@ int msm4g_math_factorial(int n)
     return factorial;
 }
 
+double *msm4g_util_omegaprime(int mu,int p) {
+    int iteration;
+    if (p != 4 && p != 6) {
+        fprintf(stderr, "p can be 4 or 6 only\n");
+    }
+    double *wprime = (double *)calloc(mu+p/2+1, sizeof(double));
+    
+    double P[100], gold[100], g[100], gprime[100], ksiprime[100], psiprime[100];
+    double Aprime[100];
+    // AppendixC --> Cpoly outputs only for p=4 and p=6
+    double psiprime4[2] = {  6.4814814814814811e-02,  9.2592592592592587e-03 };
+    double psiprime6[4] = { -3.0804398148148150e-02, -8.9800347222222226e-03,
+        -6.0590277777777780e-04, -1.1863425925925925e-05 };
+    double firstpart4[3] = {-3.3333333333333331e-01, 1.6666666666666665e+00,
+        -3.3333333333333331e-01 };
+    double firstpart6[5] = { 1.7083333333333334e-01, -1.1833333333333333e+00,
+        3.0249999999999999e+00, -1.1833333333333333e+00,
+        1.7083333333333334e-01 };
+    double deltastencil[100], stencil[100];
+    //printf("mu = %d\n",mu);
+    for (int i = 0; i < 100; i++) {
+        P[i] = 0.0;
+        gold[i] = 0.0;
+        g[i] = 0.0;
+        gprime[i] = 0.0;
+        ksiprime[i] = 0.0;
+        psiprime[i] = 0.0;
+        deltastencil[i] = 0.0;
+        stencil[i] = 0.0;
+    }
+    
+    for (int i = 0; i < p / 2; i++) {
+        P[i] = msm4g_bases_bspline(p, i + p / 2);
+        gold[i] = 0.0;
+        g[i] = 0.0;
+        //printf("P[%d] %f\n",i,P[i]);
+    }
+    gold[0] = 1;
+    iteration = 0;
+    while (1) {
+        double value = 0.0;
+        for (int k = 1; k < p / 2; k++)
+            value += gold[k] * gold[k];
+        value = P[0] - value;
+        if (value < 0) {
+            fprintf(stderr, "something wrong %d\n", iteration);
+            return wprime;
+        }
+        g[0] = sqrt(value);
+        for (int j = 1; j <= p / 2 - 1; j++) {
+            double sumtemp = 0.0;
+            for (int i = j + 1; i <= p / 2 - 1; i++) {
+                sumtemp += gold[i - j] * gold[i];
+            }
+            g[j] = (P[j] - sumtemp) / g[0];
+        }
+        double relerr = msm4g_util_diffnorm(g, gold, p / 2) / msm4g_util_norm(g, p / 2);
+        if (relerr < 1e-16 || iteration > 1000)
+            break;
+        for (int k = 0; k < p / 2; k++)
+            gold[k] = g[k];
+        iteration++;
+    }
+    //for (int k=0;k<p/2;k++)
+    //printf("g[%d] %f\n",k,g[k]);
+    
+    // Calculating gprime G2=GG
+    for (int k = 0; k < p - 1; k++)
+        gprime[k] = 0.0;
+    for (int i = 0; i <= p - 2; i++) {
+        int start = 0;
+        if (i > p / 2 - 1)
+            start = i - (p / 2 - 1);
+        int stop = fmin(i, p / 2 - 1);
+        for (int j = start; j <= stop; j++)
+            gprime[i] += g[j] * g[i - j];
+    }
+    //for (int k=0;k <p-1;k++)
+    //  printf("gprime[%d] %25.16e\n",k,gprime[k]);
+    for (int i = 0; i < p - 2; i++) {
+        if (p == 4)
+            psiprime[i] = psiprime4[i];
+        else if (p == 6)
+            psiprime[i] = psiprime6[i];
+    }
+    
+    for (int i = 0; i < p - 1; i++)
+        ksiprime[i] = 0.0;
+    for (int i = p - 3; i >= 0; i--) {
+        double sumprime = 0.0;
+        for (int j = i + 1; j <= p - 3; j++) {
+            sumprime += ksiprime[j] * gprime[j - i];
+        }
+        ksiprime[i] = (psiprime[i] - sumprime) / gprime[0];
+    }
+    //for (int i = 0 ; i < p-1 ; i++)
+    //  printf("ksiprime[%d] = %25.16e\n",i,ksiprime[i]);
+    for (int i = 0; i < p - 1; i++)
+        for (int j = 0; j < p - 1; j++)
+            Aprime[i * (p - 1) + j] = 0.0;
+    for (int i = 0; i <= p - 2; i++) {
+        for (int j = 0; j <= p - 2; j++) {
+            if (i >= j)
+                Aprime[i * (p - 1) + j] = gprime[i - j];
+        }
+    }
+    for (int j = 1; j <= p - 2; j++) {
+        for (int i = 0; i <= p - 2 - j; i++) {
+            Aprime[i * (p - 1) + j] += gprime[i + j];
+        }
+    }
+    /*
+     for (int i=0;i<p-1;i++) {
+     for (int j=0;j<p-1;j++)
+     printf("%25.16f ",Aprime[i*(p-1)+j]);
+     printf(" | %8.5f\n",ksiprime[i]);
+     }*/
+    
+    msm4g_util_gausssolver(p - 1, Aprime, ksiprime);
+    /*
+     printf("after\n");
+     for (int i=0;i<p-1;i++) {
+     for (int j=0;j<p-1;j++)
+     printf("%25.16f ",Aprime[i*(p-1)+j]);
+     printf(" | %8.5f\n",ksiprime[i]);
+     } */
+    
+    double c[100];
+    for (int i = 0; i < 100; i++)
+        c[i] = 0;
+    for (int i = 0; i < p - 1; i++)
+        c[i] = ksiprime[i];
+    for (int n = p - 1; n <= 99; n++) {
+        double tmpsum = 0.0;
+        for (int k = 1; k <= p - 2; k++) {
+            tmpsum += c[n - k] * gprime[k];
+        }
+        c[n] = -tmpsum / gprime[0];
+    }
+    /* for (int i = 0 ; i < 100 ; i++)
+     printf("c[3d] %18.15f\n",c[i]); */
+    
+    for (int i = 0; i <= p - 1; i++) {
+        if (p == 4)
+            deltastencil[i] = firstpart4[i];
+        else if (p == 6)
+            deltastencil[i] = firstpart6[i];
+    }
+    //for (int i = mu + p/2  ; i <= 2*mu+p ;i++ )
+    //    printf("stencil[%3d] : %18.15f\n",i-mu-p/2,stencil[i]);
+    
+    for (int i = 1; i <= p - 1; i++) {
+        double value = deltastencil[i - 1];
+        int location = i - p / 2 + mu + p / 2;
+        stencil[location] += value;
+    }
+    /* for (int i = 0 ; i < 2*mu+p+1 ; i++)
+     printf("stencil[%3d] : %18.16f\n",i,stencil[i]);*/
+    
+    double delta2stencil4[5] = { 1, -4, 6, -4, 1 };
+    double delta2stencil6[7] = { 1, -6, 15, -20, 15, -6, 1 };
+    double delta2stencil[50];
+    for (int i = 0; i < p + 1; i++) {
+        if (p == 4)
+            delta2stencil[i] = delta2stencil4[i];
+        else if (p == 6)
+            delta2stencil[i] = delta2stencil6[i];
+    }
+    
+    for (int m = -mu; m <= mu; m++) {
+        for (int i = 1; i <= p + 1; i++) {
+            double value = delta2stencil[i - 1] * c[abs(m)];
+            int location = i - p / 2 - 1 + m + mu + p / 2;
+            stencil[location] += value;
+        }
+    }
+    for (int i = mu + p / 2; i <= 2 * mu + p; i++) {
+        //printf("stencil[%3d] : %18.15f\n",i-mu-p/2,stencil[i]);
+        wprime[i - mu - p / 2] = stencil[i];
+    }
+    //for (int i=0;i<20;i++)
+    // printf("wprime[%3d] : %18.15f\n",i,wprime[i]);
+    return wprime;
+}
+
+double msm4g_util_norm(double x[], int n) {
+    double out = 0.0;
+    for (int i = 0; i < n; i++)
+        out += x[i] * x[i];
+    out = sqrt(out);
+    return out;
+}
+
+double msm4g_util_diffnorm(double x[], double y[], int n) {
+    double out = 0.0;
+    for (int i = 0; i < n; i++)
+        out += (x[i] - y[i]) * (x[i] - y[i]);
+    return sqrt(out);
+}
+
+void msm4g_util_gausssolver(int n, double *A, double *y) {
+    /* Forward substition */
+    for (int j = 0; j < n - 1; j++) {
+        for (int i = j + 1; i < n; i++) {
+            double multiplier = -A[i * n + j] / A[j * n + j];
+            for (int k = 0; k < n; k++) {
+                A[i * n + k] += multiplier * A[j * n + k];
+            }
+            y[i] += multiplier * y[j];
+        }
+    }
+    /* Backward substition */
+    for (int j = n - 1; j >= 0; j--) {
+        y[j] = y[j] / A[j * n + j];
+        A[j * n + j] = 1.0;
+        for (int i = j - 1; i >= 0; i--) {
+            y[i] = y[i] - A[i * n + j] * y[j];
+            A[i * n + j] = 0.0;
+        }
+    }
+}
