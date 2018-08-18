@@ -97,139 +97,87 @@ void msm4g_grid_dense_reset(AbstractGrid *grid,double value);
  */
 void msm4g_grid_dense_destroy(AbstractGrid **densegrid);
 
-/** @brief C1 smoothing function.
- 
+/** @brief Even-powered Softener
+ *
  \f[
  \gamma(\rho) = \left\{
  \begin{array}{ll}
- (3- \rho^2)/2, & \rho \le 1 \\
+ \tau_\nu(\rho^2), & 0 \le \rho \le 1, \\
  1/\rho, & \rho \ge 1.
  \end{array}
  \right.
  \f]
- 
- * @b Example:
- * 
- * To calculate \f$ \gamma(1) \f$ and \f$ \gamma'(1) \f$:
- * 
- * @code
- * double y      = msm4g_smoothing_C1(1.0, 0);
- * double yprime = msm4g_smoothing_C1(1.0, 1);
- * @endcode
+ where
+ \f[
+ \tau_\nu(s) = \sum_{k=0}^{\nu-1}{-1/2\choose k}(s-1)^k
+ \f]
+ * @param[in] rho Input value
+ * @param[in] nu  order of accuracy
  *
- * @param[in] rho        Input variable \f$ \rho \f$
- * @param[in] derivative Use the derivative of specified order.
- *
- * @return Returns \f$ \gamma(\rho) \f$.
- *
+ * @return Returns \f$ \gamma(\rho) \f$
  */
-double msm4g_smoothing_C1(double rho,int derivative);
+double msm4g_smoothing_gama(double rho,int nu);
 
-/** @brief C2 smoothing function.
- 
- \f[
- \gamma(\rho) = \left\{
- \begin{array}{ll}
- (15-10\rho^2 +3\rho^4)/8, & \rho \le 1 \\
- 1/\rho, & \rho \ge 1.
- \end{array}
- \right.
- \f]
+/** @brief Derivative of even-powered softener
  *
- * @b Example:
+ * @param[in] rho Input value
+ * @param[in] nu  order of accuracy
  *
- * To calculate \f$ \gamma(1) \f$ and \f$ \gamma'(1) \f$:
- *
- * @code
- * double y      = msm4g_smoothing_C2(1.0, 0);
- * double yprime = msm4g_smoothing_C2(1.0, 1);
- * @endcode
- *
- * @param[in] rho        Input variable \f$ \rho \f$
- * @param[in] derivative Use the derivative of specified order.
- *
- * @return Returns \f$ \gamma(\rho) \f$.
+ * @return Returns \f$ \gamma'(\rho) \f$
  */
-double msm4g_smoothing_C2(double rho,int derivative);
-
-/** @brief C3 smoothing function.
- 
- \f[
- \gamma(\rho) = \left\{
- \begin{array}{ll}
- (35- 35\rho^2 +21\rho^4 - 5\rho^6)/16, & \rho \le 1 \\
- 1/\rho, & \rho \ge 1.
- \end{array}
- \right.
- \f]
- *
- * @b Example:
- *
- * To calculate \f$ \gamma(1) \f$ and \f$ \gamma'(1) \f$:
- *
- * @code
- * double y      = msm4g_smoothing_C3(1.0, 0);
- * double yprime = msm4g_smoothing_C3(1.0, 1);
- * @endcode
- *
- * @param[in] rho        Input variable \f$ \rho \f$
- * @param[in] derivative Use the derivative of specified order.
- *
- * @return Returns \f$ \gamma(\rho) \f$.
- */
-double msm4g_smoothing_C3(double rho,int derivative);
+double msm4g_smoothing_gamaprime(double rho,int nu);
 
 /** @brief Short-range force and potential energy calculation.
  * 
  * - For each bin in the linked list
  *   - Calculate the short-range forces between the particles in the bin
- *   - Calculate the pairwise force calculatin between the neighbor bins.
+ *   - Calculate the pairwise force between the neighbor bins.
  *
- * @param[in,out] binlist            The list of bins.
- * @param[in]     threshold          The range of the short-range force.
- * @param[in]     smoothing_function Pointer to the smoothing function.
+ * @param[in,out] binlist    The list of bins.
+ * @param[in]     threshold  The range of the short-range force.
+ * @param[in]     sp         Simulation parameters.
  *
  * @return Total short-range potential energy in the list of bins.
  */
-double msm4g_force_short(LinkedList *binlist,double threshold,msm4g_smoothing_handler smoothing_function);
+double msm4g_force_short(LinkedList *binlist,double threshold, SimulationParameters sp);
 
 /** @brief Calculates short-range forces and potential energy.
  *
- * Given a list of particles, a cut-off parameter and smoothing function
+ * Given a list of particles,
  * it calculates the short-range force interactions within the particles.
  *
- * @param[in,out] particles          The list of particles.
- * @param[in]     threshold          Cut-off parameter.
- * @param[in]     smoothing_function The smoothing function handler.
+ * @param[in,out] particles  The list of particles.
+ * @param[in]     threshold  Cut-off parameter.
+ * @param[in]     sp         Simulation parameters.
  *
  * @return Short-range potential energy in the Bin.
  */
-double msm4g_force_short_withinBin(LinkedList *particles, double threshold,msm4g_smoothing_handler smoothing_function);
+double msm4g_force_short_withinBin(LinkedList *particles, double threshold,SimulationParameters sp);
 
 /** @brief Calculates short-range interactions between two set of particles.
  *
- * Given two list of particles, a cut-off parameter and smoothing function
+ * Given two list of particles,
  * it calculates the short-range interactions between two set of particles.
  *
- * @param[in,out] particlesI         A list of particles.
- * @param[in,out] particlesJ         Another list of particles.
- * @param[in]     threshold          Cut-off parameter.
- * @param[in]     smoothing_function The smoothing function handler.
+ * @param[in,out] particlesI  A list of particles.
+ * @param[in,out] particlesJ  Another list of particles.
+ * @param[in]     threshold   Cut-off parameter.
+ * @param[in]     sp          Simulation parameters
  *
  * @return Short-range potential energy between the bins.
  */
-double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particlesJ, double threshold,msm4g_smoothing_handler smoothing_function);
+double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particlesJ, double threshold, SimulationParameters sp);
 
 /** @brief Short-range force and potential energy for a pair of particles.
  *
- * @param[in,out] particleI          The first particle.
- * @param[in,out] particleJ          The second particle.
- * @param[in]     threshold          Cut-off parameter.
- * @param[in]     smoothing_function The smoothing function handler.
+ * @param[in,out] particleI   The first particle.
+ * @param[in,out] particleJ   The second particle.
+ * @param[in]     threshold   Cut-off parameter.
+ * @param[in]     sp          Simulation parameters
  * 
  * @return Short-range potential energy.
  */
-double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double threshold, msm4g_smoothing_handler smoothing_function);
+double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double threshold, SimulationParameters sp);
 
 /** @brief Sets the elements of a 3-element vector.
  *

@@ -29,7 +29,7 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_11);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_12);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_13);
-
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_14);
     
     numberoftests = msm4g_linkedlist_size(list);
 
@@ -337,30 +337,25 @@ Boolean msm4g_unit_test_7()
 Boolean msm4g_unit_test_8()
 {
     Boolean status = true;
-    msm4g_smoothing_handler smoothing_function[3];
     int i;
     int n = 3;
     
-    smoothing_function[0] = msm4g_smoothing_C1;
-    smoothing_function[1] = msm4g_smoothing_C2;
-    smoothing_function[2] = msm4g_smoothing_C3;
-
     for (i=0; i<n; i++)
     {
         /* \gamma(1.0)  = 1.0 for all gamma function. */
-        if (fabs(smoothing_function[i](1.0,0)-1.0) > DBL_EPSILON) return false;
+        if (fabs(msm4g_smoothing_gama(1,i+1)-1.0) > DBL_EPSILON) return false;
         /* \gamma'(1.0) = -1.0 for all gamma function. */
-        if (fabs(smoothing_function[i](1.0,1)+1.0) > DBL_EPSILON) return false;
-        /* \gamma'(1.0) = 0.0 for all gamma function. */
-        if (fabs(smoothing_function[i](0.0,1)-0.0) > DBL_EPSILON) return false;
+        if (fabs(msm4g_smoothing_gamaprime(1,i+1)+1.0) > DBL_EPSILON) return false;
+        /* \gamma'(0.0) = 0.0 for all gamma function. */
+        if (fabs(msm4g_smoothing_gamaprime(0,i+1)-0.0) > DBL_EPSILON) return false;
 
     }
     /* \gamma(0.0) = 3/2 for C1 gamma */
-    if (fabs(smoothing_function[0](0.0,0)-3.0/2.0)   > DBL_EPSILON) return false;
+    if (fabs(msm4g_smoothing_gama(0,2)-3.0/2.0)   > DBL_EPSILON) return false;
     /* \gamma(0.0) = 15/8 for C2 gamma */
-    if (fabs(smoothing_function[1](0.0,0)-15.0/8.0)  > DBL_EPSILON) return false;
+    if (fabs(msm4g_smoothing_gama(0,3)-15.0/8.0)  > DBL_EPSILON) return false;
     /* \gamma(0.0) = 35/16 for C3 gamma */
-    if (fabs(smoothing_function[2](0.0,0)-35.0/16.0) > DBL_EPSILON) return false;
+    if (fabs(msm4g_smoothing_gama(0,4)-35.0/16.0) > DBL_EPSILON) return false;
 
     return status;
 }
@@ -371,11 +366,14 @@ Boolean msm4g_unit_test_9()
     LinkedList *particlelist;
     LinkedList *binlist;
     SimulationBox box;
+    SimulationParameters sp;
     double binwidth = 10;
     double potential;
     double potentialExpected;
     int i;
     
+    sp.nu = 2 ; /* C1 smoothing */
+
     particlelist = msm4g_particle_read("data/bintest.ini");
     for (i=0;i<3;i++)
     {
@@ -383,7 +381,7 @@ Boolean msm4g_unit_test_9()
         box.width.value[i]    = 30.0;
     }
     binlist=msm4g_bin_generate(&box,particlelist,binwidth);
-    potential = msm4g_force_short(binlist, 10.0, msm4g_smoothing_C1);
+    potential = msm4g_force_short(binlist, 10.0, sp);
     /* expected = bin1 + bin2 + (bin1 <-> bin2) */
     potentialExpected =  1127.0/6000 + (5000*sqrt(2.0)-1776.0)/4000.0 + (2000*sqrt(82.0)-17876.0)/164000.0;
 
@@ -502,6 +500,32 @@ Boolean msm4g_unit_test_13()
       if (fabs(expectedCubicPrime  -calculatedCubicPrime)   > DBL_EPSILON) return false;
       if (fabs(expectedQuintic     -calculatedQuintic)      > DBL_EPSILON) return false;
       if (fabs(expectedQuinticPrime-calculatedQuinticPrime) > DBL_EPSILON) return false;
+    }
+    return true;
+}
+
+Boolean msm4g_unit_test_14()
+{
+    double expectedgama[5][4] =  {
+            {  3/  2.0,     11/     8.0, 1, 2/3.0}, /* nu = 2 */
+            { 15/  8.0,    203/   128.0, 1, 2/3.0}, /* nu = 3 */
+            { 35/ 16.0,   1759/  1024.0, 1, 2/3.0}, /* nu = 4 */
+            {315/128.0,  59123/ 32768.0, 1, 2/3.0}, /* nu = 5 */
+            {693/256.0, 488293/262144.0, 1, 2/3.0}};/* nu = 6 */
+    double expectedgamaprime[5][4] = {
+            {0,     -1/    2.0, -1, -4/9.0},
+            {0,    -17/   16.0, -1, -4/9.0},
+            {0,   -407/  256.0, -1, -4/9.0},
+            {0,  -4201/ 2048.0, -1, -4/9.0},
+            {0,-159947/65536.0, -1, -4/9.0}};
+    for (int nu = 2; nu <= 6 ; nu++) {
+        for (int i = 0 ; i < 4 ; i++) {
+            double rho = i / 2.0 ;
+            double gama = msm4g_smoothing_gama(rho,nu);
+            double gamaprime = msm4g_smoothing_gamaprime(rho,nu);
+            if (fabs(gama     -expectedgama[nu-2][i])      > DBL_EPSILON) return false;
+            if (fabs(gamaprime-expectedgamaprime[nu-2][i]) > DBL_EPSILON) return false;
+        }
     }
     return true;
 }

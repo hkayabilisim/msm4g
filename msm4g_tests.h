@@ -226,4 +226,14 @@ Boolean msm4g_unit_test_12();
  */
 Boolean msm4g_unit_test_13();
 
+/** @brief Checks the implementation of even-powered softener
+ *
+ * This test evaluates the softener and its derivative
+ * on \f$ \rho = \{0,1/2,1,3/2\} \f$ for \f$ \nu=\{2,3,4,5,6\} \f$
+ * and compare the results with the hand-evaluated values.
+ *
+ * @return true if the test is successful, false otherwise
+ */
+Boolean msm4g_unit_test_14();
+
 #endif /* MSM4G_TESTS_H */

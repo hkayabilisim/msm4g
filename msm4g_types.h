@@ -108,35 +108,32 @@ typedef struct Bin
     LinkedList *particles;  /**< The list of particles in the bin */
 } Bin;
 
-/** @brief Smoothing function handler
- *
- * A function pointer to represent smoothing functions
- * which takes a double argument and the order of
- * the derivative and returns the output
- * as a double variable.
- *
- * If the derivative is set to zero, then no derivative is carried out.
- */
-typedef double (*msm4g_smoothing_handler)(double rho,int derivative);
-
 /** @brief The collection of simulation parameters.
  *
- * The simulation parameters such as the cut-off threshold, the type 
- * of interpolating polynomials, the number of multi-levels are defined
- * in this structures.
- *
- * @todo Implement the recommendation: maxlevel < floor(log2(L/h))
+ * Definition of the parameters:
+ *   - abar: relative cutoff:
+ *     It is better to work with relative cutoff due to
+ *     flexibility to fit various types of simulation geometries.
+ *   - h: grid spacing:
+ *     In practice, the grid spacing is automatically calculated at
+ *     the beginning of the simulation and thus read-only. But one
+ *     may want to manually adjust it for some reason.
+ *   - nu: order of accuracy:
+ *     It specifies the order of B-Splines used in the quasi-interpolation.
+ *     The same value is also used in even-powered softener.
+ *   - L: number of levels:
+ *     Similar to grid-spacing, it is also automatically determined
+ *     in the beginning, so it is read-only.
  */
 typedef struct SimulationParameters
 {
-    double                  a;                        /**< Cut-off parameter */
-    double                  h;                        /**< Finest level grid spacing */
-    BaseFunction           *basefunction;             /**< Basis function. */
-    int                     maxlevel;                 /**< Maximum number of levels. */
-    msm4g_smoothing_handler msm4g_smoothing_function; /**< Smoothing function */
+    double    abar;    /**< Relative cut-off */
+    double    h;       /**< Finest level grid spacing */
+    int       nu;      /**< Order of accuracy */
+    int       L;       /**< Number of levels */
 } SimulationParameters;
 
-/** @brief The geomatric boundaries of the simulation.
+/** @brief The geometric boundaries of the simulation.
  *
  * The algorithm requires that the simulation is confined into a rectangular 
  * box. The location and the width vectors are sufficient to desribe the domain.

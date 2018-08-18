@@ -166,84 +166,39 @@ void msm4g_grid_dense_destroy(AbstractGrid **grid)
     densegrid->data = NULL;
 }
 
-double msm4g_smoothing_C1(double rho,int derivative)
+double msm4g_smoothing_gama(double rho,int nu)
 {
-    double rho2 ;
-    rho2 = rho*rho;
-    
-    if (derivative == 1)
-    {
-        if (rho >= 1.0)
-            return -1.0/rho2;
-        else
-            return -rho;
-    } else
-    {
-        if (rho >= 1.0)
-            return 1.0/rho;
-        else
-            return 0.5*(3.0 - rho2);
-    }
-}
-
-double msm4g_smoothing_C2(double rho,int derivative)
-{
-    double rho2,rho3,rho4;
-    rho2 = rho*rho;
-
-    if (derivative == 1)
-    {
-        if (rho >= 1.0)
-            return -1.0/rho2;
-        else
-        {
-            rho3 = rho2*rho;
-            return 0.5*(-5.0*rho + 3.0*rho3);
-        }
-
-    } else
-    {
+    double out;
     if (rho >= 1.0)
-        return 1.0/rho;
-    else
-    {
-        rho2 = rho*rho;
-        rho4 = rho2*rho2;
-        return 0.125*(15.0 - 10.0*rho2 + 3.0*rho4);
+        out = 1.0 / rho;
+    else {
+        double rho2m1 = rho * rho - 1.0;
+        out = 1.0;
+        for (int k = nu - 1; k >= 1; k--) {
+            out = 1.0 + ((0.5 - k) / k) * rho2m1 * out;
+        }
     }
-    }
+    return out;
 }
 
-double msm4g_smoothing_C3(double rho,int derivative)
+double msm4g_smoothing_gamaprime(double rho,int nu)
 {
-    double rho2,rho3,rho4,rho5,rho6;
-    rho2 = rho*rho;
-    if (derivative == 1)
-    {
-        if (rho >= 1.0)
-            return -1.0/rho2;
-        else
-        {
-            rho3 = rho2*rho;
-            rho5 = rho2*rho3;
-            return 0.125*(-35.0*rho + 42.0*rho3 - 15.0*rho5);
+    double outprime;
+    double rho2 = rho * rho;
+    if (rho >= 1.0) {
+        outprime = -1.0 / rho2;
+    } else {
+        double rho2m1 = rho * rho - 1.0;
+        outprime = nu-1;
+        for (int k = nu - 1; k >= 2; k--) {
+            outprime = k - 1 + (0.5-k)/k * rho2m1 * outprime;
         }
+        outprime = - rho * outprime ;
     }
-    else
-    {
-        if (rho >= 1.0)
-            return 1.0/rho;
-        else
-        {
-            rho2 = rho*rho;
-            rho4 = rho2*rho2;
-            rho6 = rho2*rho4;
-            return 0.0625*(35.0 - 35.0*rho2 + 21*rho4 - 5*rho6);
-        }
-    }
+    return outprime ;
 }
 
-double msm4g_force_short(LinkedList *binlist,double threshold, msm4g_smoothing_handler smoothing_function)
+double msm4g_force_short(LinkedList *binlist,double threshold, SimulationParameters sp)
 {
     Bin *bin;
     Bin *neighbor;
@@ -256,7 +211,7 @@ double msm4g_force_short(LinkedList *binlist,double threshold, msm4g_smoothing_h
     while (currBin != NULL)
     {
         bin = (Bin *)currBin->data;
-        potential = msm4g_force_short_withinBin(bin->particles,threshold,smoothing_function);
+        potential = msm4g_force_short_withinBin(bin->particles,threshold,sp);
         potentialTotal += potential;
         
         neighborBin = bin->neighbors->head;
@@ -265,7 +220,7 @@ double msm4g_force_short(LinkedList *binlist,double threshold, msm4g_smoothing_h
             neighbor = (Bin *)neighborBin->data;
             if (neighbor->cantorindex > bin->cantorindex )
             {
-                potential = msm4g_force_short_betweenBin(bin->particles,neighbor->particles,threshold,smoothing_function);
+                potential = msm4g_force_short_betweenBin(bin->particles,neighbor->particles,threshold,sp);
                 potentialTotal += potential;
             }
             neighborBin=neighborBin->next;
@@ -275,7 +230,7 @@ double msm4g_force_short(LinkedList *binlist,double threshold, msm4g_smoothing_h
     return potentialTotal;
 }
 
-double msm4g_force_short_withinBin(LinkedList *particles, double threshold, msm4g_smoothing_handler smoothing_function)
+double msm4g_force_short_withinBin(LinkedList *particles, double threshold, SimulationParameters sp)
 {
     Particle *particleI;
     Particle *particleJ;
@@ -292,7 +247,7 @@ double msm4g_force_short_withinBin(LinkedList *particles, double threshold, msm4
         while (currJ != NULL)
         {
             particleJ = (Particle *)currJ->data;
-            potential = msm4g_force_short_particlePair(particleI,particleJ,threshold,smoothing_function);
+            potential = msm4g_force_short_particlePair(particleI,particleJ,threshold,sp);
             potentialTotal += potential;
             currJ = currJ->next;
         }
@@ -301,7 +256,7 @@ double msm4g_force_short_withinBin(LinkedList *particles, double threshold, msm4
     return potentialTotal;
 }
 
-double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particlesJ,double threshold, msm4g_smoothing_handler smoothing_function)
+double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particlesJ,double threshold, SimulationParameters sp)
 {
     LinkedListElement *currI, *currJ;
     Particle *particleI,*particleJ;
@@ -314,7 +269,7 @@ double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particle
         while (currJ != NULL)
         {
             particleJ = (Particle *)currJ->data;
-            potential = msm4g_force_short_particlePair(particleI,particleJ,threshold,smoothing_function);
+            potential = msm4g_force_short_particlePair(particleI,particleJ,threshold,sp);
             potentialTotal += potential;
             currJ = currJ->next;
         }
@@ -323,7 +278,7 @@ double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particle
     return potentialTotal;
 }
 
-double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double a, msm4g_smoothing_handler gamma)
+double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double a, SimulationParameters sp)
 {
     D3Vector rij;
     double r,r2;
@@ -341,8 +296,8 @@ double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, 
     /* If only the particles are closer than cut-off distance */
     if (r2 < a2)
     {
-        smoothedkernel = 1.0/r - gamma(r/a,0)/a;
-        smoothedkernelderivative = 1.0/r2 - gamma(r/a,1)/a2;
+        smoothedkernel = 1.0/r -  msm4g_smoothing_gama(r/a,sp.nu)/a;
+        smoothedkernelderivative = 1.0/r2 - msm4g_smoothing_gamaprime(r/a,sp.nu)/a2;
         coeff = particleI->m * particleJ->m * smoothedkernelderivative/r;
         /* f_j = f_j + coeff*rij */
         msm4g_d3vector_daxpy(&(particleJ->fshort) , &(particleJ->fshort), coeff, &rij);
