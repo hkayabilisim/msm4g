@@ -193,9 +193,12 @@ Boolean msm4g_unit_test_10();
  */
 Boolean msm4g_unit_test_11();
 
-/** @brief To be or not to be!
+/** @brief Checks the correctness of Quasi-interpolation coefficients
  * 
-
+ * Checks the accuracy of quasi-interpolation coefficients explained 
+ * in "The Journal of Chemical Physics 144, 114112 (2016); doi: 10.1063/1.4943868"
+ * The test calculates the coefficients for Cubic and Quintic B-Spline cases
+ * and compare them to the ones published in the Table I of the same article. 
  *
  * @return true if the test is succesfull, false otherwise.
  */

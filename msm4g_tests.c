@@ -460,11 +460,21 @@ Boolean msm4g_unit_test_11()
 
 Boolean msm4g_unit_test_12()
 {
-    /* for (int p=4 ; p <= 6; p = p + 2)
-    {
-        int i = p/2 - 2;
-        for (int mu=0; mu < MAX_MU; mu++ )
-            printf("OMEGA[%d][%d] (p=%d) : %25.16e\n",i,mu,p,OMEGA[i][mu]);
-    } */
+    /* Expected values are from Table I of doi:10.1063/1.4943868 */
+    char *omegaprimeCubicExpected[13] = {"3.464","-1.732", "0.679","-0.240","0.080","-0.026","0.008","-0.002","0.001","-0.000","0.000","-0.000","0.000"};
+    char *omegaprimeQuinticExpected[13] = {"12.379","-9.377", "5.809","-3.266","1.735","-0.889","0.444","-0.217","0.105","-0.050","0.024","-0.011","0.005"};
+    double *omegaprimeCubicCalculated = msm4g_util_omegaprime(20, 4);
+    double *omegaprimeQuinticCalculated = msm4g_util_omegaprime(20, 6);
+    for (int i = 0 ; i < 13 ; i++) {
+        char *expectedCubic   = omegaprimeCubicExpected[i];
+        char *expectedQuintic = omegaprimeQuinticExpected[i];
+        char calculated[7]  ;
+        sprintf(&(calculated[0]),"%5.3f",omegaprimeCubicCalculated[i]);
+        if (strcmp(expectedCubic, calculated) != 0) return false ;
+        sprintf(&(calculated[0]),"%5.3f",omegaprimeQuinticCalculated[i]);
+        if (strcmp(expectedQuintic, calculated) != 0) return false ;
+    }
+    free(omegaprimeCubicCalculated);
+    free(omegaprimeQuinticCalculated);
     return true;
 }
