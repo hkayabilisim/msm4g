@@ -4,71 +4,162 @@
 #include "msm4g_lib.h"
 #include "msm4g_bases.h"
 
-void msm4g_anterpolation(AbstractGrid *gridmass,SimulationBox *box,LinkedList *particles,const BaseFunction *base)
+Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean periodic,int order,double abar,int mu) {
+    Simulation *simulation;
+    SimulationParameters *sp;
+    SimulationOutput *output;
+    LinkedList *particles;
+    
+    simulation = (Simulation *)calloc(1,sizeof(Simulation));
+    sp = (SimulationParameters *)calloc(1,sizeof(SimulationParameters));
+    output = (SimulationOutput *)calloc(1,sizeof(SimulationOutput));
+    particles = msm4g_particle_read(datafile);
+    sp->N = msm4g_linkedlist_size(particles);
+    sp->abar = abar;
+    sp->mu = mu;
+    sp->periodic = periodic;
+    sp->nu = order ;
+    sp->L = floor(1 + 0.5 * log(sp->N)/log(8));
+    double vol = box->wx * box->wy * box->wz ;
+    sp->Mx = ceil(pow(2,1-sp->L)*box->wx * pow(sp->N/(vol),1/3.0)) ;
+    sp->My = ceil(pow(2,1-sp->L)*box->wy * pow(sp->N/(vol),1/3.0)) ;
+    sp->Mz = ceil(pow(2,1-sp->L)*box->wz * pow(sp->N/(vol),1/3.0)) ;
+
+    sp->Mxmin = - (sp->Mx - 1) / 2;
+    sp->Mxmax =    sp->Mx      / 2;
+    sp->Mymin = - (sp->My - 1) / 2;
+    sp->Mymax =    sp->My      / 2;
+    sp->Mzmin = - (sp->Mz - 1) / 2;
+    sp->Mzmax =    sp->Mz      / 2;
+
+    sp->hx = box->wx / sp->Mx ;
+    sp->hy = box->wy / sp->My ;
+    sp->hz = box->wz / sp->Mz ;
+    sp->h  = MSM4G_MAX3(sp->hx,sp->hy,sp->hz);
+    sp->a = sp->abar * sp->h ;
+
+    simulation->box = box;
+    simulation->particles = particles ;
+    simulation->parameters = sp;
+    simulation->output = output;
+
+    return simulation;
+}
+
+void msm4g_simulation_run(Simulation *simulation) {
+    SimulationParameters *sp = simulation->parameters;
+    SimulationBox *box = simulation->box;
+    LinkedList *particles = simulation->particles;
+
+    LinkedList *binlist = msm4g_bin_generate(box,particles,sp->a);
+    
+    msm4g_force_short(binlist, sp->a, simulation);
+    msm4g_anterpolation(simulation);
+
+    /* Calculate short-range potential energy */
+    {
+        double energy = 0.0;
+        LinkedListElement *curr = particles->head ;
+        while (curr != NULL)
+        {
+            Particle *particle = (Particle *)curr->data;
+            energy += particle->potential_short_real * particle->m ;
+            curr = curr->next;
+        }
+        simulation->output->potentialEnergyShortRange = energy;
+    }
+
+
+    msm4g_bin_destroy(binlist);
+}
+
+void msm4g_simulation_delete(Simulation *simulation) {
+    if (simulation->grid != NULL)
+        msm4g_grid_destroy(&(simulation->grid));
+    msm4g_box_destroy(simulation->box);
+    msm4g_linkedlist_destroyWithData(simulation->particles);
+    free(simulation->parameters);
+    free(simulation->output);
+    free(simulation);
+}
+
+void msm4g_anterpolation(Simulation *simulation) //AbstractGrid *gridmass,SimulationBox *box,LinkedList *particles,const BaseFunction *base)
 {
     int i0,j0,k0;
-    int i,j,k;
-    double g,gold;
-    double mass;
-    int p = base->p;
-    int v;
+    int p = simulation->parameters->nu ;
     double x,y,z;
     double x0,y0,z0;
     double rx_hx,ry_hy,rz_hz;
     int s_edge;
-    double h = gridmass->h;
+    double h = simulation->parameters->h ;
+    int mx = simulation->parameters->Mx ;
+    int my = simulation->parameters->My ;
+    int mz = simulation->parameters->Mz ;
     double tx,ty,tz;
     double phix[MAX_POLY_DEGREE], phiy[MAX_POLY_DEGREE], phiz[MAX_POLY_DEGREE];
     LinkedListElement *curr;
-    Particle *particle;
+    LinkedList *particles = simulation->particles;
+    SimulationBox *box = simulation->box ;
     
+
+    int nu = simulation->parameters->nu ;
+
+    AbstractGrid *grid ;
+
+    
+
     x0 = box->location.value[0];
     y0 = box->location.value[1];
     z0 = box->location.value[2];
+    if (simulation->parameters->periodic == true) {
+        grid = msm4g_grid_dense_new(mx,my,mz, h);
+    } else {
+        s_edge = p/2-1;
+        grid = msm4g_grid_dense_new(mx+p-1,my+p-1,mz+p-1, h);
 
-    s_edge = p/2-1;
-    curr = particles->head;
-    while (curr != NULL)
-    {
-        particle = (Particle *)curr->data;
-        x =  particle->r.value[0];
-        y =  particle->r.value[1];
-        z =  particle->r.value[2];
-        mass = particle->m;
-        
-        rx_hx = (x-x0) / h;
-        ry_hy = (y-y0) / h;
-        rz_hz = (z-z0) / h;
-        
-        i0 = floor(rx_hx) - s_edge;
-        j0 = floor(ry_hy) - s_edge;
-        k0 = floor(rz_hz) - s_edge;
-        
-        for (v = 0; v < p ; v++)
+        curr = particles->head;
+        while (curr != NULL)
         {
-            tx = rx_hx - i0 - v;
-            ty = ry_hy - j0 - v;
-            tz = rz_hz - k0 - v;
-            phix[v] = base->region[v](tx);
-            phiy[v] = base->region[v](ty);
-            phiz[v] = base->region[v](tz);
-        }
-        
-        for (i = 0; i < p ; i++)
-        {
-            for (j = 0 ; j < p ; j++)
+            Particle *particle = (Particle *)curr->data;
+            x =  particle->r.value[0];
+            y =  particle->r.value[1];
+            z =  particle->r.value[2];
+            double mass = particle->m;
+            
+            rx_hx = (x-x0) / h;
+            ry_hy = (y-y0) / h;
+            rz_hz = (z-z0) / h;
+            
+            i0 = floor(rx_hx) - s_edge;
+            j0 = floor(ry_hy) - s_edge;
+            k0 = floor(rz_hz) - s_edge;
+            
+            for (int v = 0; v < nu ; v++)
             {
-                for (k = 0; k < p ; k++)
+                tx = rx_hx - i0 - v;
+                ty = ry_hy - j0 - v;
+                tz = rz_hz - k0 - v;
+                phix[v] = msm4g_bases_bspline(nu,tx+nu/2) ;
+                phiy[v] = msm4g_bases_bspline(nu,ty+nu/2) ;
+                phiz[v] = msm4g_bases_bspline(nu,tz+nu/2) ;
+            }
+            
+            for (int i = 0; i < nu ; i++)
+            {
+                for (int j = 0 ; j < nu ; j++)
                 {
-                    g = phix[i] * phiy[j] * phiz[k] * mass;
-                    /* printf("%d %d %d --> %f\n",i+i0,j+j0,k+k0,g); */
-                    gold = gridmass->getElement(gridmass,i+i0,j+j0,k+k0);
-                    gridmass->setElement(gridmass,i+i0,j+j0,k+k0,g+gold);
+                    for (int k = 0; k < nu ; k++)
+                    {
+                        double g = phix[i] * phiy[j] * phiz[k] * mass;
+                        double gold = grid->getElement(grid,i+i0,j+j0,k+k0);
+                        grid->setElement(grid,i+i0,j+j0,k+k0,g+gold);
+                    }
                 }
             }
+            curr = curr->next;
         }
-        curr = curr->next;
     }
+    simulation->grid = grid ;
 }
 
 void msm4g_grid_print(AbstractGrid *grid)
@@ -101,8 +192,10 @@ void msm4g_grid_print(AbstractGrid *grid)
 
 void msm4g_grid_destroy(AbstractGrid **grid)
 {
-    (*grid)->destructor(grid);
-    free(*grid);
+    if (grid != NULL) {
+        (*grid)->destructor(grid);
+        free(*grid);
+    }
     *grid = NULL;
 }
 
@@ -198,7 +291,7 @@ double msm4g_smoothing_gamaprime(double rho,int nu)
     return outprime ;
 }
 
-double msm4g_force_short(LinkedList *binlist,double threshold, SimulationParameters sp)
+double msm4g_force_short(LinkedList *binlist,double threshold, Simulation *simulation)
 {
     Bin *bin;
     Bin *neighbor;
@@ -211,7 +304,7 @@ double msm4g_force_short(LinkedList *binlist,double threshold, SimulationParamet
     while (currBin != NULL)
     {
         bin = (Bin *)currBin->data;
-        potential = msm4g_force_short_withinBin(bin->particles,threshold,sp);
+        potential = msm4g_force_short_withinBin(bin->particles,threshold,simulation);
         potentialTotal += potential;
         
         neighborBin = bin->neighbors->head;
@@ -220,7 +313,7 @@ double msm4g_force_short(LinkedList *binlist,double threshold, SimulationParamet
             neighbor = (Bin *)neighborBin->data;
             if (neighbor->cantorindex > bin->cantorindex )
             {
-                potential = msm4g_force_short_betweenBin(bin->particles,neighbor->particles,threshold,sp);
+                potential = msm4g_force_short_betweenBin(bin->particles,neighbor->particles,threshold,simulation);
                 potentialTotal += potential;
             }
             neighborBin=neighborBin->next;
@@ -230,7 +323,7 @@ double msm4g_force_short(LinkedList *binlist,double threshold, SimulationParamet
     return potentialTotal;
 }
 
-double msm4g_force_short_withinBin(LinkedList *particles, double threshold, SimulationParameters sp)
+double msm4g_force_short_withinBin(LinkedList *particles, double threshold, Simulation *simulation)
 {
     Particle *particleI;
     Particle *particleJ;
@@ -247,7 +340,7 @@ double msm4g_force_short_withinBin(LinkedList *particles, double threshold, Simu
         while (currJ != NULL)
         {
             particleJ = (Particle *)currJ->data;
-            potential = msm4g_force_short_particlePair(particleI,particleJ,threshold,sp);
+            potential = msm4g_force_short_particlePair(particleI,particleJ,threshold,simulation);
             potentialTotal += potential;
             currJ = currJ->next;
         }
@@ -256,7 +349,7 @@ double msm4g_force_short_withinBin(LinkedList *particles, double threshold, Simu
     return potentialTotal;
 }
 
-double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particlesJ,double threshold, SimulationParameters sp)
+double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particlesJ,double threshold, Simulation *simulation)
 {
     LinkedListElement *currI, *currJ;
     Particle *particleI,*particleJ;
@@ -269,7 +362,7 @@ double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particle
         while (currJ != NULL)
         {
             particleJ = (Particle *)currJ->data;
-            potential = msm4g_force_short_particlePair(particleI,particleJ,threshold,sp);
+            potential = msm4g_force_short_particlePair(particleI,particleJ,threshold,simulation);
             potentialTotal += potential;
             currJ = currJ->next;
         }
@@ -278,7 +371,7 @@ double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particle
     return potentialTotal;
 }
 
-double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double a, SimulationParameters sp)
+double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double a, Simulation *simulation)
 {
     D3Vector rij;
     double r,r2;
@@ -286,25 +379,62 @@ double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, 
     double smoothedkernel,smoothedkernelderivative;
     double coeff;
     double potential = 0.0;
-    
-    /* rij = rj - ri */
-    msm4g_d3vector_daxpy(&rij, &(particleJ->r), -1.0, &(particleI->r));
-    /* r^2 = |rij|^2 */
-    r2=msm4g_d3vector_normsquare(&rij);
-    r=sqrt(r2);
-    a2=a*a;
-    /* If only the particles are closer than cut-off distance */
-    if (r2 < a2)
-    {
-        smoothedkernel = 1.0/r -  msm4g_smoothing_gama(r/a,sp.nu)/a;
-        smoothedkernelderivative = 1.0/r2 - msm4g_smoothing_gamaprime(r/a,sp.nu)/a2;
-        coeff = particleI->m * particleJ->m * smoothedkernelderivative/r;
-        /* f_j = f_j + coeff*rij */
-        msm4g_d3vector_daxpy(&(particleJ->fshort) , &(particleJ->fshort), coeff, &rij);
-        /* f_i = f_i - coeff*rij */
-        msm4g_d3vector_daxpy(&(particleI->fshort) , &(particleI->fshort), coeff, &rij);
-        potential = particleI->m * particleJ->m * smoothedkernel;
+    int order = simulation->parameters->nu;
+    Boolean periodic = simulation->parameters->periodic;
+    if (periodic == true) {
+        double a = simulation->parameters->a ;
+        double Ax = simulation->box->wx;
+        double Ay = simulation->box->wy;
+        double Az = simulation->box->wz;
+        double rix = particleI->r.value[0] ;
+        double riy = particleI->r.value[1] ;
+        double riz = particleI->r.value[2] ;
+        double rjx = particleJ->r.value[0] ;
+        double rjy = particleJ->r.value[1] ;
+        double rjz = particleJ->r.value[2] ;
+        int pxmin = (rix - rjx - a)/Ax ;
+        int pxmax = (rix - rjx + a)/Ax ;
+        int pymin = (riy - rjy - a)/Ay ;
+        int pymax = (riy - rjy + a)/Ay ;
+        int pzmin = (riz - rjz - a)/Az ;
+        int pzmax = (riz - rjz + a)/Az ;
+        for (int px = pxmin ; px <= pxmax ; px++) {
+            double r2i =  (rix-rjx-Ax*px)*(rix-rjx-Ax*px) ;
+            for (int py = pymin ; py <= pymax ; py++) {
+                double r2j = r2i + (riy-rjy-Ay*py)*(riy-rjy-Ay*py);
+                for (int pz = pzmin ; pz <= pzmax ; pz++) {
+                      double r2 = r2j + (riz-rjz-Az*pz)*(riz-rjz-Az*pz);
+                      double r = sqrt(r2);
+                      double g0 =  1.0/r -  msm4g_smoothing_gama(r/a,order)/a;
+                      particleI->potential_short_real += 0.5 * particleJ->m  * g0;
+                      particleJ->potential_short_real += 0.5 * particleI->m  * g0;
+                }
+            }
+        }
+
+    } else {
+        /* rij = rj - ri */
+        msm4g_d3vector_daxpy(&rij, &(particleJ->r), -1.0, &(particleI->r));
+        /* r^2 = |rij|^2 */
+        r2=msm4g_d3vector_normsquare(&rij);
+        r=sqrt(r2);
+        a2=a*a;
+        /* If only the particles are closer than cut-off distance */
+        if (r2 < a2)
+        {
+            smoothedkernel = 1.0/r -  msm4g_smoothing_gama(r/a,order)/a;
+            smoothedkernelderivative = 1.0/r2 - msm4g_smoothing_gamaprime(r/a,order)/a2;
+            coeff = particleI->m * particleJ->m * smoothedkernelderivative/r;
+            /* f_j = f_j + coeff*rij */
+            msm4g_d3vector_daxpy(&(particleJ->fshort) , &(particleJ->fshort), coeff, &rij);
+            /* f_i = f_i - coeff*rij */
+            msm4g_d3vector_daxpy(&(particleI->fshort) , &(particleI->fshort), coeff, &rij);
+            potential = particleI->m * particleJ->m * smoothedkernel;
+            particleI->potential_short_real += 0.5 * particleJ->m  * smoothedkernel;
+            particleJ->potential_short_real += 0.5 * particleI->m  * smoothedkernel;
+        }
     }
+
     return potential;
 }
 
@@ -489,6 +619,20 @@ SimulationBox *msm4g_box_new()
     box = malloc(sizeof(SimulationBox));
     msm4g_d3vector_set(&(box->location), 0.0,0.0,0.0);
     msm4g_d3vector_set(&(box->width), 0.0,0.0,0.0);
+    return box;
+}
+
+SimulationBox *msm4g_box_newCube(double location, double width)
+{
+    SimulationBox *box = msm4g_box_new();
+    box->location.value[0] = location;
+    box->location.value[1] = location;
+    box->location.value[2] = location;
+    box->width.value[0] = width;
+    box->width.value[1] = width;
+    box->width.value[2] = width;
+    box->x  = box->y  = box->z  = location;
+    box->wx = box->wy = box->wz = width;
     return box;
 }
 
@@ -857,6 +1001,7 @@ Particle *msm4g_particle_empty()
         particle->fshort.value[i] = 0.0;
         particle->flong.value[i] = 0.0;
     }
+    particle->potential_short_real = 0.0;
     
     index++;
     return particle;

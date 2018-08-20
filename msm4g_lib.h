@@ -15,10 +15,40 @@
 #include "msm4g_bases.h"
 #include "msm4g_constants.h"
 
+#define MSM4G_MAX3(A,B,C) (((A)>(B)) ? (((A)>(C)) ? (A) : (C)) : (((B)>(C)) ? (B) : (C)) )
+
+/** @brief Creates a new simulation object
+ * 
+ * It reads particles from a file and builds a
+ * simulation object.
+ *
+ * @param[in] datafile Filename containing the particles
+ * @param[in] box      Simulation box object
+ * @param[in] periodic If true, periodics boundary condition applies
+ * @param[in] order    Order of accuracy. It can only be 4 or 6
+ * @param[in] abar     Relative-cutoff
+ * @param[in] mu       Quasi-interpolation parameter
+ * @todo Change "4 or 6" statement when it is needed.
+ * @return Simulation object
+ */
+Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean periodic,int order,double abar,int mu);
+
+/** @brief Executes a simulation
+ *
+ * @param[in] simulation Pointer to the simulation object
+ */
+void msm4g_simulation_run(Simulation *simulation);
+
+/** @brief Deallocates a given simulation object
+ *
+ * @param[in] simulation Pointer to the simulation object
+ */
+void msm4g_simulation_delete(Simulation *simulation);
+
 /** @brief Anterpolation
  * @image html box.png
  */
-void msm4g_anterpolation(AbstractGrid *gridmass,SimulationBox *box, LinkedList *particles,const BaseFunction *base);
+void msm4g_anterpolation(Simulation *simulation);
 
 /** @brief Print the content of grid to the stdout.
  *
@@ -135,11 +165,11 @@ double msm4g_smoothing_gamaprime(double rho,int nu);
  *
  * @param[in,out] binlist    The list of bins.
  * @param[in]     threshold  The range of the short-range force.
- * @param[in]     sp         Simulation parameters.
+ * @param[in]     simulation Simulation object.
  *
  * @return Total short-range potential energy in the list of bins.
  */
-double msm4g_force_short(LinkedList *binlist,double threshold, SimulationParameters sp);
+double msm4g_force_short(LinkedList *binlist,double threshold, Simulation *simulation);
 
 /** @brief Calculates short-range forces and potential energy.
  *
@@ -148,11 +178,11 @@ double msm4g_force_short(LinkedList *binlist,double threshold, SimulationParamet
  *
  * @param[in,out] particles  The list of particles.
  * @param[in]     threshold  Cut-off parameter.
- * @param[in]     sp         Simulation parameters.
+ * @param[in]     simulation Simulation object.
  *
  * @return Short-range potential energy in the Bin.
  */
-double msm4g_force_short_withinBin(LinkedList *particles, double threshold,SimulationParameters sp);
+double msm4g_force_short_withinBin(LinkedList *particles, double threshold,Simulation *simulation);
 
 /** @brief Calculates short-range interactions between two set of particles.
  *
@@ -162,22 +192,22 @@ double msm4g_force_short_withinBin(LinkedList *particles, double threshold,Simul
  * @param[in,out] particlesI  A list of particles.
  * @param[in,out] particlesJ  Another list of particles.
  * @param[in]     threshold   Cut-off parameter.
- * @param[in]     sp          Simulation parameters
+ * @param[in]     simulation Simulation object.
  *
  * @return Short-range potential energy between the bins.
  */
-double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particlesJ, double threshold, SimulationParameters sp);
+double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particlesJ, double threshold, Simulation *simulation);
 
 /** @brief Short-range force and potential energy for a pair of particles.
  *
  * @param[in,out] particleI   The first particle.
  * @param[in,out] particleJ   The second particle.
  * @param[in]     threshold   Cut-off parameter.
- * @param[in]     sp          Simulation parameters
+ * @param[in]     simulation  Simulation object.
  * 
  * @return Short-range potential energy.
  */
-double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double threshold, SimulationParameters sp);
+double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double threshold, Simulation *simulation);
 
 /** @brief Sets the elements of a 3-element vector.
  *
@@ -453,9 +483,19 @@ void msm4g_particle_destroyarray(Particle **Particlearray,int length);
  * @warning It is the responsibility of the caller to deallocate the
  * box by using msm4g_box_destory function.
  *
+ * @todo Make sure that the width is of the form 2^k * h for some k.
+ *
  * @return The new simulation box.
  */
 SimulationBox *msm4g_box_new();
+
+/** @brief Creates a cube
+ *
+ * @param[in] location Location of the cube
+ * @param[in] width    Width of the cube
+ * @return Reference to the simulation box object
+ */
+SimulationBox *msm4g_box_newCube(double location, double width);
 
 /** @brief Update the simulation box for a given list of particles.
  *
@@ -476,8 +516,6 @@ SimulationBox *msm4g_box_new();
  * intact. As soon as the box is enlarged, new grid points should be
  * created. MSM may start from scratch whenever the box is updated,
  * but it seems quite waste of time.
- *
- * @todo Make sure that the width is of the form 2^k * h for some k.
  *
  * @param[in,out] box       The rectangular simulation box.
  * @param[in]     particles The list of particles.
