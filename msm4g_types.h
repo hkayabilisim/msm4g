@@ -91,6 +91,7 @@ typedef struct Particle
     D3Vector v;        /**< velocity  */
     D3Vector fshort;        /**< force produced by short-range interactions. */
     D3Vector flong;    /**< force produced by long-range interactions.  */
+    double potential_short_real ; /**< Short-range potential */
 } Particle;
 
 /** @brief The cubical domains obtained by dividing the simulation box.
@@ -124,28 +125,73 @@ typedef struct Bin
  *   - L: number of levels:
  *     Similar to grid-spacing, it is also automatically determined
  *     in the beginning, so it is read-only.
+ *   - periodic: Periodic Boundary Condition (PBC)
+ *     If it is true, then the code switches to PBC mode. Otherwise
+ *     vacuum boundary is assumed. Default is false.
+ *
+ * @todo Make necessary changes to replace "if (sp.periodic == true)"
+ * with "if (sp.periodic)"
  */
 typedef struct SimulationParameters
 {
     double    abar;    /**< Relative cut-off */
-    double    h;       /**< Finest level grid spacing */
     int       nu;      /**< Order of accuracy */
+    int       mu;      /**< Quasi-interpolation parameter */
+    Boolean   periodic;/**< Periodic Boundary Condition */
+
+    double    a;       /**< Absolute cutoff */
+    double    h;       /**< Finest level grid spacing */
+    double    hx;      /**< Grid-spacing along x-axis */
+    double    hy;      /**< Grid-spacing along y-axis */
+    double    hz;      /**< Grid-spacing along z-axis */
+    int       Mx;      /**< Number of grids along x-axis */
+    int       My;      /**< Number of grids along y-axis */
+    int       Mz;      /**< Number of grids along z-axis */
     int       L;       /**< Number of levels */
+    int       N;       /**< Number of particles */
+    int       Mxmin;   /**< Lower bound for Mx */
+    int       Mxmax;   /**< Upper bound for Mx */
+    int       Mymin;   /**< Lower bound for My */
+    int       Mymax;   /**< Upper bound for My */
+    int       Mzmin;   /**< Lower bound for Mz */
+    int       Mzmax;   /**< Upper bound for Mz */
+
 } SimulationParameters;
 
 /** @brief The geometric boundaries of the simulation.
  *
  * The algorithm requires that the simulation is confined into a rectangular 
  * box. The location and the width vectors are sufficient to desribe the domain.
- *
+*
  * @todo If the width along on one of the axis is zero or too small, then
  * the bin should be allowed to extend beyond the simulation box.
  */
 typedef struct SimulationBox
 {
-    D3Vector location; /**< Location of the lower left corner */
-    D3Vector width;    /**< Width of each side */
+    /** @deprecated Please use much simpler x,y, and z attributes.
+        Location of the lower left corner.  */
+    D3Vector location;
+    /** @deprecated Please use wx,wy and wz instead. Width of each side */
+    D3Vector width;
+    double x; /**< X-coordinate of the lower left corner */
+    double y; /**< Y-coordinate of the lower left corner */
+    double z; /**< Z-coordinate of the lower left corner */
+    double wx;/**< Width along x-axis */
+    double wy;/**< Width along y-axis */
+    double wz;/**< Width along z-axis */
 } SimulationBox;
+
+/** @brief Stores the output of the simulation.
+ *
+ * Most of simulation outcomes are stored in the Particle object such
+ * as potential, force, velocity of the particles etc.
+ * However there are some quantities that needs to be stored in another
+ * object independent of the particles.
+ */
+typedef struct SimulationOutput
+{
+    double potentialEnergyShortRange;
+} SimulationOutput;
 
 /** @brief Top level information about the simulation.
  *
@@ -153,9 +199,11 @@ typedef struct SimulationBox
  */
 typedef struct Simulation
 {
-    struct SimulationParameters simulationParameters; /**< @brief All of the parameters of the algorithm. */
-    struct SimulationBox        simulationBox;        /**< Geometry of the simulation. */
-    struct LinkedList           *particles;           /**< The collection of the particles in the SimulationBox */
+    struct SimulationParameters *parameters; /**< @brief All of the parameters of the algorithm. */
+    struct SimulationBox        *box;        /**< Geometry of the simulation. */
+    struct LinkedList           *particles;  /**< The collection of the particles in the SimulationBox */
+    struct SimulationOutput     *output;     /**< Stores simulation outcomes */
+    struct AbstractGrid         *grid;       /**< Finest level grid */
 } Simulation;
 
 /** @brief An abstract 3-dimensional grid structure.
