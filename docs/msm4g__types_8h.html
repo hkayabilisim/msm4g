@@ -337,8 +337,10 @@ Enumerations</h2></td></tr>
 <li>abar: relative cutoff: It is better to work with relative cutoff due to flexibility to fit various types of simulation geometries.</li>
 <li>h: grid spacing: In practice, the grid spacing is automatically calculated at the beginning of the simulation and thus read-only. But one may want to manually adjust it for some reason.</li>
 <li>nu: order of accuracy: It specifies the order of B-Splines used in the quasi-interpolation. The same value is also used in even-powered softener.</li>
-<li>L: number of levels: Similar to grid-spacing, it is also automatically determined in the beginning, so it is read-only. </li>
+<li>L: number of levels: Similar to grid-spacing, it is also automatically determined in the beginning, so it is read-only.</li>
+<li>periodic: Periodic Boundary Condition (PBC) If it is true, then the code switches to PBC mode. Otherwise vacuum boundary is assumed. Default is false.</li>
 </ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Make necessary changes to replace "if (sp.periodic == true)" with "if (sp.periodic)" </dd></dl>
 
 </div>
 </div>
@@ -356,7 +358,7 @@ Enumerations</h2></td></tr>
 
 <p>The geometric boundaries of the simulation. </p>
 <p>The algorithm requires that the simulation is confined into a rectangular box. The location and the width vectors are sufficient to desribe the domain.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>If the width along on one of the axis is zero or too small, then the bin should be allowed to extend beyond the simulation box. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>If the width along on one of the axis is zero or too small, then the bin should be allowed to extend beyond the simulation box. </dd></dl>
 
 </div>
 </div>

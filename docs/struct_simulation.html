@@ -107,11 +107,11 @@ $(document).ready(function(){initNavTree('struct_simulation.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a8c68351d39c9cff958c6d970b948d5b0"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="struct_simulation_parameters.html">SimulationParameters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation.html#a8c68351d39c9cff958c6d970b948d5b0">simulationParameters</a></td></tr>
-<tr class="memdesc:a8c68351d39c9cff958c6d970b948d5b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">All of the parameters of the algorithm.  <a href="#a8c68351d39c9cff958c6d970b948d5b0">More...</a><br /></td></tr>
-<tr class="separator:a8c68351d39c9cff958c6d970b948d5b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e1149e437e8662a94a3086a53370e34"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="struct_simulation_box.html">SimulationBox</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation.html#a4e1149e437e8662a94a3086a53370e34">simulationBox</a></td></tr>
-<tr class="separator:a4e1149e437e8662a94a3086a53370e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c56e178908e4688d06ea2f69af4452d"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="struct_simulation_parameters.html">SimulationParameters</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation.html#a3c56e178908e4688d06ea2f69af4452d">parameters</a></td></tr>
+<tr class="memdesc:a3c56e178908e4688d06ea2f69af4452d"><td class="mdescLeft">&#160;</td><td class="mdescRight">All of the parameters of the algorithm.  <a href="#a3c56e178908e4688d06ea2f69af4452d">More...</a><br /></td></tr>
+<tr class="separator:a3c56e178908e4688d06ea2f69af4452d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1a40747265654133a475735033563ee"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="struct_simulation_box.html">SimulationBox</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation.html#ab1a40747265654133a475735033563ee">box</a></td></tr>
+<tr class="separator:ab1a40747265654133a475735033563ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accb587ff5d2d98cd992898ac36e8debf"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="struct_linked_list.html">LinkedList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation.html#accb587ff5d2d98cd992898ac36e8debf">particles</a></td></tr>
 <tr class="separator:accb587ff5d2d98cd992898ac36e8debf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -119,40 +119,44 @@ Data Fields</h2></td></tr>
 <div class="textblock"><p>Top level information about the simulation. </p>
 <p>This structure holds everything needed for the simulation takes part. </p>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__types_8h_source.html#l00154">154</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__types_8h_source.html#l00170">170</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="a8c68351d39c9cff958c6d970b948d5b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c68351d39c9cff958c6d970b948d5b0">&#9670;&nbsp;</a></span>simulationParameters</h2>
+<a id="a3c56e178908e4688d06ea2f69af4452d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c56e178908e4688d06ea2f69af4452d">&#9670;&nbsp;</a></span>parameters</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="struct_simulation_parameters.html">SimulationParameters</a> simulationParameters</td>
+          <td class="memname">struct <a class="el" href="struct_simulation_parameters.html">SimulationParameters</a>* parameters</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>All of the parameters of the algorithm. </p>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__types_8h_source.html#l00156">156</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__types_8h_source.html#l00172">172</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00032">msm4g_simulation_delete()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00007">msm4g_simulation_new()</a>.</p>
 
 </div>
 </div>
-<a id="a4e1149e437e8662a94a3086a53370e34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e1149e437e8662a94a3086a53370e34">&#9670;&nbsp;</a></span>simulationBox</h2>
+<a id="ab1a40747265654133a475735033563ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1a40747265654133a475735033563ee">&#9670;&nbsp;</a></span>box</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="struct_simulation_box.html">SimulationBox</a> simulationBox</td>
+          <td class="memname">struct <a class="el" href="struct_simulation_box.html">SimulationBox</a>* box</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Geometry of the simulation. </p>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__types_8h_source.html#l00157">157</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__types_8h_source.html#l00173">173</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00032">msm4g_simulation_delete()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00007">msm4g_simulation_new()</a>.</p>
 
 </div>
 </div>
@@ -169,7 +173,9 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>The collection of the particles in the <a class="el" href="struct_simulation_box.html" title="The geometric boundaries of the simulation. ">SimulationBox</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__types_8h_source.html#l00158">158</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__types_8h_source.html#l00174">174</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00032">msm4g_simulation_delete()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00007">msm4g_simulation_new()</a>.</p>
 
 </div>
 </div>

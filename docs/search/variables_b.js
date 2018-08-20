@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['p',['p',['../struct_base_function.html#ad9bdd84c32d7e9f36d5f7dcb8a458a31',1,'BaseFunction']]],
-  ['particles',['particles',['../struct_bin.html#a561a5c597cdb9f060d42b37db20fba92',1,'Bin::particles()'],['../struct_simulation.html#accb587ff5d2d98cd992898ac36e8debf',1,'Simulation::particles()']]],
-  ['prev',['prev',['../struct_linked_list_element.html#ab2a338dd2c3ebf3033210507766f2529',1,'LinkedListElement']]]
+  ['neighbors',['neighbors',['../struct_bin.html#a517f42bb55d44c1311e698d953131a62',1,'Bin']]],
+  ['next',['next',['../struct_linked_list_element.html#a475866f9885e1659a1704a6b24c81af2',1,'LinkedListElement']]],
+  ['nu',['nu',['../struct_simulation_parameters.html#adb40d5e571adca5a45efc67a2cd82f38',1,'SimulationParameters']]],
+  ['nx',['nx',['../struct_abstract_grid.html#a02d47a4f36ec0bcce348696534567e30',1,'AbstractGrid']]],
+  ['ny',['ny',['../struct_abstract_grid.html#a9f4e20a91b26459133b83992e9d8d381',1,'AbstractGrid']]],
+  ['nz',['nz',['../struct_abstract_grid.html#ac2eda98bb6d7e89cc3239973db2800cf',1,'AbstractGrid']]]
 ];

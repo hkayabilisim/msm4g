@@ -14,5 +14,6 @@ var msm4g__tests_8h =
     [ "msm4g_unit_test_11", "msm4g__tests_8h.html#af38e53c4151208586e77f1ff1e425464", null ],
     [ "msm4g_unit_test_12", "msm4g__tests_8h.html#a1268622171285f5354a5245996f1e22e", null ],
     [ "msm4g_unit_test_13", "msm4g__tests_8h.html#a6932ec3ce6aa28ee4ebb9160d17b8a93", null ],
-    [ "msm4g_unit_test_14", "msm4g__tests_8h.html#abd1b39b711f3182e0b1b4b71fa2934bc", null ]
+    [ "msm4g_unit_test_14", "msm4g__tests_8h.html#abd1b39b711f3182e0b1b4b71fa2934bc", null ],
+    [ "msm4g_unit_test_15", "msm4g__tests_8h.html#aa3f324918f43e825fbd59f6899c0fe28", null ]
 ];

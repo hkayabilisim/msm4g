@@ -1,6 +1,6 @@
 var struct_simulation =
 [
-    [ "simulationParameters", "struct_simulation.html#a8c68351d39c9cff958c6d970b948d5b0", null ],
-    [ "simulationBox", "struct_simulation.html#a4e1149e437e8662a94a3086a53370e34", null ],
+    [ "parameters", "struct_simulation.html#a3c56e178908e4688d06ea2f69af4452d", null ],
+    [ "box", "struct_simulation.html#ab1a40747265654133a475735033563ee", null ],
     [ "particles", "struct_simulation.html#accb587ff5d2d98cd992898ac36e8debf", null ]
 ];

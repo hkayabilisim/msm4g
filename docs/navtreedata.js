@@ -28,6 +28,7 @@ var NAVTREE =
     [ "Short-Range Calculations", "index.html#shortrange", null ],
     [ "Test Functions", "index.html#tests", null ],
     [ "Todo List", "todo.html", null ],
+    [ "Deprecated List", "deprecated.html", null ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -54,7 +55,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"struct_dense_grid.html#acca8b1cafec81a8691672eef4f415c9f"
+"struct_bin.html#a561a5c597cdb9f060d42b37db20fba92"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

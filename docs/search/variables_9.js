@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['m',['m',['../struct_particle.html#a5175b356eac1d83a42608b42a25d00b9',1,'Particle']]]
+  ['l',['L',['../struct_simulation_parameters.html#a61b43f3326e96036caf1c76875b794cc',1,'SimulationParameters']]],
+  ['location',['location',['../struct_simulation_box.html#a3ed37119f85f80acce697eeec035fcc9',1,'SimulationBox']]]
 ];
