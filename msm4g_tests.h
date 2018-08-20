@@ -236,4 +236,13 @@ Boolean msm4g_unit_test_13();
  */
 Boolean msm4g_unit_test_14();
 
+/** @brief Checks short-range potential energy for periodic boundary
+ *
+ * It calculates the short-range potential energy and compares it
+ * to the one computed with reference periodic MSM implementation.
+ *
+ * @return true if the test is successful, false otherwise
+ */
+Boolean msm4g_unit_test_15();
+
 #endif /* MSM4G_TESTS_H */

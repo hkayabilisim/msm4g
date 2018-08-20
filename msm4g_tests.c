@@ -30,7 +30,8 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_12);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_13);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_14);
-    
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_15);
+
     numberoftests = msm4g_linkedlist_size(list);
 
     failed=0;
@@ -362,34 +363,31 @@ Boolean msm4g_unit_test_8()
 
 Boolean msm4g_unit_test_9()
 {
-    Boolean status = true;
-    LinkedList *particlelist;
-    LinkedList *binlist;
-    SimulationBox box;
-    SimulationParameters sp;
-    double binwidth = 10;
-    double potential;
-    double potentialExpected;
-    int i;
-    
-    sp.nu = 2 ; /* C1 smoothing */
+    Boolean teststatus = true;
+    Boolean periodic = false;
+    int order = 2 ;
+    double abar = 1;
+    int mu = 2;
+    char *datafile = "data/bintest.ini";
+    double boxlocation = 0.0;
+    double boxwidth = 30.0;
+    SimulationBox *box = msm4g_box_newCube(boxlocation,boxwidth);
 
-    particlelist = msm4g_particle_read("data/bintest.ini");
-    for (i=0;i<3;i++)
-    {
-        box.location.value[i] = 0.0;
-        box.width.value[i]    = 30.0;
+    Simulation *simulation = msm4g_simulation_new(datafile,box,periodic,order,abar,mu);
+
+    simulation->parameters->a = 10;
+
+    msm4g_simulation_run(simulation);
+
+    double potential = simulation->output->potentialEnergyShortRange ;
+    double potentialExpected =  1127.0/6000 + (5000*sqrt(2.0)-1776.0)/4000.0 + (2000*sqrt(82.0)-17876.0)/164000.0;
+
+    if (fabs(potentialExpected-potential)/potential  > 1E-15) {
+        teststatus = false;
     }
-    binlist=msm4g_bin_generate(&box,particlelist,binwidth);
-    potential = msm4g_force_short(binlist, 10.0, sp);
-    /* expected = bin1 + bin2 + (bin1 <-> bin2) */
-    potentialExpected =  1127.0/6000 + (5000*sqrt(2.0)-1776.0)/4000.0 + (2000*sqrt(82.0)-17876.0)/164000.0;
 
-    /* If relative error > 1E-15 then there is something wrong in the calculations; */
-    if (fabs(potentialExpected-potential)/potential  > 1E-15) return false;
-    msm4g_bin_destroy(binlist);
-    msm4g_linkedlist_destroyWithData(particlelist);
-    return status;
+    msm4g_simulation_delete(simulation);
+    return teststatus;
 }
 
 Boolean msm4g_unit_test_10()
@@ -419,41 +417,37 @@ Boolean msm4g_unit_test_10()
 
 Boolean msm4g_unit_test_11()
 {
-    LinkedList *particles ;
+    Boolean teststatus = true;
     AbstractGrid *grid ;
     SimulationBox *box;
-    int nx,ny,nz,i,j,k;
-    double h;
-    int p = 4;
-    h=1.5;
+    double h=1.5;
+    char *datafile = "data/singleton.ini";
+    Boolean periodic = false;
     double phix[4] = {1, 23, 23, 1};
+    double abar = 4;
+    int mu = 4;
 
-    particles = msm4g_linkedlist_new();
-    msm4g_linkedlist_add(particles, msm4g_particle_new(48.0*48*48,   0,   0,   0));
+    box = msm4g_box_newCube(-2.25,4.5);
+    Simulation *simulation = msm4g_simulation_new(datafile,box,periodic,4,abar,mu);
+    simulation->parameters->Mx = 1;
+    simulation->parameters->My = 1;
+    simulation->parameters->Mz = 1;
+    simulation->parameters->h  = h ;
 
-
-
-    box = msm4g_box_new();
-    msm4g_box_update(box, particles, 0.0, h, p);
-    nx = box->width.value[0]/h + 1;
-    ny = box->width.value[1]/h + 1;
-    nz = box->width.value[2]/h + 1;
-    grid = msm4g_grid_dense_new(nx, ny, nz, h);
-    grid->reset(grid,0.0);
-    msm4g_anterpolation(grid, box,particles, CubicBSpline);
+    msm4g_simulation_run(simulation);
     
-    for (i = 0 ; i < nx ; i++)
-        for (j = 0 ; j < ny ; j++)
-            for (k = 0 ; k < nz ; k++)
-                if (fabs(grid->getElement(grid,i,j,k)-phix[i]*phix[j]*phix[k]) > FLT_EPSILON)
-                    return false;
+    grid = simulation->grid;
+    for (int i = 0 ; i < grid->nx ; i++)
+        for (int j = 0 ; j < grid->ny ; j++)
+            for (int k = 0 ; k < grid->nz ; k++)
+                if (fabs(grid->getElement(grid,i,j,k)-phix[i]*phix[j]*phix[k]) > FLT_EPSILON) {
+                    teststatus = false;
+                    break;
+                }
     
 
-
-    msm4g_box_destroy(box);
-    msm4g_linkedlist_destroyWithData(particles);
-    msm4g_grid_destroy(&grid);
-    return true;
+    msm4g_simulation_delete(simulation);
+    return teststatus;
 }
 
 Boolean msm4g_unit_test_12()
@@ -528,4 +522,27 @@ Boolean msm4g_unit_test_14()
         }
     }
     return true;
+}
+
+Boolean msm4g_unit_test_15()
+{
+    Boolean teststatus = true;
+    Boolean periodic = true;
+    int order = 4;
+    int mu = 2;
+    double abar = 4.0;
+    double expected = 6.9843177228211383e-09;
+    SimulationBox *unitCube = msm4g_box_newCube(0,1);
+
+    Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu);
+
+    msm4g_simulation_run(simulation);
+    
+    double relativeError = fabs(simulation->output->potentialEnergyShortRange-expected)/fabs(expected);
+    if (relativeError > 1E-14) {
+        teststatus = false;
+    }
+
+    msm4g_simulation_delete(simulation);
+    return teststatus;
 }
