@@ -11,5 +11,6 @@ var annotated_dup =
     [ "Particle", "struct_particle.html", "struct_particle" ],
     [ "Simulation", "struct_simulation.html", "struct_simulation" ],
     [ "SimulationBox", "struct_simulation_box.html", "struct_simulation_box" ],
+    [ "SimulationOutput", "struct_simulation_output.html", "struct_simulation_output" ],
     [ "SimulationParameters", "struct_simulation_parameters.html", "struct_simulation_parameters" ]
 ];

@@ -20,16 +20,15 @@
 /** @brief Calculates the stencils
  *
  * This function calculates the stencil values
- * corresponding to <l>th level. It modifies
+ * corresponding to the specified level. It modifies
  * the stencil located in the simulation object.
  *
- *
  * @param[in] simulation Simulation object
- * @param[in] l          Level in the range [1,L+1]. l = 1 corresponds
+ * @param[in] level      Level in the range [1,L+1]. l = 1 corresponds
  * to the lowest level stencil, whereas l = L + 1 is for Fourier
  * stencil.
  */
-void msm4g_stencil(Simulation *simulation, int l);
+void msm4g_stencil(Simulation *simulation, int level);
 
 /** @brief Creates a new simulation object
  * 

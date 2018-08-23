@@ -95,7 +95,6 @@ $(document).ready(function(){initNavTree('msm4g__types_8h.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
@@ -106,6 +105,7 @@ $(document).ready(function(){initNavTree('msm4g__types_8h.html','');});
 <p>The data type definitions required in the package.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="msm4g__bases_8h_source.html">msm4g_bases.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="msm4g__constants_8h_source.html">msm4g_constants.h</a>&quot;</code><br />
 </div>
 <p><a href="msm4g__types_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -135,8 +135,8 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation_box.html">SimulationBox</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The geometric boundaries of the simulation.  <a href="struct_simulation_box.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation.html">Simulation</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Top level information about the simulation.  <a href="struct_simulation.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation_output.html">SimulationOutput</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the output of the simulation.  <a href="struct_simulation_output.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_abstract_grid.html">AbstractGrid</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An abstract 3-dimensional grid structure.  <a href="struct_abstract_grid.html#details">More...</a><br /></td></tr>
@@ -144,11 +144,9 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_dense_grid.html">DenseGrid</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> implementation for the <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a>.  <a href="struct_dense_grid.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:ad45f6c8ce5dd25eb295cdd22d6c295ab"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#ad45f6c8ce5dd25eb295cdd22d6c295ab">MAX_POLY_DEGREE</a>&#160;&#160;&#160;20</td></tr>
-<tr class="separator:ad45f6c8ce5dd25eb295cdd22d6c295ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simulation.html">Simulation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Top level information about the simulation.  <a href="struct_simulation.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -176,15 +174,18 @@ Typedefs</h2></td></tr>
 <tr class="memitem:afb1d06d7544e4e26d4fedb08cfdd9d71"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_simulation_box.html">SimulationBox</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#afb1d06d7544e4e26d4fedb08cfdd9d71">SimulationBox</a></td></tr>
 <tr class="memdesc:afb1d06d7544e4e26d4fedb08cfdd9d71"><td class="mdescLeft">&#160;</td><td class="mdescRight">The geometric boundaries of the simulation.  <a href="#afb1d06d7544e4e26d4fedb08cfdd9d71">More...</a><br /></td></tr>
 <tr class="separator:afb1d06d7544e4e26d4fedb08cfdd9d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad43311de2ce549cd715095669dd8d18b"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_simulation.html">Simulation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#ad43311de2ce549cd715095669dd8d18b">Simulation</a></td></tr>
-<tr class="memdesc:ad43311de2ce549cd715095669dd8d18b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Top level information about the simulation.  <a href="#ad43311de2ce549cd715095669dd8d18b">More...</a><br /></td></tr>
-<tr class="separator:ad43311de2ce549cd715095669dd8d18b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45160498a902b924a832d4cb1fdc4896"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_simulation_output.html">SimulationOutput</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#a45160498a902b924a832d4cb1fdc4896">SimulationOutput</a></td></tr>
+<tr class="memdesc:a45160498a902b924a832d4cb1fdc4896"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the output of the simulation.  <a href="#a45160498a902b924a832d4cb1fdc4896">More...</a><br /></td></tr>
+<tr class="separator:a45160498a902b924a832d4cb1fdc4896"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e4d0e490ada8938b9574925116794b7"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_abstract_grid.html">AbstractGrid</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#a6e4d0e490ada8938b9574925116794b7">AbstractGrid</a></td></tr>
 <tr class="memdesc:a6e4d0e490ada8938b9574925116794b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">An abstract 3-dimensional grid structure.  <a href="#a6e4d0e490ada8938b9574925116794b7">More...</a><br /></td></tr>
 <tr class="separator:a6e4d0e490ada8938b9574925116794b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69dc9a1a65291dcb9c5dcdb2c095bfc7"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_dense_grid.html">DenseGrid</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#a69dc9a1a65291dcb9c5dcdb2c095bfc7">DenseGrid</a></td></tr>
 <tr class="memdesc:a69dc9a1a65291dcb9c5dcdb2c095bfc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> implementation for the <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a>.  <a href="#a69dc9a1a65291dcb9c5dcdb2c095bfc7">More...</a><br /></td></tr>
 <tr class="separator:a69dc9a1a65291dcb9c5dcdb2c095bfc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad43311de2ce549cd715095669dd8d18b"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct_simulation.html">Simulation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__types_8h.html#ad43311de2ce549cd715095669dd8d18b">Simulation</a></td></tr>
+<tr class="memdesc:ad43311de2ce549cd715095669dd8d18b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Top level information about the simulation.  <a href="#ad43311de2ce549cd715095669dd8d18b">More...</a><br /></td></tr>
+<tr class="separator:ad43311de2ce549cd715095669dd8d18b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -199,24 +200,7 @@ Enumerations</h2></td></tr>
 <p>It is already included in <a class="el" href="msm4g__lib_8h.html">msm4g_lib.h</a> so that it doesn't have to be explicity included by the user. </p>
 
 <p class="definition">Definition in file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ad45f6c8ce5dd25eb295cdd22d6c295ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad45f6c8ce5dd25eb295cdd22d6c295ab">&#9670;&nbsp;</a></span>MAX_POLY_DEGREE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MAX_POLY_DEGREE&#160;&#160;&#160;20</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="msm4g__types_8h_source.html#l00012">12</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Typedef Documentation</h2>
+</div><h2 class="groupheader">Typedef Documentation</h2>
 <a id="a3944c44182540668f86ce739f91291b4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3944c44182540668f86ce739f91291b4">&#9670;&nbsp;</a></span>D3Vector</h2>
 
@@ -340,7 +324,7 @@ Enumerations</h2></td></tr>
 <li>L: number of levels: Similar to grid-spacing, it is also automatically determined in the beginning, so it is read-only.</li>
 <li>periodic: Periodic Boundary Condition (PBC) If it is true, then the code switches to PBC mode. Otherwise vacuum boundary is assumed. Default is false.</li>
 </ul>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Make necessary changes to replace "if (sp.periodic == true)" with "if (sp.periodic)" </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Make necessary changes to replace "if (sp.periodic == true)" with "if (sp.periodic)" </dd></dl>
 
 </div>
 </div>
@@ -358,24 +342,24 @@ Enumerations</h2></td></tr>
 
 <p>The geometric boundaries of the simulation. </p>
 <p>The algorithm requires that the simulation is confined into a rectangular box. The location and the width vectors are sufficient to desribe the domain.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>If the width along on one of the axis is zero or too small, then the bin should be allowed to extend beyond the simulation box. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>If the width along on one of the axis is zero or too small, then the bin should be allowed to extend beyond the simulation box. </dd></dl>
 
 </div>
 </div>
-<a id="ad43311de2ce549cd715095669dd8d18b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad43311de2ce549cd715095669dd8d18b">&#9670;&nbsp;</a></span>Simulation</h2>
+<a id="a45160498a902b924a832d4cb1fdc4896"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45160498a902b924a832d4cb1fdc4896">&#9670;&nbsp;</a></span>SimulationOutput</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef struct <a class="el" href="struct_simulation.html">Simulation</a>  <a class="el" href="struct_simulation.html">Simulation</a></td>
+          <td class="memname">typedef struct <a class="el" href="struct_simulation_output.html">SimulationOutput</a>  <a class="el" href="struct_simulation_output.html">SimulationOutput</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Top level information about the simulation. </p>
-<p>This structure holds everything needed for the simulation takes part. </p>
+<p>Stores the output of the simulation. </p>
+<p>Most of simulation outcomes are stored in the <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a> object such as potential, force, velocity of the particles etc. However there are some quantities that needs to be stored in another object independent of the particles. </p>
 
 </div>
 </div>
@@ -408,7 +392,7 @@ h        +=======+=======+=======+=======+
          |       |       |       |       |
 0        +=======+=======+=======+=======+
          0       h       2h     ....  (nx-1)*h</pre><p>In order to use <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> in the code, one should first use a constructor designed for an implementation. After that, the methods msm4g_grid_xxx can be be used without dealing with details regarding the grid implementation.</p>
-<div class="fragment"><div class="line"><span class="keywordtype">int</span> <a class="code" href="struct_abstract_grid.html#a02d47a4f36ec0bcce348696534567e30">nx</a>=10; </div><div class="line"><span class="keywordtype">int</span> <a class="code" href="struct_abstract_grid.html#a9f4e20a91b26459133b83992e9d8d381">ny</a>=10;</div><div class="line"><span class="keywordtype">int</span> <a class="code" href="struct_abstract_grid.html#ac2eda98bb6d7e89cc3239973db2800cf">nz</a>=10;</div><div class="line"><span class="keywordtype">double</span> <a class="code" href="struct_abstract_grid.html#a8ee9be1b5aa75abae556de3088cba6d9">h</a>=1.0;</div><div class="line"><span class="keywordtype">double</span> element;</div><div class="line">AsbtractGrid *grid;</div><div class="line"></div><div class="line">grid = msm4g_dense_grid_new(<a class="code" href="struct_abstract_grid.html#a02d47a4f36ec0bcce348696534567e30">nx</a>,<a class="code" href="struct_abstract_grid.html#a9f4e20a91b26459133b83992e9d8d381">ny</a>,<a class="code" href="struct_abstract_grid.html#ac2eda98bb6d7e89cc3239973db2800cf">nz</a>,<a class="code" href="struct_abstract_grid.html#a8ee9be1b5aa75abae556de3088cba6d9">h</a>);</div><div class="line"></div><div class="line">grid-&gt;reset(grid, 0.0);</div><div class="line"></div><div class="line">grid-&gt;setElement(grid,3,4,5,10.0);</div><div class="line"></div><div class="line">element = grid-&gt;getElement(grid,3,4,5);</div><div class="line"></div><div class="line"><a class="code" href="msm4g__lib_8c.html#a0ac5f1ca0792dc9571a729dd62e18978">msm4g_grid_destroy</a>(&amp;grid);</div></div><!-- fragment --> 
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> <a class="code" href="struct_abstract_grid.html#a02d47a4f36ec0bcce348696534567e30">nx</a>=10; </div><div class="line"><span class="keywordtype">int</span> <a class="code" href="struct_abstract_grid.html#a9f4e20a91b26459133b83992e9d8d381">ny</a>=10;</div><div class="line"><span class="keywordtype">int</span> <a class="code" href="struct_abstract_grid.html#ac2eda98bb6d7e89cc3239973db2800cf">nz</a>=10;</div><div class="line"><span class="keywordtype">double</span> h=1.0;</div><div class="line"><span class="keywordtype">double</span> element;</div><div class="line">AsbtractGrid *grid;</div><div class="line"></div><div class="line">grid = msm4g_dense_grid_new(<a class="code" href="struct_abstract_grid.html#a02d47a4f36ec0bcce348696534567e30">nx</a>,<a class="code" href="struct_abstract_grid.html#a9f4e20a91b26459133b83992e9d8d381">ny</a>,<a class="code" href="struct_abstract_grid.html#ac2eda98bb6d7e89cc3239973db2800cf">nz</a>,h);</div><div class="line"></div><div class="line">grid-&gt;reset(grid, 0.0);</div><div class="line"></div><div class="line">grid-&gt;setElement(grid,3,4,5,10.0);</div><div class="line"></div><div class="line">element = grid-&gt;getElement(grid,3,4,5);</div><div class="line"></div><div class="line"><a class="code" href="msm4g__lib_8c.html#a0ac5f1ca0792dc9571a729dd62e18978">msm4g_grid_destroy</a>(&amp;grid);</div></div><!-- fragment --> 
 </div>
 </div>
 <a id="a69dc9a1a65291dcb9c5dcdb2c095bfc7"></a>
@@ -426,6 +410,23 @@ h        +=======+=======+=======+=======+
 <p>A <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> implementation for the <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a>. </p>
 <p>In this implementation, the nodes in the grid are stored consecutively in a dense matrix which is flattened into a long vector with size nx * ny * nz.</p>
 <p>The constructor, destructor, setter and other methods related with the implementation are defined in msm4g_grid_dense_xxx functions. They are later attached to the object during the construction of the object. </p>
+
+</div>
+</div>
+<a id="ad43311de2ce549cd715095669dd8d18b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad43311de2ce549cd715095669dd8d18b">&#9670;&nbsp;</a></span>Simulation</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct_simulation.html">Simulation</a>  <a class="el" href="struct_simulation.html">Simulation</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Top level information about the simulation. </p>
+<p>This structure holds everything needed for the simulation takes part. </p>
 
 </div>
 </div>
@@ -451,7 +452,7 @@ h        +=======+=======+=======+=======+
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__types_8h_source.html#l00018">18</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__types_8h_source.html#l00017">17</a> of file <a class="el" href="msm4g__types_8h_source.html">msm4g_types.h</a>.</p>
 
 </div>
 </div>

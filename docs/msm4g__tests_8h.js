@@ -15,5 +15,8 @@ var msm4g__tests_8h =
     [ "msm4g_unit_test_12", "msm4g__tests_8h.html#a1268622171285f5354a5245996f1e22e", null ],
     [ "msm4g_unit_test_13", "msm4g__tests_8h.html#a6932ec3ce6aa28ee4ebb9160d17b8a93", null ],
     [ "msm4g_unit_test_14", "msm4g__tests_8h.html#abd1b39b711f3182e0b1b4b71fa2934bc", null ],
-    [ "msm4g_unit_test_15", "msm4g__tests_8h.html#aa3f324918f43e825fbd59f6899c0fe28", null ]
+    [ "msm4g_unit_test_15", "msm4g__tests_8h.html#aa3f324918f43e825fbd59f6899c0fe28", null ],
+    [ "msm4g_unit_test_16", "msm4g__tests_8h.html#a6c5cc4ad8eed93a21665c5af1735d501", null ],
+    [ "msm4g_unit_test_17", "msm4g__tests_8h.html#a1267d9b662a0480ccc4ee9aa41edc08b", null ],
+    [ "msm4g_unit_test_18", "msm4g__tests_8h.html#ae506b60e87a8c4886ae47c9d793ef7cd", null ]
 ];

@@ -107,6 +107,22 @@ Macros</h2></td></tr>
 <tr class="memitem:a0a3183dc1dfac1f23679661e11bde234"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__constants_8h.html#a0a3183dc1dfac1f23679661e11bde234">MAX_MU</a>&#160;&#160;&#160;100</td></tr>
 <tr class="memdesc:a0a3183dc1dfac1f23679661e11bde234"><td class="mdescLeft">&#160;</td><td class="mdescRight">1D nesting stencil for Cubic B-Spline  <a href="#a0a3183dc1dfac1f23679661e11bde234">More...</a><br /></td></tr>
 <tr class="separator:a0a3183dc1dfac1f23679661e11bde234"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b086514f6963b35ee29bc954fc9b0f3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__constants_8h.html#a5b086514f6963b35ee29bc954fc9b0f3">LMAX</a>&#160;&#160;&#160;20</td></tr>
+<tr class="separator:a5b086514f6963b35ee29bc954fc9b0f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad45f6c8ce5dd25eb295cdd22d6c295ab"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__constants_8h.html#ad45f6c8ce5dd25eb295cdd22d6c295ab">MAX_POLY_DEGREE</a>&#160;&#160;&#160;20</td></tr>
+<tr class="separator:ad45f6c8ce5dd25eb295cdd22d6c295ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b4f923d21914133645ee90d4c440fe6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__constants_8h.html#a5b4f923d21914133645ee90d4c440fe6">FACE_MAXLEN</a>&#160;&#160;&#160;40000</td></tr>
+<tr class="separator:a5b4f923d21914133645ee90d4c440fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42c69ec38fc270045143a8933d886715"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__constants_8h.html#a42c69ec38fc270045143a8933d886715">TOL_DIRECT</a>&#160;&#160;&#160;1E-8</td></tr>
+<tr class="separator:a42c69ec38fc270045143a8933d886715"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a046427b4601ee2c6fab5b045df3002a3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__constants_8h.html#a046427b4601ee2c6fab5b045df3002a3">TOL_FOURIER</a>&#160;&#160;&#160;1E-8</td></tr>
+<tr class="separator:a046427b4601ee2c6fab5b045df3002a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a940b85a83458e94519f2685b33ddd276"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__constants_8h.html#a940b85a83458e94519f2685b33ddd276">KMAX</a>&#160;&#160;&#160;15</td></tr>
+<tr class="separator:a940b85a83458e94519f2685b33ddd276"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44c07e59a1dddb477c7989ad091bffc4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__constants_8h.html#a44c07e59a1dddb477c7989ad091bffc4">PMAX</a>&#160;&#160;&#160;15</td></tr>
+<tr class="separator:a44c07e59a1dddb477c7989ad091bffc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa61e0bbfa1d2c4d426de6ca2aee043f5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__constants_8h.html#aa61e0bbfa1d2c4d426de6ca2aee043f5">MYPI</a>&#160;&#160;&#160;3.141592653589793238462643</td></tr>
+<tr class="separator:aa61e0bbfa1d2c4d426de6ca2aee043f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a0a3183dc1dfac1f23679661e11bde234"></a>
@@ -125,6 +141,142 @@ Macros</h2></td></tr>
 <p>1D nesting stencil for Quintic B-Spline Specifices the maximum number of omega values.</p>
 <p>The relation between the row index (i) of OMEGA array and p is: p = (i+2)*2 or i = p/2 - 2. So, the first row is for p=4, the second is for p=6, and so on. You can access the omega values for p=4 (Cubic) and p=6 (Quintic) as follows: </p><div class="fragment"><div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">int</span> p=4 ; p &lt;= 6; p = p + 2)</div><div class="line">{</div><div class="line">  <span class="keywordtype">int</span> i = p/2 - 2;</div><div class="line">  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> mu=0; mu &lt; <a class="code" href="msm4g__constants_8h.html#a0a3183dc1dfac1f23679661e11bde234">MAX_MU</a>; mu++ )</div><div class="line">     printf(<span class="stringliteral">&quot;OMEGA[%d][%d] (p=%d) : %25.16e\n&quot;</span>,i,mu,p,OMEGA[i][mu]);</div><div class="line">}</div></div><!-- fragment --> 
 <p class="definition">Definition at line <a class="el" href="msm4g__constants_8h_source.html#l00032">32</a> of file <a class="el" href="msm4g__constants_8h_source.html">msm4g_constants.h</a>.</p>
+
+</div>
+</div>
+<a id="a5b086514f6963b35ee29bc954fc9b0f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b086514f6963b35ee29bc954fc9b0f3">&#9670;&nbsp;</a></span>LMAX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LMAX&#160;&#160;&#160;20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="msm4g__constants_8h_source.html#l00033">33</a> of file <a class="el" href="msm4g__constants_8h_source.html">msm4g_constants.h</a>.</p>
+
+</div>
+</div>
+<a id="ad45f6c8ce5dd25eb295cdd22d6c295ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad45f6c8ce5dd25eb295cdd22d6c295ab">&#9670;&nbsp;</a></span>MAX_POLY_DEGREE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_POLY_DEGREE&#160;&#160;&#160;20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="msm4g__constants_8h_source.html#l00034">34</a> of file <a class="el" href="msm4g__constants_8h_source.html">msm4g_constants.h</a>.</p>
+
+</div>
+</div>
+<a id="a5b4f923d21914133645ee90d4c440fe6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b4f923d21914133645ee90d4c440fe6">&#9670;&nbsp;</a></span>FACE_MAXLEN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FACE_MAXLEN&#160;&#160;&#160;40000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="msm4g__constants_8h_source.html#l00036">36</a> of file <a class="el" href="msm4g__constants_8h_source.html">msm4g_constants.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01561">msm4g_util_face_enumerate()</a>.</p>
+
+</div>
+</div>
+<a id="a42c69ec38fc270045143a8933d886715"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42c69ec38fc270045143a8933d886715">&#9670;&nbsp;</a></span>TOL_DIRECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TOL_DIRECT&#160;&#160;&#160;1E-8</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="msm4g__constants_8h_source.html#l00037">37</a> of file <a class="el" href="msm4g__constants_8h_source.html">msm4g_constants.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00007">msm4g_stencil()</a>.</p>
+
+</div>
+</div>
+<a id="a046427b4601ee2c6fab5b045df3002a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a046427b4601ee2c6fab5b045df3002a3">&#9670;&nbsp;</a></span>TOL_FOURIER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TOL_FOURIER&#160;&#160;&#160;1E-8</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="msm4g__constants_8h_source.html#l00038">38</a> of file <a class="el" href="msm4g__constants_8h_source.html">msm4g_constants.h</a>.</p>
+
+</div>
+</div>
+<a id="a940b85a83458e94519f2685b33ddd276"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a940b85a83458e94519f2685b33ddd276">&#9670;&nbsp;</a></span>KMAX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KMAX&#160;&#160;&#160;15</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="msm4g__constants_8h_source.html#l00039">39</a> of file <a class="el" href="msm4g__constants_8h_source.html">msm4g_constants.h</a>.</p>
+
+</div>
+</div>
+<a id="a44c07e59a1dddb477c7989ad091bffc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44c07e59a1dddb477c7989ad091bffc4">&#9670;&nbsp;</a></span>PMAX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PMAX&#160;&#160;&#160;15</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="msm4g__constants_8h_source.html#l00040">40</a> of file <a class="el" href="msm4g__constants_8h_source.html">msm4g_constants.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00007">msm4g_stencil()</a>.</p>
+
+</div>
+</div>
+<a id="aa61e0bbfa1d2c4d426de6ca2aee043f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa61e0bbfa1d2c4d426de6ca2aee043f5">&#9670;&nbsp;</a></span>MYPI</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MYPI&#160;&#160;&#160;3.141592653589793238462643</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="msm4g__constants_8h_source.html#l00041">41</a> of file <a class="el" href="msm4g__constants_8h_source.html">msm4g_constants.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00416">msm4g_kernel()</a>.</p>
 
 </div>
 </div>

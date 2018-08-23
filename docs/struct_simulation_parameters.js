@@ -1,8 +1,28 @@
 var struct_simulation_parameters =
 [
     [ "abar", "struct_simulation_parameters.html#a9aa3b048ed7335ed8c152711b060ea1c", null ],
-    [ "h", "struct_simulation_parameters.html#a8ee9be1b5aa75abae556de3088cba6d9", null ],
     [ "nu", "struct_simulation_parameters.html#adb40d5e571adca5a45efc67a2cd82f38", null ],
+    [ "mu", "struct_simulation_parameters.html#a22f64139a5ad2efe7d615cbf014e88d5", null ],
+    [ "periodic", "struct_simulation_parameters.html#aaa51acf56adab9614e55b4ef31a9d30f", null ],
+    [ "a", "struct_simulation_parameters.html#a1031d0e0a97a340abfe0a6ab9e831045", null ],
+    [ "h", "struct_simulation_parameters.html#a8ee9be1b5aa75abae556de3088cba6d9", null ],
+    [ "hx", "struct_simulation_parameters.html#a09cc6059a12cdba15210ace9262ba0d8", null ],
+    [ "hy", "struct_simulation_parameters.html#a0a41827213e18b1a3078188354c5ebda", null ],
+    [ "hz", "struct_simulation_parameters.html#a2c848abb69dc217a8c214f10a57f21dd", null ],
+    [ "Mx", "struct_simulation_parameters.html#a05b1f28af817ec379ff9e2db87ecb476", null ],
+    [ "My", "struct_simulation_parameters.html#a2698b642e610ea4206f5b136ae31aa12", null ],
+    [ "Mz", "struct_simulation_parameters.html#a167cef6715d32f9db2ebc20a5b22b910", null ],
     [ "L", "struct_simulation_parameters.html#a61b43f3326e96036caf1c76875b794cc", null ],
-    [ "periodic", "struct_simulation_parameters.html#aaa51acf56adab9614e55b4ef31a9d30f", null ]
+    [ "N", "struct_simulation_parameters.html#a7722c8ecbb62d99aee7ce68b1752f337", null ],
+    [ "Mxmin", "struct_simulation_parameters.html#a1d11a9272ebed9a834d169ac522c6a92", null ],
+    [ "Mxmax", "struct_simulation_parameters.html#a1d2879ac16bbbed1fe581df210d27c8a", null ],
+    [ "Mymin", "struct_simulation_parameters.html#a8bbd01f283f2f588d7cbf5d152528bc9", null ],
+    [ "Mymax", "struct_simulation_parameters.html#a5df52795b3bc595c1e7e5541c2933873", null ],
+    [ "Mzmin", "struct_simulation_parameters.html#a470c01ded7be99c3e10854edbfe715d4", null ],
+    [ "Mzmax", "struct_simulation_parameters.html#a8599fd9d97ed302ee00c252977eb6264", null ],
+    [ "wprime", "struct_simulation_parameters.html#a8c350bb6b7a995b59a2511d1da2c1047", null ],
+    [ "beta", "struct_simulation_parameters.html#a9424343761f8c4f4c1afe8f5b6bf471b", null ],
+    [ "face_i", "struct_simulation_parameters.html#ab3a6748ddde24580e2dffd9522286321", null ],
+    [ "face_j", "struct_simulation_parameters.html#a7dc5b7b5b6c81aecc862038601f8413f", null ],
+    [ "face_k", "struct_simulation_parameters.html#aefbfe99f2bab30a7448da06545426f53", null ]
 ];
