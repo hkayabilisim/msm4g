@@ -245,4 +245,13 @@ Boolean msm4g_unit_test_14();
  */
 Boolean msm4g_unit_test_15();
 
+/** @brief Checks anterpolation for periodic boundary condition
+ *
+ * The test compare the grid mass calculated in the anterpolation
+ * phase with the reference MSM calculation on ChaNGa N=8 case.
+ *
+ * @return true if the test is successful, false otherwise
+ */
+Boolean msm4g_unit_test_16();
+
 #endif /* MSM4G_TESTS_H */

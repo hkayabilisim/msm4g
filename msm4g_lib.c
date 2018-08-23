@@ -89,29 +89,60 @@ void msm4g_anterpolation(Simulation *simulation) //AbstractGrid *gridmass,Simula
     double rx_hx,ry_hy,rz_hz;
     int s_edge;
     double h = simulation->parameters->h ;
-    int mx = simulation->parameters->Mx ;
-    int my = simulation->parameters->My ;
-    int mz = simulation->parameters->Mz ;
+    int Mx = simulation->parameters->Mx ;
+    int My = simulation->parameters->My ;
+    int Mz = simulation->parameters->Mz ;
+
     double tx,ty,tz;
     double phix[MAX_POLY_DEGREE], phiy[MAX_POLY_DEGREE], phiz[MAX_POLY_DEGREE];
     Particle *particles = simulation->particles;
     SimulationBox *box = simulation->box ;
-    
 
     int nu = simulation->parameters->nu ;
     int N = simulation->parameters->N ;
     AbstractGrid *grid ;
 
-    
-
     x0 = box->location.value[0];
     y0 = box->location.value[1];
     z0 = box->location.value[2];
+
     if (simulation->parameters->periodic == true) {
-        grid = msm4g_grid_dense_new(mx,my,mz, h);
+        grid = msm4g_grid_dense_new(Mx,My,Mz,h);
+        for (int mx = 0 ; mx < Mx ; mx++) {
+            for (int my = 0 ; my < My ; my++) {
+                for (int mz = 0 ; mz < Mz ; mz++) {
+                    double sum = 0.0;
+                    for (int i = 0 ; i < N ; i++) {
+                        double rx = particles[i].r.value[0];
+                        double ry = particles[i].r.value[1];
+                        double rz = particles[i].r.value[2];
+                        double sx = rx / box->wx ;
+                        double sy = ry / box->wy ;
+                        double sz = rz / box->wz ;
+                        int pxmin = (-nu/2 + Mx * sx - mx)/Mx ;
+                        int pxmax = (+nu/2 + Mx * sx - mx)/Mx ;
+                        int pymin = (-nu/2 + My * sy - my)/My ;
+                        int pymax = (+nu/2 + My * sy - my)/My ;
+                        int pzmin = (-nu/2 + Mz * sz - mz)/Mz ;
+                        int pzmax = (+nu/2 + Mz * sz - mz)/Mz ;
+                        for (int px = pxmin; px <= pxmax; px++) {
+                            for (int py = pymin; py <= pymax; py++) {
+                                for (int pz = pzmin; pz <= pzmax; pz++) {
+                                    double phix = msm4g_bases_bspline(nu, Mx * (sx - px) - mx + nu / 2);
+                                    double phiy = msm4g_bases_bspline(nu, My * (sy - py) - my + nu / 2);
+                                    double phiz = msm4g_bases_bspline(nu, Mz * (sz - pz) - mz + nu / 2);
+                                    sum += particles[i].m * phix * phiy * phiz;
+                                }
+                            }
+                        }
+                    }
+                    grid->setElement(grid,mx,my,mz,sum);
+                }
+            }
+        }
     } else {
         s_edge = p/2-1;
-        grid = msm4g_grid_dense_new(mx+p-1,my+p-1,mz+p-1, h);
+        grid = msm4g_grid_dense_new(Mx+p-1,My+p-1,Mz+p-1, h);
         for (int particleindex = 0 ; particleindex < N ; particleindex++) {
         
             Particle *particle = &(particles[particleindex]);

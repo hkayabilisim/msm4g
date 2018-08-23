@@ -31,6 +31,7 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_13);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_14);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_15);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_16);
 
     numberoftests = msm4g_linkedlist_size(list);
 
@@ -534,6 +535,14 @@ Boolean msm4g_unit_test_15()
         {   5.9620212096497241e-05,   -2.3746627592581602e-05,    3.1717687081769986e-05},
         {   1.4998005198020302e-05,    2.9271945320370181e-05,    6.7963357688293238e-06},
         {  -9.7436168269046449e-05,    1.5589476064332005e-05,    5.3315502667197417e-05}};
+    double expectedGridMass[8] = {1.0634562200737233e-05,
+            1.0640213996318175e-05,
+            9.5181244646372011e-06,
+            9.8543177848436609e-06,
+            1.0582389591755571e-05,
+            1.0377630551436881e-05,
+            9.0976320916671066e-06,
+            9.2398733186041778e-06};
     SimulationBox *unitCube = msm4g_box_newCube(0,1);
 
     Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu);
@@ -554,6 +563,67 @@ Boolean msm4g_unit_test_15()
         }
     }
     
+    {
+        AbstractGrid *grid = simulation->grid ;
+    int counter = 0;
+    for (int mx = 0 ; mx < simulation->parameters->Mx ; mx++) {
+        for (int my = 0 ; my < simulation->parameters->My ; my++) {
+            for (int mz = 0 ; mz < simulation->parameters->Mz ; mz++) {
+                double expected = expectedGridMass[counter++] ;
+                double calculated = grid->getElement(grid,mx,my,mz);
+                double relerr = fabs(expected-calculated)/fabs(expected);
+                if (relerr > 1E-14) {
+                    teststatus = false;
+                    break;
+                }
+            }
+        }
+    }
+    }
+
+
+    msm4g_simulation_delete(simulation);
+    return teststatus;
+}
+
+Boolean msm4g_unit_test_16()
+{
+    Boolean teststatus = true;
+    Boolean periodic = true;
+    int order = 4;
+    int mu = 2;
+    double abar = 4.0;
+
+    double expectedGridMass[8] = {1.0634562200737233e-05,
+            1.0640213996318175e-05,
+            9.5181244646372011e-06,
+            9.8543177848436609e-06,
+            1.0582389591755571e-05,
+            1.0377630551436881e-05,
+            9.0976320916671066e-06,
+            9.2398733186041778e-06};
+    SimulationBox *unitCube = msm4g_box_newCube(0,1);
+
+    Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu);
+
+    msm4g_simulation_run(simulation);
+
+    AbstractGrid *grid = simulation->grid ;
+    int counter = 0;
+    for (int mx = 0 ; mx < simulation->parameters->Mx ; mx++) {
+        for (int my = 0 ; my < simulation->parameters->My ; my++) {
+            for (int mz = 0 ; mz < simulation->parameters->Mz ; mz++) {
+                double expected = expectedGridMass[counter++] ;
+                double calculated = grid->getElement(grid,mx,my,mz);
+                double relerr = fabs(expected-calculated)/fabs(expected);
+                if (relerr > 1E-14) {
+                    teststatus = false;
+                    break;
+                }
+            }
+        }
+    }
+
     msm4g_simulation_delete(simulation);
     return teststatus;
 }
