@@ -428,10 +428,10 @@ Particle **msm4g_particle_rand(int n);
 /** @brief Load the Particle configuration from a text file.
  *
  * @param[in] filename The name of the file containing the Particle properties.
- *
- * @return The list of particles in a linked list container.
+ * @param[in,out] N Number of particles
+ * @return Pointer to a particle array
  */
-LinkedList *msm4g_particle_read(const char *filename);
+Particle *msm4g_particle_read(const char *filename,int *N);
 
 /** @brief Sets all of the properties of a Particle to zero value.
  *
@@ -575,10 +575,11 @@ Bin *msm4g_bin_new(I3Vector index);
  *
  * @param[in] box       The simulation box.
  * @param[in] particles The list of particles.
+ * @param[in] n         Number of particles
  * @param[in] width     The width of the bins.
  * @return The list of allocated bins.
  */
-LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *particles,double width);
+LinkedList *msm4g_bin_generate(SimulationBox *box,Particle *particles,int n,double width);
 
 /** @brief Find the neigbhors of each Bin.
  * 

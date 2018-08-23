@@ -89,9 +89,10 @@ typedef struct Particle
     double m;          /**< mass      */
     D3Vector r;        /**< location  */
     D3Vector v;        /**< velocity  */
-    D3Vector fshort;        /**< force produced by short-range interactions. */
+    D3Vector fshort;   /**< force produced by short-range interactions. */
     D3Vector flong;    /**< force produced by long-range interactions.  */
     double potential_short_real ; /**< Short-range potential */
+    double acc_short[3]; /**< Short-range acceleration */
 } Particle;
 
 /** @brief The cubical domains obtained by dividing the simulation box.
@@ -201,7 +202,7 @@ typedef struct Simulation
 {
     struct SimulationParameters *parameters; /**< @brief All of the parameters of the algorithm. */
     struct SimulationBox        *box;        /**< Geometry of the simulation. */
-    struct LinkedList           *particles;  /**< The collection of the particles in the SimulationBox */
+    Particle                    *particles;  /**< The collection of the particles in the SimulationBox */
     struct SimulationOutput     *output;     /**< Stores simulation outcomes */
     struct AbstractGrid         *grid;       /**< Finest level grid */
 } Simulation;

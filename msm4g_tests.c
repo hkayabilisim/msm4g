@@ -151,9 +151,9 @@ Boolean msm4g_unit_test_4()
 {
     const int DIM = 3;
     const int N = 3; /* Number of particles in eight.ini */
+    int dummy;
     Particle particles[3];
-    LinkedList *particlesInFile;
-    Particle *particleInFile;
+    Particle *particlesInFile;
     int i,j;
     
     for (i=0;i<N;i++)
@@ -163,43 +163,36 @@ Boolean msm4g_unit_test_4()
     }
     particles[0].r.value[0] =   0.97000436 ;
     particles[0].r.value[1] =  -0.24308753 ;
-    /*  particles[0].v.value[0] =   0.466203685 ;
-        particles[0].v.value[1] =   0.43236573  ; */
-    
+    particles[0].v.value[0] =   0.466203685 ;
+    particles[0].v.value[1] =   0.43236573  ;
     particles[1].r.value[0] =  -0.97000436;
     particles[1].r.value[1] =   0.24308753;
-    /* particles[1].v.value[0] =   0.466203685;
-       particles[1].v.value[1] =   0.43236573;
+    particles[1].v.value[0] =   0.466203685;
+    particles[1].v.value[1] =   0.43236573;
+    particles[2].v.value[0] =  -0.93240737;
+    particles[2].v.value[1] =  -0.86473146;
     
-       particles[2].v.value[0] =  -0.93240737;
-       particles[2].v.value[1] =  -0.86473146; */
-    
-    
-    particlesInFile=msm4g_particle_read("data/eight.ini");
+    particlesInFile=msm4g_particle_read("data/eight.ini",&dummy);
    
     
     for (i=0;i<N;i++) /* for each particle */
     {
-        particleInFile = msm4g_linkedlist_get(particlesInFile,i);
-        if (fabs(particles[i].m - particleInFile->m)>DBL_EPSILON )
+        if (fabs(particles[i].m - particlesInFile[i].m)>DBL_EPSILON ) {
             return false;
+        }
         for (j=0;j<DIM;j++) /* for each dimension */
         {
-            if (fabs(particles[i].r.value[j]-particleInFile->r.value[j]) > DBL_EPSILON)
+            if (fabs(particles[i].r.value[j]-particlesInFile[i].r.value[j]) > DBL_EPSILON) {
                 return false;
-            if (fabs(particles[i].v.value[j]-particleInFile->v.value[j]) > DBL_EPSILON)
+            }
+            if (fabs(particles[i].v.value[j]-particlesInFile[i].v.value[j]) > DBL_EPSILON) {
                 return false;
+            }
         }
     }
     
     /* Deallocate the particles */
-    for (i=0;i<N;i++)
-    {
-        particleInFile = msm4g_linkedlist_get(particlesInFile, i);
-        free(particleInFile);
-    }
-    msm4g_linkedlist_destroy(particlesInFile);
-    
+    free(particlesInFile);
     return true;
 }
 
@@ -262,20 +255,20 @@ Boolean msm4g_unit_test_5()
 Boolean msm4g_unit_test_6()
 {
     Boolean status = true;
-    LinkedList *particlelist;
+    Particle *particlelist;
     LinkedList *binlist;
     Bin *bin;
     SimulationBox box;
     double binwidth = 10;
-    int i;
+    int i,n;
     
-    particlelist = msm4g_particle_read("data/bintest.ini");
+    particlelist = msm4g_particle_read("data/bintest.ini",&n);
     for (i=0;i<3;i++)
     {
         box.location.value[i] = 0.0;
         box.width.value[i]    = 30.0;
     }
-    binlist=msm4g_bin_generate(&box,particlelist,binwidth);
+    binlist=msm4g_bin_generate(&box,particlelist,6,binwidth);
     
     bin = (Bin *)msm4g_linkedlist_get(binlist, 0);
     if (bin->cantorindex != 8) return false;
@@ -303,7 +296,7 @@ Boolean msm4g_unit_test_6()
     if (msm4g_linkedlist_size(bin->particles) != 3) return false;
     
     msm4g_bin_destroy(binlist);
-    msm4g_linkedlist_destroyWithData(particlelist);
+    free(particlelist);
     return status;
 }
 
@@ -532,6 +525,15 @@ Boolean msm4g_unit_test_15()
     int mu = 2;
     double abar = 4.0;
     double expected = 6.9843177228211383e-09;
+    /* double expectedacc[8][3] = {
+        {   1.7127138343151520e-05,   -7.9922393447316331e-06,    7.0828748251281019e-06},
+        {  -3.1966280586136999e-05,   -1.0376534820290217e-04,   -6.0893167284709774e-05},
+        {  -4.3875970537235183e-05,   -2.7824718658855566e-05,    3.0876280003449423e-05},
+        {   7.3727156274532452e-05,    1.1860770584138265e-04,   -1.1113166484930614e-05},
+        {   7.8059074802170574e-06,   -1.4019342701374309e-07,   -5.7782346576733895e-05},
+        {   5.9620212096497241e-05,   -2.3746627592581602e-05,    3.1717687081769986e-05},
+        {   1.4998005198020302e-05,    2.9271945320370181e-05,    6.7963357688293238e-06},
+        {  -9.7436168269046449e-05,    1.5589476064332005e-05,    5.3315502667197417e-05}}; */
     SimulationBox *unitCube = msm4g_box_newCube(0,1);
 
     Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu);
@@ -542,7 +544,7 @@ Boolean msm4g_unit_test_15()
     if (relativeError > 1E-14) {
         teststatus = false;
     }
-
+    
     msm4g_simulation_delete(simulation);
     return teststatus;
 }

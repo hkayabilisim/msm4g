@@ -8,13 +8,14 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
     Simulation *simulation;
     SimulationParameters *sp;
     SimulationOutput *output;
-    LinkedList *particles;
+    Particle *particles;
+    int N;
     
     simulation = (Simulation *)calloc(1,sizeof(Simulation));
     sp = (SimulationParameters *)calloc(1,sizeof(SimulationParameters));
     output = (SimulationOutput *)calloc(1,sizeof(SimulationOutput));
-    particles = msm4g_particle_read(datafile);
-    sp->N = msm4g_linkedlist_size(particles);
+    particles = msm4g_particle_read(datafile,&N);
+    sp->N = N;
     sp->abar = abar;
     sp->mu = mu;
     sp->periodic = periodic;
@@ -49,9 +50,9 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
 void msm4g_simulation_run(Simulation *simulation) {
     SimulationParameters *sp = simulation->parameters;
     SimulationBox *box = simulation->box;
-    LinkedList *particles = simulation->particles;
+    Particle *particles = simulation->particles;
 
-    LinkedList *binlist = msm4g_bin_generate(box,particles,sp->a);
+    LinkedList *binlist = msm4g_bin_generate(box,particles,simulation->parameters->N,sp->a);
     
     msm4g_force_short(binlist, sp->a, simulation);
     msm4g_anterpolation(simulation);
@@ -59,12 +60,8 @@ void msm4g_simulation_run(Simulation *simulation) {
     /* Calculate short-range potential energy */
     {
         double energy = 0.0;
-        LinkedListElement *curr = particles->head ;
-        while (curr != NULL)
-        {
-            Particle *particle = (Particle *)curr->data;
-            energy += particle->potential_short_real * particle->m ;
-            curr = curr->next;
+        for (int i = 0 ; i < simulation->parameters->N ; i++) {
+            energy += particles[i].potential_short_real * particles[i].m ;
         }
         simulation->output->potentialEnergyShortRange = energy;
     }
@@ -77,7 +74,7 @@ void msm4g_simulation_delete(Simulation *simulation) {
     if (simulation->grid != NULL)
         msm4g_grid_destroy(&(simulation->grid));
     msm4g_box_destroy(simulation->box);
-    msm4g_linkedlist_destroyWithData(simulation->particles);
+    free(simulation->particles);
     free(simulation->parameters);
     free(simulation->output);
     free(simulation);
@@ -97,13 +94,12 @@ void msm4g_anterpolation(Simulation *simulation) //AbstractGrid *gridmass,Simula
     int mz = simulation->parameters->Mz ;
     double tx,ty,tz;
     double phix[MAX_POLY_DEGREE], phiy[MAX_POLY_DEGREE], phiz[MAX_POLY_DEGREE];
-    LinkedListElement *curr;
-    LinkedList *particles = simulation->particles;
+    Particle *particles = simulation->particles;
     SimulationBox *box = simulation->box ;
     
 
     int nu = simulation->parameters->nu ;
-
+    int N = simulation->parameters->N ;
     AbstractGrid *grid ;
 
     
@@ -116,11 +112,9 @@ void msm4g_anterpolation(Simulation *simulation) //AbstractGrid *gridmass,Simula
     } else {
         s_edge = p/2-1;
         grid = msm4g_grid_dense_new(mx+p-1,my+p-1,mz+p-1, h);
-
-        curr = particles->head;
-        while (curr != NULL)
-        {
-            Particle *particle = (Particle *)curr->data;
+        for (int particleindex = 0 ; particleindex < N ; particleindex++) {
+        
+            Particle *particle = &(particles[particleindex]);
             x =  particle->r.value[0];
             y =  particle->r.value[1];
             z =  particle->r.value[2];
@@ -156,7 +150,6 @@ void msm4g_anterpolation(Simulation *simulation) //AbstractGrid *gridmass,Simula
                     }
                 }
             }
-            curr = curr->next;
         }
     }
     simulation->grid = grid ;
@@ -375,7 +368,7 @@ double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, 
 {
     D3Vector rij;
     double r,r2;
-    double a2;
+    double a2 = a * a;
     double smoothedkernel,smoothedkernelderivative;
     double coeff;
     double potential = 0.0;
@@ -403,11 +396,21 @@ double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, 
             for (int py = pymin ; py <= pymax ; py++) {
                 double r2j = r2i + (riy-rjy-Ay*py)*(riy-rjy-Ay*py);
                 for (int pz = pzmin ; pz <= pzmax ; pz++) {
-                      double r2 = r2j + (riz-rjz-Az*pz)*(riz-rjz-Az*pz);
-                      double r = sqrt(r2);
-                      double g0 =  1.0/r -  msm4g_smoothing_gama(r/a,order)/a;
-                      particleI->potential_short_real += 0.5 * particleJ->m  * g0;
-                      particleJ->potential_short_real += 0.5 * particleI->m  * g0;
+                    double r2 = r2j + (riz-rjz-Az*pz)*(riz-rjz-Az*pz);
+                    double r = sqrt(r2);
+                    double g0 =  1.0/r -  msm4g_smoothing_gama(r/a,order)/a;
+                    particleI->potential_short_real += 0.5 * particleJ->m  * g0;
+                    particleJ->potential_short_real += 0.5 * particleI->m  * g0;
+                    double rx = rix - rjx - Ax * px ;
+                    double ry = riy - rjy - Ay * py ;
+                    double rz = riz - rjz - Az * pz ;
+                    double gamaprime = (-1./r2 - (1./a2) * msm4g_smoothing_gamaprime(r/a, order))/r ;
+                    particleI->acc_short[0] +=  particleJ->m * gamaprime * rx ;
+                    particleI->acc_short[1] +=  particleJ->m * gamaprime * ry ;
+                    particleI->acc_short[2] +=  particleJ->m * gamaprime * rz ;
+                    particleJ->acc_short[0] -=  particleI->m * gamaprime * rx ;
+                    particleJ->acc_short[1] -=  particleI->m * gamaprime * ry ;
+                    particleJ->acc_short[2] -=  particleI->m * gamaprime * rz ;
                 }
             }
         }
@@ -418,7 +421,6 @@ double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, 
         /* r^2 = |rij|^2 */
         r2=msm4g_d3vector_normsquare(&rij);
         r=sqrt(r2);
-        a2=a*a;
         /* If only the particles are closer than cut-off distance */
         if (r2 < a2)
         {
@@ -770,23 +772,19 @@ Bin *msm4g_bin_new(I3Vector index)
     return bin;
 }
 
-LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *particles,double binwidth)
+LinkedList *msm4g_bin_generate(SimulationBox *box,Particle *particles,int n,double binwidth)
 {
     LinkedList *binlist;
-    LinkedListElement *curr;
-    Particle *particle;
     Bin *bin;
     I3Vector binindex;
-    int i;
 
     binlist = msm4g_linkedlist_new();
     
-    curr = particles->head;
-    while (curr != NULL)
+    for (int particleindex = 0 ; particleindex < n ; particleindex++ )
     {
-        particle = (Particle *)curr->data;
+        Particle *particle = &(particles[particleindex]);
         msm4g_i3vector_set(&binindex, -1, -1, -1);
-        for (i=0;i<3;i++)
+        for (int i=0;i<3;i++)
         {
             binindex.value[i] = floor(particle->r.value[i]/binwidth);
         }
@@ -797,9 +795,7 @@ LinkedList *msm4g_bin_generate(SimulationBox *box,LinkedList *particles,double b
             msm4g_linkedlist_add(binlist, bin);
         }
         msm4g_linkedlist_add(bin->particles, particle);
-        curr = curr->next;
     }
-    
     msm4g_bin_findneighbors(binlist);
     
     return binlist;
@@ -951,32 +947,36 @@ Particle **msm4g_particle_rand(int n)
     return particle;
 }
 
-LinkedList *msm4g_particle_read(const char *filename)
+Particle *msm4g_particle_read(const char *filename,int *numberofparticles)
 {
-    LinkedList *particles;
-    Particle *particle;
+    Particle *particles;
     FILE *fp;
-    int iparticle;
+    int n;
     double mass;
     double r[3];
     double v[3];
     
-    particles = msm4g_linkedlist_new();
     fp = fopen(filename,"r");
     if (fp == NULL)
     {
-        return particles;
+        return NULL;
     }
-    
-    iparticle = 0;
-    while (true)
+    fscanf(fp,"%d",&n);
+    *numberofparticles = n;
+    particles = (Particle *)calloc(n,sizeof(Particle));
+    for (int iparticle = 0 ; iparticle < n ; iparticle++)
     {
         int ret = fscanf(fp,"%lf %lf %lf %lf %lf %lf %lf",&mass,&r[0],&r[1],&r[2],&v[0],&v[1],&v[2]);
         if (ret == 7)
         {
-            particle = msm4g_particle_new(mass, r[0],r[1],r[2]);
-            msm4g_linkedlist_add(particles, particle);
-            iparticle++;
+            particles[iparticle].m = mass;
+            particles[iparticle].r.value[0] = r[0];
+            particles[iparticle].r.value[1] = r[1];
+            particles[iparticle].r.value[2] = r[2];
+            particles[iparticle].v.value[0] = v[0];
+            particles[iparticle].v.value[1] = v[1];
+            particles[iparticle].v.value[2] = v[2];
+
         } else if (ret == EOF)
             break;
     }
@@ -1000,7 +1000,9 @@ Particle *msm4g_particle_empty()
         particle->v.value[i] = 0.0;
         particle->fshort.value[i] = 0.0;
         particle->flong.value[i] = 0.0;
+        particle->acc_short[i] = 0.0;
     }
+
     particle->potential_short_real = 0.0;
     
     index++;
@@ -1020,13 +1022,13 @@ Particle *msm4g_particle_new(double mass,double x,double y,double z)
 
 void msm4g_particle_print(Particle *particle)
 {
-    printf("i:%d ",particle->index);
+    /* printf("i:%d ",particle->index);
     printf("m:%8.2E ",particle->m);
     printf("r:%8.2E %8.2E %8.2E ",particle->r.value[0],particle->r.value[1],particle->r.value[2]);
-    printf("v:%8.2E %8.2E %8.2E ",particle->v.value[0],particle->v.value[1],particle->v.value[2]);
-    printf("fshort:%8.2E %8.2E %8.2E ",particle->fshort.value[0],particle->fshort.value[1],particle->fshort.value[2]);
-    printf("flong:%8.2E %8.2E %8.2E ",particle->flong.value[0],particle->flong.value[1],particle->flong.value[2]);
-    printf("\n");
+    printf("v:%8.2E %8.2E %8.2E ",particle->v.value[0],particle->v.value[1],particle->v.value[2]); */
+    printf("%25.16E %25.16E %25.16E\n",particle->acc_short[0],particle->acc_short[1],particle->acc_short[2]);
+    /* printf("flong:%8.2E %8.2E %8.2E ",particle->flong.value[0],particle->flong.value[1],particle->flong.value[2]); */
+    /* printf("\n");*/
     
 }
 
