@@ -525,7 +525,7 @@ Boolean msm4g_unit_test_15()
     int mu = 2;
     double abar = 4.0;
     double expected = 6.9843177228211383e-09;
-    /* double expectedacc[8][3] = {
+    double expectedacc[8][3] = {
         {   1.7127138343151520e-05,   -7.9922393447316331e-06,    7.0828748251281019e-06},
         {  -3.1966280586136999e-05,   -1.0376534820290217e-04,   -6.0893167284709774e-05},
         {  -4.3875970537235183e-05,   -2.7824718658855566e-05,    3.0876280003449423e-05},
@@ -533,7 +533,7 @@ Boolean msm4g_unit_test_15()
         {   7.8059074802170574e-06,   -1.4019342701374309e-07,   -5.7782346576733895e-05},
         {   5.9620212096497241e-05,   -2.3746627592581602e-05,    3.1717687081769986e-05},
         {   1.4998005198020302e-05,    2.9271945320370181e-05,    6.7963357688293238e-06},
-        {  -9.7436168269046449e-05,    1.5589476064332005e-05,    5.3315502667197417e-05}}; */
+        {  -9.7436168269046449e-05,    1.5589476064332005e-05,    5.3315502667197417e-05}};
     SimulationBox *unitCube = msm4g_box_newCube(0,1);
 
     Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu);
@@ -543,6 +543,15 @@ Boolean msm4g_unit_test_15()
     double relativeError = fabs(simulation->output->potentialEnergyShortRange-expected)/fabs(expected);
     if (relativeError > 1E-14) {
         teststatus = false;
+    }
+    
+    for (int i = 0 ; i < simulation->parameters->N ; i++) {
+        double relerr = msm4g_util_diffnorm(expectedacc[i], simulation->particles[i].acc_short, 3) /
+        msm4g_util_norm(expectedacc[i],3);
+        if (relerr > 1E-14) {
+            teststatus = false;
+            break;
+        }
     }
     
     msm4g_simulation_delete(simulation);
