@@ -29,6 +29,15 @@
    }
  * @endcode
  */
-#define MAX_MU 100
+#define MAX_MU           100
+#define LMAX             20
+#define MAX_POLY_DEGREE  20
+
+#define FACE_MAXLEN 40000
+#define TOL_DIRECT  1E-8
+#define TOL_FOURIER 1E-8
+#define KMAX  15
+#define PMAX  15
+#define MYPI  3.141592653589793238462643
 
 #endif /* msm4g_constants_h */

@@ -8,8 +8,7 @@
 #define MSM4G_TYPES_H
 
 #include "msm4g_bases.h"
-
-#define MAX_POLY_DEGREE  20
+#include "msm4g_constants.h"
 
 /** @brief A custom definition of boolean type.
  *
@@ -156,7 +155,11 @@ typedef struct SimulationParameters
     int       Mymax;   /**< Upper bound for My */
     int       Mzmin;   /**< Lower bound for Mz */
     int       Mzmax;   /**< Upper bound for Mz */
-
+    double   *wprime;  /**< Quasi-interpolation coefficients */
+    double    beta;    /**< Ewald's Splitting parameter */
+    int face_i[FACE_MAXLEN] ;
+    int face_j[FACE_MAXLEN] ;
+    int face_k[FACE_MAXLEN] ;
 } SimulationParameters;
 
 /** @brief The geometric boundaries of the simulation.
@@ -193,19 +196,6 @@ typedef struct SimulationOutput
 {
     double potentialEnergyShortRange;
 } SimulationOutput;
-
-/** @brief Top level information about the simulation.
- *
- * This structure holds everything needed for the simulation takes part.
- */
-typedef struct Simulation
-{
-    struct SimulationParameters *parameters; /**< @brief All of the parameters of the algorithm. */
-    struct SimulationBox        *box;        /**< Geometry of the simulation. */
-    Particle                    *particles;  /**< The collection of the particles in the SimulationBox */
-    struct SimulationOutput     *output;     /**< Stores simulation outcomes */
-    struct AbstractGrid         *grid;       /**< Finest level grid */
-} Simulation;
 
 /** @brief An abstract 3-dimensional grid structure.
  *
@@ -264,11 +254,21 @@ typedef struct AbstractGrid
 {
     /** @brief The lattice spacing.
      *
-     * The distance between the grid nodes along each axis.
-     * Please note that, one can also use different spacings along
-     * each direction but simplicity, it is chosen the same for all directions.
+     * The distance between the grid nodes along x-axis.
      */
-    double h;
+    double hx;
+
+    /** @brief The lattice spacing.
+     *
+     * The distance between the grid nodes along y-axis.
+     */
+    double hy;
+
+    /** @brief The lattice spacing.
+     *
+     * The distance between the grid nodes along z-axis.
+     */
+    double hz;
     
     /** @brief The number of nodes along x-axis.
      *
@@ -300,7 +300,7 @@ typedef struct AbstractGrid
      * constructor which every grid implementations should create
      * a one.
      */
-    struct AbstractGrid * (*constructor) (int nx,int ny,int nz, double h);
+    struct AbstractGrid * (*constructor) (int nx,int ny,int nz, double hx,double hy,double hz);
     
     /** @brief A pointer to the grid destructor.
      *
@@ -377,5 +377,17 @@ typedef struct DenseGrid
     
 } DenseGrid;
 
-
+/** @brief Top level information about the simulation.
+ *
+ * This structure holds everything needed for the simulation takes part.
+ */
+typedef struct Simulation
+{
+    struct SimulationParameters *parameters; /**< @brief All of the parameters of the algorithm. */
+    struct SimulationBox        *box;        /**< Geometry of the simulation. */
+    Particle                    *particles;  /**< The collection of the particles in the SimulationBox */
+    struct SimulationOutput     *output;     /**< Stores simulation outcomes */
+    struct AbstractGrid         *grid;       /**< Finest level grid */
+    AbstractGrid                *stencil[LMAX] ; /**< Array of stencils. */
+} Simulation;
 #endif /* MSM4G_TYPES_H */

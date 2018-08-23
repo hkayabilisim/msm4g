@@ -17,6 +17,20 @@
 
 #define MSM4G_MAX3(A,B,C) (((A)>(B)) ? (((A)>(C)) ? (A) : (C)) : (((B)>(C)) ? (B) : (C)) )
 
+/** @brief Calculates the stencils
+ *
+ * This function calculates the stencil values
+ * corresponding to <l>th level. It modifies
+ * the stencil located in the simulation object.
+ *
+ *
+ * @param[in] simulation Simulation object
+ * @param[in] l          Level in the range [1,L+1]. l = 1 corresponds
+ * to the lowest level stencil, whereas l = L + 1 is for Fourier
+ * stencil.
+ */
+void msm4g_stencil(Simulation *simulation, int l);
+
 /** @brief Creates a new simulation object
  * 
  * It reads particles from a file and builds a
@@ -74,11 +88,13 @@ void msm4g_grid_destroy(AbstractGrid **grid);
  * @param[in] nx  The number of nodes along x-axis.
  * @param[in] ny  The number of nodes along y-axis.
  * @param[in] nz  The number of nodes along z-axis.
- * @param[in] h   The lattice spacing.
+ * @param[in] hx  The lattice spacing along x-axis.
+ * @param[in] hy  The lattice spacing along y-axis.
+ * @param[in] hz  The lattice spacing along z-axis.
  *
  * @return A new DenseGrid structure.
  */
-AbstractGrid *msm4g_grid_dense_new(int nx, int ny, int nz,double h);
+AbstractGrid *msm4g_grid_dense_new(int nx, int ny, int nz,double hx, double hy, double hz);
 
 /** @brief Sets a value to a specific coordinate of the DenseGrid.
  *
@@ -156,6 +172,20 @@ double msm4g_smoothing_gama(double rho,int nu);
  * @return Returns \f$ \gamma'(\rho) \f$
  */
 double msm4g_smoothing_gamaprime(double rho,int nu);
+
+/** @brief Compute splitting kernels
+ *
+ * @todo Include the equations in LateX format
+ *
+ * @param[in] l Level in the range of [0,L+1]
+ * @param[in] L Number of levels.
+ * @param[in] r Distance value
+ * @param[in] a Absolute cutoff
+ * @param[in] beta Splitting parameter
+ * @param[in] nu Order
+ * @return the value of the kernel function
+ */
+double msm4g_kernel(int l,int L, double r,double a,double beta,int nu);
 
 /** @brief Short-range force and potential energy calculation.
  * 
@@ -739,6 +769,29 @@ double msm4g_util_diffnorm(double x[], double y[], int n);
  * @param[in,out] y right hand-size vector of size n. It is also the solution.
  */
 void msm4g_util_gausssolver(int n, double *A, double *y);
+
+/** @brief Enumerate grid points on the surface of a cubic grid
+ *
+ * Consider a cube centered at the origin and with size of 2n x 2n x 2n.
+ * The task is to enumerate the grid points on the surface of the cube.
+ *
+ * @param[in] n  Size of the cube is 2n x 2n x 2n
+ * @param[in] sp SimulationParameters object. 
+ * @return the number of grid points on the cube surface
+ */
+int msm4g_util_face_enumerate(int n,SimulationParameters *sp);
+
+/** @brief Determines Ewald's splitting parameter
+ *
+ * Determines beta parameter such that
+ * erfc(beta * aL)/aL is very small
+ *
+ * @todo Elaborate the scheme used in the function.
+ *
+ * @param[in] aL Cutoff at the coarsest grid
+ * @return Ewald's splitting parameter beta
+ */
+double msm4g_util_choose_beta(double aL);
 
 #endif /* MSM4G_LIB_H */
 

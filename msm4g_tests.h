@@ -247,11 +247,31 @@ Boolean msm4g_unit_test_15();
 
 /** @brief Checks anterpolation for periodic boundary condition
  *
- * The test compare the grid mass calculated in the anterpolation
+ * The test compares the grid mass calculated in the anterpolation
  * phase with the reference MSM calculation on ChaNGa N=8 case.
  *
  * @return true if the test is successful, false otherwise
  */
 Boolean msm4g_unit_test_16();
+
+/** @brief Checks the fitness of Ewald's Splitting Parameter
+ *
+ * Ewald's Splitting Parameter (beta) is chosen in such a way
+ * that erfc(beta*aL)/aL is very small by using
+ * msm4g_util_choose_beta function. This test verifies the outcomes
+ * by actually checking it.
+ *
+ * @return true if the test is successful, false otherwise
+ */
+Boolean msm4g_unit_test_17();
+
+/** @brief Checks finest level stencil
+ *
+ * It calculates the first level stencil and compares with
+ * the reference MSM periodic implementation.
+ *
+ * @return true if the test is successful, false otherwise
+ */
+Boolean msm4g_unit_test_18();
 
 #endif /* MSM4G_TESTS_H */

@@ -4,28 +4,108 @@
 #include "msm4g_lib.h"
 #include "msm4g_bases.h"
 
+void msm4g_stencil(Simulation *simulation, int l) {
+    Boolean periodic = simulation->parameters->periodic ;
+    SimulationParameters *sp = simulation->parameters;
+    /** @todo Make necessary changes for vacuum boundary. For now
+     * it is tailor-made for periodic */
+    if (periodic != true) return ;
+
+    int L = simulation->parameters->L ;
+    AbstractGrid *stencil = simulation->stencil[l-1];
+    int Mx = stencil->nx ;
+    int My = stencil->ny ;
+    int Mz = stencil->nz ;
+    double hx = stencil->hx ;
+    double hy = stencil->hy ;
+    double hz = stencil->hz ;
+    double Ax = simulation->box->wx ;
+    double Ay = simulation->box->wy ;
+    double Az = simulation->box->wz ;
+
+    int Mxmin = - (Mx - 1) / 2;
+    int Mxmax =    Mx      / 2;
+    int Mymin = - (My - 1) / 2;
+    int Mymax =    My      / 2;
+    int Mzmin = - (Mz - 1) / 2;
+    int Mzmax =    Mz      / 2;
+    int mu = simulation->parameters->mu ;
+    int nu = simulation->parameters->nu ;
+    double a = simulation->parameters->a ;
+    double beta = simulation->parameters->beta ;
+    double *wprime = simulation->parameters->wprime ;
+
+    if (l <= L) {
+        for (int mx = Mxmin; mx <= Mxmax; mx++) {
+             for (int my = Mymin; my <= Mymax; my++) {
+               for (int mz = Mzmin; mz <= Mzmax; mz++) {
+                 double sum = 0.0;
+                 double sum_before = 0.0;
+                 int p = 0 ;
+                 do {
+                   int face_len = msm4g_util_face_enumerate(p,sp);
+                   for (int idx = 0 ; idx < face_len ; idx++) {
+                     int px = sp->face_i[idx];
+                     int py = sp->face_j[idx];
+                     int pz = sp->face_k[idx] ;
+                     for (int kx = - mu - nu / 2; kx <= mu + nu / 2; kx++) {
+                       for (int ky = - mu - nu / 2; ky <= mu + nu / 2; ky++) {
+                         for (int kz = - mu - nu / 2; kz <= mu + nu / 2; kz++) {
+                           double omega = wprime[abs(kx)] * wprime[abs(ky)] * wprime[abs(kz)];
+                           double rx = hx * (mx + kx) - Ax * px;
+                           double ry = hy * (my + ky) - Ay * py;
+                           double rz = hz * (mz + kz) - Az * pz;
+                           double rlen2 = rx * rx + ry * ry + rz * rz;
+                           double rlen = sqrt(rlen2);
+                           double kernel = msm4g_kernel(l,L,rlen,a,beta,nu);
+                           sum += omega * kernel;
+                         }
+                       }
+                     }
+                   }
+                   if (p != 0 && fabs(sum_before - sum)/fabs(sum) < TOL_DIRECT ) {
+                     break;
+                   } else
+                     sum_before = sum ;
+                   p++;
+                 } while  (p < PMAX);
+                 stencil->setElement(stencil,mx - Mxmin,my - Mymin,mz - Mzmin,sum);
+               }
+             }
+           }
+    } else if (l == L + 1) {
+
+    }
+
+}
+
 Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean periodic,int order,double abar,int mu) {
     Simulation *simulation;
     SimulationParameters *sp;
     SimulationOutput *output;
     Particle *particles;
-    int N;
+    int N = 0,L;
     
     simulation = (Simulation *)calloc(1,sizeof(Simulation));
     sp = (SimulationParameters *)calloc(1,sizeof(SimulationParameters));
     output = (SimulationOutput *)calloc(1,sizeof(SimulationOutput));
     particles = msm4g_particle_read(datafile,&N);
+    double vol = box->wx * box->wy * box->wz ;
     sp->N = N;
     sp->abar = abar;
     sp->mu = mu;
     sp->periodic = periodic;
     sp->nu = order ;
     sp->L = floor(1 + 0.5 * log(sp->N)/log(8));
-    double vol = box->wx * box->wy * box->wz ;
-    sp->Mx = ceil(pow(2,1-sp->L)*box->wx * pow(sp->N/(vol),1/3.0)) ;
-    sp->My = ceil(pow(2,1-sp->L)*box->wy * pow(sp->N/(vol),1/3.0)) ;
-    sp->Mz = ceil(pow(2,1-sp->L)*box->wz * pow(sp->N/(vol),1/3.0)) ;
+    L = sp->L;
 
+    /* Number of grid on finest level */
+    sp->Mx = pow(2,sp->L-1) * ceil(pow(2,1-sp->L)*box->wx * pow(sp->N/(vol),1/3.0)) ;
+    sp->My = pow(2,sp->L-1) * ceil(pow(2,1-sp->L)*box->wy * pow(sp->N/(vol),1/3.0)) ;
+    sp->Mz = pow(2,sp->L-1) * ceil(pow(2,1-sp->L)*box->wz * pow(sp->N/(vol),1/3.0)) ;
+
+    /** @todo These are slightly different from the manuscript which uses
+     * Mxmin =   -M/2, Mxmax = M/2 - 1 */
     sp->Mxmin = - (sp->Mx - 1) / 2;
     sp->Mxmax =    sp->Mx      / 2;
     sp->Mymin = - (sp->My - 1) / 2;
@@ -38,7 +118,29 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
     sp->hz = box->wz / sp->Mz ;
     sp->h  = MSM4G_MAX3(sp->hx,sp->hy,sp->hz);
     sp->a = sp->abar * sp->h ;
+    double aL = pow(2,L) * sp->a ;
+    sp->beta = msm4g_util_choose_beta(aL) ;
+    {
+        int l,Mx,My,Mz;
+        double hx,hy,hz;
 
+        for (l = 1 ; l <= sp->L ; l++) {
+            int Mx = sp->Mx / pow(2,l-1) ;
+            int My = sp->My / pow(2,l-1) ;
+            int Mz = sp->Mz / pow(2,l-1) ;
+            double hx = sp->hx * pow(2,l-1);
+            double hy = sp->hy * pow(2,l-1);
+            double hz = sp->hz * pow(2,l-1);
+            simulation->stencil[l-1] = msm4g_grid_dense_new(Mx,My,Mz,hx,hy,hz);
+        }
+        Mx = sp->Mx / pow(2,L-1) ;
+        My = sp->My / pow(2,L-1) ;
+        Mz = sp->Mz / pow(2,L-1) ;
+        hx = sp->hx * pow(2,L-1) ;
+        hy = sp->hy * pow(2,L-1) ;
+        hz = sp->hz * pow(2,L-1) ;
+        simulation->stencil[L] = msm4g_grid_dense_new(Mx,My,Mz,hx,hy,hz);
+    }
     simulation->box = box;
     simulation->particles = particles ;
     simulation->parameters = sp;
@@ -51,12 +153,15 @@ void msm4g_simulation_run(Simulation *simulation) {
     SimulationParameters *sp = simulation->parameters;
     SimulationBox *box = simulation->box;
     Particle *particles = simulation->particles;
-
     LinkedList *binlist = msm4g_bin_generate(box,particles,simulation->parameters->N,sp->a);
+    sp->wprime = msm4g_util_omegaprime(sp->mu,sp->nu);
     
     msm4g_force_short(binlist, sp->a, simulation);
     msm4g_anterpolation(simulation);
 
+    for (int l = 1 ; l <= sp->L + 1; l++) {
+        msm4g_stencil(simulation,l);
+    }
     /* Calculate short-range potential energy */
     {
         double energy = 0.0;
@@ -73,14 +178,17 @@ void msm4g_simulation_run(Simulation *simulation) {
 void msm4g_simulation_delete(Simulation *simulation) {
     if (simulation->grid != NULL)
         msm4g_grid_destroy(&(simulation->grid));
+    for (int l = 0 ; l <= simulation->parameters->L ; l++)
+        msm4g_grid_destroy(&(simulation->stencil[l]));
     msm4g_box_destroy(simulation->box);
+    free(simulation->parameters->wprime);
     free(simulation->particles);
     free(simulation->parameters);
     free(simulation->output);
     free(simulation);
 }
 
-void msm4g_anterpolation(Simulation *simulation) //AbstractGrid *gridmass,SimulationBox *box,LinkedList *particles,const BaseFunction *base)
+void msm4g_anterpolation(Simulation *simulation)
 {
     int i0,j0,k0;
     int p = simulation->parameters->nu ;
@@ -89,6 +197,9 @@ void msm4g_anterpolation(Simulation *simulation) //AbstractGrid *gridmass,Simula
     double rx_hx,ry_hy,rz_hz;
     int s_edge;
     double h = simulation->parameters->h ;
+    double hx = simulation->parameters->hx ;
+    double hy = simulation->parameters->hy ;
+    double hz = simulation->parameters->hz ;
     int Mx = simulation->parameters->Mx ;
     int My = simulation->parameters->My ;
     int Mz = simulation->parameters->Mz ;
@@ -107,7 +218,9 @@ void msm4g_anterpolation(Simulation *simulation) //AbstractGrid *gridmass,Simula
     z0 = box->location.value[2];
 
     if (simulation->parameters->periodic == true) {
-        grid = msm4g_grid_dense_new(Mx,My,Mz,h);
+        grid = msm4g_grid_dense_new(Mx,My,Mz,hx,hy,hz);
+        /** @todo Anterpolation should be implemented according to
+         * section 4.4 of the manuscript. */
         for (int mx = 0 ; mx < Mx ; mx++) {
             for (int my = 0 ; my < My ; my++) {
                 for (int mz = 0 ; mz < Mz ; mz++) {
@@ -142,7 +255,7 @@ void msm4g_anterpolation(Simulation *simulation) //AbstractGrid *gridmass,Simula
         }
     } else {
         s_edge = p/2-1;
-        grid = msm4g_grid_dense_new(Mx+p-1,My+p-1,Mz+p-1, h);
+        grid = msm4g_grid_dense_new(Mx+p-1,My+p-1,Mz+p-1, hx,hy,hz);
         for (int particleindex = 0 ; particleindex < N ; particleindex++) {
         
             Particle *particle = &(particles[particleindex]);
@@ -188,28 +301,11 @@ void msm4g_anterpolation(Simulation *simulation) //AbstractGrid *gridmass,Simula
 
 void msm4g_grid_print(AbstractGrid *grid)
 {
-    int nx,ny,nz;
-    int i,j,k;
-    nx = grid->nx;
-    ny = grid->ny;
-    nz = grid->nz;
-    for (k=0;k<nz;k++)
-    {
-        printf("k:%-2d\n",k);
-        printf("%4s ","----");
-        for (i=0; i<nx ; i++)
-        {
-            printf("i:%-7d ",i);
-        }
-        printf("\n");
-        for (j=ny-1;j >= 0 ; j--)
-        {
-            printf("j:%-2d ",j);
-            for (i=0; i<nx ; i++)
-            {
-                printf("%-9.5f ",grid->getElement(grid,i,j,k));
+    for (int i = 0 ; i < grid->nx ; i++) {
+        for (int j = 0 ; j < grid->ny ; j++) {
+            for (int k = 0 ; k < grid->nz ; k++) {
+                printf("%25.16e\n",grid->getElement(grid,i,j,k));
             }
-            printf("\n");
         }
     }
 }
@@ -223,14 +319,16 @@ void msm4g_grid_destroy(AbstractGrid **grid)
     *grid = NULL;
 }
 
-AbstractGrid *msm4g_grid_dense_new(int nx, int ny, int nz,double h)
+AbstractGrid *msm4g_grid_dense_new(int nx, int ny, int nz,double hx,double hy,double hz)
 {
     AbstractGrid *grid;
     DenseGrid *densegrid;
     
     densegrid = malloc(sizeof(DenseGrid));
     grid = (AbstractGrid *)densegrid;
-    grid->h  = h;
+    grid->hx = hx;
+    grid->hy = hy;
+    grid->hz = hz;
     grid->nx = nx;
     grid->ny = ny;
     grid->nz = nz;
@@ -315,6 +413,28 @@ double msm4g_smoothing_gamaprime(double rho,int nu)
     return outprime ;
 }
 
+double msm4g_kernel(int l,int L, double r,double a,double beta,int nu) {
+    double out = 0.0;
+    if (l == 0 ) {
+        out = 1/r - (1/a)*msm4g_smoothing_gama(r/a,nu);
+    } else if (l == L + 1 ){
+        if (fabs(r) < DBL_EPSILON)
+            out = 2.0 * beta / sqrt(MYPI);
+        else
+            out = erf(beta * r) / r ;
+    } else if (l == L) {
+        double erfvalue ;
+        if (fabs(r) < DBL_EPSILON)
+            erfvalue = 2.0 * beta / sqrt(MYPI);
+        else
+            erfvalue = erf(beta * r) / r ;
+        out = (1./(pow(2,l-1)*a)) * msm4g_smoothing_gama(r/(pow(2,l-1)*a),nu) - erfvalue ;
+    } else {
+        out = (1./(pow(2,l-1)*a)) * msm4g_smoothing_gama(r/(pow(2,l-1)*a),nu) -
+              (1./(pow(2,l  )*a)) * msm4g_smoothing_gama(r/(pow(2,l  )*a),nu);
+    }
+    return out;
+}
 double msm4g_force_short(LinkedList *binlist,double threshold, Simulation *simulation)
 {
     Bin *bin;
@@ -1436,4 +1556,79 @@ void msm4g_util_gausssolver(int n, double *A, double *y) {
             A[i * n + j] = 0.0;
         }
     }
+}
+
+int msm4g_util_face_enumerate(int n,SimulationParameters *sp) {
+  int face_len = 0 ;
+  int counter = 0;
+  if (n == 0) {
+    sp->face_i[counter] = 0;
+    sp->face_j[counter] = 0;
+    sp->face_k[counter] = 0;
+    counter++;
+  } else {
+    for (int j = -n ; j <= n ; j++) {
+      for (int k = -n ; k <= n ; k++) {
+        sp->face_i[counter] = -n ;
+        sp->face_j[counter] =  j ;
+        sp->face_k[counter] =  k  ;
+        counter++;
+        sp->face_i[counter] = +n ;
+        sp->face_j[counter] =  j ;
+        sp->face_k[counter] =  k  ;
+        counter++;
+      }
+    }
+    for (int i = -n+1 ; i < n ; i++) {
+      for (int k = -n ; k <= n ; k++) {
+        sp->face_i[counter] =  i ;
+        sp->face_j[counter] = -n ;
+        sp->face_k[counter] =  k ;
+        counter++;
+        sp->face_i[counter] =  i ;
+        sp->face_j[counter] =  n ;
+        sp->face_k[counter] =  k ;
+        counter++;
+      }
+    }
+    for (int i = -n+1 ; i < n ; i++) {
+      for (int j = -n+1 ; j < n ; j++) {
+        sp->face_i[counter] =  i ;
+        sp->face_j[counter] =  j ;
+        sp->face_k[counter] = -n ;
+        counter++;
+        sp->face_i[counter] =  i ;
+        sp->face_j[counter] =  j ;
+        sp->face_k[counter] =  n ;
+        counter++;
+      }
+    }
+  }
+  face_len = counter;
+  if (counter >= FACE_MAXLEN) {
+      fprintf(stderr,"face arrays are not large enough\n");
+      face_len = FACE_MAXLEN - 1 ;
+  }
+  return face_len ;
+}
+
+double msm4g_util_choose_beta(double aL) {
+  double e = 1e-15;
+  double a = 0;
+  double b = 20;
+  double fa = erfc(a * aL) / aL;
+  int iter = 1;
+  int maxiter = 200;
+  while (fabs(fa - e) / fabs(e) > 1e-14 && iter < maxiter) {
+    double middle = (a + b) / 2;
+    double fmiddle = erfc(middle * aL) / aL;
+    if (fmiddle > e) {
+      a = middle;
+      fa = fmiddle;
+    } else {
+      b = middle;
+    }
+    iter++;
+  }
+  return a;
 }

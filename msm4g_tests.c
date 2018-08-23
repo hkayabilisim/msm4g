@@ -32,19 +32,23 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_14);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_15);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_16);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_17);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_18);
 
     numberoftests = msm4g_linkedlist_size(list);
 
     failed=0;
     for (index = 0; index < numberoftests ; index++)
     {
+        fprintf(stdout,"Running test %3d: ",index+1);
         testFunction = (testFunctionType *)msm4g_linkedlist_get(list, index);
         status = testFunction();
         if (status == false)
         {
             failed++;
-            fprintf(stderr,"Unit test %3d: %s\n",index+1,"failed");
-        }
+            fprintf(stdout,"failed\n");
+        } else
+            fprintf(stdout,"passed\n");
     }
     printf("%d of %d passed, %d failed\n",numberoftests-failed,numberoftests,failed);
     
@@ -366,12 +370,20 @@ Boolean msm4g_unit_test_9()
     double boxlocation = 0.0;
     double boxwidth = 30.0;
     SimulationBox *box = msm4g_box_newCube(boxlocation,boxwidth);
-
     Simulation *simulation = msm4g_simulation_new(datafile,box,periodic,order,abar,mu);
-
     simulation->parameters->a = 10;
+    SimulationParameters *sp = simulation->parameters;
+    Particle *particles = simulation->particles;
+    LinkedList *binlist = msm4g_bin_generate(box,particles,simulation->parameters->N,sp->a);
+    msm4g_force_short(binlist, sp->a, simulation);
+    /* Calculate short-range potential energy */
+        double energy = 0.0;
+        for (int i = 0 ; i < simulation->parameters->N ; i++) {
+            energy += particles[i].potential_short_real * particles[i].m ;
+        }
+        simulation->output->potentialEnergyShortRange = energy;
 
-    msm4g_simulation_run(simulation);
+    msm4g_bin_destroy(binlist);
 
     double potential = simulation->output->potentialEnergyShortRange ;
     double potentialExpected =  1127.0/6000 + (5000*sqrt(2.0)-1776.0)/4000.0 + (2000*sqrt(82.0)-17876.0)/164000.0;
@@ -394,7 +406,7 @@ Boolean msm4g_unit_test_10()
     int ny = 3;
     int nz = 3;
         
-    grid = msm4g_grid_dense_new(nx,ny,nz,h);
+    grid = msm4g_grid_dense_new(nx,ny,nz,h,h,h);
     /* Check if it could allocated the object */
     if (grid == NULL) return false;
     
@@ -527,60 +539,52 @@ Boolean msm4g_unit_test_15()
     double abar = 4.0;
     double expected = 6.9843177228211383e-09;
     double expectedacc[8][3] = {
-        {   1.7127138343151520e-05,   -7.9922393447316331e-06,    7.0828748251281019e-06},
-        {  -3.1966280586136999e-05,   -1.0376534820290217e-04,   -6.0893167284709774e-05},
-        {  -4.3875970537235183e-05,   -2.7824718658855566e-05,    3.0876280003449423e-05},
-        {   7.3727156274532452e-05,    1.1860770584138265e-04,   -1.1113166484930614e-05},
-        {   7.8059074802170574e-06,   -1.4019342701374309e-07,   -5.7782346576733895e-05},
-        {   5.9620212096497241e-05,   -2.3746627592581602e-05,    3.1717687081769986e-05},
-        {   1.4998005198020302e-05,    2.9271945320370181e-05,    6.7963357688293238e-06},
-        {  -9.7436168269046449e-05,    1.5589476064332005e-05,    5.3315502667197417e-05}};
-    double expectedGridMass[8] = {1.0634562200737233e-05,
-            1.0640213996318175e-05,
-            9.5181244646372011e-06,
-            9.8543177848436609e-06,
-            1.0582389591755571e-05,
-            1.0377630551436881e-05,
-            9.0976320916671066e-06,
-            9.2398733186041778e-06};
+            {   1.7127138343151520e-05,   -7.9922393447316331e-06,    7.0828748251281019e-06},
+            {  -3.1966280586136999e-05,   -1.0376534820290217e-04,   -6.0893167284709774e-05},
+            {  -4.3875970537235183e-05,   -2.7824718658855566e-05,    3.0876280003449423e-05},
+            {   7.3727156274532452e-05,    1.1860770584138265e-04,   -1.1113166484930614e-05},
+            {   7.8059074802170574e-06,   -1.4019342701374309e-07,   -5.7782346576733895e-05},
+            {   5.9620212096497241e-05,   -2.3746627592581602e-05,    3.1717687081769986e-05},
+            {   1.4998005198020302e-05,    2.9271945320370181e-05,    6.7963357688293238e-06},
+            {  -9.7436168269046449e-05,    1.5589476064332005e-05,    5.3315502667197417e-05}};
+
     SimulationBox *unitCube = msm4g_box_newCube(0,1);
 
     Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu);
 
-    msm4g_simulation_run(simulation);
-    
+    SimulationParameters *sp = simulation->parameters;
+    SimulationBox *box = simulation->box;
+    Particle *particles = simulation->particles;
+
+    LinkedList *binlist = msm4g_bin_generate(box,particles,simulation->parameters->N,sp->a);
+
+    msm4g_force_short(binlist, sp->a, simulation);
+
+    /* Calculate short-range potential energy */
+    {
+        double energy = 0.0;
+        for (int i = 0 ; i < simulation->parameters->N ; i++) {
+            energy += particles[i].potential_short_real * particles[i].m ;
+        }
+        simulation->output->potentialEnergyShortRange = energy;
+    }
+
+
+    msm4g_bin_destroy(binlist);
+
     double relativeError = fabs(simulation->output->potentialEnergyShortRange-expected)/fabs(expected);
     if (relativeError > 1E-14) {
         teststatus = false;
     }
-    
+
     for (int i = 0 ; i < simulation->parameters->N ; i++) {
         double relerr = msm4g_util_diffnorm(expectedacc[i], simulation->particles[i].acc_short, 3) /
-        msm4g_util_norm(expectedacc[i],3);
+                msm4g_util_norm(expectedacc[i],3);
         if (relerr > 1E-14) {
             teststatus = false;
             break;
         }
     }
-    
-    {
-        AbstractGrid *grid = simulation->grid ;
-    int counter = 0;
-    for (int mx = 0 ; mx < simulation->parameters->Mx ; mx++) {
-        for (int my = 0 ; my < simulation->parameters->My ; my++) {
-            for (int mz = 0 ; mz < simulation->parameters->Mz ; mz++) {
-                double expected = expectedGridMass[counter++] ;
-                double calculated = grid->getElement(grid,mx,my,mz);
-                double relerr = fabs(expected-calculated)/fabs(expected);
-                if (relerr > 1E-14) {
-                    teststatus = false;
-                    break;
-                }
-            }
-        }
-    }
-    }
-
 
     msm4g_simulation_delete(simulation);
     return teststatus;
@@ -603,10 +607,9 @@ Boolean msm4g_unit_test_16()
             9.0976320916671066e-06,
             9.2398733186041778e-06};
     SimulationBox *unitCube = msm4g_box_newCube(0,1);
-
     Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu);
 
-    msm4g_simulation_run(simulation);
+    msm4g_anterpolation(simulation);
 
     AbstractGrid *grid = simulation->grid ;
     int counter = 0;
@@ -624,6 +627,55 @@ Boolean msm4g_unit_test_16()
         }
     }
 
+    msm4g_simulation_delete(simulation);
+    return teststatus;
+}
+
+Boolean msm4g_unit_test_17() {
+    for (int i = 0 ; i < 80 ; i++) {
+        double aL = 2 + i/10.0 ;
+        double beta = msm4g_util_choose_beta(aL);
+        double outcome = erfc(beta*aL)/aL ;
+        if (fabs(outcome) > 1E-13) return false;
+    }
+    return true;
+}
+
+Boolean msm4g_unit_test_18()
+{
+    Boolean teststatus = true;
+    Boolean periodic = true;
+    int order = 4;
+    int mu = 2;
+    double abar = 4.0;
+    double expectedStencil[8]={
+             -1.3520616062548170e+00,
+             -9.4913504094504164e-01,
+             -9.4913504094505674e-01,
+             -1.4517381318540108e+00,
+             -9.4913504094507251e-01,
+             -1.4517381318540097e+00,
+             -1.4517381318540270e+00,
+             -7.4972040638605975e-01};
+
+    SimulationBox *unitCube = msm4g_box_newCube(0,1);
+    Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu);
+    msm4g_simulation_run(simulation);
+    AbstractGrid *stencil = simulation->stencil[0] ;
+    int counter = 0;
+    for (int i = 0 ; i < stencil->nx ; i++) {
+        for (int j = 0 ; j < stencil->ny ; j++) {
+            for (int k = 0 ; k < stencil->nz ; k++) {
+                double calculated = stencil->getElement(stencil,i,j,k);
+                double expected = expectedStencil[counter++];
+                double relerr = fabs(expected-calculated)/fabs(expected);
+                if (relerr > 1E-12) {
+                    teststatus = false;
+                    break;
+                }
+            }
+        }
+    }
     msm4g_simulation_delete(simulation);
     return teststatus;
 }
