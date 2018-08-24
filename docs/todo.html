@@ -104,13 +104,15 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dd>Using the recursive definition is easy and appearently not too costly but it is one of the first places to look for if overall MSM has some performance issues. </dd>
 <dt><a class="anchor" id="_todo000002"></a>Global <a class="el" href="msm4g__bases_8h.html#a68b42a358b34bc5f6165b5b695232995">msm4g_bases_bsplineprime</a>  (int k, double u)</dt>
 <dd>Like its non-derivative version, it also uses a recursive definition. So it is also one of the first places to look for if overall MSM has some performance issues. </dd>
-<dt><a class="anchor" id="_todo000008"></a>Global <a class="el" href="msm4g__lib_8h.html#af503a5f9d47fd175b5228200e675bf82">msm4g_box_new</a>  ()</dt>
+<dt><a class="anchor" id="_todo000009"></a>Global <a class="el" href="msm4g__lib_8h.html#af503a5f9d47fd175b5228200e675bf82">msm4g_box_new</a>  ()</dt>
 <dd>Make sure that the width is of the form 2^k * h for some k. </dd>
-<dt><a class="anchor" id="_todo000009"></a>Global <a class="el" href="msm4g__lib_8h.html#a0a41a17666e5da6e6f28b384ec476d9d">msm4g_box_update</a>  (<a class="el" href="struct_simulation_box.html" title="The geometric boundaries of the simulation. ">SimulationBox</a> *box, <a class="el" href="struct_linked_list.html" title="A structure for dual linked list implementation. ">LinkedList</a> *particles, double margin, double h, double p)</dt>
+<dt><a class="anchor" id="_todo000010"></a>Global <a class="el" href="msm4g__lib_8h.html#a0a41a17666e5da6e6f28b384ec476d9d">msm4g_box_update</a>  (<a class="el" href="struct_simulation_box.html" title="The geometric boundaries of the simulation. ">SimulationBox</a> *box, <a class="el" href="struct_linked_list.html" title="A structure for dual linked list implementation. ">LinkedList</a> *particles, double margin, double h, double p)</dt>
 <dd>If a <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a> escapes from the box, the box should be updated. But there is a question of how to keep the interior grid points intact. As soon as the box is enlarged, new grid points should be created. MSM may start from scratch whenever the box is updated, but it seems quite waste of time. </dd>
-<dt><a class="anchor" id="_todo000009"></a>Global <a class="el" href="msm4g__lib_8h.html#a0a41a17666e5da6e6f28b384ec476d9d">msm4g_box_update</a>  (<a class="el" href="struct_simulation_box.html" title="The geometric boundaries of the simulation. ">SimulationBox</a> *box, <a class="el" href="struct_linked_list.html" title="A structure for dual linked list implementation. ">LinkedList</a> *particles, double margin, double h, double p)</dt>
+<dt><a class="anchor" id="_todo000010"></a>Global <a class="el" href="msm4g__lib_8h.html#a0a41a17666e5da6e6f28b384ec476d9d">msm4g_box_update</a>  (<a class="el" href="struct_simulation_box.html" title="The geometric boundaries of the simulation. ">SimulationBox</a> *box, <a class="el" href="struct_linked_list.html" title="A structure for dual linked list implementation. ">LinkedList</a> *particles, double margin, double h, double p)</dt>
 <dd>If a <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a> escapes from the box, the box should be updated. But there is a question of how to keep the interior grid points intact. As soon as the box is enlarged, new grid points should be created. MSM may start from scratch whenever the box is updated, but it seems quite waste of time. </dd>
-<dt><a class="anchor" id="_todo000007"></a>Global <a class="el" href="msm4g__lib_8h.html#a86bf4a4816626da948ed218938456092">msm4g_kernel</a>  (int l, int L, double r, double a, double beta, int nu)</dt>
+<dt><a class="anchor" id="_todo000007"></a>Global <a class="el" href="msm4g__lib_8h.html#ab688393d4b51aaa462349a85368b7004">msm4g_grid_potential</a>  (<a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> *stencil, <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> *gridmass, <a class="el" href="struct_abstract_grid.html" title="An abstract 3-dimensional grid structure. ">AbstractGrid</a> *gridpotential)</dt>
+<dd>Write down the LateX formula </dd>
+<dt><a class="anchor" id="_todo000008"></a>Global <a class="el" href="msm4g__lib_8h.html#a86bf4a4816626da948ed218938456092">msm4g_kernel</a>  (int l, int L, double r, double a, double beta, int nu)</dt>
 <dd>Include the equations in LateX format </dd>
 <dt><a class="anchor" id="_todo000004"></a>Global <a class="el" href="msm4g__lib_8c.html#ac29495f1cedb4157989482029446e702">msm4g_simulation_new</a>  (char *datafile, <a class="el" href="struct_simulation_box.html" title="The geometric boundaries of the simulation. ">SimulationBox</a> *box, Boolean periodic, int order, double abar, int mu)</dt>
 <dd><p class="startdd">These are slightly different from the manuscript which uses Mxmin = -M/2, Mxmax = M/2 - 1 </p>
@@ -120,13 +122,13 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dd>Make necessary changes for vacuum boundary. For now it is tailor-made for periodic  </dd>
 <dt><a class="anchor" id="_todo000003"></a>Global <a class="el" href="msm4g__lib_8h.html#a57b2ee406f8a06912e11442b6fb21e27">msm4g_stencil</a>  (<a class="el" href="struct_simulation.html" title="Top level information about the simulation. ">Simulation</a> *simulation, int level)</dt>
 <dd>Make necessary changes for vacuum boundary. For now it is tailor-made for periodic  </dd>
-<dt><a class="anchor" id="_todo000011"></a>Global <a class="el" href="msm4g__lib_8h.html#a8633ec0132e13a3c2cf0518ffd1f5d45">msm4g_util_choose_beta</a>  (double aL)</dt>
+<dt><a class="anchor" id="_todo000012"></a>Global <a class="el" href="msm4g__lib_8h.html#a8633ec0132e13a3c2cf0518ffd1f5d45">msm4g_util_choose_beta</a>  (double aL)</dt>
 <dd>Elaborate the scheme used in the function. </dd>
-<dt><a class="anchor" id="_todo000010"></a>Global <a class="el" href="msm4g__lib_8h.html#a1d36a12635e059cb43bb28f08ecd6e6d">msm4g_util_omegaprime</a>  (int mu, int p)</dt>
+<dt><a class="anchor" id="_todo000011"></a>Global <a class="el" href="msm4g__lib_8h.html#a1d36a12635e059cb43bb28f08ecd6e6d">msm4g_util_omegaprime</a>  (int mu, int p)</dt>
 <dd>Quasi-interpolation coefficients can only be determined for p=4 (Cubic) and p=6 (Quintic) B-Splines. It should be written in more generic way to cover higher order B-Splines. </dd>
-<dt><a class="anchor" id="_todo000013"></a>Global <a class="el" href="msm4g__types_8h.html#afb1d06d7544e4e26d4fedb08cfdd9d71">SimulationBox</a>  </dt>
+<dt><a class="anchor" id="_todo000014"></a>Global <a class="el" href="msm4g__types_8h.html#afb1d06d7544e4e26d4fedb08cfdd9d71">SimulationBox</a>  </dt>
 <dd>If the width along on one of the axis is zero or too small, then the bin should be allowed to extend beyond the simulation box.  </dd>
-<dt><a class="anchor" id="_todo000012"></a>Global <a class="el" href="msm4g__types_8h.html#a9438238b86685ca53c938d4f32c3054f">SimulationParameters</a>  </dt>
+<dt><a class="anchor" id="_todo000013"></a>Global <a class="el" href="msm4g__types_8h.html#a9438238b86685ca53c938d4f32c3054f">SimulationParameters</a>  </dt>
 <dd>Make necessary changes to replace "if (sp.periodic == true)" with "if (sp.periodic)" </dd>
 </dl>
 </div></div><!-- contents -->

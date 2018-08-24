@@ -12,6 +12,7 @@ var msm4g__lib_8c =
     [ "msm4g_grid_dense_getElement", "msm4g__lib_8c.html#a817e1fa2666637a48066220fcbbcbc4a", null ],
     [ "msm4g_grid_dense_reset", "msm4g__lib_8c.html#a0206da519893c9ed9dd8e7f56dc5cc6e", null ],
     [ "msm4g_grid_dense_destroy", "msm4g__lib_8c.html#ae53249ba7bbf9d377f4a0f4a52551e25", null ],
+    [ "msm4g_grid_potential", "msm4g__lib_8c.html#ab688393d4b51aaa462349a85368b7004", null ],
     [ "msm4g_smoothing_gama", "msm4g__lib_8c.html#abef1ea179bf9e169ba254cbf6d2b12fc", null ],
     [ "msm4g_smoothing_gamaprime", "msm4g__lib_8c.html#a2e7451ddcdca6430ac193a263455aff9", null ],
     [ "msm4g_kernel", "msm4g__lib_8c.html#a86bf4a4816626da948ed218938456092", null ],
@@ -70,5 +71,6 @@ var msm4g__lib_8c =
     [ "msm4g_util_diffnorm", "msm4g__lib_8c.html#aa38fafe1f51a5f28184a6528652369f5", null ],
     [ "msm4g_util_gausssolver", "msm4g__lib_8c.html#a428520440fee50b90fcff0e68a6743ce", null ],
     [ "msm4g_util_face_enumerate", "msm4g__lib_8c.html#abdf84aa1fefb9a703738542672f590b6", null ],
-    [ "msm4g_util_choose_beta", "msm4g__lib_8c.html#a8633ec0132e13a3c2cf0518ffd1f5d45", null ]
+    [ "msm4g_util_choose_beta", "msm4g__lib_8c.html#a8633ec0132e13a3c2cf0518ffd1f5d45", null ],
+    [ "msm4g_util_calculate_c", "msm4g__lib_8c.html#a3b25dc161ecf9f57a6a5db9cb3c82071", null ]
 ];

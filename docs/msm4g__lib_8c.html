@@ -145,6 +145,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ae53249ba7bbf9d377f4a0f4a52551e25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#ae53249ba7bbf9d377f4a0f4a52551e25">msm4g_grid_dense_destroy</a> (<a class="el" href="struct_abstract_grid.html">AbstractGrid</a> **grid)</td></tr>
 <tr class="memdesc:ae53249ba7bbf9d377f4a0f4a52551e25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deconstructor for the <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> object.  <a href="#ae53249ba7bbf9d377f4a0f4a52551e25">More...</a><br /></td></tr>
 <tr class="separator:ae53249ba7bbf9d377f4a0f4a52551e25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab688393d4b51aaa462349a85368b7004"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#ab688393d4b51aaa462349a85368b7004">msm4g_grid_potential</a> (<a class="el" href="struct_abstract_grid.html">AbstractGrid</a> *stencil, <a class="el" href="struct_abstract_grid.html">AbstractGrid</a> *gridmass, <a class="el" href="struct_abstract_grid.html">AbstractGrid</a> *gridpotential)</td></tr>
+<tr class="memdesc:ab688393d4b51aaa462349a85368b7004"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate grid-to-grid interaction to get grid potentials.  <a href="#ab688393d4b51aaa462349a85368b7004">More...</a><br /></td></tr>
+<tr class="separator:ab688393d4b51aaa462349a85368b7004"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abef1ea179bf9e169ba254cbf6d2b12fc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#abef1ea179bf9e169ba254cbf6d2b12fc">msm4g_smoothing_gama</a> (double rho, int nu)</td></tr>
 <tr class="memdesc:abef1ea179bf9e169ba254cbf6d2b12fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Even-powered Softener.  <a href="#abef1ea179bf9e169ba254cbf6d2b12fc">More...</a><br /></td></tr>
 <tr class="separator:abef1ea179bf9e169ba254cbf6d2b12fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -317,6 +320,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a8633ec0132e13a3c2cf0518ffd1f5d45"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#a8633ec0132e13a3c2cf0518ffd1f5d45">msm4g_util_choose_beta</a> (double aL)</td></tr>
 <tr class="memdesc:a8633ec0132e13a3c2cf0518ffd1f5d45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines Ewald's splitting parameter.  <a href="#a8633ec0132e13a3c2cf0518ffd1f5d45">More...</a><br /></td></tr>
 <tr class="separator:a8633ec0132e13a3c2cf0518ffd1f5d45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b25dc161ecf9f57a6a5db9cb3c82071"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="msm4g__lib_8c.html#a3b25dc161ecf9f57a6a5db9cb3c82071">msm4g_util_calculate_c</a> (int k, double M, int nu)</td></tr>
+<tr class="memdesc:a3b25dc161ecf9f57a6a5db9cb3c82071"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the coefficients needed for interpolation at (L+1)th level Refer eq:calpha in the manuscript.  <a href="#a3b25dc161ecf9f57a6a5db9cb3c82071">More...</a><br /></td></tr>
+<tr class="separator:a3b25dc161ecf9f57a6a5db9cb3c82071"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The definitions of all core functions of MSM4G package. </p>
@@ -362,9 +368,9 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00007">7</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00142">SimulationParameters::a</a>, <a class="el" href="msm4g__types_8h_source.html#l00159">SimulationParameters::beta</a>, <a class="el" href="msm4g__types_8h_source.html#l00387">Simulation::box</a>, <a class="el" href="msm4g__types_8h_source.html#l00160">SimulationParameters::face_i</a>, <a class="el" href="msm4g__types_8h_source.html#l00161">SimulationParameters::face_j</a>, <a class="el" href="msm4g__types_8h_source.html#l00162">SimulationParameters::face_k</a>, <a class="el" href="msm4g__types_8h_source.html#l00259">AbstractGrid::hx</a>, <a class="el" href="msm4g__types_8h_source.html#l00265">AbstractGrid::hy</a>, <a class="el" href="msm4g__types_8h_source.html#l00271">AbstractGrid::hz</a>, <a class="el" href="msm4g__types_8h_source.html#l00150">SimulationParameters::L</a>, <a class="el" href="msm4g__lib_8c_source.html#l00416">msm4g_kernel()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01561">msm4g_util_face_enumerate()</a>, <a class="el" href="msm4g__types_8h_source.html#l00139">SimulationParameters::mu</a>, <a class="el" href="msm4g__types_8h_source.html#l00138">SimulationParameters::nu</a>, <a class="el" href="msm4g__types_8h_source.html#l00279">AbstractGrid::nx</a>, <a class="el" href="msm4g__types_8h_source.html#l00287">AbstractGrid::ny</a>, <a class="el" href="msm4g__types_8h_source.html#l00295">AbstractGrid::nz</a>, <a class="el" href="msm4g__types_8h_source.html#l00386">Simulation::parameters</a>, <a class="el" href="msm4g__types_8h_source.html#l00140">SimulationParameters::periodic</a>, <a class="el" href="msm4g__constants_8h_source.html#l00040">PMAX</a>, <a class="el" href="msm4g__types_8h_source.html#l00319">AbstractGrid::setElement</a>, <a class="el" href="msm4g__types_8h_source.html#l00391">Simulation::stencil</a>, <a class="el" href="msm4g__constants_8h_source.html#l00037">TOL_DIRECT</a>, <a class="el" href="msm4g__types_8h_source.html#l00158">SimulationParameters::wprime</a>, <a class="el" href="msm4g__types_8h_source.html#l00183">SimulationBox::wx</a>, <a class="el" href="msm4g__types_8h_source.html#l00184">SimulationBox::wy</a>, and <a class="el" href="msm4g__types_8h_source.html#l00185">SimulationBox::wz</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00142">SimulationParameters::a</a>, <a class="el" href="msm4g__types_8h_source.html#l00159">SimulationParameters::beta</a>, <a class="el" href="msm4g__types_8h_source.html#l00387">Simulation::box</a>, <a class="el" href="msm4g__types_8h_source.html#l00160">SimulationParameters::face_i</a>, <a class="el" href="msm4g__types_8h_source.html#l00161">SimulationParameters::face_j</a>, <a class="el" href="msm4g__types_8h_source.html#l00162">SimulationParameters::face_k</a>, <a class="el" href="msm4g__types_8h_source.html#l00259">AbstractGrid::hx</a>, <a class="el" href="msm4g__types_8h_source.html#l00265">AbstractGrid::hy</a>, <a class="el" href="msm4g__types_8h_source.html#l00271">AbstractGrid::hz</a>, <a class="el" href="msm4g__constants_8h_source.html#l00039">KMAX</a>, <a class="el" href="msm4g__types_8h_source.html#l00150">SimulationParameters::L</a>, <a class="el" href="msm4g__lib_8c_source.html#l00494">msm4g_kernel()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01714">msm4g_util_calculate_c()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01639">msm4g_util_face_enumerate()</a>, <a class="el" href="msm4g__types_8h_source.html#l00139">SimulationParameters::mu</a>, <a class="el" href="msm4g__constants_8h_source.html#l00041">MYPI</a>, <a class="el" href="msm4g__types_8h_source.html#l00138">SimulationParameters::nu</a>, <a class="el" href="msm4g__types_8h_source.html#l00279">AbstractGrid::nx</a>, <a class="el" href="msm4g__types_8h_source.html#l00287">AbstractGrid::ny</a>, <a class="el" href="msm4g__types_8h_source.html#l00295">AbstractGrid::nz</a>, <a class="el" href="msm4g__types_8h_source.html#l00386">Simulation::parameters</a>, <a class="el" href="msm4g__types_8h_source.html#l00140">SimulationParameters::periodic</a>, <a class="el" href="msm4g__constants_8h_source.html#l00040">PMAX</a>, <a class="el" href="msm4g__types_8h_source.html#l00319">AbstractGrid::setElement</a>, <a class="el" href="msm4g__types_8h_source.html#l00392">Simulation::stencil</a>, <a class="el" href="msm4g__constants_8h_source.html#l00037">TOL_DIRECT</a>, <a class="el" href="msm4g__types_8h_source.html#l00158">SimulationParameters::wprime</a>, <a class="el" href="msm4g__types_8h_source.html#l00183">SimulationBox::wx</a>, <a class="el" href="msm4g__types_8h_source.html#l00184">SimulationBox::wy</a>, and <a class="el" href="msm4g__types_8h_source.html#l00185">SimulationBox::wz</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00152">msm4g_simulation_run()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00191">msm4g_simulation_run()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00646">msm4g_unit_test_18()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00682">msm4g_unit_test_19()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00718">msm4g_unit_test_20()</a>.</p>
 
 </div>
 </div>
@@ -435,11 +441,11 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_simulation.html" title="Top level information about the simulation. ">Simulation</a> object </dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>These are slightly different from the manuscript which uses Mxmin = -M/2, Mxmax = M/2 - 1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00082">82</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00114">114</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00142">SimulationParameters::a</a>, <a class="el" href="msm4g__types_8h_source.html#l00137">SimulationParameters::abar</a>, <a class="el" href="msm4g__types_8h_source.html#l00159">SimulationParameters::beta</a>, <a class="el" href="msm4g__types_8h_source.html#l00387">Simulation::box</a>, <a class="el" href="msm4g__types_8h_source.html#l00143">SimulationParameters::h</a>, <a class="el" href="msm4g__types_8h_source.html#l00144">SimulationParameters::hx</a>, <a class="el" href="msm4g__types_8h_source.html#l00145">SimulationParameters::hy</a>, <a class="el" href="msm4g__types_8h_source.html#l00146">SimulationParameters::hz</a>, <a class="el" href="msm4g__types_8h_source.html#l00150">SimulationParameters::L</a>, <a class="el" href="msm4g__lib_8c_source.html#l00322">msm4g_grid_dense_new()</a>, <a class="el" href="msm4g__lib_8h_source.html#l00018">MSM4G_MAX3</a>, <a class="el" href="msm4g__lib_8c_source.html#l01101">msm4g_particle_read()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01615">msm4g_util_choose_beta()</a>, <a class="el" href="msm4g__types_8h_source.html#l00139">SimulationParameters::mu</a>, <a class="el" href="msm4g__types_8h_source.html#l00147">SimulationParameters::Mx</a>, <a class="el" href="msm4g__types_8h_source.html#l00153">SimulationParameters::Mxmax</a>, <a class="el" href="msm4g__types_8h_source.html#l00152">SimulationParameters::Mxmin</a>, <a class="el" href="msm4g__types_8h_source.html#l00148">SimulationParameters::My</a>, <a class="el" href="msm4g__types_8h_source.html#l00155">SimulationParameters::Mymax</a>, <a class="el" href="msm4g__types_8h_source.html#l00154">SimulationParameters::Mymin</a>, <a class="el" href="msm4g__types_8h_source.html#l00149">SimulationParameters::Mz</a>, <a class="el" href="msm4g__types_8h_source.html#l00157">SimulationParameters::Mzmax</a>, <a class="el" href="msm4g__types_8h_source.html#l00156">SimulationParameters::Mzmin</a>, <a class="el" href="msm4g__types_8h_source.html#l00151">SimulationParameters::N</a>, <a class="el" href="msm4g__types_8h_source.html#l00138">SimulationParameters::nu</a>, <a class="el" href="msm4g__types_8h_source.html#l00389">Simulation::output</a>, <a class="el" href="msm4g__types_8h_source.html#l00386">Simulation::parameters</a>, <a class="el" href="msm4g__types_8h_source.html#l00388">Simulation::particles</a>, <a class="el" href="msm4g__types_8h_source.html#l00140">SimulationParameters::periodic</a>, <a class="el" href="msm4g__types_8h_source.html#l00391">Simulation::stencil</a>, <a class="el" href="msm4g__types_8h_source.html#l00183">SimulationBox::wx</a>, <a class="el" href="msm4g__types_8h_source.html#l00184">SimulationBox::wy</a>, and <a class="el" href="msm4g__types_8h_source.html#l00185">SimulationBox::wz</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00142">SimulationParameters::a</a>, <a class="el" href="msm4g__types_8h_source.html#l00137">SimulationParameters::abar</a>, <a class="el" href="msm4g__types_8h_source.html#l00159">SimulationParameters::beta</a>, <a class="el" href="msm4g__types_8h_source.html#l00387">Simulation::box</a>, <a class="el" href="msm4g__types_8h_source.html#l00390">Simulation::gridmass</a>, <a class="el" href="msm4g__types_8h_source.html#l00391">Simulation::gridpotential</a>, <a class="el" href="msm4g__types_8h_source.html#l00143">SimulationParameters::h</a>, <a class="el" href="msm4g__types_8h_source.html#l00144">SimulationParameters::hx</a>, <a class="el" href="msm4g__types_8h_source.html#l00145">SimulationParameters::hy</a>, <a class="el" href="msm4g__types_8h_source.html#l00146">SimulationParameters::hz</a>, <a class="el" href="msm4g__types_8h_source.html#l00150">SimulationParameters::L</a>, <a class="el" href="msm4g__lib_8c_source.html#l00369">msm4g_grid_dense_new()</a>, <a class="el" href="msm4g__lib_8h_source.html#l00018">MSM4G_MAX3</a>, <a class="el" href="msm4g__lib_8c_source.html#l01179">msm4g_particle_read()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01693">msm4g_util_choose_beta()</a>, <a class="el" href="msm4g__types_8h_source.html#l00139">SimulationParameters::mu</a>, <a class="el" href="msm4g__types_8h_source.html#l00147">SimulationParameters::Mx</a>, <a class="el" href="msm4g__types_8h_source.html#l00153">SimulationParameters::Mxmax</a>, <a class="el" href="msm4g__types_8h_source.html#l00152">SimulationParameters::Mxmin</a>, <a class="el" href="msm4g__types_8h_source.html#l00148">SimulationParameters::My</a>, <a class="el" href="msm4g__types_8h_source.html#l00155">SimulationParameters::Mymax</a>, <a class="el" href="msm4g__types_8h_source.html#l00154">SimulationParameters::Mymin</a>, <a class="el" href="msm4g__types_8h_source.html#l00149">SimulationParameters::Mz</a>, <a class="el" href="msm4g__types_8h_source.html#l00157">SimulationParameters::Mzmax</a>, <a class="el" href="msm4g__types_8h_source.html#l00156">SimulationParameters::Mzmin</a>, <a class="el" href="msm4g__types_8h_source.html#l00151">SimulationParameters::N</a>, <a class="el" href="msm4g__types_8h_source.html#l00138">SimulationParameters::nu</a>, <a class="el" href="msm4g__types_8h_source.html#l00389">Simulation::output</a>, <a class="el" href="msm4g__types_8h_source.html#l00386">Simulation::parameters</a>, <a class="el" href="msm4g__types_8h_source.html#l00388">Simulation::particles</a>, <a class="el" href="msm4g__types_8h_source.html#l00140">SimulationParameters::periodic</a>, <a class="el" href="msm4g__types_8h_source.html#l00392">Simulation::stencil</a>, <a class="el" href="msm4g__types_8h_source.html#l00183">SimulationBox::wx</a>, <a class="el" href="msm4g__types_8h_source.html#l00184">SimulationBox::wy</a>, and <a class="el" href="msm4g__types_8h_source.html#l00185">SimulationBox::wz</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00424">msm4g_unit_test_11()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00533">msm4g_unit_test_15()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00593">msm4g_unit_test_16()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00644">msm4g_unit_test_18()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00362">msm4g_unit_test_9()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00426">msm4g_unit_test_11()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00535">msm4g_unit_test_15()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00595">msm4g_unit_test_16()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00646">msm4g_unit_test_18()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00682">msm4g_unit_test_19()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00718">msm4g_unit_test_20()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00364">msm4g_unit_test_9()</a>.</p>
 
 </div>
 </div>
@@ -467,11 +473,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00152">152</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00191">191</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00142">SimulationParameters::a</a>, <a class="el" href="msm4g__types_8h_source.html#l00387">Simulation::box</a>, <a class="el" href="msm4g__types_8h_source.html#l00150">SimulationParameters::L</a>, <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__lib_8c_source.html#l00191">msm4g_anterpolation()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01053">msm4g_bin_destroy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00926">msm4g_bin_generate()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00438">msm4g_force_short()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00007">msm4g_stencil()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01339">msm4g_util_omegaprime()</a>, <a class="el" href="msm4g__types_8h_source.html#l00139">SimulationParameters::mu</a>, <a class="el" href="msm4g__types_8h_source.html#l00151">SimulationParameters::N</a>, <a class="el" href="msm4g__types_8h_source.html#l00138">SimulationParameters::nu</a>, <a class="el" href="msm4g__types_8h_source.html#l00389">Simulation::output</a>, <a class="el" href="msm4g__types_8h_source.html#l00386">Simulation::parameters</a>, <a class="el" href="msm4g__types_8h_source.html#l00388">Simulation::particles</a>, <a class="el" href="msm4g__types_8h_source.html#l00093">Particle::potential_short_real</a>, <a class="el" href="msm4g__types_8h_source.html#l00197">SimulationOutput::potentialEnergyShortRange</a>, and <a class="el" href="msm4g__types_8h_source.html#l00158">SimulationParameters::wprime</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00424">msm4g_unit_test_11()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00644">msm4g_unit_test_18()</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00142">SimulationParameters::a</a>, <a class="el" href="msm4g__types_8h_source.html#l00387">Simulation::box</a>, <a class="el" href="msm4g__types_8h_source.html#l00390">Simulation::gridmass</a>, <a class="el" href="msm4g__types_8h_source.html#l00391">Simulation::gridpotential</a>, <a class="el" href="msm4g__types_8h_source.html#l00150">SimulationParameters::L</a>, <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__lib_8c_source.html#l00243">msm4g_anterpolation()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01131">msm4g_bin_destroy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01004">msm4g_bin_generate()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00516">msm4g_force_short()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00431">msm4g_grid_potential()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00007">msm4g_stencil()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01417">msm4g_util_omegaprime()</a>, <a class="el" href="msm4g__types_8h_source.html#l00139">SimulationParameters::mu</a>, <a class="el" href="msm4g__types_8h_source.html#l00151">SimulationParameters::N</a>, <a class="el" href="msm4g__types_8h_source.html#l00138">SimulationParameters::nu</a>, <a class="el" href="msm4g__types_8h_source.html#l00389">Simulation::output</a>, <a class="el" href="msm4g__types_8h_source.html#l00386">Simulation::parameters</a>, <a class="el" href="msm4g__types_8h_source.html#l00388">Simulation::particles</a>, <a class="el" href="msm4g__types_8h_source.html#l00093">Particle::potential_short_real</a>, <a class="el" href="msm4g__types_8h_source.html#l00197">SimulationOutput::potentialEnergyShortRange</a>, <a class="el" href="msm4g__types_8h_source.html#l00392">Simulation::stencil</a>, and <a class="el" href="msm4g__types_8h_source.html#l00158">SimulationParameters::wprime</a>.</p>
 
 </div>
 </div>
@@ -499,11 +503,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00178">178</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00225">225</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00387">Simulation::box</a>, <a class="el" href="msm4g__types_8h_source.html#l00390">Simulation::grid</a>, <a class="el" href="msm4g__types_8h_source.html#l00150">SimulationParameters::L</a>, <a class="el" href="msm4g__lib_8c_source.html#l00910">msm4g_box_destroy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00313">msm4g_grid_destroy()</a>, <a class="el" href="msm4g__types_8h_source.html#l00389">Simulation::output</a>, <a class="el" href="msm4g__types_8h_source.html#l00386">Simulation::parameters</a>, <a class="el" href="msm4g__types_8h_source.html#l00388">Simulation::particles</a>, <a class="el" href="msm4g__types_8h_source.html#l00391">Simulation::stencil</a>, and <a class="el" href="msm4g__types_8h_source.html#l00158">SimulationParameters::wprime</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00387">Simulation::box</a>, <a class="el" href="msm4g__types_8h_source.html#l00390">Simulation::gridmass</a>, <a class="el" href="msm4g__types_8h_source.html#l00391">Simulation::gridpotential</a>, <a class="el" href="msm4g__types_8h_source.html#l00150">SimulationParameters::L</a>, <a class="el" href="msm4g__lib_8c_source.html#l00988">msm4g_box_destroy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00360">msm4g_grid_destroy()</a>, <a class="el" href="msm4g__types_8h_source.html#l00389">Simulation::output</a>, <a class="el" href="msm4g__types_8h_source.html#l00386">Simulation::parameters</a>, <a class="el" href="msm4g__types_8h_source.html#l00388">Simulation::particles</a>, <a class="el" href="msm4g__types_8h_source.html#l00392">Simulation::stencil</a>, and <a class="el" href="msm4g__types_8h_source.html#l00158">SimulationParameters::wprime</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00424">msm4g_unit_test_11()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00533">msm4g_unit_test_15()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00593">msm4g_unit_test_16()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00644">msm4g_unit_test_18()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00362">msm4g_unit_test_9()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00426">msm4g_unit_test_11()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00535">msm4g_unit_test_15()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00595">msm4g_unit_test_16()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00646">msm4g_unit_test_18()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00682">msm4g_unit_test_19()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00718">msm4g_unit_test_20()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00364">msm4g_unit_test_9()</a>.</p>
 
 </div>
 </div>
@@ -529,11 +533,11 @@ Functions</h2></td></tr>
 </div>
  <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Anterpolation should be implemented according to section 4.4 of the manuscript. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00191">191</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00243">243</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00387">Simulation::box</a>, <a class="el" href="msm4g__types_8h_source.html#l00326">AbstractGrid::getElement</a>, <a class="el" href="msm4g__types_8h_source.html#l00390">Simulation::grid</a>, <a class="el" href="msm4g__types_8h_source.html#l00143">SimulationParameters::h</a>, <a class="el" href="msm4g__types_8h_source.html#l00144">SimulationParameters::hx</a>, <a class="el" href="msm4g__types_8h_source.html#l00145">SimulationParameters::hy</a>, <a class="el" href="msm4g__types_8h_source.html#l00146">SimulationParameters::hz</a>, <a class="el" href="msm4g__types_8h_source.html#l00177">SimulationBox::location</a>, <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__bases_8h_source.html#l00006">MAX_POLY_DEGREE</a>, <a class="el" href="msm4g__bases_8c_source.html#l00019">msm4g_bases_bspline()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00322">msm4g_grid_dense_new()</a>, <a class="el" href="msm4g__types_8h_source.html#l00147">SimulationParameters::Mx</a>, <a class="el" href="msm4g__types_8h_source.html#l00148">SimulationParameters::My</a>, <a class="el" href="msm4g__types_8h_source.html#l00149">SimulationParameters::Mz</a>, <a class="el" href="msm4g__types_8h_source.html#l00151">SimulationParameters::N</a>, <a class="el" href="msm4g__types_8h_source.html#l00138">SimulationParameters::nu</a>, <a class="el" href="msm4g__types_8h_source.html#l00386">Simulation::parameters</a>, <a class="el" href="msm4g__types_8h_source.html#l00388">Simulation::particles</a>, <a class="el" href="msm4g__types_8h_source.html#l00140">SimulationParameters::periodic</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, <a class="el" href="msm4g__types_8h_source.html#l00319">AbstractGrid::setElement</a>, <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>, <a class="el" href="msm4g__types_8h_source.html#l00183">SimulationBox::wx</a>, <a class="el" href="msm4g__types_8h_source.html#l00184">SimulationBox::wy</a>, and <a class="el" href="msm4g__types_8h_source.html#l00185">SimulationBox::wz</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00387">Simulation::box</a>, <a class="el" href="msm4g__types_8h_source.html#l00326">AbstractGrid::getElement</a>, <a class="el" href="msm4g__types_8h_source.html#l00390">Simulation::gridmass</a>, <a class="el" href="msm4g__types_8h_source.html#l00143">SimulationParameters::h</a>, <a class="el" href="msm4g__types_8h_source.html#l00177">SimulationBox::location</a>, <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__bases_8h_source.html#l00006">MAX_POLY_DEGREE</a>, <a class="el" href="msm4g__bases_8c_source.html#l00019">msm4g_bases_bspline()</a>, <a class="el" href="msm4g__types_8h_source.html#l00147">SimulationParameters::Mx</a>, <a class="el" href="msm4g__types_8h_source.html#l00148">SimulationParameters::My</a>, <a class="el" href="msm4g__types_8h_source.html#l00149">SimulationParameters::Mz</a>, <a class="el" href="msm4g__types_8h_source.html#l00151">SimulationParameters::N</a>, <a class="el" href="msm4g__types_8h_source.html#l00138">SimulationParameters::nu</a>, <a class="el" href="msm4g__types_8h_source.html#l00386">Simulation::parameters</a>, <a class="el" href="msm4g__types_8h_source.html#l00388">Simulation::particles</a>, <a class="el" href="msm4g__types_8h_source.html#l00140">SimulationParameters::periodic</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, <a class="el" href="msm4g__types_8h_source.html#l00319">AbstractGrid::setElement</a>, <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>, <a class="el" href="msm4g__types_8h_source.html#l00183">SimulationBox::wx</a>, <a class="el" href="msm4g__types_8h_source.html#l00184">SimulationBox::wy</a>, and <a class="el" href="msm4g__types_8h_source.html#l00185">SimulationBox::wz</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00152">msm4g_simulation_run()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00593">msm4g_unit_test_16()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00191">msm4g_simulation_run()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00426">msm4g_unit_test_11()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00595">msm4g_unit_test_16()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00718">msm4g_unit_test_20()</a>.</p>
 
 </div>
 </div>
@@ -561,7 +565,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00302">302</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00349">349</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00326">AbstractGrid::getElement</a>, <a class="el" href="msm4g__types_8h_source.html#l00279">AbstractGrid::nx</a>, <a class="el" href="msm4g__types_8h_source.html#l00287">AbstractGrid::ny</a>, and <a class="el" href="msm4g__types_8h_source.html#l00295">AbstractGrid::nz</a>.</p>
 
@@ -592,9 +596,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00313">313</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00360">360</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00178">msm4g_simulation_delete()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00399">msm4g_unit_test_10()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00225">msm4g_simulation_delete()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00401">msm4g_unit_test_10()</a>.</p>
 
 </div>
 </div>
@@ -663,11 +667,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="struct_dense_grid.html" title="A DenseGrid implementation for the AbstractGrid. ">DenseGrid</a> structure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00322">322</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00369">369</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00303">AbstractGrid::constructor</a>, <a class="el" href="msm4g__types_8h_source.html#l00376">DenseGrid::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00311">AbstractGrid::destructor</a>, <a class="el" href="msm4g__types_8h_source.html#l00326">AbstractGrid::getElement</a>, <a class="el" href="msm4g__types_8h_source.html#l00259">AbstractGrid::hx</a>, <a class="el" href="msm4g__types_8h_source.html#l00265">AbstractGrid::hy</a>, <a class="el" href="msm4g__types_8h_source.html#l00271">AbstractGrid::hz</a>, <a class="el" href="msm4g__lib_8c_source.html#l00376">msm4g_grid_dense_destroy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00355">msm4g_grid_dense_getElement()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00322">msm4g_grid_dense_new()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00364">msm4g_grid_dense_reset()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00346">msm4g_grid_dense_setElement()</a>, <a class="el" href="msm4g__types_8h_source.html#l00279">AbstractGrid::nx</a>, <a class="el" href="msm4g__types_8h_source.html#l00287">AbstractGrid::ny</a>, <a class="el" href="msm4g__types_8h_source.html#l00295">AbstractGrid::nz</a>, <a class="el" href="msm4g__types_8h_source.html#l00332">AbstractGrid::reset</a>, and <a class="el" href="msm4g__types_8h_source.html#l00319">AbstractGrid::setElement</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00303">AbstractGrid::constructor</a>, <a class="el" href="msm4g__types_8h_source.html#l00376">DenseGrid::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00311">AbstractGrid::destructor</a>, <a class="el" href="msm4g__types_8h_source.html#l00326">AbstractGrid::getElement</a>, <a class="el" href="msm4g__types_8h_source.html#l00259">AbstractGrid::hx</a>, <a class="el" href="msm4g__types_8h_source.html#l00265">AbstractGrid::hy</a>, <a class="el" href="msm4g__types_8h_source.html#l00271">AbstractGrid::hz</a>, <a class="el" href="msm4g__lib_8c_source.html#l00423">msm4g_grid_dense_destroy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00402">msm4g_grid_dense_getElement()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00369">msm4g_grid_dense_new()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00411">msm4g_grid_dense_reset()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00393">msm4g_grid_dense_setElement()</a>, <a class="el" href="msm4g__types_8h_source.html#l00279">AbstractGrid::nx</a>, <a class="el" href="msm4g__types_8h_source.html#l00287">AbstractGrid::ny</a>, <a class="el" href="msm4g__types_8h_source.html#l00295">AbstractGrid::nz</a>, <a class="el" href="msm4g__types_8h_source.html#l00332">AbstractGrid::reset</a>, and <a class="el" href="msm4g__types_8h_source.html#l00319">AbstractGrid::setElement</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00191">msm4g_anterpolation()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00322">msm4g_grid_dense_new()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00082">msm4g_simulation_new()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00399">msm4g_unit_test_10()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00369">msm4g_grid_dense_new()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00114">msm4g_simulation_new()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00401">msm4g_unit_test_10()</a>.</p>
 
 </div>
 </div>
@@ -728,11 +732,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00346">346</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00393">393</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00376">DenseGrid::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00279">AbstractGrid::nx</a>, and <a class="el" href="msm4g__types_8h_source.html#l00287">AbstractGrid::ny</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00322">msm4g_grid_dense_new()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00369">msm4g_grid_dense_new()</a>.</p>
 
 </div>
 </div>
@@ -787,11 +791,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The value of the element corresponding to (i,j,k) coordinate. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00355">355</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00402">402</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00376">DenseGrid::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00279">AbstractGrid::nx</a>, and <a class="el" href="msm4g__types_8h_source.html#l00287">AbstractGrid::ny</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00322">msm4g_grid_dense_new()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00369">msm4g_grid_dense_new()</a>.</p>
 
 </div>
 </div>
@@ -831,11 +835,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00364">364</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00411">411</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00279">AbstractGrid::nx</a>, <a class="el" href="msm4g__types_8h_source.html#l00287">AbstractGrid::ny</a>, and <a class="el" href="msm4g__types_8h_source.html#l00295">AbstractGrid::nz</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00322">msm4g_grid_dense_new()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00369">msm4g_grid_dense_new()</a>.</p>
 
 </div>
 </div>
@@ -864,11 +868,62 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00376">376</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00423">423</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00376">DenseGrid::data</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00322">msm4g_grid_dense_new()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00369">msm4g_grid_dense_new()</a>.</p>
+
+</div>
+</div>
+<a id="ab688393d4b51aaa462349a85368b7004"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab688393d4b51aaa462349a85368b7004">&#9670;&nbsp;</a></span>msm4g_grid_potential()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void msm4g_grid_potential </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_abstract_grid.html">AbstractGrid</a> *&#160;</td>
+          <td class="paramname"><em>stencil</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_abstract_grid.html">AbstractGrid</a> *&#160;</td>
+          <td class="paramname"><em>gridmass</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_abstract_grid.html">AbstractGrid</a> *&#160;</td>
+          <td class="paramname"><em>gridpotential</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculate grid-to-grid interaction to get grid potentials. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Write down the LateX formula</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">stencil</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">gridmass</td><td></td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">gridpotential</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00431">431</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00326">AbstractGrid::getElement</a>, <a class="el" href="msm4g__types_8h_source.html#l00279">AbstractGrid::nx</a>, <a class="el" href="msm4g__types_8h_source.html#l00287">AbstractGrid::ny</a>, <a class="el" href="msm4g__types_8h_source.html#l00295">AbstractGrid::nz</a>, and <a class="el" href="msm4g__types_8h_source.html#l00319">AbstractGrid::setElement</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00191">msm4g_simulation_run()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00718">msm4g_unit_test_20()</a>.</p>
 
 </div>
 </div>
@@ -914,9 +969,9 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns \( \gamma(\rho) \) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00384">384</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00462">462</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00518">msm4g_force_short_particlePair()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00416">msm4g_kernel()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00507">msm4g_unit_test_14()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00336">msm4g_unit_test_8()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00596">msm4g_force_short_particlePair()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00494">msm4g_kernel()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00509">msm4g_unit_test_14()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00338">msm4g_unit_test_8()</a>.</p>
 
 </div>
 </div>
@@ -956,9 +1011,9 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns \( \gamma&#39;(\rho) \) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00399">399</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00477">477</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00518">msm4g_force_short_particlePair()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00507">msm4g_unit_test_14()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00336">msm4g_unit_test_8()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00596">msm4g_force_short_particlePair()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00509">msm4g_unit_test_14()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00338">msm4g_unit_test_8()</a>.</p>
 
 </div>
 </div>
@@ -1013,7 +1068,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compute splitting kernels. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Include the equations in LateX format</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>Include the equations in LateX format</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>Level in the range of [0,L+1] </td></tr>
@@ -1027,9 +1082,9 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the value of the kernel function </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00416">416</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00494">494</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l00384">msm4g_smoothing_gama()</a>, and <a class="el" href="msm4g__constants_8h_source.html#l00041">MYPI</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l00462">msm4g_smoothing_gama()</a>, and <a class="el" href="msm4g__constants_8h_source.html#l00041">MYPI</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00007">msm4g_stencil()</a>.</p>
 
@@ -1085,11 +1140,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Total short-range potential energy in the list of bins. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00438">438</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00516">516</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00107">Bin::cantorindex</a>, <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__lib_8c_source.html#l00496">msm4g_force_short_betweenBin()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00470">msm4g_force_short_withinBin()</a>, <a class="el" href="msm4g__types_8h_source.html#l00108">Bin::neighbors</a>, <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>, and <a class="el" href="msm4g__types_8h_source.html#l00109">Bin::particles</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00107">Bin::cantorindex</a>, <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__lib_8c_source.html#l00574">msm4g_force_short_betweenBin()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00548">msm4g_force_short_withinBin()</a>, <a class="el" href="msm4g__types_8h_source.html#l00108">Bin::neighbors</a>, <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>, and <a class="el" href="msm4g__types_8h_source.html#l00109">Bin::particles</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00152">msm4g_simulation_run()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00533">msm4g_unit_test_15()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00362">msm4g_unit_test_9()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00191">msm4g_simulation_run()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00535">msm4g_unit_test_15()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00364">msm4g_unit_test_9()</a>.</p>
 
 </div>
 </div>
@@ -1137,11 +1192,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Short-range potential energy in the <a class="el" href="struct_bin.html" title="The cubical domains obtained by dividing the simulation box. ">Bin</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00470">470</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00548">548</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__lib_8c_source.html#l00518">msm4g_force_short_particlePair()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__lib_8c_source.html#l00596">msm4g_force_short_particlePair()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00438">msm4g_force_short()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00516">msm4g_force_short()</a>.</p>
 
 </div>
 </div>
@@ -1196,11 +1251,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Short-range potential energy between the bins. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00496">496</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00574">574</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__lib_8c_source.html#l00518">msm4g_force_short_particlePair()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__lib_8c_source.html#l00596">msm4g_force_short_particlePair()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00438">msm4g_force_short()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00516">msm4g_force_short()</a>.</p>
 
 </div>
 </div>
@@ -1254,11 +1309,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Short-range potential energy. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00518">518</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00596">596</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00142">SimulationParameters::a</a>, <a class="el" href="msm4g__types_8h_source.html#l00094">Particle::acc_short</a>, <a class="el" href="msm4g__types_8h_source.html#l00387">Simulation::box</a>, <a class="el" href="msm4g__types_8h_source.html#l00091">Particle::fshort</a>, <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__lib_8c_source.html#l00601">msm4g_d3vector_daxpy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00615">msm4g_d3vector_normsquare()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00384">msm4g_smoothing_gama()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00399">msm4g_smoothing_gamaprime()</a>, <a class="el" href="msm4g__types_8h_source.html#l00138">SimulationParameters::nu</a>, <a class="el" href="msm4g__types_8h_source.html#l00386">Simulation::parameters</a>, <a class="el" href="msm4g__types_8h_source.html#l00140">SimulationParameters::periodic</a>, <a class="el" href="msm4g__types_8h_source.html#l00093">Particle::potential_short_real</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>, <a class="el" href="msm4g__types_8h_source.html#l00183">SimulationBox::wx</a>, <a class="el" href="msm4g__types_8h_source.html#l00184">SimulationBox::wy</a>, and <a class="el" href="msm4g__types_8h_source.html#l00185">SimulationBox::wz</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00142">SimulationParameters::a</a>, <a class="el" href="msm4g__types_8h_source.html#l00094">Particle::acc_short</a>, <a class="el" href="msm4g__types_8h_source.html#l00387">Simulation::box</a>, <a class="el" href="msm4g__types_8h_source.html#l00091">Particle::fshort</a>, <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__lib_8c_source.html#l00679">msm4g_d3vector_daxpy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00693">msm4g_d3vector_normsquare()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00462">msm4g_smoothing_gama()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00477">msm4g_smoothing_gamaprime()</a>, <a class="el" href="msm4g__types_8h_source.html#l00138">SimulationParameters::nu</a>, <a class="el" href="msm4g__types_8h_source.html#l00386">Simulation::parameters</a>, <a class="el" href="msm4g__types_8h_source.html#l00140">SimulationParameters::periodic</a>, <a class="el" href="msm4g__types_8h_source.html#l00093">Particle::potential_short_real</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>, <a class="el" href="msm4g__types_8h_source.html#l00183">SimulationBox::wx</a>, <a class="el" href="msm4g__types_8h_source.html#l00184">SimulationBox::wy</a>, and <a class="el" href="msm4g__types_8h_source.html#l00185">SimulationBox::wz</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00496">msm4g_force_short_betweenBin()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00470">msm4g_force_short_withinBin()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00574">msm4g_force_short_betweenBin()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00548">msm4g_force_short_withinBin()</a>.</p>
 
 </div>
 </div>
@@ -1312,11 +1367,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00594">594</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00672">672</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00769">msm4g_box_new()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01069">msm4g_particle_reset()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00204">msm4g_unit_test_5()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00847">msm4g_box_new()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01147">msm4g_particle_reset()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00206">msm4g_unit_test_5()</a>.</p>
 
 </div>
 </div>
@@ -1370,11 +1425,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00601">601</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00679">679</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00518">msm4g_force_short_particlePair()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00204">msm4g_unit_test_5()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00596">msm4g_force_short_particlePair()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00206">msm4g_unit_test_5()</a>.</p>
 
 </div>
 </div>
@@ -1407,11 +1462,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The norm of the vector. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00610">610</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00688">688</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l00615">msm4g_d3vector_normsquare()</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l00693">msm4g_d3vector_normsquare()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00204">msm4g_unit_test_5()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00206">msm4g_unit_test_5()</a>.</p>
 
 </div>
 </div>
@@ -1441,11 +1496,11 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>Returns \( ||x||^2 \)</dd></dl>
 <p><b>Example:</b> </p>
 <div class="fragment"><div class="line"><a class="code" href="struct_d3_vector.html">D3Vector</a> x;</div><div class="line"><span class="keywordtype">double</span> normsquare;</div><div class="line"></div><div class="line"><a class="code" href="msm4g__lib_8c.html#a1ff044293b82f2d35ee8bc008689a45a">msm4g_d3vector_set</a>(&amp;x,3.0,0.0,4.0);</div><div class="line">normsquare = <a class="code" href="msm4g__lib_8c.html#a11e21e6936e78b758bbcd2d6cee1ff2c">msm4g_d3vector_normsquare</a>(&amp;x)</div><div class="line"><span class="comment">// norm variable is 25.0 now.</span></div></div><!-- fragment --> 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00615">615</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00693">693</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00610">msm4g_d3vector_norm()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00518">msm4g_force_short_particlePair()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00688">msm4g_d3vector_norm()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00596">msm4g_force_short_particlePair()</a>.</p>
 
 </div>
 </div>
@@ -1473,7 +1528,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00626">626</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00704">704</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
 
@@ -1529,11 +1584,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00635">635</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00713">713</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00037">I3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00926">msm4g_bin_generate()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00915">msm4g_bin_new()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01004">msm4g_bin_generate()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00993">msm4g_bin_new()</a>.</p>
 
 </div>
 </div>
@@ -1572,11 +1627,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00642">642</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00720">720</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00037">I3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00955">msm4g_bin_findneighbors()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01033">msm4g_bin_findneighbors()</a>.</p>
 
 </div>
 </div>
@@ -1616,11 +1671,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the vectors are same, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00649">649</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00727">727</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00037">I3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00991">msm4g_bin_searchByIndex()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01069">msm4g_bin_searchByIndex()</a>.</p>
 
 </div>
 </div>
@@ -1648,7 +1703,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00662">662</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00740">740</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00037">I3Vector::value</a>.</p>
 
@@ -1680,11 +1735,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of elements inside the linked list. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00667">667</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00745">745</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00059">msm4g_unit_test_1()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00260">msm4g_unit_test_6()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00011">msm4g_unit_test_all()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00061">msm4g_unit_test_1()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00262">msm4g_unit_test_6()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00011">msm4g_unit_test_all()</a>.</p>
 
 </div>
 </div>
@@ -1708,11 +1763,11 @@ Functions</h2></td></tr>
 <p>In order to add data to the newly creaded linked list, one may use <code>msm4g_linkedlist_add</code> function.</p>
 <dl class="section return"><dt>Returns</dt><dd>The pointer of the new linked list. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00680">680</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00758">758</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, and <a class="el" href="msm4g__types_8h_source.html#l00070">LinkedList::tail</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00926">msm4g_bin_generate()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00915">msm4g_bin_new()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00059">msm4g_unit_test_1()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00081">msm4g_unit_test_2()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00118">msm4g_unit_test_3()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00204">msm4g_unit_test_5()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00011">msm4g_unit_test_all()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01004">msm4g_bin_generate()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00993">msm4g_bin_new()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00061">msm4g_unit_test_1()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00083">msm4g_unit_test_2()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00120">msm4g_unit_test_3()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00206">msm4g_unit_test_5()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00011">msm4g_unit_test_all()</a>.</p>
 
 </div>
 </div>
@@ -1752,11 +1807,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00689">689</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00767">767</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>, <a class="el" href="msm4g__types_8h_source.html#l00055">LinkedListElement::prev</a>, and <a class="el" href="msm4g__types_8h_source.html#l00070">LinkedList::tail</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00955">msm4g_bin_findneighbors()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00926">msm4g_bin_generate()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00059">msm4g_unit_test_1()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00081">msm4g_unit_test_2()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00118">msm4g_unit_test_3()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00204">msm4g_unit_test_5()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00011">msm4g_unit_test_all()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01033">msm4g_bin_findneighbors()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01004">msm4g_bin_generate()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00061">msm4g_unit_test_1()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00083">msm4g_unit_test_2()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00120">msm4g_unit_test_3()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00206">msm4g_unit_test_5()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00011">msm4g_unit_test_all()</a>.</p>
 
 </div>
 </div>
@@ -1797,11 +1852,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The void pointer of the requested data. If there is no data, then NULL pointer is returned. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00711">711</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00789">789</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00260">msm4g_unit_test_6()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00011">msm4g_unit_test_all()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00262">msm4g_unit_test_6()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00011">msm4g_unit_test_all()</a>.</p>
 
 </div>
 </div>
@@ -1831,11 +1886,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00732">732</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00810">810</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01053">msm4g_bin_destroy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00746">msm4g_linkedlist_destroyWithData()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00059">msm4g_unit_test_1()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00081">msm4g_unit_test_2()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00118">msm4g_unit_test_3()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00204">msm4g_unit_test_5()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00011">msm4g_unit_test_all()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01131">msm4g_bin_destroy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00824">msm4g_linkedlist_destroyWithData()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00061">msm4g_unit_test_1()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00083">msm4g_unit_test_2()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00120">msm4g_unit_test_3()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00206">msm4g_unit_test_5()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00011">msm4g_unit_test_all()</a>.</p>
 
 </div>
 </div>
@@ -1864,11 +1919,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00746">746</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00824">824</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__lib_8c_source.html#l00732">msm4g_linkedlist_destroy()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__lib_8c_source.html#l00810">msm4g_linkedlist_destroy()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01053">msm4g_bin_destroy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01131">msm4g_bin_destroy()</a>.</p>
 
 </div>
 </div>
@@ -1934,9 +1989,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00759">759</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00837">837</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l01221">msm4g_acceleration()</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l01299">msm4g_acceleration()</a>.</p>
 
 </div>
 </div>
@@ -1958,14 +2013,14 @@ Functions</h2></td></tr>
 <p>Create a unit cube for simulation. </p>
 <p>Allocates a new simulation box whose location is at the origin</p>
 <dl class="section warning"><dt>Warning</dt><dd>It is the responsibility of the caller to deallocate the box by using msm4g_box_destory function.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>Make sure that the width is of the form 2^k * h for some k.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>Make sure that the width is of the form 2^k * h for some k.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The new simulation box. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00769">769</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00847">847</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00177">SimulationBox::location</a>, <a class="el" href="msm4g__lib_8c_source.html#l00594">msm4g_d3vector_set()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00179">SimulationBox::width</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00177">SimulationBox::location</a>, <a class="el" href="msm4g__lib_8c_source.html#l00672">msm4g_d3vector_set()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00179">SimulationBox::width</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00778">msm4g_box_newCube()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00204">msm4g_unit_test_5()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00856">msm4g_box_newCube()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00206">msm4g_unit_test_5()</a>.</p>
 
 </div>
 </div>
@@ -2005,11 +2060,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Reference to the simulation box object </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00778">778</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00856">856</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00177">SimulationBox::location</a>, <a class="el" href="msm4g__lib_8c_source.html#l00769">msm4g_box_new()</a>, <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>, <a class="el" href="msm4g__types_8h_source.html#l00179">SimulationBox::width</a>, <a class="el" href="msm4g__types_8h_source.html#l00183">SimulationBox::wx</a>, <a class="el" href="msm4g__types_8h_source.html#l00184">SimulationBox::wy</a>, <a class="el" href="msm4g__types_8h_source.html#l00185">SimulationBox::wz</a>, <a class="el" href="msm4g__types_8h_source.html#l00180">SimulationBox::x</a>, <a class="el" href="msm4g__types_8h_source.html#l00181">SimulationBox::y</a>, and <a class="el" href="msm4g__types_8h_source.html#l00182">SimulationBox::z</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00177">SimulationBox::location</a>, <a class="el" href="msm4g__lib_8c_source.html#l00847">msm4g_box_new()</a>, <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>, <a class="el" href="msm4g__types_8h_source.html#l00179">SimulationBox::width</a>, <a class="el" href="msm4g__types_8h_source.html#l00183">SimulationBox::wx</a>, <a class="el" href="msm4g__types_8h_source.html#l00184">SimulationBox::wy</a>, <a class="el" href="msm4g__types_8h_source.html#l00185">SimulationBox::wz</a>, <a class="el" href="msm4g__types_8h_source.html#l00180">SimulationBox::x</a>, <a class="el" href="msm4g__types_8h_source.html#l00181">SimulationBox::y</a>, and <a class="el" href="msm4g__types_8h_source.html#l00182">SimulationBox::z</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00424">msm4g_unit_test_11()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00533">msm4g_unit_test_15()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00593">msm4g_unit_test_16()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00644">msm4g_unit_test_18()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00362">msm4g_unit_test_9()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00426">msm4g_unit_test_11()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00535">msm4g_unit_test_15()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00595">msm4g_unit_test_16()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00646">msm4g_unit_test_18()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00682">msm4g_unit_test_19()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00718">msm4g_unit_test_20()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00364">msm4g_unit_test_9()</a>.</p>
 
 </div>
 </div>
@@ -2061,7 +2116,7 @@ Functions</h2></td></tr>
 <p>It creates a rectangular there dimensional box to include all of the particles given in the argument. The width of the box is also enlarged <code>margin</code> percent in each dimension to give some slack to the particles so that they will stay in the box after time integration.</p>
 <p>The width of the box is arranged to be a multiple of lattice spacing h.</p>
 <p>The degree of the base polynomials is also needed to make sure that there is enough extra padding around the boundary.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>If a <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a> escapes from the box, the box should be updated. But there is a question of how to keep the interior grid points intact. As soon as the box is enlarged, new grid points should be created. MSM may start from scratch whenever the box is updated, but it seems quite waste of time.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>If a <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a> escapes from the box, the box should be updated. But there is a question of how to keep the interior grid points intact. As soon as the box is enlarged, new grid points should be created. MSM may start from scratch whenever the box is updated, but it seems quite waste of time.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">box</td><td>The rectangular simulation box. </td></tr>
@@ -2073,11 +2128,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00792">792</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00870">870</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__types_8h_source.html#l00177">SimulationBox::location</a>, <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>, and <a class="el" href="msm4g__types_8h_source.html#l00179">SimulationBox::width</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00204">msm4g_unit_test_5()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00206">msm4g_unit_test_5()</a>.</p>
 
 </div>
 </div>
@@ -2123,11 +2178,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00869">869</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00947">947</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__types_8h_source.html#l00177">SimulationBox::location</a>, <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, and <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00889">msm4g_box_translateToOrigin()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00967">msm4g_box_translateToOrigin()</a>.</p>
 
 </div>
 </div>
@@ -2167,9 +2222,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00889">889</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00967">967</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00177">SimulationBox::location</a>, <a class="el" href="msm4g__lib_8c_source.html#l00869">msm4g_box_translate()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00177">SimulationBox::location</a>, <a class="el" href="msm4g__lib_8c_source.html#l00947">msm4g_box_translate()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
 
 </div>
 </div>
@@ -2198,7 +2253,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00898">898</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00976">976</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00177">SimulationBox::location</a>, <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>, and <a class="el" href="msm4g__types_8h_source.html#l00179">SimulationBox::width</a>.</p>
 
@@ -2229,9 +2284,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00910">910</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00988">988</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00178">msm4g_simulation_delete()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00204">msm4g_unit_test_5()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00225">msm4g_simulation_delete()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00206">msm4g_unit_test_5()</a>.</p>
 
 </div>
 </div>
@@ -2259,11 +2314,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00915">915</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00993">993</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00107">Bin::cantorindex</a>, <a class="el" href="msm4g__types_8h_source.html#l00106">Bin::index</a>, <a class="el" href="msm4g__lib_8c_source.html#l00635">msm4g_i3vector_set()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00680">msm4g_linkedlist_new()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01304">msm4g_math_cantor()</a>, <a class="el" href="msm4g__types_8h_source.html#l00108">Bin::neighbors</a>, <a class="el" href="msm4g__types_8h_source.html#l00109">Bin::particles</a>, and <a class="el" href="msm4g__types_8h_source.html#l00037">I3Vector::value</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00107">Bin::cantorindex</a>, <a class="el" href="msm4g__types_8h_source.html#l00106">Bin::index</a>, <a class="el" href="msm4g__lib_8c_source.html#l00713">msm4g_i3vector_set()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00758">msm4g_linkedlist_new()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01382">msm4g_math_cantor()</a>, <a class="el" href="msm4g__types_8h_source.html#l00108">Bin::neighbors</a>, <a class="el" href="msm4g__types_8h_source.html#l00109">Bin::particles</a>, and <a class="el" href="msm4g__types_8h_source.html#l00037">I3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00926">msm4g_bin_generate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01004">msm4g_bin_generate()</a>.</p>
 
 </div>
 </div>
@@ -2318,11 +2373,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The list of allocated bins. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00926">926</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01004">1004</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l00955">msm4g_bin_findneighbors()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00915">msm4g_bin_new()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00991">msm4g_bin_searchByIndex()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00635">msm4g_i3vector_set()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00689">msm4g_linkedlist_add()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00680">msm4g_linkedlist_new()</a>, <a class="el" href="msm4g__types_8h_source.html#l00109">Bin::particles</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>, and <a class="el" href="msm4g__types_8h_source.html#l00037">I3Vector::value</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l01033">msm4g_bin_findneighbors()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00993">msm4g_bin_new()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01069">msm4g_bin_searchByIndex()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00713">msm4g_i3vector_set()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00767">msm4g_linkedlist_add()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00758">msm4g_linkedlist_new()</a>, <a class="el" href="msm4g__types_8h_source.html#l00109">Bin::particles</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>, and <a class="el" href="msm4g__types_8h_source.html#l00037">I3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00152">msm4g_simulation_run()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00533">msm4g_unit_test_15()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00260">msm4g_unit_test_6()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00362">msm4g_unit_test_9()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00191">msm4g_simulation_run()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00535">msm4g_unit_test_15()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00262">msm4g_unit_test_6()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00364">msm4g_unit_test_9()</a>.</p>
 
 </div>
 </div>
@@ -2357,11 +2412,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00955">955</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01033">1033</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__types_8h_source.html#l00106">Bin::index</a>, <a class="el" href="msm4g__lib_8c_source.html#l00991">msm4g_bin_searchByIndex()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00642">msm4g_i3vector_copy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00689">msm4g_linkedlist_add()</a>, <a class="el" href="msm4g__types_8h_source.html#l00108">Bin::neighbors</a>, <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>, and <a class="el" href="msm4g__types_8h_source.html#l00037">I3Vector::value</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__types_8h_source.html#l00106">Bin::index</a>, <a class="el" href="msm4g__lib_8c_source.html#l01069">msm4g_bin_searchByIndex()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00720">msm4g_i3vector_copy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00767">msm4g_linkedlist_add()</a>, <a class="el" href="msm4g__types_8h_source.html#l00108">Bin::neighbors</a>, <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>, and <a class="el" href="msm4g__types_8h_source.html#l00037">I3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00926">msm4g_bin_generate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01004">msm4g_bin_generate()</a>.</p>
 
 </div>
 </div>
@@ -2402,11 +2457,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The pointer to the selected bin. Returns NULL if there is no such bin. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l00991">991</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01069">1069</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__types_8h_source.html#l00106">Bin::index</a>, <a class="el" href="msm4g__lib_8c_source.html#l00649">msm4g_i3vector_isequal()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__types_8h_source.html#l00106">Bin::index</a>, <a class="el" href="msm4g__lib_8c_source.html#l00727">msm4g_i3vector_isequal()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00955">msm4g_bin_findneighbors()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l00926">msm4g_bin_generate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01033">msm4g_bin_findneighbors()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l01004">msm4g_bin_generate()</a>.</p>
 
 </div>
 </div>
@@ -2434,7 +2489,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01013">1013</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01091">1091</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00107">Bin::cantorindex</a>, <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__types_8h_source.html#l00087">Particle::index</a>, <a class="el" href="msm4g__types_8h_source.html#l00106">Bin::index</a>, <a class="el" href="msm4g__types_8h_source.html#l00108">Bin::neighbors</a>, <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>, <a class="el" href="msm4g__types_8h_source.html#l00109">Bin::particles</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>, and <a class="el" href="msm4g__types_8h_source.html#l00037">I3Vector::value</a>.</p>
 
@@ -2464,7 +2519,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01048">1048</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01126">1126</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -2500,11 +2555,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01053">1053</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01131">1131</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__lib_8c_source.html#l00732">msm4g_linkedlist_destroy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00746">msm4g_linkedlist_destroyWithData()</a>, <a class="el" href="msm4g__types_8h_source.html#l00108">Bin::neighbors</a>, <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>, and <a class="el" href="msm4g__types_8h_source.html#l00109">Bin::particles</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__lib_8c_source.html#l00810">msm4g_linkedlist_destroy()</a>, <a class="el" href="msm4g__lib_8c_source.html#l00824">msm4g_linkedlist_destroyWithData()</a>, <a class="el" href="msm4g__types_8h_source.html#l00108">Bin::neighbors</a>, <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>, and <a class="el" href="msm4g__types_8h_source.html#l00109">Bin::particles</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00152">msm4g_simulation_run()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00533">msm4g_unit_test_15()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00260">msm4g_unit_test_6()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00362">msm4g_unit_test_9()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00191">msm4g_simulation_run()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00535">msm4g_unit_test_15()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00262">msm4g_unit_test_6()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00364">msm4g_unit_test_9()</a>.</p>
 
 </div>
 </div>
@@ -2534,11 +2589,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The pointer of the input <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01069">1069</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01147">1147</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00092">Particle::flong</a>, <a class="el" href="msm4g__types_8h_source.html#l00091">Particle::fshort</a>, <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__lib_8c_source.html#l00594">msm4g_d3vector_set()</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, and <a class="el" href="msm4g__types_8h_source.html#l00090">Particle::v</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00092">Particle::flong</a>, <a class="el" href="msm4g__types_8h_source.html#l00091">Particle::fshort</a>, <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__lib_8c_source.html#l00672">msm4g_d3vector_set()</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, and <a class="el" href="msm4g__types_8h_source.html#l00090">Particle::v</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00059">msm4g_unit_test_1()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00155">msm4g_unit_test_4()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00061">msm4g_unit_test_1()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00157">msm4g_unit_test_4()</a>.</p>
 
 </div>
 </div>
@@ -2562,11 +2617,11 @@ Functions</h2></td></tr>
 <p>This function creates an array of <code><a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a></code> structures whose properties are randomly created in the range [0-1]. Therefore, the particles reside in three-dimensional unit cube.</p>
 <dl class="section return"><dt>Returns</dt><dd>The pointer to the first element of the allocated array. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01079">1079</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01157">1157</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00092">Particle::flong</a>, <a class="el" href="msm4g__types_8h_source.html#l00091">Particle::fshort</a>, <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__lib_8c_source.html#l01139">msm4g_particle_empty()</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, <a class="el" href="msm4g__types_8h_source.html#l00090">Particle::v</a>, and <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00092">Particle::flong</a>, <a class="el" href="msm4g__types_8h_source.html#l00091">Particle::fshort</a>, <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__lib_8c_source.html#l01217">msm4g_particle_empty()</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, <a class="el" href="msm4g__types_8h_source.html#l00090">Particle::v</a>, and <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00204">msm4g_unit_test_5()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00206">msm4g_unit_test_5()</a>.</p>
 
 </div>
 </div>
@@ -2606,11 +2661,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to a particle array </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01101">1101</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01179">1179</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, <a class="el" href="msm4g__types_8h_source.html#l00090">Particle::v</a>, and <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00082">msm4g_simulation_new()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00155">msm4g_unit_test_4()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00260">msm4g_unit_test_6()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00114">msm4g_simulation_new()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00157">msm4g_unit_test_4()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00262">msm4g_unit_test_6()</a>.</p>
 
 </div>
 </div>
@@ -2633,11 +2688,11 @@ Functions</h2></td></tr>
 <p>This functions is the only place inside which a memory allocation is carried to create a new <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a>. This function holds a static <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a> index to keep track the newly born particles.</p>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the newly allocated <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a> structure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01139">1139</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01217">1217</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00094">Particle::acc_short</a>, <a class="el" href="msm4g__types_8h_source.html#l00092">Particle::flong</a>, <a class="el" href="msm4g__types_8h_source.html#l00091">Particle::fshort</a>, <a class="el" href="msm4g__types_8h_source.html#l00087">Particle::index</a>, <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__types_8h_source.html#l00093">Particle::potential_short_real</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, <a class="el" href="msm4g__types_8h_source.html#l00090">Particle::v</a>, and <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01163">msm4g_particle_new()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l01079">msm4g_particle_rand()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01241">msm4g_particle_new()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l01157">msm4g_particle_rand()</a>.</p>
 
 </div>
 </div>
@@ -2691,9 +2746,9 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The pointer of the newly allocated <a class="el" href="struct_particle.html" title="A basic representation of a celestial body. ">Particle</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01163">1163</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01241">1241</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__lib_8c_source.html#l01139">msm4g_particle_empty()</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, and <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00088">Particle::m</a>, <a class="el" href="msm4g__lib_8c_source.html#l01217">msm4g_particle_empty()</a>, <a class="el" href="msm4g__types_8h_source.html#l00089">Particle::r</a>, and <a class="el" href="msm4g__types_8h_source.html#l00030">D3Vector::value</a>.</p>
 
 </div>
 </div>
@@ -2722,11 +2777,11 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01174">1174</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01252">1252</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00094">Particle::acc_short</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01186">msm4g_particle_printlist()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01264">msm4g_particle_printlist()</a>.</p>
 
 </div>
 </div>
@@ -2755,9 +2810,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01186">1186</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01264">1264</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__lib_8c_source.html#l01174">msm4g_particle_print()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00053">LinkedListElement::data</a>, <a class="el" href="msm4g__types_8h_source.html#l00069">LinkedList::head</a>, <a class="el" href="msm4g__lib_8c_source.html#l01252">msm4g_particle_print()</a>, and <a class="el" href="msm4g__types_8h_source.html#l00054">LinkedListElement::next</a>.</p>
 
 </div>
 </div>
@@ -2785,7 +2840,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01203">1203</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01281">1281</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -2824,9 +2879,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01209">1209</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01287">1287</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00204">msm4g_unit_test_5()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00206">msm4g_unit_test_5()</a>.</p>
 
 </div>
 </div>
@@ -2880,11 +2935,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01221">1221</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01299">1299</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l01297">msm4g_zeros()</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l01375">msm4g_zeros()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00759">msm4g_forwardeuler()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l01286">msm4g_leapfrog()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00837">msm4g_forwardeuler()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l01364">msm4g_leapfrog()</a>.</p>
 
 </div>
 </div>
@@ -2956,7 +3011,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01245">1245</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01323">1323</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -3010,7 +3065,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01281">1281</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01359">1359</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 </div>
 </div>
@@ -3098,9 +3153,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01286">1286</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01364">1364</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l01221">msm4g_acceleration()</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l01299">msm4g_acceleration()</a>.</p>
 
 </div>
 </div>
@@ -3130,9 +3185,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01297">1297</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01375">1375</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01221">msm4g_acceleration()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01299">msm4g_acceleration()</a>.</p>
 
 </div>
 </div>
@@ -3176,11 +3231,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The output of n-degree generalized Cantor pairing function. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01304">1304</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01382">1382</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l01327">msm4g_math_factorial()</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__lib_8c_source.html#l01405">msm4g_math_factorial()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00915">msm4g_bin_new()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00308">msm4g_unit_test_7()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00993">msm4g_bin_new()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00310">msm4g_unit_test_7()</a>.</p>
 
 </div>
 </div>
@@ -3209,9 +3264,9 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>factorial of n. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01327">1327</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01405">1405</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01304">msm4g_math_cantor()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00308">msm4g_unit_test_7()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01382">msm4g_math_cantor()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00310">msm4g_unit_test_7()</a>.</p>
 
 </div>
 </div>
@@ -3245,7 +3300,7 @@ Functions</h2></td></tr>
 <p>Calculates the coefficients (referred as omegaprime in doi:10.1063/1.4943868) required in Quasi-interpolation. They depend on the order of B-Spline and some adjustable parameter mu.</p>
 <p>The output of this function is used to build the stencils. Large mu means more accurate interpolation but at the same it increases the cost.</p>
 <p>The callee is responsible to deallocate the array when it is no longer needed.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Quasi-interpolation coefficients can only be determined for p=4 (Cubic) and p=6 (Quintic) B-Splines. It should be written in more generic way to cover higher order B-Splines.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Quasi-interpolation coefficients can only be determined for p=4 (Cubic) and p=6 (Quintic) B-Splines. It should be written in more generic way to cover higher order B-Splines.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">mu</td><td>Quasi-interpolation parameter </td></tr>
@@ -3255,11 +3310,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Quasi-interpolation coefficient array of size mu + p/2 + 1. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01339">1339</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01417">1417</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">References <a class="el" href="msm4g__bases_8c_source.html#l00019">msm4g_bases_bspline()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01532">msm4g_util_diffnorm()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01539">msm4g_util_gausssolver()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l01524">msm4g_util_norm()</a>.</p>
+<p class="reference">References <a class="el" href="msm4g__bases_8c_source.html#l00019">msm4g_bases_bspline()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01610">msm4g_util_diffnorm()</a>, <a class="el" href="msm4g__lib_8c_source.html#l01617">msm4g_util_gausssolver()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l01602">msm4g_util_norm()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00152">msm4g_simulation_run()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00459">msm4g_unit_test_12()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00191">msm4g_simulation_run()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00461">msm4g_unit_test_12()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00646">msm4g_unit_test_18()</a>, <a class="el" href="msm4g__tests_8c_source.html#l00682">msm4g_unit_test_19()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00718">msm4g_unit_test_20()</a>.</p>
 
 </div>
 </div>
@@ -3299,9 +3354,9 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>L2-norm of the vector x </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01524">1524</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01602">1602</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00533">msm4g_unit_test_15()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l01339">msm4g_util_omegaprime()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00535">msm4g_unit_test_15()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l01417">msm4g_util_omegaprime()</a>.</p>
 
 </div>
 </div>
@@ -3348,9 +3403,9 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>L2-norm of x-y </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01532">1532</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01610">1610</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00533">msm4g_unit_test_15()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l01339">msm4g_util_omegaprime()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__tests_8c_source.html#l00535">msm4g_unit_test_15()</a>, and <a class="el" href="msm4g__lib_8c_source.html#l01417">msm4g_util_omegaprime()</a>.</p>
 
 </div>
 </div>
@@ -3401,9 +3456,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01539">1539</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01617">1617</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01339">msm4g_util_omegaprime()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l01417">msm4g_util_omegaprime()</a>.</p>
 
 </div>
 </div>
@@ -3444,7 +3499,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the number of grid points on the cube surface </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01561">1561</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01639">1639</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
 <p class="reference">References <a class="el" href="msm4g__types_8h_source.html#l00160">SimulationParameters::face_i</a>, <a class="el" href="msm4g__types_8h_source.html#l00161">SimulationParameters::face_j</a>, <a class="el" href="msm4g__types_8h_source.html#l00162">SimulationParameters::face_k</a>, and <a class="el" href="msm4g__constants_8h_source.html#l00036">FACE_MAXLEN</a>.</p>
 
@@ -3470,7 +3525,7 @@ Functions</h2></td></tr>
 
 <p>Determines Ewald's splitting parameter. </p>
 <p>Determines beta parameter such that erfc(beta * aL)/aL is very small</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Elaborate the scheme used in the function.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Elaborate the scheme used in the function.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">aL</td><td>Cutoff at the coarsest grid </td></tr>
@@ -3479,9 +3534,60 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Ewald's splitting parameter beta </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01615">1615</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01693">1693</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00082">msm4g_simulation_new()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00634">msm4g_unit_test_17()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00114">msm4g_simulation_new()</a>, and <a class="el" href="msm4g__tests_8c_source.html#l00636">msm4g_unit_test_17()</a>.</p>
+
+</div>
+</div>
+<a id="a3b25dc161ecf9f57a6a5db9cb3c82071"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b25dc161ecf9f57a6a5db9cb3c82071">&#9670;&nbsp;</a></span>msm4g_util_calculate_c()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double msm4g_util_calculate_c </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nu</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculates the coefficients needed for interpolation at (L+1)th level Refer eq:calpha in the manuscript. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">k</td><td>wavenumber in Fourier transform </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">M</td><td>The number of grid points </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nu</td><td>Order of interpolation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>value of the coefficient </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="msm4g__lib_8c_source.html#l01714">1714</a> of file <a class="el" href="msm4g__lib_8c_source.html">msm4g_lib.c</a>.</p>
+
+<p class="reference">References <a class="el" href="msm4g__bases_8c_source.html#l00019">msm4g_bases_bspline()</a>, and <a class="el" href="msm4g__constants_8h_source.html#l00041">MYPI</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="msm4g__lib_8c_source.html#l00007">msm4g_stencil()</a>.</p>
 
 </div>
 </div>
