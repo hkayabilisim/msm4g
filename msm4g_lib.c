@@ -384,6 +384,7 @@ AbstractGrid *msm4g_grid_dense_new(int nx, int ny, int nz,double hx,double hy,do
     grid->setElement  = msm4g_grid_dense_setElement;
     grid->getElement  = msm4g_grid_dense_getElement;
     grid->reset       = msm4g_grid_dense_reset;
+    grid->innerProduct= msm4g_grid_dense_innerProduct;
 
     densegrid->data = calloc(nx*ny*nz,sizeof(double));
     
@@ -406,6 +407,22 @@ double msm4g_grid_dense_getElement(AbstractGrid *grid,int i,int j,int k)
     
     position =  k * grid->nx * grid->ny + j * grid->nx  + i;
     return densegrid->data[position];
+}
+
+double msm4g_grid_dense_innerProduct(AbstractGrid *grid1,AbstractGrid *grid2){
+    int size1 = grid1->nx * grid1->ny * grid1->nz ;
+    int size2 = grid2->nx * grid2->ny * grid2->nz ;
+    if (size1 != size2) {
+        fprintf(stderr,"Size of the grids are not same\n");
+        return 0;
+    }
+
+    DenseGrid *denseGrid1 = (DenseGrid *)grid1;
+    DenseGrid *denseGrid2 = (DenseGrid *)grid2;
+    double innerProduct = 0.0;
+    for (int i = 0 ; i < size1 ; i++)
+        innerProduct += denseGrid1->data[i] * denseGrid2->data[i];
+    return innerProduct;
 }
 
 void msm4g_grid_dense_reset(AbstractGrid *grid,double value)

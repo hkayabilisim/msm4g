@@ -331,6 +331,12 @@ typedef struct AbstractGrid
      */
     void   (*reset)        (struct AbstractGrid *grid,double value);
 
+    /** @brief A pointer to a prototype of inner production function.
+     *
+     * The grid implementations should define a function to calculate
+     * inner product of two grids.
+     */
+    double (*innerProduct) (struct AbstractGrid *grid1, struct AbstractGrid *grid2);
 
 } AbstractGrid;
 

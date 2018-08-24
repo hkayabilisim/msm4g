@@ -121,6 +121,16 @@ void msm4g_grid_dense_setElement(AbstractGrid *grid,int i,int j,int k,double val
  */
 double msm4g_grid_dense_getElement(AbstractGrid *grid,int i,int j,int k);
 
+/** @brief Calculates inner product of two dense grids.
+ *
+ * Inner product of two dense grid is the sum of pairwise
+ * multiplications of the dense grids.
+ *
+ * @param[in] grid1 First dense grid
+ * @param[in] grid2 Second dense grid
+ * @return the inner product of the grids.
+ */
+double msm4g_grid_dense_innerProduct(AbstractGrid *grid1,AbstractGrid *grid2);
 
 /** @brief Reset all values in the grid to the given value.
  *
