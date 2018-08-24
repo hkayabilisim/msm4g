@@ -276,9 +276,10 @@ Boolean msm4g_unit_test_16();
  */
 Boolean msm4g_unit_test_17();
 
-/** @brief Checks finest level stencil
+/** @brief Checks finest level stencil and grid potentials
  *
- * It calculates the first level stencil and compares with
+ * It calculates the first level stencil and grid
+ * potentials and compares them with the ones obtained by
  * the reference MSM periodic implementation.
  *
  * @return true if the test is successful, false otherwise
@@ -292,9 +293,8 @@ Boolean msm4g_unit_test_18();
  */
 Boolean msm4g_unit_test_19();
 
-/** @brief Checks grid-to-grid interaction
- * It calculates the grid potential at the finest level
- * and compares with the reference calculation.
+/** @brief To be determined
+ *
  * @return true if the test is successful, false otherwise
  */
 Boolean msm4g_unit_test_20();
