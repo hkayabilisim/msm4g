@@ -8,10 +8,36 @@
 #include "msm4g_lib.h"
 #include "msm4g_tests.h"
 
+char    testnames[100][64];
+Boolean teststatus[100];
+int     testcount  = 0 ;
+
+void msm4g_test_summary() {
+    int failed = 0;
+    for (int i = 0 ; i < testcount ; i++) {
+        printf("%02d Testing %-64s : ",i, testnames[i]);
+        if (teststatus[i])
+            printf("passed\n");
+        else {
+            printf("failed\n");
+            failed++;
+        }
+    }
+    printf("%2d total, %2d passed, %d failed\n",testcount,testcount-failed,failed);
+}
+
+void msm4g_test_assert(const char *name,int status) {
+    strcpy(testnames[testcount],name);
+    teststatus[testcount] = status;
+    testcount++;
+    if (testcount >= 100) {
+        fprintf(stderr,"Too many test cases, please increase the size of test slot\n");
+    }
+}
+
 void msm4g_unit_test_all()
 {
-    Boolean status;
-    int index, numberoftests,failed;
+    int numberoftests;
     typedef Boolean (testFunctionType)();
     testFunctionType *testFunction;
     LinkedList *list = msm4g_linkedlist_new();
@@ -39,27 +65,20 @@ void msm4g_unit_test_all()
 
     numberoftests = msm4g_linkedlist_size(list);
 
-    failed=0;
-    for (index = 0; index < numberoftests ; index++)
-    {
-        fprintf(stdout,"Running test %3d: ",index+1);
-        testFunction = (testFunctionType *)msm4g_linkedlist_get(list, index);
-        status = testFunction();
-        if (status == false)
-        {
-            failed++;
-            fprintf(stdout,"failed\n");
-        } else
-            fprintf(stdout,"passed\n");
+    for (int i = 0; i < numberoftests ; i++) {
+        testFunction = (testFunctionType *)msm4g_linkedlist_get(list, i);
+        testFunction();
     }
-    printf("%d of %d passed, %d failed\n",numberoftests-failed,numberoftests,failed);
     
+    msm4g_test_summary();
+
     msm4g_linkedlist_destroy(list);
 
 }
 
 Boolean msm4g_unit_test_1()
 {
+    Boolean status = true;
     LinkedList *list;
     Particle x[10];
     int i;
@@ -74,10 +93,11 @@ Boolean msm4g_unit_test_1()
     if (msm4g_linkedlist_size(list) != 10)
     {
         msm4g_linkedlist_destroy(list);
-        return false;
+        status = false;
     }
     msm4g_linkedlist_destroy(list);
-    return true;
+    msm4g_test_assert("Counting the members of a two-way linked list", status == true);
+    return status;
 }
 
 Boolean msm4g_unit_test_2()
@@ -113,7 +133,7 @@ Boolean msm4g_unit_test_2()
         i--;
     }
     msm4g_linkedlist_destroy(list);
-    
+    msm4g_test_assert("Traversing a linked list from tail to head", status == true);
     return status;
 }
 
@@ -149,13 +169,14 @@ Boolean msm4g_unit_test_3()
         i++;
     }
     msm4g_linkedlist_destroy(list);
-    
+    msm4g_test_assert("Traversing a linked list from head to tail", status == true);
     return status;
 }
 
 
 Boolean msm4g_unit_test_4()
 {
+    Boolean status = true;
     const int DIM = 3;
     const int N = 3; /* Number of particles in eight.ini */
     int dummy;
@@ -185,22 +206,26 @@ Boolean msm4g_unit_test_4()
     for (i=0;i<N;i++) /* for each particle */
     {
         if (fabs(particles[i].m - particlesInFile[i].m)>DBL_EPSILON ) {
-            return false;
+            status = false;
+            break;
         }
         for (j=0;j<DIM;j++) /* for each dimension */
         {
             if (fabs(particles[i].r.value[j]-particlesInFile[i].r.value[j]) > DBL_EPSILON) {
-                return false;
+                status = false;
+                break;
             }
             if (fabs(particles[i].v.value[j]-particlesInFile[i].v.value[j]) > DBL_EPSILON) {
-                return false;
+                status = false;
+                break;
             }
         }
     }
     
     /* Deallocate the particles */
     free(particlesInFile);
-    return true;
+    msm4g_test_assert("Reading particles from text file", status == true);
+    return status;
 }
 
 Boolean msm4g_unit_test_5()
@@ -255,7 +280,7 @@ Boolean msm4g_unit_test_5()
     msm4g_linkedlist_destroy(list);
     msm4g_particle_destroyarray(particles, n);
     msm4g_box_destroy(box);
-    
+    msm4g_test_assert("Simulation box create and update", status == true);
     return status;
 }
 
@@ -278,32 +303,34 @@ Boolean msm4g_unit_test_6()
     binlist=msm4g_bin_generate(&box,particlelist,6,binwidth);
     
     bin = (Bin *)msm4g_linkedlist_get(binlist, 0);
-    if (bin->cantorindex != 8) return false;
+    if (bin->cantorindex != 8) status = false;
     /* It should has only one neighbor */
-    if (msm4g_linkedlist_size(bin->neighbors) != 1) return false;
+    if (msm4g_linkedlist_size(bin->neighbors) != 1) status = false;
     /* Its neighbor's cantor index should be 17 */
-    if (((Bin *)msm4g_linkedlist_get(bin->neighbors,0))->cantorindex != 17) return false;
+    if (((Bin *)msm4g_linkedlist_get(bin->neighbors,0))->cantorindex != 17) status = false;
     /* It should contain two particles */
-    if (msm4g_linkedlist_size(bin->particles) != 2) return false;
+    if (msm4g_linkedlist_size(bin->particles) != 2) status = false;
     
     bin = (Bin *)msm4g_linkedlist_get(binlist, 1);
     /* This bin should has a neighbor */
-    if (msm4g_linkedlist_size(bin->neighbors) != 0) return false;
+    if (msm4g_linkedlist_size(bin->neighbors) != 0) status = false;
     /* Its cantor index should be 25 */
-    if (bin->cantorindex != 25) return false;
+    if (bin->cantorindex != 25) status = false;
     /* It should contain only one particles */
-    if (msm4g_linkedlist_size(bin->particles) != 1) return false;
+    if (msm4g_linkedlist_size(bin->particles) != 1) status = false;
     
     bin = (Bin *)msm4g_linkedlist_get(binlist, 2);
     /* It should has only one neighbor */
-    if (msm4g_linkedlist_size(bin->neighbors) != 1) return false;
+    if (msm4g_linkedlist_size(bin->neighbors) != 1) status = false;
     /* Its neighbor's cantor index should be 8 */
-    if (((Bin *)msm4g_linkedlist_get(bin->neighbors,0))->cantorindex != 8) return false;
+    if (((Bin *)msm4g_linkedlist_get(bin->neighbors,0))->cantorindex != 8) status = false;
     /* It should contain three particles */
-    if (msm4g_linkedlist_size(bin->particles) != 3) return false;
+    if (msm4g_linkedlist_size(bin->particles) != 3) status = false;
     
     msm4g_bin_destroy(binlist);
     free(particlelist);
+    msm4g_test_assert("Binning the simulation box for short-range calculation", status == true);
+
     return status;
 }
 
@@ -317,21 +344,25 @@ Boolean msm4g_unit_test_7()
     int xexpected[4][4] = {{0,1,3,6},{2,4,7,11},{5,8,12,17},{9,13,18,24}};
     int vector2d[2];
     
-    
-    
     /* Checking factorial function */
     for (i=0; i<6; i++)
-        if (msm4g_math_factorial(inp[i]) != out[i])
-            return false;
+        if (msm4g_math_factorial(inp[i]) != out[i]) {
+            status = false;
+            break;
+        }
     for (i=0; i<4; i++)
     {
         for (j=0; j<4; j++)
         {
             vector2d[0] = i; vector2d[1]=j;
             x[i][j] = msm4g_math_cantor(vector2d,2);
-            if (x[i][j] != xexpected[i][j]) return false;
+            if (x[i][j] != xexpected[i][j]) {
+                status = false;
+                break;
+            }
         }
     }
+    msm4g_test_assert("Cantor pairing function", status == true);
     return status;
 }
 
@@ -344,20 +375,36 @@ Boolean msm4g_unit_test_8()
     for (i=0; i<n; i++)
     {
         /* \gamma(1.0)  = 1.0 for all gamma function. */
-        if (fabs(msm4g_smoothing_gama(1,i+1)-1.0) > DBL_EPSILON) return false;
+        if (fabs(msm4g_smoothing_gama(1,i+1)-1.0) > DBL_EPSILON) {
+            status = false;
+            break;
+        }
         /* \gamma'(1.0) = -1.0 for all gamma function. */
-        if (fabs(msm4g_smoothing_gamaprime(1,i+1)+1.0) > DBL_EPSILON) return false;
+        if (fabs(msm4g_smoothing_gamaprime(1,i+1)+1.0) > DBL_EPSILON) {
+            status = false;
+            break;
+        }
         /* \gamma'(0.0) = 0.0 for all gamma function. */
-        if (fabs(msm4g_smoothing_gamaprime(0,i+1)-0.0) > DBL_EPSILON) return false;
+        if (fabs(msm4g_smoothing_gamaprime(0,i+1)-0.0) > DBL_EPSILON) {
+            status = false;
+            break;
+        }
 
     }
     /* \gamma(0.0) = 3/2 for C1 gamma */
-    if (fabs(msm4g_smoothing_gama(0,2)-3.0/2.0)   > DBL_EPSILON) return false;
+    if (fabs(msm4g_smoothing_gama(0,2)-3.0/2.0)   > DBL_EPSILON) {
+        status = false;
+    }
     /* \gamma(0.0) = 15/8 for C2 gamma */
-    if (fabs(msm4g_smoothing_gama(0,3)-15.0/8.0)  > DBL_EPSILON) return false;
+    if (fabs(msm4g_smoothing_gama(0,3)-15.0/8.0)  > DBL_EPSILON) {
+        status = false;
+    }
     /* \gamma(0.0) = 35/16 for C3 gamma */
-    if (fabs(msm4g_smoothing_gama(0,4)-35.0/16.0) > DBL_EPSILON) return false;
+    if (fabs(msm4g_smoothing_gama(0,4)-35.0/16.0) > DBL_EPSILON) {
+        status = false;
+    }
 
+    msm4g_test_assert("Smoothing functions aka even-powered softeners", status == true);
     return status;
 }
 
@@ -395,6 +442,8 @@ Boolean msm4g_unit_test_9()
     }
 
     msm4g_simulation_delete(simulation);
+    msm4g_test_assert("Short-range potential energy for a 6-particle case", teststatus == true);
+
     return teststatus;
 }
 
@@ -410,7 +459,7 @@ Boolean msm4g_unit_test_10()
         
     grid = msm4g_grid_dense_new(nx,ny,nz,h,h,h);
     /* Check if it could allocated the object */
-    if (grid == NULL) return false;
+    if (grid == NULL) status = false;
     
     grid->reset(grid,0.0);
     
@@ -418,8 +467,10 @@ Boolean msm4g_unit_test_10()
     
     msm4g_grid_destroy(&grid);
     /* The grid should point to NULL after destruction */
-    if (grid != NULL) return false;
+    if (grid != NULL) status = false;
     
+    msm4g_test_assert("Dense grid implementation", status == true);
+
     return status;
 }
 
@@ -455,11 +506,13 @@ Boolean msm4g_unit_test_11()
     
 
     msm4g_simulation_delete(simulation);
+    msm4g_test_assert("Anterpolation for a special single-particle case", teststatus == true);
     return teststatus;
 }
 
 Boolean msm4g_unit_test_12()
 {
+    Boolean teststatus = true;
     /* Expected values are from Table I of doi:10.1063/1.4943868 */
     char *omegaprimeCubicExpected[13] = {"3.464","-1.732", "0.679","-0.240","0.080","-0.026","0.008","-0.002","0.001","-0.000","0.000","-0.000","0.000"};
     char *omegaprimeQuinticExpected[13] = {"12.379","-9.377", "5.809","-3.266","1.735","-0.889","0.444","-0.217","0.105","-0.050","0.024","-0.011","0.005"};
@@ -470,17 +523,25 @@ Boolean msm4g_unit_test_12()
         char *expectedQuintic = omegaprimeQuinticExpected[i];
         char calculated[7]  ;
         sprintf(&(calculated[0]),"%5.3f",omegaprimeCubicCalculated[i]);
-        if (strcmp(expectedCubic, calculated) != 0) return false ;
+        if (strcmp(expectedCubic, calculated) != 0) {
+            teststatus = false;
+            break;
+        }
         sprintf(&(calculated[0]),"%5.3f",omegaprimeQuinticCalculated[i]);
-        if (strcmp(expectedQuintic, calculated) != 0) return false ;
+        if (strcmp(expectedQuintic, calculated) != 0) {
+            teststatus = false;
+            break;
+        }
     }
     free(omegaprimeCubicCalculated);
     free(omegaprimeQuinticCalculated);
-    return true;
+    msm4g_test_assert("Quasi-interpolation coefficients (omegaprime)", teststatus == true);
+    return teststatus;
 }
 
 Boolean msm4g_unit_test_13()
 {
+    Boolean teststatus = true;
     const int ntest = 9;
     const int cubic = 4;
     const int quintic = 6;
@@ -498,16 +559,30 @@ Boolean msm4g_unit_test_13()
       double calculatedCubicPrime   = msm4g_bases_bsplineprime(cubic  ,cubic  *i/(double)(ntest-1));
       double calculatedQuintic      = msm4g_bases_bspline     (quintic,quintic*i/(double)(ntest-1));
       double calculatedQuinticPrime = msm4g_bases_bsplineprime(quintic,quintic*i/(double)(ntest-1));
-      if (fabs(expectedCubic       -calculatedCubic)        > DBL_EPSILON) return false;
-      if (fabs(expectedCubicPrime  -calculatedCubicPrime)   > DBL_EPSILON) return false;
-      if (fabs(expectedQuintic     -calculatedQuintic)      > DBL_EPSILON) return false;
-      if (fabs(expectedQuinticPrime-calculatedQuinticPrime) > DBL_EPSILON) return false;
+      if (fabs(expectedCubic       -calculatedCubic)        > DBL_EPSILON) {
+          teststatus = true;
+          break;
+      }
+      if (fabs(expectedCubicPrime  -calculatedCubicPrime)   > DBL_EPSILON) {
+          teststatus = true;
+          break;
+      }
+      if (fabs(expectedQuintic     -calculatedQuintic)      > DBL_EPSILON) {
+          teststatus = true;
+          break;
+      }
+      if (fabs(expectedQuinticPrime-calculatedQuinticPrime) > DBL_EPSILON) {
+          teststatus = true;
+          break;
+      }
     }
-    return true;
+    msm4g_test_assert("Implementation of B-Spline and its derivatives", teststatus == true);
+    return teststatus;
 }
 
 Boolean msm4g_unit_test_14()
 {
+    Boolean teststatus = true;
     double expectedgama[5][4] =  {
             {  3/  2.0,     11/     8.0, 1, 2/3.0}, /* nu = 2 */
             { 15/  8.0,    203/   128.0, 1, 2/3.0}, /* nu = 3 */
@@ -525,11 +600,18 @@ Boolean msm4g_unit_test_14()
             double rho = i / 2.0 ;
             double gama = msm4g_smoothing_gama(rho,nu);
             double gamaprime = msm4g_smoothing_gamaprime(rho,nu);
-            if (fabs(gama     -expectedgama[nu-2][i])      > DBL_EPSILON) return false;
-            if (fabs(gamaprime-expectedgamaprime[nu-2][i]) > DBL_EPSILON) return false;
+            if (fabs(gama     -expectedgama[nu-2][i])      > DBL_EPSILON) {
+                teststatus = false;
+                break;
+            }
+            if (fabs(gamaprime-expectedgamaprime[nu-2][i]) > DBL_EPSILON) {
+                teststatus = false;
+                break;
+            }
         }
     }
-    return true;
+    msm4g_test_assert("Even-powered softener", teststatus == true);
+    return teststatus;
 }
 
 Boolean msm4g_unit_test_15()
@@ -575,6 +657,8 @@ Boolean msm4g_unit_test_15()
     msm4g_bin_destroy(binlist);
 
     double relativeError = fabs(simulation->output->potentialEnergyShortRange-expected)/fabs(expected);
+    msm4g_test_assert("Short-range potential energy for ChaNGa N=8",  relativeError < 1E-14);
+
     if (relativeError > 1E-14) {
         teststatus = false;
     }
@@ -587,6 +671,7 @@ Boolean msm4g_unit_test_15()
             break;
         }
     }
+    msm4g_test_assert("Short-range force for ChaNGa N=8",  teststatus == true );
 
     msm4g_simulation_delete(simulation);
     return teststatus;
@@ -628,19 +713,24 @@ Boolean msm4g_unit_test_16()
             }
         }
     }
-
+    msm4g_test_assert("Anterpolation for ChaNGa N=8",  teststatus == true );
     msm4g_simulation_delete(simulation);
     return teststatus;
 }
 
 Boolean msm4g_unit_test_17() {
+    Boolean teststatus = true;
     for (int i = 0 ; i < 80 ; i++) {
         double aL = 2 + i/10.0 ;
         double beta = msm4g_util_choose_beta(aL);
-        double outcome = erfc(beta*aL)/aL ;
-        if (fabs(outcome) > 1E-13) return false;
+        double outcome = fabs(erfc(beta*aL)/aL) ;
+        if (outcome > 1E-13) {
+            teststatus = false;
+            break;
+        }
     }
-    return true;
+    msm4g_test_assert("Choosing optimal Ewald's splitting parameter",  teststatus == true );
+    return teststatus;
 }
 
 Boolean msm4g_unit_test_18() {
@@ -675,6 +765,7 @@ Boolean msm4g_unit_test_18() {
             }
         }
     }
+    msm4g_test_assert("Finest level stencil (l=1) for ChaNGa N=8 case ",  teststatus == true );
     msm4g_simulation_delete(simulation);
     return teststatus ;
 }
@@ -711,6 +802,8 @@ Boolean msm4g_unit_test_19() {
             }
         }
     }
+    msm4g_test_assert("Fourier stencil (l=L+1) for ChaNGa N=8 case ",  teststatus == true );
+
     msm4g_simulation_delete(simulation);
     return teststatus ;
 }
@@ -754,6 +847,14 @@ Boolean msm4g_unit_test_20() {
             }
         }
     }
+    msm4g_test_assert("Long-range direct grid potential for ChaNGa N=8 case ",  teststatus == true );
+
+
+    double ulong_direct = 0.5 * gridpotential->innerProduct(gridpotential,gridmass) ;
+    double ulong_directExpected = -3.7167393212395380e-09;
+    double relerr = fabs(ulong_direct-ulong_directExpected)/fabs(ulong_directExpected);
+    msm4g_test_assert("Long-range direct potential energy for ChaNGa N=8 data", relerr < 1E-13 );
+
     msm4g_simulation_delete(simulation);
     return teststatus ;
 }

@@ -10,6 +10,17 @@
 
 #include "msm4g_lib.h"
 
+/** @brief Display the overall status of all tests.
+ */
+void msm4g_test_summary();
+
+/** @brief Add a new test.
+ *
+ * @param[in] name A short description for the test (64 chars)
+ * @param[in] status Test status
+ */
+void msm4g_test_assert(const char *name,int status);
+
 /** @brief Runs all tests.
  *
  * All test functions are sequentiall run and their results
