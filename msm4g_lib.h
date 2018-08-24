@@ -792,5 +792,13 @@ int msm4g_util_face_enumerate(int n,SimulationParameters *sp);
  */
 double msm4g_util_choose_beta(double aL);
 
+/** @brief Calculates the coefficients needed for interpolation at (L+1)th level
+ * Refer eq:calpha in the manuscript
+ * @param[in] k wavenumber in Fourier transform
+ * @param[in] M The number of grid points
+ * @param[in] nu Order of interpolation
+ * @return value of the coefficient
+ */
+double msm4g_util_calculate_c(int k, double M, int nu);
 #endif /* MSM4G_LIB_H */
 

@@ -74,9 +74,41 @@ void msm4g_stencil(Simulation *simulation, int l) {
              }
            }
     } else if (l == L + 1) {
-
+        double detA = Ax * Ay * Az ;
+        for (int mx = Mxmin; mx <= Mxmax; mx++) {
+            for (int my = Mymin; my <= Mymax; my++) {
+                for (int mz = Mzmin; mz <= Mzmax; mz++) {
+                    double sum = 0.0;
+                    int kmax = KMAX ;
+                    for (int kx = -kmax; kx <= kmax; kx++) {
+                        for (int ky = -kmax; ky <= kmax; ky++) {
+                            for (int kz = -kmax; kz <= kmax; kz++) {
+                                if (kx == 0 && ky == 0 && kz == 0)
+                                    continue;
+                                double kvecx = kx / Ax; // kvec = inv(A) * k
+                                double kvecy = ky / Ay;
+                                double kvecz = kz / Az;
+                                double k2 = kvecx * kvecx + kvecy * kvecy + kvecz * kvecz;
+                                // Eq. 5
+                                double chi = (1.0 / (MYPI * k2 * detA))
+                                * exp(-MYPI * MYPI * k2 / (beta * beta));
+                                double dotprod = kx * mx / (double) Mx + ky * my / (double) My
+                                + kz * mz / (double) Mz;
+                                
+                                double cx = msm4g_util_calculate_c(kx, Mx, nu);
+                                double cy = msm4g_util_calculate_c(ky, My, nu);
+                                double cz = msm4g_util_calculate_c(kz, Mz, nu);
+                                
+                                double c2 = cx * cx * cy * cy * cz * cz;
+                                sum += chi * c2 * cos(2 * MYPI * dotprod);
+                            }
+                        }
+                    }
+                    stencil->setElement(stencil,mx - Mxmin,my - Mymin,mz - Mzmin,sum);
+                }
+            }
+        }
     }
-
 }
 
 Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean periodic,int order,double abar,int mu) {
@@ -1631,4 +1663,13 @@ double msm4g_util_choose_beta(double aL) {
     iter++;
   }
   return a;
+}
+
+double msm4g_util_calculate_c(int k, double M, int nu) {
+    double c = msm4g_bases_bspline(nu, nu/2);
+    // Use the fact that sin components cancel
+    for (int m = 1; m <= nu / 2 - 1; m++) {
+        c += 2 * cos(2 * MYPI * k * m / M) * msm4g_bases_bspline(nu, m + nu/2);
+    }
+    return 1.0 / c;
 }

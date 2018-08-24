@@ -36,8 +36,8 @@
 #define FACE_MAXLEN 40000
 #define TOL_DIRECT  1E-8
 #define TOL_FOURIER 1E-8
-#define KMAX  15
-#define PMAX  15
+#define KMAX  10
+#define PMAX  10
 #define MYPI  3.141592653589793238462643
 
 #endif /* msm4g_constants_h */

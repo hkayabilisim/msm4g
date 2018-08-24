@@ -34,6 +34,7 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_16);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_17);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_18);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_19);
 
     numberoftests = msm4g_linkedlist_size(list);
 
@@ -641,26 +642,23 @@ Boolean msm4g_unit_test_17() {
     return true;
 }
 
-Boolean msm4g_unit_test_18()
-{
+Boolean msm4g_unit_test_18() {
     Boolean teststatus = true;
-    Boolean periodic = true;
-    int order = 4;
-    int mu = 2;
-    double abar = 4.0;
+    Simulation *simulation;
+    SimulationBox *box = msm4g_box_newCube(0, 1);
+    double abar = 4; int mu = 2, nu=4;
     double expectedStencil[8]={
-             -1.3520616062548170e+00,
-             -9.4913504094504164e-01,
-             -9.4913504094505674e-01,
-             -1.4517381318540108e+00,
-             -9.4913504094507251e-01,
-             -1.4517381318540097e+00,
-             -1.4517381318540270e+00,
-             -7.4972040638605975e-01};
-
-    SimulationBox *unitCube = msm4g_box_newCube(0,1);
-    Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu);
-    msm4g_simulation_run(simulation);
+        -1.3520616062548170e+00,
+        -9.4913504094504164e-01,
+        -9.4913504094505674e-01,
+        -1.4517381318540108e+00,
+        -9.4913504094507251e-01,
+        -1.4517381318540097e+00,
+        -1.4517381318540270e+00,
+        -7.4972040638605975e-01};
+    simulation = msm4g_simulation_new("data/changaN8.ini", box, true, nu, abar, mu);
+    simulation->parameters->wprime = msm4g_util_omegaprime(mu, nu);
+    msm4g_stencil(simulation,1);
     AbstractGrid *stencil = simulation->stencil[0] ;
     int counter = 0;
     for (int i = 0 ; i < stencil->nx ; i++) {
@@ -677,5 +675,41 @@ Boolean msm4g_unit_test_18()
         }
     }
     msm4g_simulation_delete(simulation);
-    return teststatus;
+    return teststatus ;
+}
+
+Boolean msm4g_unit_test_19() {
+    Boolean teststatus = true;
+    Simulation *simulation;
+    SimulationBox *box = msm4g_box_newCube(0, 1);
+    double abar = 4; int mu = 2, nu=4;
+    double expectedStencil[8]={
+         1.0851808276232970e-01,
+         3.2303700297738790e-02,
+         3.2303700297738797e-02,
+        -3.5995955342006558e-02,
+         3.2303700297738790e-02,
+        -3.5995955342006565e-02,
+        -3.5995955342006558e-02,
+        -9.7441312733713745e-02};
+    simulation = msm4g_simulation_new("data/changaN8.ini", box, true, nu, abar, mu);
+    simulation->parameters->wprime = msm4g_util_omegaprime(mu, nu);
+    msm4g_stencil(simulation,2);
+    AbstractGrid *stencil = simulation->stencil[1] ;
+    int counter = 0;
+    for (int i = 0 ; i < stencil->nx ; i++) {
+        for (int j = 0 ; j < stencil->ny ; j++) {
+            for (int k = 0 ; k < stencil->nz ; k++) {
+                double calculated = stencil->getElement(stencil,i,j,k);
+                double expected = expectedStencil[counter++];
+                double relerr = fabs(expected-calculated)/fabs(expected);
+                if (relerr > 1E-15) {
+                    teststatus = false;
+                    break;
+                }
+            }
+        }
+    }
+    msm4g_simulation_delete(simulation);
+    return teststatus ;
 }

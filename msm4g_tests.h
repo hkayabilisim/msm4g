@@ -274,4 +274,10 @@ Boolean msm4g_unit_test_17();
  */
 Boolean msm4g_unit_test_18();
 
+/** @brief Checks the Fourier stencil (l=L+1)
+ * It calculates the Fourier stencil and compare with the
+ * previously calculated stencil for ChaNGa,N=8.
+ * @return true if the test is successful, false otherwise
+ */
+Boolean msm4g_unit_test_19();
 #endif /* MSM4G_TESTS_H */
