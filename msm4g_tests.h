@@ -280,4 +280,11 @@ Boolean msm4g_unit_test_18();
  * @return true if the test is successful, false otherwise
  */
 Boolean msm4g_unit_test_19();
+
+/** @brief Checks grid-to-grid interaction
+ * It calculates the grid potential at the finest level
+ * and compares with the reference calculation.
+ * @return true if the test is successful, false otherwise
+ */
+Boolean msm4g_unit_test_20();
 #endif /* MSM4G_TESTS_H */

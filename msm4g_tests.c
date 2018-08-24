@@ -35,6 +35,7 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_17);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_18);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_19);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_20);
 
     numberoftests = msm4g_linkedlist_size(list);
 
@@ -441,7 +442,7 @@ Boolean msm4g_unit_test_11()
     simulation->parameters->Mz = 1;
     simulation->parameters->h  = h ;
 
-    msm4g_simulation_run(simulation);
+    msm4g_anterpolation(simulation);
     
     grid = simulation->gridmass[0];
     for (int i = 0 ; i < grid->nx ; i++)
@@ -704,6 +705,49 @@ Boolean msm4g_unit_test_19() {
                 double expected = expectedStencil[counter++];
                 double relerr = fabs(expected-calculated)/fabs(expected);
                 if (relerr > 1E-15) {
+                    teststatus = false;
+                    break;
+                }
+            }
+        }
+    }
+    msm4g_simulation_delete(simulation);
+    return teststatus ;
+}
+
+Boolean msm4g_unit_test_20() {
+    Boolean teststatus = true;
+    Simulation *simulation;
+    SimulationBox *box = msm4g_box_newCube(0, 1);
+    AbstractGrid *gridmass, *stencil, *gridpotential ;
+    double abar = 4; int mu = 2, nu=4;
+    double expectedGridPotential[8]={
+            -9.3061877307840736e-05,
+            -9.3097951153701136e-05,
+            -9.2954546714539408e-05,
+            -9.2871931968335362e-05,
+            -9.2952820688462027e-05,
+            -9.3032000011357695e-05,
+            -9.2935824736697383e-05,
+            -9.2931045891068162e-05};
+
+    simulation = msm4g_simulation_new("data/changaN8.ini", box, true, nu, abar, mu);
+    simulation->parameters->wprime = msm4g_util_omegaprime(mu, nu);
+    msm4g_stencil(simulation,1);
+    msm4g_anterpolation(simulation);
+    gridmass = simulation->gridmass[0] ;
+    stencil = simulation->stencil[0] ;
+    gridpotential = simulation->gridpotential[0] ;
+    msm4g_grid_potential(stencil,gridmass,gridpotential);
+
+    int counter = 0;
+    for (int i = 0 ; i < gridpotential->nx ; i++) {
+        for (int j = 0 ; j < gridpotential->ny ; j++) {
+            for (int k = 0 ; k < gridpotential->nz ; k++) {
+                double calculated = gridpotential->getElement(gridpotential,i,j,k);
+                double expected = expectedGridPotential[counter++];
+                double relerr = fabs(expected-calculated)/fabs(expected);
+                if (relerr > 1E-13) {
                     teststatus = false;
                     break;
                 }

@@ -155,6 +155,9 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
     {
         int l,Mx,My,Mz;
         double hx,hy,hz;
+        int extension = sp->nu - 1;
+        if (periodic == true)
+            extension = 0;
 
         for (l = 1 ; l <= sp->L ; l++) {
             int Mx = sp->Mx / pow(2,l-1) ;
@@ -163,7 +166,9 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
             double hx = sp->hx * pow(2,l-1);
             double hy = sp->hy * pow(2,l-1);
             double hz = sp->hz * pow(2,l-1);
-            simulation->stencil[l-1] = msm4g_grid_dense_new(Mx,My,Mz,hx,hy,hz);
+            simulation->stencil[l-1] = msm4g_grid_dense_new(Mx+extension,My+extension,Mz+extension,hx,hy,hz);
+            simulation->gridpotential[l-1] = msm4g_grid_dense_new(Mx+extension,My+extension,Mz+extension,hx,hy,hz);
+            simulation->gridmass[l-1]      = msm4g_grid_dense_new(Mx+extension,My+extension,Mz+extension,hx,hy,hz);
         }
         Mx = sp->Mx / pow(2,L-1) ;
         My = sp->My / pow(2,L-1) ;
@@ -171,7 +176,9 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
         hx = sp->hx * pow(2,L-1) ;
         hy = sp->hy * pow(2,L-1) ;
         hz = sp->hz * pow(2,L-1) ;
-        simulation->stencil[L] = msm4g_grid_dense_new(Mx,My,Mz,hx,hy,hz);
+        simulation->stencil[L] = msm4g_grid_dense_new(Mx+extension,My+extension,Mz+extension,hx,hy,hz);
+        simulation->gridpotential[L] = msm4g_grid_dense_new(Mx+extension,My+extension,Mz+extension,hx,hy,hz);
+        simulation->gridmass[L]      = msm4g_grid_dense_new(Mx+extension,My+extension,Mz+extension,hx,hy,hz);
     }
     simulation->box = box;
     simulation->particles = particles ;
@@ -194,6 +201,14 @@ void msm4g_simulation_run(Simulation *simulation) {
     for (int l = 1 ; l <= sp->L + 1; l++) {
         msm4g_stencil(simulation,l);
     }
+
+    /* Grid-to-grid mapping */
+    for (int l = 1 ; l <= sp->L + 1; l++) {
+        AbstractGrid *stencil = simulation->stencil[l-1];
+        AbstractGrid *gridmass = simulation->gridmass[l-1];
+        AbstractGrid *gridpotential = simulation->gridpotential[l-1];
+        msm4g_grid_potential(stencil,gridmass,gridpotential);
+    }
     /* Calculate short-range potential energy */
     {
         double energy = 0.0;
@@ -208,12 +223,15 @@ void msm4g_simulation_run(Simulation *simulation) {
 }
 
 void msm4g_simulation_delete(Simulation *simulation) {
-    for (int l = 0 ; l < simulation->parameters->L ; l++) {
+    for (int l = 0 ; l <= simulation->parameters->L ; l++) {
         if (simulation->gridmass[l] != NULL)
             msm4g_grid_destroy(&(simulation->gridmass[l]));
+        if (simulation->gridpotential[l] != NULL)
+            msm4g_grid_destroy(&(simulation->gridpotential[l]));
+        if (simulation->stencil[l] != NULL)
+            msm4g_grid_destroy(&(simulation->stencil[l]));
     }
-    for (int l = 0 ; l <= simulation->parameters->L ; l++)
-        msm4g_grid_destroy(&(simulation->stencil[l]));
+
     msm4g_box_destroy(simulation->box);
     free(simulation->parameters->wprime);
     free(simulation->particles);
@@ -231,9 +249,6 @@ void msm4g_anterpolation(Simulation *simulation)
     double rx_hx,ry_hy,rz_hz;
     int s_edge;
     double h = simulation->parameters->h ;
-    double hx = simulation->parameters->hx ;
-    double hy = simulation->parameters->hy ;
-    double hz = simulation->parameters->hz ;
     int Mx = simulation->parameters->Mx ;
     int My = simulation->parameters->My ;
     int Mz = simulation->parameters->Mz ;
@@ -251,8 +266,8 @@ void msm4g_anterpolation(Simulation *simulation)
     y0 = box->location.value[1];
     z0 = box->location.value[2];
 
+    grid = simulation->gridmass[0];
     if (simulation->parameters->periodic == true) {
-        grid = msm4g_grid_dense_new(Mx,My,Mz,hx,hy,hz);
         /** @todo Anterpolation should be implemented according to
          * section 4.4 of the manuscript. */
         for (int mx = 0 ; mx < Mx ; mx++) {
@@ -289,7 +304,6 @@ void msm4g_anterpolation(Simulation *simulation)
         }
     } else {
         s_edge = p/2-1;
-        grid = msm4g_grid_dense_new(Mx+p-1,My+p-1,Mz+p-1, hx,hy,hz);
         for (int particleindex = 0 ; particleindex < N ; particleindex++) {
         
             Particle *particle = &(particles[particleindex]);
@@ -330,7 +344,6 @@ void msm4g_anterpolation(Simulation *simulation)
             }
         }
     }
-    simulation->gridmass[0] = grid ;
 }
 
 void msm4g_grid_print(AbstractGrid *grid)
@@ -415,6 +428,37 @@ void msm4g_grid_dense_destroy(AbstractGrid **grid)
     densegrid->data = NULL;
 }
 
+void msm4g_grid_potential(AbstractGrid *stencil, AbstractGrid *gridmass, AbstractGrid *gridpotential) {
+    int Mx = stencil->nx ;
+    int My = stencil->ny ;
+    int Mz = stencil->nz ;
+    for (int mx = 0 ; mx < gridpotential->nx ; mx++) {
+        for (int my = 0 ; my < gridpotential->ny ; my++) {
+            for (int mz = 0 ; mz < gridpotential->nz ; mz++) {
+                double potentialsum = 0.0;
+                for (int nx = 0 ; nx < gridpotential->nx ; nx++) {
+                    for (int ny = 0 ; ny < gridpotential->ny ; ny++) {
+                        for (int nz = 0 ; nz < gridpotential->nz ; nz++) {
+                            int mnx = mx - nx;
+                            int mny = my - ny;
+                            int mnz = mz - nz;
+                            if (mnx < 0 ) do { mnx += Mx ; } while (mnx < 0 ) ;
+                            if (mnx > Mx) do { mnx -= Mx ; } while (mnx > Mx) ;
+                            if (mny < 0 ) do { mny += My ; } while (mny < 0 ) ;
+                            if (mny > My) do { mny -= My ; } while (mny > My) ;
+                            if (mnz < 0 ) do { mnz += Mz ; } while (mnz < 0 ) ;
+                            if (mnz > Mz) do { mnz -= Mz ; } while (mnz > Mz) ;
+                            double stencilvalue = stencil->getElement(stencil,mnx,mny,mnz);
+                            double gridmassvalue = gridmass->getElement(gridmass,nx,ny,nz);
+                            potentialsum += stencilvalue * gridmassvalue ;
+                        }
+                    }
+                }
+                gridpotential->setElement(gridpotential,mx,my,mz,potentialsum);
+            }
+        }
+    }
+}
 double msm4g_smoothing_gama(double rho,int nu)
 {
     double out;

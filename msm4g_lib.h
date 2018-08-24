@@ -142,6 +142,16 @@ void msm4g_grid_dense_reset(AbstractGrid *grid,double value);
  */
 void msm4g_grid_dense_destroy(AbstractGrid **densegrid);
 
+/** @brief Calculate grid-to-grid interaction to get grid potentials
+ *
+ * @todo Write down the LateX formula
+ *
+ * @param[in] stencil
+ * @param[in] gridmass
+ * @param[in,out] gridpotential
+ */
+void msm4g_grid_potential(AbstractGrid *stencil, AbstractGrid *gridmass, AbstractGrid *gridpotential);
+
 /** @brief Even-powered Softener
  *
  \f[
