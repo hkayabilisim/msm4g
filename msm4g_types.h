@@ -387,7 +387,7 @@ typedef struct Simulation
     struct SimulationBox        *box;        /**< Geometry of the simulation. */
     Particle                    *particles;  /**< The collection of the particles in the SimulationBox */
     struct SimulationOutput     *output;     /**< Stores simulation outcomes */
-    struct AbstractGrid         *grid;       /**< Finest level grid */
+    struct AbstractGrid         *gridmass[LMAX];       /**< Finest level grid */
     AbstractGrid                *stencil[LMAX] ; /**< Array of stencils. */
 } Simulation;
 #endif /* MSM4G_TYPES_H */

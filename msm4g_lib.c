@@ -208,8 +208,10 @@ void msm4g_simulation_run(Simulation *simulation) {
 }
 
 void msm4g_simulation_delete(Simulation *simulation) {
-    if (simulation->grid != NULL)
-        msm4g_grid_destroy(&(simulation->grid));
+    for (int l = 0 ; l < simulation->parameters->L ; l++) {
+        if (simulation->gridmass[l] != NULL)
+            msm4g_grid_destroy(&(simulation->gridmass[l]));
+    }
     for (int l = 0 ; l <= simulation->parameters->L ; l++)
         msm4g_grid_destroy(&(simulation->stencil[l]));
     msm4g_box_destroy(simulation->box);
@@ -328,7 +330,7 @@ void msm4g_anterpolation(Simulation *simulation)
             }
         }
     }
-    simulation->grid = grid ;
+    simulation->gridmass[0] = grid ;
 }
 
 void msm4g_grid_print(AbstractGrid *grid)

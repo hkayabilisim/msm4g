@@ -443,7 +443,7 @@ Boolean msm4g_unit_test_11()
 
     msm4g_simulation_run(simulation);
     
-    grid = simulation->grid;
+    grid = simulation->gridmass[0];
     for (int i = 0 ; i < grid->nx ; i++)
         for (int j = 0 ; j < grid->ny ; j++)
             for (int k = 0 ; k < grid->nz ; k++)
@@ -612,7 +612,7 @@ Boolean msm4g_unit_test_16()
 
     msm4g_anterpolation(simulation);
 
-    AbstractGrid *grid = simulation->grid ;
+    AbstractGrid *grid = simulation->gridmass[0] ;
     int counter = 0;
     for (int mx = 0 ; mx < simulation->parameters->Mx ; mx++) {
         for (int my = 0 ; my < simulation->parameters->My ; my++) {
