@@ -346,6 +346,64 @@ void msm4g_anterpolation(Simulation *simulation)
     }
 }
 
+void msm4g_interpolation(Simulation *simulation) {
+    int N = simulation->parameters->N ;
+    int nu = simulation->parameters->nu ;
+    int Mx = simulation->gridpotential[0]->nx;
+    int My = simulation->gridpotential[0]->ny;
+    int Mz = simulation->gridpotential[0]->nz;
+    double Ax = simulation->box->wx ;
+    double Ay = simulation->box->wy ;
+    double Az = simulation->box->wz ;
+    AbstractGrid *em = simulation->gridpotential[0];
+    double hx = em->hx ;
+    double hy = em->hy ;
+    double hz = em->hz ;
+
+    for (int i = 0 ; i < N ; i++) {
+        Particle *particle = &simulation->particles[i];
+        double sx = particle->r.value[0] / Ax ;
+        double sy = particle->r.value[1] / Ay ;
+        double sz = particle->r.value[2] / Az ;
+
+        for (int mx = 0 ; mx < Mx ; mx++) {
+            for (int my = 0 ; my < My ; my++) {
+                for (int mz = 0 ; mz < Mz ; mz++) {
+                    double gridPotential = em->getElement(em,mx,my,mz);
+                    double varphidx  = 0.0;
+                    double varphidy  = 0.0;
+                    double varphidz  = 0.0;
+                    int pxmin = (-nu/2 + Mx * sx - mx)/Mx ;
+                    int pxmax = (+nu/2 + Mx * sx - mx)/Mx ;
+                    int pymin = (-nu/2 + My * sy - my)/My ;
+                    int pymax = (+nu/2 + My * sy - my)/My ;
+                    int pzmin = (-nu/2 + Mz * sz - mz)/Mz ;
+                    int pzmax = (+nu/2 + Mz * sz - mz)/Mz ;
+                    
+                    for (int px = pxmin; px <= pxmax; px++) {
+                        for (int py = pymin; py <= pymax; py++) {
+                            for (int pz = pzmin; pz <= pzmax; pz++) {
+                                double dphix = msm4g_bases_bsplineprime(nu, Mx * (sx - px) - mx + nu / 2);
+                                double dphiy = msm4g_bases_bsplineprime(nu, My * (sy - py) - my + nu / 2);
+                                double dphiz = msm4g_bases_bsplineprime(nu, Mz * (sz - pz) - mz + nu / 2);
+                                double  phix = msm4g_bases_bspline(nu, Mx * (sx - px) - mx + nu / 2);
+                                double  phiy = msm4g_bases_bspline(nu, My * (sy - py) - my + nu / 2);
+                                double  phiz = msm4g_bases_bspline(nu, Mz * (sz - pz) - mz + nu / 2);
+                                varphidx +=  dphix *  phiy *  phiz / hx;
+                                varphidy +=   phix * dphiy *  phiz / hy;
+                                varphidz +=   phix *  phiy * dphiz / hz;
+                            }
+                        }
+                    }
+                    particle->acc_long[0] += gridPotential * varphidx ;
+                    particle->acc_long[1] += gridPotential * varphidy ;
+                    particle->acc_long[2] += gridPotential * varphidz ;
+                }
+            }
+        }
+    }
+}
+
 void msm4g_grid_print(AbstractGrid *grid)
 {
     for (int i = 0 ; i < grid->nx ; i++) {

@@ -92,6 +92,7 @@ typedef struct Particle
     D3Vector flong;    /**< force produced by long-range interactions.  */
     double potential_short_real ; /**< Short-range potential */
     double acc_short[3]; /**< Short-range acceleration */
+    double acc_long[3]; /**< Long-range acceleration */
 } Particle;
 
 /** @brief The cubical domains obtained by dividing the simulation box.

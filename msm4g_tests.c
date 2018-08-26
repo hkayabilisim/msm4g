@@ -757,6 +757,17 @@ Boolean msm4g_unit_test_18() {
            -1.4517381318540097e+00,
            -1.4517381318540270e+00,
            -7.4972040638605975e-01};
+      double expectedLongRangeDirect[8][3] = {
+        {  -2.0221203437514727e-08,   -3.4120584401363536e-08,    1.0967226992243082e-08},
+        {   5.5911058228303175e-08,   -4.7150865262371324e-09,   -1.0321231394819177e-08},
+        {   9.8297454310915992e-09,    1.4625963011693382e-07,    3.0226446776772781e-11},
+        {   4.1048738789539410e-08,   -9.9766301787060396e-08,    3.0331928852670944e-09},
+        {  -3.1581410569515256e-08,    9.3210952830938618e-08,    8.5503795007285086e-09},
+        {  -2.4716036949454576e-08,    1.2095334930925793e-07,    5.4759434106194116e-09},
+        {   3.0514211542484741e-08,   -1.2408520109851692e-07,   -6.4058839695070396e-09},
+        {   9.7918293733630186e-09,   -8.6749656915278473e-08,    2.4105504664461737e-08},
+        
+       };
        simulation = msm4g_simulation_new("data/changaN8.ini", box, true, nu, abar, mu);
        simulation->parameters->wprime = msm4g_util_omegaprime(mu, nu);
        msm4g_stencil(simulation,1);
@@ -805,6 +816,25 @@ Boolean msm4g_unit_test_18() {
        double relerr = fabs(ulong_direct-ulong_directExpected)/fabs(ulong_directExpected);
        msm4g_test_assert("Long-range direct potential energy for ChaNGa N=8 data", relerr < 1E-13 );
 
+    msm4g_interpolation(simulation);
+    {
+        int N = 8;
+        Boolean status  = true;
+        for (int i = 0 ; i < N ; i++)
+        {
+            for (int j = 0 ; j < 3 ; j++) {
+                double expected = expectedLongRangeDirect[i][j];
+                double calculated = simulation->particles[i].acc_long[j] ;
+                double relerr = fabs(expected-calculated)/fabs(expected);
+                if (relerr > 1E-11) {
+                    status = false;
+                    break;
+                }
+            }
+        }
+        msm4g_test_assert("Long-range direct acceleration for ChaNGa N=8 data", status == true);
+    }
+    
        msm4g_simulation_delete(simulation);
        return teststatus ;
 }

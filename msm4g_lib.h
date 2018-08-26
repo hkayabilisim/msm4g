@@ -63,6 +63,15 @@ void msm4g_simulation_delete(Simulation *simulation);
  */
 void msm4g_anterpolation(Simulation *simulation);
 
+/** @brief Interpolation 
+ * This function calculates the long-range acceralation of the
+ * particles by interpolating the grid potentials on the finest level and
+ * the B-Splines.
+ *
+ * @param[in] simulation the object containing all information about the simulation
+ */
+void msm4g_interpolation(Simulation *simulation);
+
 /** @brief Print the content of grid to the stdout.
  *
  * @param[in] grid A grid to be printed.
