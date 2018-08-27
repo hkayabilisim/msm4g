@@ -62,6 +62,7 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_18);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_19);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_20);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_21);
 
     numberoftests = msm4g_linkedlist_size(list);
 
@@ -914,5 +915,40 @@ Boolean msm4g_unit_test_19() {
 
 Boolean msm4g_unit_test_20() {
     Boolean teststatus = true;
+    double expectedValues[2][5] = {{ 6/ 8. ,  4/ 8.0, 1/ 8.0, 0     , 0},
+                             {20/32.0, 15/32.0, 6/32.0, 1/32.0, 0}};
+    for (int v = 4 ; v <= 6; v += 2) {
+        for (int k = 0 ; k < 5 ;k++) {
+            double expected = expectedValues[v/2-2][k] ;
+            double calculated = msm4g_util_jn(v, k);
+            double relerr = fabs(calculated-expected)/fabs(expected);
+            if (relerr > 1E-14) {
+                teststatus = false ;
+                break;
+            }
+        }
+    }
+    msm4g_test_assert("JN utility function", teststatus == true);
     return teststatus;
+}
+
+Boolean msm4g_unit_test_21() {
+    Boolean teststatus = true;
+    Boolean periodic = true;
+    int mu = 2;
+    int nu = 4;
+    double abar = 4;
+    int N = 64;
+    SimulationBox *box = msm4g_box_newCube(0, 1);
+    Simulation *simulation = msm4g_simulation_new("data/changaN64.ini", box, periodic, nu, abar,mu);
+    msm4g_simulation_run(simulation);
+    double qsum = 0.0;
+    for (int i = 0 ; i < N ; i++)
+        qsum += simulation->particles[i].m ;
+    double q1sum = msm4g_grid_dense_sum(simulation->gridmass[0]);
+    double q2sum = msm4g_grid_dense_sum(simulation->gridmass[1]);
+    msm4g_test_assert("Sum of mass stays same after anterpolation",fabs(qsum-q1sum)  < 1E-14);
+    msm4g_test_assert("Sum of mass stays same after restriction",  fabs(q1sum-q2sum) < 1E-14);
+    msm4g_simulation_delete(simulation);
+    return teststatus ;
 }

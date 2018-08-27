@@ -293,9 +293,17 @@ Boolean msm4g_unit_test_18();
  */
 Boolean msm4g_unit_test_19();
 
-/** @brief To be determined
+/** @brief Checks JN function
  *
  * @return true if the test is successful, false otherwise
  */
 Boolean msm4g_unit_test_20();
+
+/** @brief Checks the integrity of anterpolation and restriction steps
+ * This test uses the fact that the sum of particle masses should stay
+ * same after anterpolation and restriction steps. The same idea does
+ * not apply to prolongation steps.
+ */
+Boolean msm4g_unit_test_21();
+
 #endif /* MSM4G_TESTS_H */
