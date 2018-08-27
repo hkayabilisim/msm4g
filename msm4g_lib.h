@@ -63,6 +63,20 @@ void msm4g_simulation_delete(Simulation *simulation);
  */
 void msm4g_anterpolation(Simulation *simulation);
 
+/** @brief Restriction
+ * It performs restriction step from level l-1
+ * to l  where l is in the range [2, L].
+ * @param[in] simulation Simulation object
+ * @param[in] l          Level number in [2,L]
+ */
+void msm4g_restriction(Simulation *simulation, int l);
+
+/** @brief Prolongation
+ * Execute all prolongation steps.
+ * @param[in] simulation Simulation object
+ */
+void msm4g_prolongation(Simulation *simulation);
+
 /** @brief Interpolation 
  * This function calculates the long-range acceralation of the
  * particles by interpolating the grid potentials on the finest level and
@@ -140,6 +154,20 @@ double msm4g_grid_dense_getElement(AbstractGrid *grid,int i,int j,int k);
  * @return the inner product of the grids.
  */
 double msm4g_grid_dense_innerProduct(AbstractGrid *grid1,AbstractGrid *grid2);
+
+/** @brief Sum of grid elements
+ * @param[in] grid A dense grid
+ * @return sum of grid elements
+ */
+double msm4g_grid_dense_sum(AbstractGrid *grid);
+
+/** @brief Add two dense grids
+ * It implements the following sum:
+ * grid1 = grid1 + grid2
+ * @param[in,out] grid1 First dense grid
+ * @param[in] grid2 Second dense grid
+ */
+void msm4g_grid_dense_add(AbstractGrid *grid1,AbstractGrid *grid2);
 
 /** @brief Reset all values in the grid to the given value.
  *
@@ -829,5 +857,22 @@ double msm4g_util_choose_beta(double aL);
  * @return value of the coefficient
  */
 double msm4g_util_calculate_c(int k, double M, int nu);
+
+/** @brief Implements the binomial function
+ * @param[in] n an integer
+ * @param[in] k an integer
+ * @return nchoosek(n,k)
+ */
+double msm4g_util_nchoosek(int n,int k);
+
+/** @brief Implements the restriction operator
+ * 
+ * @todo Put the formula
+ *
+ * @param[in] nu order of B-Splines
+ * @param[in] k  an integer
+ */
+double msm4g_util_jn(int nu,int k);
+
 #endif /* MSM4G_LIB_H */
 

@@ -93,6 +93,7 @@ typedef struct Particle
     double potential_short_real ; /**< Short-range potential */
     double acc_short[3]; /**< Short-range acceleration */
     double acc_long[3]; /**< Long-range acceleration */
+    double acc_total[3]; /**< Total acceleration */
 } Particle;
 
 /** @brief The cubical domains obtained by dividing the simulation box.
@@ -196,6 +197,7 @@ typedef struct SimulationBox
 typedef struct SimulationOutput
 {
     double potentialEnergyShortRange;
+    double potentialEnergyLongRange;
 } SimulationOutput;
 
 /** @brief An abstract 3-dimensional grid structure.
@@ -338,6 +340,16 @@ typedef struct AbstractGrid
      * inner product of two grids.
      */
     double (*innerProduct) (struct AbstractGrid *grid1, struct AbstractGrid *grid2);
+    
+    /** @brief A pointer to grid addition function
+     * The grid implementation should define a function to 
+     * add the contents of grid2 to grid1.
+     */
+    void (*add) (struct AbstractGrid *grid1, struct AbstractGrid *grid2);
+    
+    /** @brief Sum of grid elements
+     */
+    double (*sum) (struct AbstractGrid *grid);
 
 } AbstractGrid;
 

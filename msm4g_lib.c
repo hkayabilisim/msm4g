@@ -22,13 +22,13 @@ void msm4g_stencil(Simulation *simulation, int l) {
     double Ax = simulation->box->wx ;
     double Ay = simulation->box->wy ;
     double Az = simulation->box->wz ;
-
-    int Mxmin = - (Mx - 1) / 2;
-    int Mxmax =    Mx      / 2;
-    int Mymin = - (My - 1) / 2;
-    int Mymax =    My      / 2;
-    int Mzmin = - (Mz - 1) / 2;
-    int Mzmax =    Mz      / 2;
+    
+    int Mxmin = 0;
+    int Mxmax = Mx-1;
+    int Mymin = 0;
+    int Mymax = My-1;
+    int Mzmin = 0;
+    int Mzmax = Mz-1;
     int mu = simulation->parameters->mu ;
     int nu = simulation->parameters->nu ;
     double a = simulation->parameters->a ;
@@ -138,12 +138,12 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
 
     /** @todo These are slightly different from the manuscript which uses
      * Mxmin =   -M/2, Mxmax = M/2 - 1 */
-    sp->Mxmin = - (sp->Mx - 1) / 2;
-    sp->Mxmax =    sp->Mx      / 2;
-    sp->Mymin = - (sp->My - 1) / 2;
-    sp->Mymax =    sp->My      / 2;
-    sp->Mzmin = - (sp->Mz - 1) / 2;
-    sp->Mzmax =    sp->Mz      / 2;
+    sp->Mxmin = 0;
+    sp->Mxmax = sp->Mx -1 ;
+    sp->Mymin = 0;
+    sp->Mymax = sp->My -1 ;
+    sp->Mzmin = 0;
+    sp->Mzmax = sp->Mz -1 ;
 
     sp->hx = box->wx / sp->Mx ;
     sp->hy = box->wy / sp->My ;
@@ -193,22 +193,34 @@ void msm4g_simulation_run(Simulation *simulation) {
     SimulationBox *box = simulation->box;
     Particle *particles = simulation->particles;
     LinkedList *binlist = msm4g_bin_generate(box,particles,simulation->parameters->N,sp->a);
+    int L = simulation->parameters->L ;
+    int N = simulation->parameters->N ;
     sp->wprime = msm4g_util_omegaprime(sp->mu,sp->nu);
     
     msm4g_force_short(binlist, sp->a, simulation);
     msm4g_anterpolation(simulation);
 
-    for (int l = 1 ; l <= sp->L + 1; l++) {
-        msm4g_stencil(simulation,l);
+    for (int l = 2 ; l <= L ; l++) {
+        msm4g_restriction(simulation,l);
     }
-
+    AbstractGrid *qL = simulation->gridmass[L-1];
+    AbstractGrid *qLplus1 = simulation->gridmass[L];
+    qLplus1->add(qLplus1,qL);
+    
     /* Grid-to-grid mapping */
     for (int l = 1 ; l <= sp->L + 1; l++) {
+        msm4g_stencil(simulation,l);
         AbstractGrid *stencil = simulation->stencil[l-1];
         AbstractGrid *gridmass = simulation->gridmass[l-1];
         AbstractGrid *gridpotential = simulation->gridpotential[l-1];
         msm4g_grid_potential(stencil,gridmass,gridpotential);
     }
+    /* Prolongation */
+    msm4g_prolongation(simulation);
+    
+    /* Interpolation */
+    msm4g_interpolation(simulation);
+    
     /* Calculate short-range potential energy */
     {
         double energy = 0.0;
@@ -217,8 +229,24 @@ void msm4g_simulation_run(Simulation *simulation) {
         }
         simulation->output->potentialEnergyShortRange = energy;
     }
+    
+    /* Calculate long-range potential energy */
+    AbstractGrid *e1 = simulation->gridpotential[0];
+    AbstractGrid *q1 = simulation->gridmass[0];
+    simulation->output->potentialEnergyLongRange = 0.5 * e1->innerProduct(e1,q1);
 
-
+    for (int i = 0 ; i < N ; i++) {
+        double shortx = simulation->particles[i].acc_short[0];
+        double shorty = simulation->particles[i].acc_short[1];
+        double shortz = simulation->particles[i].acc_short[2];
+        double longx  = simulation->particles[i].acc_long[0];
+        double longy  = simulation->particles[i].acc_long[1];
+        double longz  = simulation->particles[i].acc_long[2];
+        simulation->particles[i].acc_total[0] = shortx + longx ;
+        simulation->particles[i].acc_total[1] = shorty + longy ;
+        simulation->particles[i].acc_total[2] = shortz + longz ;
+    }
+    
     msm4g_bin_destroy(binlist);
 }
 
@@ -346,6 +374,108 @@ void msm4g_anterpolation(Simulation *simulation)
     }
 }
 
+void msm4g_restriction(Simulation *simulation, int l) {
+    AbstractGrid *qm = simulation->gridmass[l-1];  /* Coarse level */
+    AbstractGrid *qn = simulation->gridmass[l-2];/* Fine level */
+    int nu = simulation->parameters->nu ;
+    int Mx = qm->nx ;
+    int My = qm->ny ;
+    int Mz = qm->nz ;
+    int Nx = qn->nx ;
+    int Ny = qn->ny ;
+    int Nz = qn->nz ;
+    for (int mx = 0 ; mx < Mx ; mx++) {
+        for (int my = 0 ; my < My ; my++) {
+            for (int mz = 0 ; mz < Mz ; mz++) {
+                double sum = 0.0;
+                int nxmin = 2 * mx - nu / 2 ;
+                int nymin = 2 * my - nu / 2 ;
+                int nzmin = 2 * mz - nu / 2 ;
+                int nxmax = 2 * mx + nu / 2 ;
+                int nymax = 2 * my + nu / 2 ;
+                int nzmax = 2 * mz + nu / 2 ;
+                for (int nx = nxmin ; nx <= nxmax ; nx++) {
+                    int nxwrapped = nx ;
+                    if (nxwrapped <  0 ) do { nxwrapped += Nx ; } while (nxwrapped <  0 ) ;
+                    if (nxwrapped >= Nx) do { nxwrapped -= Nx ; } while (nxwrapped >= Nx) ;
+                    double jnx = msm4g_util_jn(nu, nx-2*mx) ;
+                    for (int ny = nymin ; ny <= nymax ; ny++) {
+                        int nywrapped = ny ;
+                        if (nywrapped <  0 ) do { nywrapped += Ny ; } while (nywrapped <  0 ) ;
+                        if (nywrapped >= Ny) do { nywrapped -= Ny ; } while (nywrapped >= Ny) ;
+                        double jny = msm4g_util_jn(nu, ny-2*my) ;
+                        for (int nz = nzmin ; nz <= nzmax ; nz++) {
+                            int nzwrapped = nz ;
+                            if (nzwrapped <  0 ) do { nzwrapped += Nz ; } while (nzwrapped <  0 ) ;
+                            if (nzwrapped >= Nz) do { nzwrapped -= Nz ; } while (nzwrapped >= Nz) ;
+                            double jnz = msm4g_util_jn(nu, nz-2*mz) ;
+                            double jn = jnx * jny * jnz ;
+                            sum += jn * qn->getElement(qn,nxwrapped,nywrapped,nzwrapped);
+                        }
+                    }
+                }
+                qm->setElement(qm,mx,my,mz,sum);
+            }
+        }
+    }
+}
+
+void msm4g_prolongation(Simulation *simulation) {
+    int L = simulation->parameters->L ;
+    int nu = simulation->parameters->nu ;
+    AbstractGrid *eLplus1 = simulation->gridpotential[L];
+    AbstractGrid *eL      = simulation->gridpotential[L-1];
+    /* eL = eL + eLplus1 */
+    eL->add(eL,eLplus1);
+    
+    for (int l = L-1 ; l >= 1 ; l--) {
+        AbstractGrid *en = simulation->gridpotential[l];/* Coarse level */
+        AbstractGrid *em = simulation->gridpotential[l-1];  /* Fine level */
+        int Mx = em->nx ;
+        int My = em->ny ;
+        int Mz = em->nz ;
+        int Nx = en->nx ;
+        int Ny = en->ny ;
+        int Nz = en->nz ;
+        for (int mx = 0 ; mx < Mx ; mx++) {
+            for (int my = 0 ; my < My ; my++) {
+                for (int mz = 0 ; mz < Mz ; mz++) {
+                    double sum = 0.0;
+                    int nxmin = mx / 2.0 - nu / 4.0 ;
+                    int nymin = my / 2.0 - nu / 4.0 ;
+                    int nzmin = mz / 2.0 - nu / 4.0 ;
+                    int nxmax = mx / 2.0 + nu / 4.0 ;
+                    int nymax = my / 2.0 + nu / 4.0 ;
+                    int nzmax = mz / 2.0 + nu / 4.0 ;
+                    for (int nx = nxmin ; nx <= nxmax ; nx++) {
+                        int nxwrapped = nx ;
+                        if (nxwrapped <  0 ) do { nxwrapped += Nx ; } while (nxwrapped <  0 ) ;
+                        if (nxwrapped >= Nx) do { nxwrapped -= Nx ; } while (nxwrapped >= Nx) ;
+                        double jnx = msm4g_util_jn(nu, mx-2*nx) ;
+                        for (int ny = nymin ; ny <= nymax ; ny++) {
+                            int nywrapped = ny ;
+                            if (nywrapped <  0 ) do { nywrapped += Ny ; } while (nywrapped <  0 ) ;
+                            if (nywrapped >= Ny) do { nywrapped -= Ny ; } while (nywrapped >= Ny) ;
+                            double jny = msm4g_util_jn(nu, my-2*ny) ;
+                            for (int nz = nzmin ; nz <= nzmax ; nz++) {
+                                int nzwrapped = nz ;
+                                if (nzwrapped <  0 ) do { nzwrapped += Nz ; } while (nzwrapped <  0 ) ;
+                                if (nzwrapped >= Nz) do { nzwrapped -= Nz ; } while (nzwrapped >= Nz) ;
+                                double jnz = msm4g_util_jn(nu, mz-2*nz) ;
+                                double jn = jnx * jny * jnz ;
+                                sum += jn * en->getElement(en,nxwrapped,nywrapped,nzwrapped);
+                            }
+                        }
+                    }
+                    double oldvalue = em->getElement(em,mx,my,mz);
+                    double newvalue = oldvalue + sum ;
+                    em->setElement(em,mx,my,mz,newvalue); /** @todo Clean it */
+                }
+            }
+        }
+    }
+}
+
 void msm4g_interpolation(Simulation *simulation) {
     int N = simulation->parameters->N ;
     int nu = simulation->parameters->nu ;
@@ -443,6 +573,8 @@ AbstractGrid *msm4g_grid_dense_new(int nx, int ny, int nz,double hx,double hy,do
     grid->getElement  = msm4g_grid_dense_getElement;
     grid->reset       = msm4g_grid_dense_reset;
     grid->innerProduct= msm4g_grid_dense_innerProduct;
+    grid->add         = msm4g_grid_dense_add;
+    grid->sum         = msm4g_grid_dense_sum;
 
     densegrid->data = calloc(nx*ny*nz,sizeof(double));
     
@@ -483,6 +615,30 @@ double msm4g_grid_dense_innerProduct(AbstractGrid *grid1,AbstractGrid *grid2){
     return innerProduct;
 }
 
+double msm4g_grid_dense_sum(AbstractGrid *grid) {
+    DenseGrid *denseGrid = (DenseGrid *)grid;
+    double sum = 0.0;
+    int n = grid->nx * grid->ny * grid->nz ;
+    for (int i = 0 ; i < n; i++) {
+        sum += denseGrid->data[i] ;
+    }
+    return sum;
+}
+
+void msm4g_grid_dense_add(AbstractGrid *grid1,AbstractGrid *grid2) {
+    int size1 = grid1->nx * grid1->ny * grid1->nz ;
+    int size2 = grid2->nx * grid2->ny * grid2->nz ;
+    if (size1 != size2) {
+        fprintf(stderr,"Size of the grids are not same\n");
+        return ;
+    }
+    
+    DenseGrid *denseGrid1 = (DenseGrid *)grid1;
+    DenseGrid *denseGrid2 = (DenseGrid *)grid2;
+    for (int i = 0 ; i < size1 ; i++)
+        denseGrid1->data[i]  +=  denseGrid2->data[i];
+}
+
 void msm4g_grid_dense_reset(AbstractGrid *grid,double value)
 {
     int i,size;
@@ -517,12 +673,12 @@ void msm4g_grid_potential(AbstractGrid *stencil, AbstractGrid *gridmass, Abstrac
                             int mnx = mx - nx;
                             int mny = my - ny;
                             int mnz = mz - nz;
-                            if (mnx < 0 ) do { mnx += Mx ; } while (mnx < 0 ) ;
-                            if (mnx > Mx) do { mnx -= Mx ; } while (mnx > Mx) ;
-                            if (mny < 0 ) do { mny += My ; } while (mny < 0 ) ;
-                            if (mny > My) do { mny -= My ; } while (mny > My) ;
-                            if (mnz < 0 ) do { mnz += Mz ; } while (mnz < 0 ) ;
-                            if (mnz > Mz) do { mnz -= Mz ; } while (mnz > Mz) ;
+                            if (mnx <  0 ) do { mnx += Mx ; } while (mnx <  0 ) ;
+                            if (mnx >= Mx) do { mnx -= Mx ; } while (mnx >= Mx) ;
+                            if (mny <  0 ) do { mny += My ; } while (mny <  0 ) ;
+                            if (mny >= My) do { mny -= My ; } while (mny >= My) ;
+                            if (mnz <  0 ) do { mnz += Mz ; } while (mnz <  0 ) ;
+                            if (mnz >= Mz) do { mnz -= Mz ; } while (mnz >= Mz) ;
                             double stencilvalue = stencil->getElement(stencil,mnx,mny,mnz);
                             double gridmassvalue = gridmass->getElement(gridmass,nx,ny,nz);
                             potentialsum += stencilvalue * gridmassvalue ;
@@ -1793,4 +1949,20 @@ double msm4g_util_calculate_c(int k, double M, int nu) {
         c += 2 * cos(2 * MYPI * k * m / M) * msm4g_bases_bspline(nu, m + nu/2);
     }
     return 1.0 / c;
+}
+
+double msm4g_util_nchoosek(int n,int k) {
+    double out = 1.0;
+    if (k < 0 || k > n) {
+        out = 0.0;
+    } else if (k == 0 ) {
+        out = 1.0;
+    } else {
+        for (int i = 0 ; i < k ;i++)
+            out *= (n-i) / (double)(i+1) ;
+    }
+    return out;
+}
+double msm4g_util_jn(int nu,int k) {
+    return pow(2,1-nu) * msm4g_util_nchoosek(nu, nu/2 + abs(k));
 }
