@@ -16,9 +16,9 @@ void msm4g_test_summary() {
     int failed = 0;
     for (int i = 0 ; i < testcount ; i++) {
         printf("%02d Testing %-64s : ",i, testnames[i]);
-        if (teststatus[i])
+        if (teststatus[i]) {
             printf("passed\n");
-        else {
+        } else {
             printf("failed\n");
             failed++;
         }
@@ -63,6 +63,8 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_19);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_20);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_21);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_22);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_23);
 
     numberoftests = msm4g_linkedlist_size(list);
 
@@ -938,17 +940,103 @@ Boolean msm4g_unit_test_21() {
     int mu = 2;
     int nu = 4;
     double abar = 4;
-    int N = 64;
-    SimulationBox *box = msm4g_box_newCube(0, 1);
-    Simulation *simulation = msm4g_simulation_new("data/changaN64.ini", box, periodic, nu, abar,mu);
+    char message[100] ;
+    SimulationBox *box = msm4g_box_newCube(0, 2);
+    Simulation *simulation = msm4g_simulation_new("data/NaClN8.ini", box, periodic, nu, abar,mu);
+    int N = simulation->parameters->N ;
+    int L = simulation->parameters->L ;
     msm4g_simulation_run(simulation);
     double qsum = 0.0;
     for (int i = 0 ; i < N ; i++)
         qsum += simulation->particles[i].m ;
-    double q1sum = msm4g_grid_dense_sum(simulation->gridmass[0]);
-    double q2sum = msm4g_grid_dense_sum(simulation->gridmass[1]);
-    msm4g_test_assert("Sum of mass stays same after anterpolation",fabs(qsum-q1sum)  < 1E-14);
-    msm4g_test_assert("Sum of mass stays same after restriction",  fabs(q1sum-q2sum) < 1E-14);
+    for (int l = 0 ; l <= L ; l++ ) {
+        double q1sum = msm4g_grid_dense_sum(simulation->gridmass[l]);
+        sprintf(message,"NaClN8: sum of grid masses at l=%d stays same",l);
+        msm4g_test_assert(message,  fabs(qsum-q1sum) < 1E-14);
+    }
+    double energy = simulation->output->potentialEnergyTotal ;
+    double energyExpected = - 1.747564594633182 * N * 0.5 ;
+    double relerr = fabs(energy-energyExpected)/fabs(energyExpected);
+    sprintf(message,"Rel. err. in pot. energy of NaCl N=8 is %9.2e < 1E-3",relerr);
+    msm4g_test_assert(message,relerr < 1E-3);
+    /*printf("L:%d M [%d %d %d]\n",simulation->parameters->L,simulation->parameters->Mx,
+           simulation->parameters->My,
+           simulation->parameters->Mz);
+    FILE *fp=fopen("/Users/hkaya/Dropbox/postdoc/src/xcode/msm/msm/msm.acc","w");
+    fprintf(fp,"%d\n",N);
+    for (int i = 0 ; i < N ; i++) {
+        double totalx = simulation->particles[i].acc_total[0];
+        fprintf(fp,"%25.16e\n",totalx);
+    }
+    for (int i = 0 ; i < N ; i++) {
+        double totaly = simulation->particles[i].acc_total[1];
+        fprintf(fp,"%25.16e\n",totaly);
+    }
+    for (int i = 0 ; i < N ; i++) {
+        double totalz = simulation->particles[i].acc_total[2];
+        fprintf(fp,"%25.16e\n",totalz);
+    }
+    fclose(fp); */
+    msm4g_simulation_delete(simulation);
+    return teststatus ;
+}
+
+Boolean msm4g_unit_test_22() {
+    Boolean teststatus = true;
+    Boolean periodic = true;
+    int mu = 2;
+    int nu = 4;
+    double abar = 4;
+    char message[100] ;
+    SimulationBox *box = msm4g_box_newCube(0, 4);
+    Simulation *simulation = msm4g_simulation_new("data/NaClN64.ini", box, periodic, nu, abar,mu);
+    int N = simulation->parameters->N ;
+    int L = simulation->parameters->L ;
+    msm4g_simulation_run(simulation);
+    double qsum = 0.0;
+    for (int i = 0 ; i < N ; i++)
+        qsum += simulation->particles[i].m ;
+    for (int l = 0 ; l <= L ; l++ ) {
+        double q1sum = msm4g_grid_dense_sum(simulation->gridmass[l]);
+        sprintf(message,"NaClN64: sum of grid masses at l=%d stays same",l);
+        msm4g_test_assert(message,  fabs(qsum-q1sum) < 1E-14);
+    }
+    double energy = simulation->output->potentialEnergyTotal ;
+    double energyExpected = - 1.747564594633182 * N * 0.5 ;
+    double relerr = fabs(energy-energyExpected)/fabs(energyExpected);
+    sprintf(message,"Rel. err. in pot. energy of NaCl N=64 is %9.2e < 1E-3",relerr);
+    msm4g_test_assert(message,relerr < 1E-3);
+    msm4g_simulation_delete(simulation);
+    return teststatus ;
+}
+
+Boolean msm4g_unit_test_23() {
+    Boolean teststatus = true;
+    Boolean periodic = true;
+    int mu = 2;
+    int nu = 4;
+    double abar = 4;
+    char message[100];
+    SimulationBox *box = msm4g_box_newCube(0, 8);
+    Simulation *simulation = msm4g_simulation_new("data/NaClN512.ini", box, periodic, nu, abar,mu);
+    int N = simulation->parameters->N ;
+    int L = simulation->parameters->L ;
+    msm4g_simulation_run(simulation);
+    double qsum = 0.0;
+    for (int i = 0 ; i < N ; i++)
+        qsum += simulation->particles[i].m ;
+    for (int l = 0 ; l <= L ; l++ ) {
+        double q1sum = msm4g_grid_dense_sum(simulation->gridmass[l]);
+        sprintf(message,"NaClN512: sum of grid masses at l=%d stays same",l);
+        msm4g_test_assert(message,  fabs(qsum-q1sum) < 1E-14);
+    }
+
+
+    double energy = simulation->output->potentialEnergyTotal ;
+    double energyExpected = - 1.747564594633182 * N * 0.5 ;
+    double relerr = fabs(energy-energyExpected)/fabs(energyExpected);
+    sprintf(message,"Rel. err. in pot. energy of NaCl N=512 is %9.2e < 1E-3",relerr);
+    msm4g_test_assert(message,relerr < 1E-3);
     msm4g_simulation_delete(simulation);
     return teststatus ;
 }

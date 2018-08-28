@@ -303,7 +303,18 @@ Boolean msm4g_unit_test_20();
  * This test uses the fact that the sum of particle masses should stay
  * same after anterpolation and restriction steps. The same idea does
  * not apply to prolongation steps.
+ * @return true if the test is successful, false otherwise
  */
 Boolean msm4g_unit_test_21();
+
+/** @brief Checks potential energy of NaCl crystals
+ * @return true if the test is successful, false otherwise
+ */
+Boolean msm4g_unit_test_22();
+
+/** @brief Checks potential energy of NaCl crystal for N=64 case
+ * @return true if the test is successful, false otherwise
+ */
+Boolean msm4g_unit_test_23();
 
 #endif /* MSM4G_TESTS_H */

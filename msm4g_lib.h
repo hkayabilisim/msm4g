@@ -17,6 +17,12 @@
 
 #define MSM4G_MAX3(A,B,C) (((A)>(B)) ? (((A)>(C)) ? (A) : (C)) : (((B)>(C)) ? (B) : (C)) )
 
+/** @brief Calculate potential energy of the simulation
+ * @param[in,out] simulation The object storing everything related with the simulation
+ * @return Potential energy of the system
+ */
+double msm4g_potential_energy(Simulation *simulation);
+
 /** @brief Calculates the stencils
  *
  * This function calculates the stencil values
@@ -193,9 +199,9 @@ void msm4g_grid_dense_destroy(AbstractGrid **densegrid);
  *
  * @todo Write down the LateX formula
  *
- * @param[in] stencil
- * @param[in] gridmass
- * @param[in,out] gridpotential
+ * @param[in] stencil stencil
+ * @param[in] gridmass gridmass
+ * @param[in,out] gridpotential gridpotential
  */
 void msm4g_grid_potential(AbstractGrid *stencil, AbstractGrid *gridmass, AbstractGrid *gridpotential);
 

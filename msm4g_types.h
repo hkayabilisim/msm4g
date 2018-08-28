@@ -198,6 +198,7 @@ typedef struct SimulationOutput
 {
     double potentialEnergyShortRange;
     double potentialEnergyLongRange;
+    double potentialEnergyTotal;
 } SimulationOutput;
 
 /** @brief An abstract 3-dimensional grid structure.
