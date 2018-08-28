@@ -4,6 +4,78 @@
 #include "msm4g_lib.h"
 #include "msm4g_bases.h"
 
+double msm4g_potential_energy(Simulation *simulation) {
+    double beta = simulation->parameters->beta ;
+    double a = simulation->parameters->a ;
+    double Ax = simulation->box->wx;
+    double Ay = simulation->box->wy;
+    double Az = simulation->box->wz;
+    double detA = Ax * Ay * Az ;
+    int L = simulation->parameters->L ;
+    int N = simulation->parameters->N;
+    int nu = simulation->parameters->nu;
+    Particle *particles = simulation->particles;
+    
+    double ushort_real = 0.0;
+    for (int i = 0 ; i < N ; i++) {
+        ushort_real += particles[i].potential_short_real * particles[i].m ;
+    }
+    
+    double csr = MYPI / (beta * beta * detA);
+    double qsum = 0.0;
+    for (int i = 0; i < N; i++)
+        qsum += particles[i].m;
+    double ushort_csr = - 0.5 * qsum * qsum * csr;
+    
+    double ushort_self = 0.0;
+    int pxmin = - a / Ax;
+    int pxmax =   a / Ax;
+    int pymin = - a / Ay;
+    int pymax =   a / Ay;
+    int pzmin = - a / Az;
+    int pzmax =   a / Az;
+    double psum = 0.0;
+    for (int px = pxmin; px <= pxmax; px++) {
+        for (int py = pymin; py <= pymax; py++) {
+            for (int pz = pzmin; pz <= pzmax; pz++) {
+                if (px == 0 && py == 0 && pz == 0) continue;
+                double rlen2 = Ax * px * Ax * px
+                + Ay * py * Ay * py
+                + Az * pz * Az * pz;
+                double rlen = sqrt(rlen2);
+                psum += msm4g_kernel(0,L,rlen,a,beta,nu);
+            }
+        }
+    }
+    for (int i = 0; i < N; i++) {
+        ushort_self += 0.5 * particles[i].m * particles[i].m * psum ;
+    }
+    
+    simulation->output->potentialEnergyShortRange = ushort_real + ushort_csr + ushort_self ;
+    
+    double q2sum = 0.0;
+    for (int i = 0; i < N; i++)
+        q2sum += particles[i].m * particles[i].m;
+    double ulong_self = - 0.5 * q2sum * (1.0 / a) * msm4g_smoothing_gama(0, nu);
+    
+    /* Calculate long-range potential energy */
+    AbstractGrid *e1 = simulation->gridpotential[0];
+    AbstractGrid *q1 = simulation->gridmass[0];
+    double ulong_real = 0.5 * e1->innerProduct(e1,q1);
+    simulation->output->potentialEnergyLongRange = ulong_real + ulong_self ;
+    
+    simulation->output->potentialEnergyTotal =  simulation->output->potentialEnergyShortRange +
+            simulation->output->potentialEnergyLongRange;
+
+
+    /* printf("%-28s : %25.16e\n", "ushort_real", ushort_real);
+    printf("%-28s : %25.16e\n", "ushort_self", ushort_self);
+    printf("%-28s : %25.16e\n", "ushort_csr", ushort_csr);
+    printf("%-28s : %25.16e\n", "ulong_self", ulong_self);
+    printf("%-28s : %25.16e\n", "ulong_real", ulong_real); */
+    return simulation->output->potentialEnergyTotal ;
+}
+
 void msm4g_stencil(Simulation *simulation, int l) {
     Boolean periodic = simulation->parameters->periodic ;
     SimulationParameters *sp = simulation->parameters;
@@ -221,20 +293,8 @@ void msm4g_simulation_run(Simulation *simulation) {
     /* Interpolation */
     msm4g_interpolation(simulation);
     
-    /* Calculate short-range potential energy */
-    {
-        double energy = 0.0;
-        for (int i = 0 ; i < simulation->parameters->N ; i++) {
-            energy += particles[i].potential_short_real * particles[i].m ;
-        }
-        simulation->output->potentialEnergyShortRange = energy;
-    }
+    msm4g_potential_energy(simulation);
     
-    /* Calculate long-range potential energy */
-    AbstractGrid *e1 = simulation->gridpotential[0];
-    AbstractGrid *q1 = simulation->gridmass[0];
-    simulation->output->potentialEnergyLongRange = 0.5 * e1->innerProduct(e1,q1);
-
     for (int i = 0 ; i < N ; i++) {
         double shortx = simulation->particles[i].acc_short[0];
         double shorty = simulation->particles[i].acc_short[1];
