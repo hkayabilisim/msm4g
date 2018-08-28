@@ -422,7 +422,7 @@ Boolean msm4g_unit_test_9()
     double boxlocation = 0.0;
     double boxwidth = 30.0;
     SimulationBox *box = msm4g_box_newCube(boxlocation,boxwidth);
-    Simulation *simulation = msm4g_simulation_new(datafile,box,periodic,order,abar,mu);
+    Simulation *simulation = msm4g_simulation_new(datafile,box,periodic,order,abar,mu,0,0,0,0);
     simulation->parameters->a = 10;
     SimulationParameters *sp = simulation->parameters;
     Particle *particles = simulation->particles;
@@ -490,7 +490,7 @@ Boolean msm4g_unit_test_11()
     int mu = 4;
 
     box = msm4g_box_newCube(-2.25,4.5);
-    Simulation *simulation = msm4g_simulation_new(datafile,box,periodic,4,abar,mu);
+    Simulation *simulation = msm4g_simulation_new(datafile,box,periodic,4,abar,mu,0,0,0,0);
     simulation->parameters->Mx = 1;
     simulation->parameters->My = 1;
     simulation->parameters->Mz = 1;
@@ -637,7 +637,7 @@ Boolean msm4g_unit_test_15()
 
     SimulationBox *unitCube = msm4g_box_newCube(0,1);
 
-    Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu);
+    Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu,0,0,0,0);
 
     SimulationParameters *sp = simulation->parameters;
     SimulationBox *box = simulation->box;
@@ -697,7 +697,7 @@ Boolean msm4g_unit_test_16()
             9.0976320916671066e-06,
             9.2398733186041778e-06};
     SimulationBox *unitCube = msm4g_box_newCube(0,1);
-    Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu);
+    Simulation *simulation = msm4g_simulation_new("data/changaN8.ini",unitCube,periodic,order,abar,mu,0,0,0,0);
 
     msm4g_anterpolation(simulation);
 
@@ -771,7 +771,7 @@ Boolean msm4g_unit_test_18() {
         {   9.7918293733630186e-09,   -8.6749656915278473e-08,    2.4105504664461737e-08},
         
        };
-       simulation = msm4g_simulation_new("data/changaN8.ini", box, true, nu, abar, mu);
+       simulation = msm4g_simulation_new("data/changaN8.ini", box, true, nu, abar, mu,0,0,0,0);
        simulation->parameters->wprime = msm4g_util_omegaprime(mu, nu);
        msm4g_stencil(simulation,1);
        msm4g_anterpolation(simulation);
@@ -866,7 +866,7 @@ Boolean msm4g_unit_test_19() {
            -2.1280528177672619e-07,
            -1.9264026184974272e-07
     };
-    simulation = msm4g_simulation_new("data/changaN8.ini", box, true, nu, abar, mu);
+    simulation = msm4g_simulation_new("data/changaN8.ini", box, true, nu, abar, mu,0,0,0,0);
     simulation->parameters->wprime = msm4g_util_omegaprime(mu, nu);
     msm4g_stencil(simulation,2);
     msm4g_anterpolation(simulation);
@@ -910,7 +910,7 @@ Boolean msm4g_unit_test_19() {
     double ulong_four = 0.5 * gridpotential->innerProduct(gridpotential,gridmass) ;
     double ulong_fourexpected = 3.8457155189531598e-13 ;
     double relerr = fabs(ulong_four - ulong_fourexpected)/fabs(ulong_fourexpected) ;
-    msm4g_test_assert("Long-range Fourier potential energy for ChaNGa N=8 data",relerr < 1E-15);
+    msm4g_test_assert("Long-range Fourier potential energy for ChaNGa N=8 data",relerr < 1E-14);
     msm4g_simulation_delete(simulation);
     return teststatus ;
 }
@@ -942,7 +942,7 @@ Boolean msm4g_unit_test_21() {
     double abar = 4;
     char message[100] ;
     SimulationBox *box = msm4g_box_newCube(0, 2);
-    Simulation *simulation = msm4g_simulation_new("data/NaClN8.ini", box, periodic, nu, abar,mu);
+    Simulation *simulation = msm4g_simulation_new("data/NaClN8.ini", box, periodic, nu, abar,mu,0,0,0,0);
     int N = simulation->parameters->N ;
     int L = simulation->parameters->L ;
     msm4g_simulation_run(simulation);
@@ -989,7 +989,7 @@ Boolean msm4g_unit_test_22() {
     double abar = 4;
     char message[100] ;
     SimulationBox *box = msm4g_box_newCube(0, 4);
-    Simulation *simulation = msm4g_simulation_new("data/NaClN64.ini", box, periodic, nu, abar,mu);
+    Simulation *simulation = msm4g_simulation_new("data/NaClN64.ini", box, periodic, nu, abar,mu,0,0,0,0);
     int N = simulation->parameters->N ;
     int L = simulation->parameters->L ;
     msm4g_simulation_run(simulation);
@@ -1018,7 +1018,7 @@ Boolean msm4g_unit_test_23() {
     double abar = 4;
     char message[100];
     SimulationBox *box = msm4g_box_newCube(0, 8);
-    Simulation *simulation = msm4g_simulation_new("data/NaClN512.ini", box, periodic, nu, abar,mu);
+    Simulation *simulation = msm4g_simulation_new("data/NaClN512.ini", box, periodic, nu, abar,mu,0,0,0,0);
     int N = simulation->parameters->N ;
     int L = simulation->parameters->L ;
     msm4g_simulation_run(simulation);
@@ -1030,7 +1030,6 @@ Boolean msm4g_unit_test_23() {
         sprintf(message,"NaClN512: sum of grid masses at l=%d stays same",l);
         msm4g_test_assert(message,  fabs(qsum-q1sum) < 1E-14);
     }
-
 
     double energy = simulation->output->potentialEnergyTotal ;
     double energyExpected = - 1.747564594633182 * N * 0.5 ;

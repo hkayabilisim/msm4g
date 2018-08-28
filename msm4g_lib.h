@@ -47,10 +47,14 @@ void msm4g_stencil(Simulation *simulation, int level);
  * @param[in] order    Order of accuracy. It can only be 4 or 6
  * @param[in] abar     Relative-cutoff
  * @param[in] mu       Quasi-interpolation parameter
+ * @param[in] L        Number of levels. If it is set to zero, it is calculated automatically.
+ * @param[in] Mx       Number of grids along x-axis. If it is set to zero, it is calculated automatically.
+ * @param[in] My       Number of grids along y-axis. If it is set to zero, it is calculated automatically.
+ * @param[in] Mz       Number of grids along z-axis. If it is set to zero, it is calculated automatically.
  * @todo Change "4 or 6" statement when it is needed.
  * @return Simulation object
  */
-Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean periodic,int order,double abar,int mu);
+Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean periodic,int order,double abar,int mu,int L,int Mx,int My,int Mz);
 
 /** @brief Executes a simulation
  *

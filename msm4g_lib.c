@@ -183,12 +183,12 @@ void msm4g_stencil(Simulation *simulation, int l) {
     }
 }
 
-Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean periodic,int order,double abar,int mu) {
+Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean periodic,int order,double abar,int mu,int L,int Mx,int My,int Mz) {
     Simulation *simulation;
     SimulationParameters *sp;
     SimulationOutput *output;
     Particle *particles;
-    int N = 0,L;
+    int N = 0;
     
     simulation = (Simulation *)calloc(1,sizeof(Simulation));
     sp = (SimulationParameters *)calloc(1,sizeof(SimulationParameters));
@@ -200,13 +200,21 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
     sp->mu = mu;
     sp->periodic = periodic;
     sp->nu = order ;
-    sp->L = floor(1 + 0.5 * log(sp->N)/log(8));
-    L = sp->L;
+    if ( L== 0 )
+        L = floor(1 + 0.5 * log(sp->N)/log(8));
+    sp->L = L ;
 
     /* Number of grid on finest level */
-    sp->Mx = pow(2,sp->L-1) * ceil(pow(2,1-sp->L)*box->wx * pow(sp->N/(vol),1/3.0)) ;
-    sp->My = pow(2,sp->L-1) * ceil(pow(2,1-sp->L)*box->wy * pow(sp->N/(vol),1/3.0)) ;
-    sp->Mz = pow(2,sp->L-1) * ceil(pow(2,1-sp->L)*box->wz * pow(sp->N/(vol),1/3.0)) ;
+    if (Mx == 0)
+        Mx = pow(2,sp->L-1) * ceil(pow(2,1-sp->L)*box->wx * pow(sp->N/(vol),1/3.0)) ;
+    if (My == 0)
+        My = pow(2,sp->L-1) * ceil(pow(2,1-sp->L)*box->wy * pow(sp->N/(vol),1/3.0)) ;
+    if (Mz == 0)
+        Mz = pow(2,sp->L-1) * ceil(pow(2,1-sp->L)*box->wz * pow(sp->N/(vol),1/3.0)) ;
+
+    sp->Mx = Mx ;
+    sp->My = My ;
+    sp->Mz = Mz ;
 
     /** @todo These are slightly different from the manuscript which uses
      * Mxmin =   -M/2, Mxmax = M/2 - 1 */
@@ -356,37 +364,39 @@ void msm4g_anterpolation(Simulation *simulation)
 
     grid = simulation->gridmass[0];
     if (simulation->parameters->periodic == true) {
-        /** @todo Anterpolation should be implemented according to
-         * section 4.4 of the manuscript. */
-        for (int mx = 0 ; mx < Mx ; mx++) {
-            for (int my = 0 ; my < My ; my++) {
-                for (int mz = 0 ; mz < Mz ; mz++) {
-                    double sum = 0.0;
-                    for (int i = 0 ; i < N ; i++) {
-                        double rx = particles[i].r.value[0];
-                        double ry = particles[i].r.value[1];
-                        double rz = particles[i].r.value[2];
-                        double sx = rx / box->wx ;
-                        double sy = ry / box->wy ;
-                        double sz = rz / box->wz ;
-                        int pxmin = (-nu/2 + Mx * sx - mx)/Mx ;
-                        int pxmax = (+nu/2 + Mx * sx - mx)/Mx ;
-                        int pymin = (-nu/2 + My * sy - my)/My ;
-                        int pymax = (+nu/2 + My * sy - my)/My ;
-                        int pzmin = (-nu/2 + Mz * sz - mz)/Mz ;
-                        int pzmax = (+nu/2 + Mz * sz - mz)/Mz ;
-                        for (int px = pxmin; px <= pxmax; px++) {
-                            for (int py = pymin; py <= pymax; py++) {
-                                for (int pz = pzmin; pz <= pzmax; pz++) {
-                                    double phix = msm4g_bases_bspline(nu, Mx * (sx - px) - mx + nu / 2);
-                                    double phiy = msm4g_bases_bspline(nu, My * (sy - py) - my + nu / 2);
-                                    double phiz = msm4g_bases_bspline(nu, Mz * (sz - pz) - mz + nu / 2);
-                                    sum += particles[i].m * phix * phiy * phiz;
-                                }
-                            }
-                        }
+        double hx = simulation->parameters->hx ;
+        double hy = simulation->parameters->hy ;
+        double hz = simulation->parameters->hz ;
+        for (int i = 0 ; i < N ; i++) {
+            double rx = particles[i].r.value[0];
+            double ry = particles[i].r.value[1];
+            double rz = particles[i].r.value[2];
+            double mass  = particles[i].m ;
+            double mx = floor(rx/hx) ;
+            double my = floor(ry/hy) ;
+            double mz = floor(rz/hz) ;
+            double tx = rx/hx - mx ;
+            double ty = ry/hy - my ;
+            double tz = rz/hz - mz ;
+            for (int nx = 1 - nu/2 ; nx <= nu/2 ; nx++) {
+                double phix = msm4g_bases_bspline(nu, tx - nx + nu / 2);
+                int mnx = mx + nx ;
+                if (mnx <   0) do { mnx += Mx; } while (mnx <   0);
+                if (mnx >= Mx) do { mnx -= Mx; } while (mnx >= Mx);
+                for (int ny = 1 - nu/2 ; ny <= nu/2 ; ny++) {
+                    double phiy = msm4g_bases_bspline(nu, ty - ny + nu / 2);
+                    int mny = my + ny ;
+                    if (mny <   0) do { mny += My; } while (mny <   0);
+                    if (mny >= My) do { mny -= My; } while (mny >= My);
+                    for (int nz = 1 - nu/2 ; nz <= nu/2 ; nz++) {
+                        double phiz = msm4g_bases_bspline(nu, tz - nz + nu / 2);
+                        int mnz = mz + nz ;
+                        if (mnz <   0) do { mnz += Mz; } while (mnz <   0);
+                        if (mnz >= Mz) do { mnz -= Mz; } while (mnz >= Mz);
+                        double oldValue = grid->getElement(grid,mnx,mny,mnz);
+                        double newValue = oldValue + mass * phix * phiy * phiz ;
+                        grid->setElement(grid,mnx,mny,mnz,newValue);
                     }
-                    grid->setElement(grid,mx,my,mz,sum);
                 }
             }
         }
