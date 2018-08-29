@@ -108,6 +108,14 @@ void msm4g_stencil(Simulation *simulation, int l) {
     double *wprime = simulation->parameters->wprime ;
 
     if (l <= L) {
+        typedef struct precalculatedKappa {
+            int nx;
+            int ny;
+            int nz;
+            double value;
+        } precalculatedKappa;
+        LinkedList *kappalist = msm4g_linkedlist_new();
+
         for (int mx = 0; mx < Mx; mx++) {
             for (int my = 0; my < My; my++) {
                 for (int mz = 0; mz < Mz; mz++) {
@@ -117,32 +125,55 @@ void msm4g_stencil(Simulation *simulation, int l) {
                             for (int kz = - mu - nu / 2; kz <= mu + nu / 2; kz++) {
                                 double omega = wprime[abs(kx)] * wprime[abs(ky)] * wprime[abs(kz)];
 
-                                double psum = 0.0;
-                                double psum_before = 0.0;
-                                int p = 0 ;
-                                do {
-                                    int face_len = msm4g_util_face_enumerate(p,sp);
-                                    for (int idx = 0 ; idx < face_len ; idx++) {
-                                        int px = sp->face_i[idx];
-                                        int py = sp->face_j[idx];
-                                        int pz = sp->face_k[idx] ;
-
-                                        double rx = hx * (mx + kx) - Ax * px;
-                                        double ry = hy * (my + ky) - Ay * py;
-                                        double rz = hz * (mz + kz) - Az * pz;
-                                        double rlen2 = rx * rx + ry * ry + rz * rz;
-                                        double rlen = sqrt(rlen2);
-                                        double kernel = msm4g_kernel(l,L,rlen,a,beta,nu);
-                                        psum += kernel;
-
-                                    }
-                                    if (p != 0 && fabs(psum_before - psum)/fabs(psum) < TOL_DIRECT ) {
+                                Boolean isKappaCalculatedBefore = false;
+                                double  kappaValue ;
+                                LinkedListElement *curr = kappalist->head;
+                                while (curr != NULL) {
+                                    precalculatedKappa *kappa = (precalculatedKappa *)curr->data;
+                                    if ( (mx + kx ==  kappa->nx && my + ky ==  kappa->ny && mz + kz ==  kappa->nz ) ||
+                                         (mx + kx == -kappa->nx && my + ky == -kappa->ny && mz + kz == -kappa->nz )  ) {
+                                        isKappaCalculatedBefore = true;
+                                        kappaValue = kappa->value;
                                         break;
-                                    } else
-                                        psum_before = psum ;
-                                    p++;
-                                } while  (p < PMAX); /** @todo change to PMAX */
-                                sum += omega * psum ;
+                                    }
+                                    curr = curr->next;
+                                }
+
+                                if (!isKappaCalculatedBefore) {
+                                    double psum = 0.0;
+                                    double psum_before = 0.0;
+                                    int p = 0 ;
+                                    do {
+                                        int face_len = msm4g_util_face_enumerate(p,sp);
+                                        for (int idx = 0 ; idx < face_len ; idx++) {
+                                            int px = sp->face_i[idx];
+                                            int py = sp->face_j[idx];
+                                            int pz = sp->face_k[idx] ;
+
+                                            double rx = hx * (mx + kx) - Ax * px;
+                                            double ry = hy * (my + ky) - Ay * py;
+                                            double rz = hz * (mz + kz) - Az * pz;
+                                            double rlen2 = rx * rx + ry * ry + rz * rz;
+                                            double rlen = sqrt(rlen2);
+                                            double kernel = msm4g_kernel(l,L,rlen,a,beta,nu);
+                                            psum += kernel;
+
+                                        }
+                                        if (p != 0 && fabs(psum_before - psum)/fabs(psum) < TOL_DIRECT ) {
+                                            break;
+                                        } else
+                                            psum_before = psum ;
+                                        p++;
+                                    } while  (p < PMAX);
+                                    kappaValue = psum ;
+                                    precalculatedKappa *kappa = (precalculatedKappa*)calloc(1,sizeof(precalculatedKappa));
+                                    kappa->nx = mx + kx;
+                                    kappa->ny = my + ky;
+                                    kappa->nz = mz + kz;
+                                    kappa->value = kappaValue;
+                                    msm4g_linkedlist_add(kappalist,kappa);
+                                }
+                                sum += omega * kappaValue ;
                             }
                         }
                     }
@@ -150,6 +181,7 @@ void msm4g_stencil(Simulation *simulation, int l) {
                 }
             }
         }
+        msm4g_linkedlist_destroyWithData(kappalist);
     } else if (l == L + 1) {
         double detA = Ax * Ay * Az ;
         for (int mx = Mxmin; mx <= Mxmax; mx++) {
