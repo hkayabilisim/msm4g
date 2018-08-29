@@ -785,7 +785,7 @@ Boolean msm4g_unit_test_18() {
                    double calculated = stencil->getElement(stencil,i,j,k);
                    double expected = expectedStencil[counter++];
                    double relerr = fabs(expected-calculated)/fabs(expected);
-                   if (relerr > 1E-12) {
+                   if (relerr > 1E-11) {
                        teststatus = false;
                        break;
                    }
@@ -804,7 +804,7 @@ Boolean msm4g_unit_test_18() {
                    double calculated = gridpotential->getElement(gridpotential,i,j,k);
                    double expected = expectedGridPotential[counter++];
                    double relerr = fabs(expected-calculated)/fabs(expected);
-                   if (relerr > 1E-13) {
+                   if (relerr > 1E-11) {
                        teststatus = false;
                        break;
                    }
@@ -817,7 +817,7 @@ Boolean msm4g_unit_test_18() {
        double ulong_direct = 0.5 * gridpotential->innerProduct(gridpotential,gridmass) ;
        double ulong_directExpected = -3.7167393212395380e-09;
        double relerr = fabs(ulong_direct-ulong_directExpected)/fabs(ulong_directExpected);
-       msm4g_test_assert("Long-range direct potential energy for ChaNGa N=8 data", relerr < 1E-13 );
+       msm4g_test_assert("Long-range direct potential energy for ChaNGa N=8 data", relerr < 1E-11 );
 
     msm4g_interpolation(simulation);
     {
@@ -829,7 +829,7 @@ Boolean msm4g_unit_test_18() {
                 double expected = expectedLongRangeDirect[i][j];
                 double calculated = simulation->particles[i].acc_long[j] ;
                 double relerr = fabs(expected-calculated)/fabs(expected);
-                if (relerr > 1E-11) {
+                if (relerr > 1E-10) {
                     status = false;
                     break;
                 }

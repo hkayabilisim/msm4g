@@ -108,43 +108,48 @@ void msm4g_stencil(Simulation *simulation, int l) {
     double *wprime = simulation->parameters->wprime ;
 
     if (l <= L) {
-        for (int mx = Mxmin; mx <= Mxmax; mx++) {
-             for (int my = Mymin; my <= Mymax; my++) {
-               for (int mz = Mzmin; mz <= Mzmax; mz++) {
-                 double sum = 0.0;
-                 double sum_before = 0.0;
-                 int p = 0 ;
-                 do {
-                   int face_len = msm4g_util_face_enumerate(p,sp);
-                   for (int idx = 0 ; idx < face_len ; idx++) {
-                     int px = sp->face_i[idx];
-                     int py = sp->face_j[idx];
-                     int pz = sp->face_k[idx] ;
-                     for (int kx = - mu - nu / 2; kx <= mu + nu / 2; kx++) {
-                       for (int ky = - mu - nu / 2; ky <= mu + nu / 2; ky++) {
-                         for (int kz = - mu - nu / 2; kz <= mu + nu / 2; kz++) {
-                           double omega = wprime[abs(kx)] * wprime[abs(ky)] * wprime[abs(kz)];
-                           double rx = hx * (mx + kx) - Ax * px;
-                           double ry = hy * (my + ky) - Ay * py;
-                           double rz = hz * (mz + kz) - Az * pz;
-                           double rlen2 = rx * rx + ry * ry + rz * rz;
-                           double rlen = sqrt(rlen2);
-                           double kernel = msm4g_kernel(l,L,rlen,a,beta,nu);
-                           sum += omega * kernel;
-                         }
-                       }
-                     }
-                   }
-                   if (p != 0 && fabs(sum_before - sum)/fabs(sum) < TOL_DIRECT ) {
-                     break;
-                   } else
-                     sum_before = sum ;
-                   p++;
-                 } while  (p < PMAX);
-                 stencil->setElement(stencil,mx - Mxmin,my - Mymin,mz - Mzmin,sum);
-               }
-             }
-           }
+        for (int mx = 0; mx < Mx; mx++) {
+            for (int my = 0; my < My; my++) {
+                for (int mz = 0; mz < Mz; mz++) {
+                    double sum = 0.0;
+                    for (int kx = - mu - nu / 2; kx <= mu + nu / 2; kx++) {
+                        for (int ky = - mu - nu / 2; ky <= mu + nu / 2; ky++) {
+                            for (int kz = - mu - nu / 2; kz <= mu + nu / 2; kz++) {
+                                double omega = wprime[abs(kx)] * wprime[abs(ky)] * wprime[abs(kz)];
+
+                                double psum = 0.0;
+                                double psum_before = 0.0;
+                                int p = 0 ;
+                                do {
+                                    int face_len = msm4g_util_face_enumerate(p,sp);
+                                    for (int idx = 0 ; idx < face_len ; idx++) {
+                                        int px = sp->face_i[idx];
+                                        int py = sp->face_j[idx];
+                                        int pz = sp->face_k[idx] ;
+
+                                        double rx = hx * (mx + kx) - Ax * px;
+                                        double ry = hy * (my + ky) - Ay * py;
+                                        double rz = hz * (mz + kz) - Az * pz;
+                                        double rlen2 = rx * rx + ry * ry + rz * rz;
+                                        double rlen = sqrt(rlen2);
+                                        double kernel = msm4g_kernel(l,L,rlen,a,beta,nu);
+                                        psum += kernel;
+
+                                    }
+                                    if (p != 0 && fabs(psum_before - psum)/fabs(psum) < TOL_DIRECT ) {
+                                        break;
+                                    } else
+                                        psum_before = psum ;
+                                    p++;
+                                } while  (p < PMAX); /** @todo change to PMAX */
+                                sum += omega * psum ;
+                            }
+                        }
+                    }
+                    stencil->setElement(stencil,mx,my,mz,sum);
+                }
+            }
+        }
     } else if (l == L + 1) {
         double detA = Ax * Ay * Az ;
         for (int mx = Mxmin; mx <= Mxmax; mx++) {
