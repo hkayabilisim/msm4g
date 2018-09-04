@@ -65,6 +65,7 @@ void msm4g_unit_test_all()
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_21);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_22);
     msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_23);
+    msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_24);
 
     numberoftests = msm4g_linkedlist_size(list);
 
@@ -1038,6 +1039,39 @@ Boolean msm4g_unit_test_23() {
     double relerr = fabs(energy-energyExpected)/fabs(energyExpected);
     sprintf(message,"Rel. err. in pot. energy of NaCl N=512 is %9.2e < 1E-3",relerr);
     msm4g_test_assert(message,relerr < 1E-3);
+    msm4g_simulation_delete(simulation);
+    return teststatus ;
+}
+
+Boolean msm4g_unit_test_24() {
+    Boolean teststatus = true;
+    Boolean periodic = true;
+    int mu = 2;
+    int nu = 4;
+    double abar = 4;
+    
+    SimulationBox *box = msm4g_box_newCube(0, 1);
+    Simulation *simulation = msm4g_simulation_new("data/changaN30000.ini", box, periodic, nu, abar,mu,3,8,8,8);
+    
+    msm4g_simulation_run(simulation);
+    
+    int N = simulation->parameters->N ;
+    
+    FILE *fp=fopen("msm.acc","w");
+    fprintf(fp,"%d\n",N);
+    for (int i = 0 ; i < N ; i++) {
+        double totalx = simulation->particles[i].acc_total[0];
+        fprintf(fp,"%25.16e\n",totalx);
+    }
+    for (int i = 0 ; i < N ; i++) {
+        double totaly = simulation->particles[i].acc_total[1];
+        fprintf(fp,"%25.16e\n",totaly);
+    }
+    for (int i = 0 ; i < N ; i++) {
+        double totalz = simulation->particles[i].acc_total[2];
+        fprintf(fp,"%25.16e\n",totalz);
+    }
+    fclose(fp);
     msm4g_simulation_delete(simulation);
     return teststatus ;
 }
