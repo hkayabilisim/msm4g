@@ -272,27 +272,26 @@ double msm4g_force_short(LinkedList *binlist,double threshold, Simulation *simul
  * Given a list of particles,
  * it calculates the short-range force interactions within the particles.
  *
- * @param[in,out] particles  The list of particles.
+ * @param[in,out] bin        The bin containing the particles.
  * @param[in]     threshold  Cut-off parameter.
  * @param[in]     simulation Simulation object.
  *
  * @return Short-range potential energy in the Bin.
  */
-double msm4g_force_short_withinBin(LinkedList *particles, double threshold,Simulation *simulation);
+double msm4g_force_short_withinBin(Bin *bin, double threshold,Simulation *simulation);
 
 /** @brief Calculates short-range interactions between two set of particles.
  *
- * Given two list of particles,
- * it calculates the short-range interactions between two set of particles.
+ * it calculates the short-range interactions between 
+ * the particles in the bin and the neighborbin.
  *
- * @param[in,out] particlesI  A list of particles.
- * @param[in,out] particlesJ  Another list of particles.
- * @param[in]     threshold   Cut-off parameter.
- * @param[in]     simulation Simulation object.
- *
+ * @param[in,out] bin           Current bin.
+ * @param[in,out] neigbor       Neigbor bin.
+ * @param[in]     threshold     Cut-off parameter.
+ * @param[in]     simulation    Simulation object.
  * @return Short-range potential energy between the bins.
  */
-double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particlesJ, double threshold, Simulation *simulation);
+double msm4g_force_short_betweenBin(Bin *bin, Bin *neigbor, double threshold, Simulation *simulation);
 
 /** @brief Short-range force and potential energy for a pair of particles.
  *
@@ -300,7 +299,7 @@ double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particle
  * @param[in,out] particleJ   The second particle.
  * @param[in]     threshold   Cut-off parameter.
  * @param[in]     simulation  Simulation object.
- * 
+ *
  * @return Short-range potential energy.
  */
 double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double threshold, Simulation *simulation);
@@ -656,11 +655,10 @@ void msm4g_box_print(SimulationBox *box);
  */
 void msm4g_box_destroy(SimulationBox *box);
 
-/** @brief Create a new Bin for a given index.
- *
- * @param[in] index The new bin will have this index.
+/** @brief Create a new Bin for given index
+ * @todo Give more information
  */
-Bin *msm4g_bin_new(I3Vector index);
+Bin *msm4g_bin_new(int nx,int ny,int nz);
 
 /** @brief Generate bins for a given simulation box and Particle list.
  *
@@ -673,9 +671,10 @@ Bin *msm4g_bin_new(I3Vector index);
  * @param[in] particles The list of particles.
  * @param[in] n         Number of particles
  * @param[in] width     The width of the bins.
+ * @param[in] periodic  Is there a periodic boundary?
  * @return The list of allocated bins.
  */
-LinkedList *msm4g_bin_generate(SimulationBox *box,Particle *particles,int n,double width);
+LinkedList *msm4g_bin_generate(SimulationBox *box,Particle *particles,int n,double width,Boolean periodic);
 
 /** @brief Find the neigbhors of each Bin.
  * 
@@ -684,8 +683,15 @@ LinkedList *msm4g_bin_generate(SimulationBox *box,Particle *particles,int n,doub
  *   - If there is a bin, then add it to the neighbor list.
  *
  * @param[in,out] binlist The linked list of Bin's.
+ * @param[in] minbinindexx Minimum possible bin index along x-axis.
+ * @param[in] minbinindexy Minimum possible bin index along y-axis.
+ * @param[in] minbinindexz Minimum possible bin index along z-axis.
+ * @param[in] maxbinindexx Minimum possible bin index along x-axis.
+ * @param[in] maxbinindexy Minimum possible bin index along y-axis.
+ * @param[in] maxbinindexz Minimum possible bin index along z-axis.
+ * @param[in] periodic     Is there a periodic boundary?
  */
-void msm4g_bin_findneighbors(LinkedList *binlist);
+void msm4g_bin_findneighbors(LinkedList *binlist,int minbinindexx, int minbinindexy, int minbinindexz,int maxbinindexx, int maxbinindexy, int maxbinindexz,Boolean periodic);
 
 /** @brief Returns the bin with given index vector.
  *
@@ -693,11 +699,11 @@ void msm4g_bin_findneighbors(LinkedList *binlist);
  * index information given in the argument.
  *
  * @param[in] binlist The list of bins.
- * @param[in] index   The 3-dimensional index vector.
+ * @param[in] index   Cantor index
  *
  * @return The pointer to the selected bin. Returns NULL if there is no such bin.
  */
-Bin *msm4g_bin_searchByIndex(LinkedList *binlist,I3Vector index);
+Bin *msm4g_bin_searchByIndex(LinkedList *binlist,int index);
 
 /** @brief Print the contents of a bin.
  * 

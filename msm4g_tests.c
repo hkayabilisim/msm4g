@@ -290,6 +290,7 @@ Boolean msm4g_unit_test_5()
 Boolean msm4g_unit_test_6()
 {
     Boolean status = true;
+    Boolean periodic = false;
     Particle *particlelist;
     LinkedList *binlist;
     Bin *bin;
@@ -303,22 +304,22 @@ Boolean msm4g_unit_test_6()
         box.location.value[i] = 0.0;
         box.width.value[i]    = 30.0;
     }
-    binlist=msm4g_bin_generate(&box,particlelist,6,binwidth);
+    binlist=msm4g_bin_generate(&box,particlelist,6,binwidth,periodic);
     
     bin = (Bin *)msm4g_linkedlist_get(binlist, 0);
-    if (bin->cantorindex != 8) status = false;
+    if (bin->cantorindex != 47) status = false;
     /* It should has only one neighbor */
     if (msm4g_linkedlist_size(bin->neighbors) != 1) status = false;
     /* Its neighbor's cantor index should be 17 */
-    if (((Bin *)msm4g_linkedlist_get(bin->neighbors,0))->cantorindex != 17) status = false;
+    if (((Bin *)msm4g_linkedlist_get(bin->neighbors,0))->cantorindex != 73) status = false;
     /* It should contain two particles */
     if (msm4g_linkedlist_size(bin->particles) != 2) status = false;
     
     bin = (Bin *)msm4g_linkedlist_get(binlist, 1);
     /* This bin should has a neighbor */
     if (msm4g_linkedlist_size(bin->neighbors) != 0) status = false;
-    /* Its cantor index should be 25 */
-    if (bin->cantorindex != 25) status = false;
+    /* Its cantor index should be 97 */
+    if (bin->cantorindex != 97) status = false;
     /* It should contain only one particles */
     if (msm4g_linkedlist_size(bin->particles) != 1) status = false;
     
@@ -326,7 +327,7 @@ Boolean msm4g_unit_test_6()
     /* It should has only one neighbor */
     if (msm4g_linkedlist_size(bin->neighbors) != 1) status = false;
     /* Its neighbor's cantor index should be 8 */
-    if (((Bin *)msm4g_linkedlist_get(bin->neighbors,0))->cantorindex != 8) status = false;
+    if (((Bin *)msm4g_linkedlist_get(bin->neighbors,0))->cantorindex != 47) status = false;
     /* It should contain three particles */
     if (msm4g_linkedlist_size(bin->particles) != 3) status = false;
     
@@ -426,7 +427,7 @@ Boolean msm4g_unit_test_9()
     simulation->parameters->a = 10;
     SimulationParameters *sp = simulation->parameters;
     Particle *particles = simulation->particles;
-    LinkedList *binlist = msm4g_bin_generate(box,particles,simulation->parameters->N,sp->a);
+    LinkedList *binlist = msm4g_bin_generate(box,particles,simulation->parameters->N,sp->a,periodic);
     msm4g_force_short(binlist, sp->a, simulation);
     /* Calculate short-range potential energy */
         double energy = 0.0;
@@ -440,7 +441,7 @@ Boolean msm4g_unit_test_9()
     double potential = simulation->output->potentialEnergyShortRange ;
     double potentialExpected =  1127.0/6000 + (5000*sqrt(2.0)-1776.0)/4000.0 + (2000*sqrt(82.0)-17876.0)/164000.0;
 
-    if (fabs(potentialExpected-potential)/potential  > 1E-15) {
+    if (fabs(potentialExpected-potential)/potential  > 1E-14) {
         teststatus = false;
     }
 
@@ -619,6 +620,7 @@ Boolean msm4g_unit_test_14()
 
 Boolean msm4g_unit_test_15()
 {
+    char message[100];
     Boolean teststatus = true;
     Boolean periodic = true;
     int order = 4;
@@ -643,7 +645,7 @@ Boolean msm4g_unit_test_15()
     SimulationBox *box = simulation->box;
     Particle *particles = simulation->particles;
 
-    LinkedList *binlist = msm4g_bin_generate(box,particles,simulation->parameters->N,sp->a);
+    LinkedList *binlist = msm4g_bin_generate(box,particles,simulation->parameters->N,sp->a,periodic);
 
     msm4g_force_short(binlist, sp->a, simulation);
 
@@ -656,11 +658,11 @@ Boolean msm4g_unit_test_15()
         simulation->output->potentialEnergyShortRange = energy;
     }
 
-
     msm4g_bin_destroy(binlist);
 
     double relativeError = fabs(simulation->output->potentialEnergyShortRange-expected)/fabs(expected);
-    msm4g_test_assert("Short-range potential energy for ChaNGa N=8",  relativeError < 1E-14);
+    sprintf(message,"Short-range potential energy for ChaNGaN8: %8.2e",relativeError);
+    msm4g_test_assert(message,relativeError < 1E-14);
 
     if (relativeError > 1E-14) {
         teststatus = false;

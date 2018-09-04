@@ -94,6 +94,9 @@ void msm4g_stencil(Simulation *simulation, int l) {
     double Ax = simulation->box->wx ;
     double Ay = simulation->box->wy ;
     double Az = simulation->box->wz ;
+    Boolean isBoxSquare = false;
+    if (Ax == Ay && Ay == Az)
+        isBoxSquare = true;
     
     int Mxmin = 0;
     int Mxmax = Mx-1;
@@ -116,6 +119,8 @@ void msm4g_stencil(Simulation *simulation, int l) {
         } precalculatedKappa;
         LinkedList *kappalist = msm4g_linkedlist_new();
 
+        int kernelEvaluationsNeeded = 0;
+        int kernelEvaluationsComputed = 0;
         for (int mx = 0; mx < Mx; mx++) {
             for (int my = 0; my < My; my++) {
                 for (int mz = 0; mz < Mz; mz++) {
@@ -124,14 +129,39 @@ void msm4g_stencil(Simulation *simulation, int l) {
                         for (int ky = - mu - nu / 2; ky <= mu + nu / 2; ky++) {
                             for (int kz = - mu - nu / 2; kz <= mu + nu / 2; kz++) {
                                 double omega = wprime[abs(kx)] * wprime[abs(ky)] * wprime[abs(kz)];
+                                kernelEvaluationsNeeded++ ;
+                                int nx = abs(mx + kx) ;
+                                int ny = abs(my + ky) ;
+                                int nz = abs(mz + kz) ;
+                                int n1 = nx ;
+                                int n2 = ny ;
+                                int n3 = nz ;
+                                if (isBoxSquare) {
+                                    if (ny <= nx) {
+                                        if (nz <= ny) {
+                                            n1 = nz; n2 = ny; n3 = nx;
+                                        } else if (nz <= nx) {
+                                            n1 = ny; n2 = nz; n3 = nx;
+                                        } else {
+                                            n1 = ny; n2 = nx; n3 = nz;
+                                        }
+                                    } else {
+                                        if (nz <= nx) {
+                                            n1 = nz; n2 = nx; n3 = ny;
+                                        } else if (nz <= ny) {
+                                            n1 = nx; n2 = nz; n3 = ny ;
+                                        } else {
+                                            n1 = nx; n2 = ny; n3 = nz ;
+                                        }
+                                    }
+                                }
 
                                 Boolean isKappaCalculatedBefore = false;
-                                double  kappaValue ;
+                                double  kappaValue = 0.0;
                                 LinkedListElement *curr = kappalist->head;
                                 while (curr != NULL) {
                                     precalculatedKappa *kappa = (precalculatedKappa *)curr->data;
-                                    if ( (mx + kx ==  kappa->nx && my + ky ==  kappa->ny && mz + kz ==  kappa->nz ) ||
-                                         (mx + kx == -kappa->nx && my + ky == -kappa->ny && mz + kz == -kappa->nz )  ) {
+                                    if ( n1 ==  kappa->nx && n2 ==  kappa->ny && n3 ==  kappa->nz ) {
                                         isKappaCalculatedBefore = true;
                                         kappaValue = kappa->value;
                                         break;
@@ -167,11 +197,12 @@ void msm4g_stencil(Simulation *simulation, int l) {
                                     } while  (p < PMAX);
                                     kappaValue = psum ;
                                     precalculatedKappa *kappa = (precalculatedKappa*)calloc(1,sizeof(precalculatedKappa));
-                                    kappa->nx = mx + kx;
-                                    kappa->ny = my + ky;
-                                    kappa->nz = mz + kz;
+                                    kappa->nx = n1;
+                                    kappa->ny = n2;
+                                    kappa->nz = n3;
                                     kappa->value = kappaValue;
                                     msm4g_linkedlist_add(kappalist,kappa);
+                                    kernelEvaluationsComputed++;
                                 }
                                 sum += omega * kappaValue ;
                             }
@@ -309,7 +340,7 @@ void msm4g_simulation_run(Simulation *simulation) {
     SimulationParameters *sp = simulation->parameters;
     SimulationBox *box = simulation->box;
     Particle *particles = simulation->particles;
-    LinkedList *binlist = msm4g_bin_generate(box,particles,simulation->parameters->N,sp->a);
+    LinkedList *binlist = msm4g_bin_generate(box,particles,simulation->parameters->N,sp->a,sp->periodic);
     int L = simulation->parameters->L ;
     int N = simulation->parameters->N ;
     sp->wprime = msm4g_util_omegaprime(sp->mu,sp->nu);
@@ -851,55 +882,71 @@ double msm4g_kernel(int l,int L, double r,double a,double beta,int nu) {
     }
     return out;
 }
+int shortRangeInteractionCount ;
 double msm4g_force_short(LinkedList *binlist,double threshold, Simulation *simulation)
 {
-    Bin *bin;
-    Bin *neighbor;
-    LinkedListElement *currBin;
-    LinkedListElement *neighborBin;
-    double potentialTotal = 0.0;
-    double potential;
+    shortRangeInteractionCount = 0;
+    double potential = 0;
     
-    currBin=binlist->head;
-    while (currBin != NULL)
-    {
-        bin = (Bin *)currBin->data;
-        potential = msm4g_force_short_withinBin(bin->particles,threshold,simulation);
-        potentialTotal += potential;
+    LinkedListElement *currBin=binlist->head;
+    while (currBin != NULL) {
+        Bin *bin = (Bin *)currBin->data;
+        if (bin->isGhost == true) {
+            currBin = currBin->next;
+            continue;
+        }
         
-        neighborBin = bin->neighbors->head;
-        while (neighborBin != NULL)
-        {
-            neighbor = (Bin *)neighborBin->data;
-            if (neighbor->cantorindex > bin->cantorindex )
-            {
-                potential = msm4g_force_short_betweenBin(bin->particles,neighbor->particles,threshold,simulation);
-                potentialTotal += potential;
+        //printf("within    [%d %d %d]\n",bin->nx,bin->ny,bin->nz);
+        potential += msm4g_force_short_withinBin(bin,threshold,simulation);
+        //printf("Bin\n");
+        //msm4g_bin_print(bin);
+        
+        LinkedListElement *element = bin->neighbors->head;
+        while (element != NULL) {
+            Bin *neighbor = (Bin *)element->data;
+            if ((!neighbor->isGhost  && bin->cantorindex <= neighbor->cantorindex) ||
+                ( neighbor->isGhost  && bin->cantorindex <= neighbor->ghostOf->cantorindex)) {
+                element = element->next ;
+                continue;
             }
-            neighborBin=neighborBin->next;
+            if (neighbor->isGhost) {
+                /* Check is ghost neigbhor is a ghost of a neighbor */
+                Boolean skipNeighbor = false;
+                int searchindex = neighbor->ghostOf->cantorindex;
+                LinkedListElement *tmp=bin->neighbors->head;
+                while (tmp != NULL) {
+                    Bin *tmpBin = (Bin *)tmp->data;
+                    if (tmpBin->cantorindex == searchindex) {
+                        skipNeighbor = true;
+                        break;
+                    }
+                    tmp = tmp->next;
+                }
+                if (!skipNeighbor)
+                    potential += msm4g_force_short_betweenBin(bin,neighbor->ghostOf,threshold,simulation);
+            } else {
+	            potential += msm4g_force_short_betweenBin(bin,neighbor,threshold,simulation);
+            }
+            element = element->next ;
         }
         currBin = currBin->next;
     }
-    return potentialTotal;
+    return potential;
 }
 
-double msm4g_force_short_withinBin(LinkedList *particles, double threshold, Simulation *simulation)
+double msm4g_force_short_withinBin(Bin *bin, double threshold, Simulation *simulation)
 {
-    Particle *particleI;
-    Particle *particleJ;
-    LinkedListElement *currI;
-    LinkedListElement *currJ;
     double potentialTotal = 0.0;
     double potential;
     
-    currI = particles->head;
+    LinkedListElement *currI = bin->particles->head;
     while (currI->next != NULL)
     {
-        particleI = (Particle *)currI->data;
-        currJ = currI->next;
+        Particle *particleI = (Particle *)currI->data;
+        LinkedListElement *currJ = currI->next;
         while (currJ != NULL)
         {
-            particleJ = (Particle *)currJ->data;
+            Particle *particleJ = (Particle *)currJ->data;
             potential = msm4g_force_short_particlePair(particleI,particleJ,threshold,simulation);
             potentialTotal += potential;
             currJ = currJ->next;
@@ -909,11 +956,13 @@ double msm4g_force_short_withinBin(LinkedList *particles, double threshold, Simu
     return potentialTotal;
 }
 
-double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particlesJ,double threshold, Simulation *simulation)
+double msm4g_force_short_betweenBin(Bin *bin, Bin *neighbor,double threshold, Simulation *simulation)
 {
+    LinkedList *particlesI = bin->particles;
+    LinkedList *particlesJ = neighbor->particles;
     LinkedListElement *currI, *currJ;
     Particle *particleI,*particleJ;
-    double potential, potentialTotal = 0.0;
+    double potential = 0.0;
     currI = particlesI->head;
     while (currI != NULL)
     {
@@ -922,17 +971,18 @@ double msm4g_force_short_betweenBin(LinkedList *particlesI, LinkedList *particle
         while (currJ != NULL)
         {
             particleJ = (Particle *)currJ->data;
-            potential = msm4g_force_short_particlePair(particleI,particleJ,threshold,simulation);
-            potentialTotal += potential;
+            potential += msm4g_force_short_particlePair(particleI,particleJ,threshold,simulation);
+            
             currJ = currJ->next;
         }
         currI = currI->next;
     }
-    return potentialTotal;
+    return potential;
 }
 
 double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double a, Simulation *simulation)
 {
+    shortRangeInteractionCount++;
     D3Vector rij;
     double r,r2;
     double a2 = a * a;
@@ -981,7 +1031,8 @@ double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, 
                 }
             }
         }
-
+        
+        
     } else {
         /* rij = rj - ri */
         msm4g_d3vector_daxpy(&rij, &(particleJ->r), -1.0, &(particleI->r));
@@ -1328,74 +1379,156 @@ void msm4g_box_destroy(SimulationBox *box)
     free(box);
 }
 
-Bin *msm4g_bin_new(I3Vector index)
-{
+Bin *msm4g_bin_new(int nx,int ny,int nz) {
     Bin *bin;
     bin = malloc(sizeof(Bin));
     bin->particles = msm4g_linkedlist_new();
     bin->neighbors = msm4g_linkedlist_new();
-    msm4g_i3vector_set(&(bin->index), index.value[0], index.value[1], index.value[2]);
-    bin->cantorindex = msm4g_math_cantor(index.value, 3);
+    bin->nx = nx ;
+    bin->ny = ny ;
+    bin->nz = nz ;
+    bin->cantorindex = msm4g_math_cantor((int [3]){nx,ny,nz}, 3);
+    bin->isGhost = false;
+    bin->ghostOf = NULL;
     return bin;
 }
 
-LinkedList *msm4g_bin_generate(SimulationBox *box,Particle *particles,int n,double binwidth)
+/** @todo Be carefull, bin indexes can be negative here. */
+LinkedList *msm4g_bin_generate(SimulationBox *box,Particle *particles,int n,double binwidth,Boolean periodic)
 {
     LinkedList *binlist;
     Bin *bin;
-    I3Vector binindex;
-
     binlist = msm4g_linkedlist_new();
+    
+    double minrx = DBL_MAX;
+    double minry = DBL_MAX;
+    double minrz = DBL_MAX;
+    double maxrx = DBL_MIN;
+    double maxry = DBL_MIN;
+    double maxrz = DBL_MIN;
     
     for (int particleindex = 0 ; particleindex < n ; particleindex++ )
     {
         Particle *particle = &(particles[particleindex]);
-        msm4g_i3vector_set(&binindex, -1, -1, -1);
-        for (int i=0;i<3;i++)
-        {
-            binindex.value[i] = floor(particle->r.value[i]/binwidth);
-        }
+        double rx = particle->r.value[0];
+        double ry = particle->r.value[1];
+        double rz = particle->r.value[2];
+        int nx = floor(rx/binwidth) + 1;
+        int ny = floor(ry/binwidth) + 1;
+        int nz = floor(rz/binwidth) + 1;
+        
+        if (rx > maxrx ) maxrx = rx;
+        if (ry > maxry ) maxry = ry;
+        if (rz > maxrz ) maxrz = rz;
+        if (rx < minrx ) minrx = rx;
+        if (ry < minry ) minry = ry;
+        if (rz < minrz ) minrz = rz;
+        
+        int binindex = msm4g_math_cantor((int [3]){nx,ny,nz},3);
         bin = msm4g_bin_searchByIndex(binlist,binindex);
         if (bin == NULL)
         {
-            bin = msm4g_bin_new(binindex);
+            bin = msm4g_bin_new(nx,ny,nz);
+            bin->isGhost = false;
             msm4g_linkedlist_add(binlist, bin);
         }
         msm4g_linkedlist_add(bin->particles, particle);
     }
-    msm4g_bin_findneighbors(binlist);
     
+    int minbinindexx = floor(minrx/binwidth) + 1;
+    int minbinindexy = floor(minry/binwidth) + 1;
+    int minbinindexz = floor(minrz/binwidth) + 1;
+    int maxbinindexx = floor(maxrx/binwidth) + 1;
+    int maxbinindexy = floor(maxry/binwidth) + 1;
+    int maxbinindexz = floor(maxrz/binwidth) + 1;
+    
+    msm4g_bin_findneighbors(binlist,minbinindexx,minbinindexy,minbinindexz,maxbinindexx,maxbinindexy,maxbinindexz,periodic);
+    
+    /* Sanity check: number of particles must be 
+     equal to sum of particles in the bins */
+    int particleCountInBins = 0;
+    LinkedListElement *curBin = binlist->head ;
+    while (curBin != NULL) {
+        Bin *bin = (Bin *)curBin->data;
+        if (!bin->isGhost) {
+            int count = msm4g_linkedlist_size(bin->particles);
+            //msm4g_bin_print(bin);
+            particleCountInBins += count;
+        }
+        curBin = curBin->next;
+    }
+    if (n != particleCountInBins) {
+        fprintf(stderr,"Sanity check in msm4g_bin_generate failed\n");
+    }
+    
+    //msm4g_bin_printlist(binlist);
     return binlist;
 }
 
-void msm4g_bin_findneighbors(LinkedList *binlist)
+void msm4g_bin_findneighbors(LinkedList *binlist,int minbinindexx, int minbinindexy, int minbinindexz,int maxbinindexx, int maxbinindexy, int maxbinindexz,Boolean periodic)
 {
-    Bin *bin;
-    Bin *neighborBin;
-    LinkedListElement *curr;
-    I3Vector index;
-    int i,j,k;
+    int nbinsx = maxbinindexx - minbinindexx + 1 ;
+    int nbinsy = maxbinindexy - minbinindexy + 1 ;
+    int nbinsz = maxbinindexz - minbinindexz + 1 ;
     
-    curr = binlist->head;
+    LinkedListElement *curr = binlist->head;
     while (curr != NULL)
     {
-        bin = (Bin *)curr->data;
-        for (i=-1; i < 2; i++)
-        {
-            for (j=-1; j<2; j++)
-            {
-                for (k=-1; k<2 ; k++)
-                {
+        Bin *bin = (Bin *)curr->data;
+        if (bin->isGhost == true) {
+            curr = curr->next;
+            continue;
+        }
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                for (int k = -1; k < 2; k++) {
                     if (i==0 && j==0 && k==0)
                         continue;
-                    msm4g_i3vector_copy(&index, bin->index);
-                    index.value[0] += i;
-                    index.value[1] += j;
-                    index.value[2] += k;
-                    neighborBin = msm4g_bin_searchByIndex(binlist, index);
-                    if (neighborBin != NULL)
-                    {
-                        msm4g_linkedlist_add(bin->neighbors,neighborBin);
+                    int nx = bin->nx + i ;
+                    int ny = bin->ny + j ;
+                    int nz = bin->nz + k ;
+                    int candidateIndex = msm4g_math_cantor((int [3]){nx,ny,nz}, 3);
+                    Boolean candidateIsGhost = false;
+                    if (nx < minbinindexx || nx > maxbinindexx ||
+                        ny < minbinindexy || ny > maxbinindexy ||
+                        nz < minbinindexz || nz > maxbinindexz)
+                        candidateIsGhost = true;
+                    if (!candidateIsGhost) {
+                        Bin *candidateBin = msm4g_bin_searchByIndex(binlist,candidateIndex);
+                        if (candidateBin != NULL)
+                            msm4g_linkedlist_add(bin->neighbors, candidateBin);
+                    } else if (periodic) {
+                        Bin *candidateBin = msm4g_bin_searchByIndex(binlist,candidateIndex);
+                        if (candidateBin != NULL)
+                            msm4g_linkedlist_add(bin->neighbors, candidateBin);
+                        else {
+                            int nxwrapped = nx;
+                            int nywrapped = ny;
+                            int nzwrapped = nz;
+                            if (nxwrapped < minbinindexx) do { nxwrapped += nbinsx ; } while ( nxwrapped < minbinindexx) ;
+                            if (nxwrapped > maxbinindexx) do { nxwrapped -= nbinsx ; } while ( nxwrapped > maxbinindexx) ;
+                            if (nywrapped < minbinindexy) do { nywrapped += nbinsy ; } while ( nywrapped < minbinindexy) ;
+                            if (nywrapped > maxbinindexy) do { nywrapped -= nbinsy ; } while ( nywrapped > maxbinindexy) ;
+                            if (nzwrapped < minbinindexz) do { nzwrapped += nbinsz ; } while ( nzwrapped < minbinindexz) ;
+                            if (nzwrapped > maxbinindexz) do { nzwrapped -= nbinsz ; } while ( nzwrapped > maxbinindexz) ;
+                            int cantorindex = msm4g_math_cantor((int [3]){nxwrapped,nywrapped,nzwrapped}, 3);
+                            Bin *ghostOf = msm4g_bin_searchByIndex(binlist, cantorindex);
+                            if (ghostOf == NULL) {
+                                fprintf(stderr,"Sanity check failed during binning\n");
+                            } else {
+                                Bin *ghostBin = (Bin *)calloc(1,sizeof(Bin));
+                                ghostBin->particles = ghostOf->particles;
+                                ghostBin->neighbors = ghostOf->neighbors;
+                                ghostBin->nx = nx ;
+                                ghostBin->ny = ny ;
+                                ghostBin->nz = nz ;
+                                ghostBin->cantorindex = candidateIndex;
+                                ghostBin->isGhost = true;
+                                ghostBin->ghostOf = ghostOf;
+                                msm4g_linkedlist_add(binlist, ghostBin);
+                                msm4g_linkedlist_add(bin->neighbors, ghostBin);
+                            }
+                        }
                     }
                 }
             }
@@ -1404,7 +1537,7 @@ void msm4g_bin_findneighbors(LinkedList *binlist)
     }
 }
 
-Bin *msm4g_bin_searchByIndex(LinkedList *binlist,I3Vector index)
+Bin *msm4g_bin_searchByIndex(LinkedList *binlist,int cantorindex)
 {
     LinkedListElement *curr;
     Bin *bin = NULL;
@@ -1412,12 +1545,8 @@ Bin *msm4g_bin_searchByIndex(LinkedList *binlist,I3Vector index)
     while (curr != NULL)
     {
         bin = (Bin *)curr->data;
-        if (msm4g_i3vector_isequal(&index, &(bin->index)))
+        if (bin->cantorindex == cantorindex)
         {
-           /*  printf("%d-%d %d-%d %d-%d\n",
-                   index.value[0],bin->index.value[0],
-                   index.value[1],bin->index.value[1],
-                   index.value[2],bin->index.value[2]); */
             return bin;
         }
         curr = curr->next;
@@ -1428,27 +1557,48 @@ Bin *msm4g_bin_searchByIndex(LinkedList *binlist,I3Vector index)
 
 void msm4g_bin_print(Bin *bin)
 {
-    Bin *neighborBin;
-    Particle *particle;
-    LinkedListElement *curr;
+    //Particle *particle;
+    //LinkedListElement *curr;
     
-    printf("[%d,%d,%d] cantor index: %d\n",
-           bin->index.value[0],bin->index.value[1],bin->index.value[2],
-           bin->cantorindex);
-    
-    /* Printing neighbor bins */
+    printf("%p [%d,%d,%d] index: %2d ghost:%d\n",
+           bin,bin->nx,bin->ny,bin->nz,
+           bin->cantorindex,bin->isGhost);
+    //if (!bin->isGhost) {
+        LinkedListElement *element = bin->particles->head;
+        /*int i = 0;
+        while (element != NULL) {
+            Particle *particle = (Particle *)element->data;
+            printf("  particle[%d] = %8.3f %8.3f %8.3f\n",
+                   i,particle->r.value[0],particle->r.value[1],particle->r.value[2]);
+            i++;
+            element = element->next;
+        } */
+    element = bin->neighbors->head;
+    while (element != NULL) {
+        Bin *neighbor = (Bin *)element->data;
+        printf("  Neighbor %p [%d %d %d  %3d]",element->data,
+               neighbor->nx,neighbor->ny,neighbor->nz,neighbor->cantorindex);
+	if (neighbor->isGhost) 
+		printf(" ghost\n");
+	else 
+		printf("\n");
+        element = element->next;
+    }
+    /*printf("Ghost: %d\n",bin->isGhost);
+    if (bin->isGhost) {
+        printf("whoseGhost : index=%d \n",bin->ghostOf->cantorindex);
+        printf("px py pz : %d,%d,%d \n",bin->px,bin->py,bin->pz);
+
+    }
     curr = bin->neighbors->head;
     while (curr != NULL)
     {
-        neighborBin = (Bin *)curr->data;
-        printf("  neighbor: [%d,%d,%d]\n",neighborBin->index.value[0],
-                               neighborBin->index.value[1],
-                               neighborBin->index.value[2]);
-
+        Bin *neighbor = curr->data;
+        printf(" neighbor index:%d %d,%d,%d\n",neighbor->cantorindex,
+               neighbor->nx,neighbor->ny,neighbor->nz);
         curr = curr->next;
     }
     
-    /* Printing particles */
     curr = bin->particles->head;
     while (curr != NULL)
     {
@@ -1458,12 +1608,17 @@ void msm4g_bin_print(Bin *bin)
                particle->r.value[1],
                particle->r.value[2]);
         curr = curr->next;
-    }
+    } */
 }
 
 void msm4g_bin_printlist(LinkedList *binlist)
 {
-    
+    LinkedListElement *curr = binlist->head;
+    while (curr != NULL) {
+        Bin *bin = (Bin *)curr->data;
+        msm4g_bin_print(bin);
+        curr = curr->next;
+    }
 }
 
 void msm4g_bin_destroy(LinkedList *binlist)
@@ -1475,11 +1630,13 @@ void msm4g_bin_destroy(LinkedList *binlist)
     while (curr != NULL)
     {
         bin = (Bin *)curr->data;
-        msm4g_linkedlist_destroy(bin->particles);
-        msm4g_linkedlist_destroy(bin->neighbors);
+        if (!bin->isGhost) {
+            msm4g_linkedlist_destroy(bin->particles);
+            msm4g_linkedlist_destroy(bin->neighbors);
+        }
         curr = curr->next;
     }
-    msm4g_linkedlist_destroyWithData(binlist);
+    msm4g_linkedlist_destroy(binlist);
 }
 
 Particle *msm4g_particle_reset(Particle *particle)
@@ -1537,6 +1694,7 @@ Particle *msm4g_particle_read(const char *filename,int *numberofparticles)
         if (ret == 7)
         {
             particles[iparticle].m = mass;
+            particles[iparticle].index = iparticle;
             particles[iparticle].r.value[0] = r[0];
             particles[iparticle].r.value[1] = r[1];
             particles[iparticle].r.value[2] = r[2];
@@ -1589,11 +1747,11 @@ Particle *msm4g_particle_new(double mass,double x,double y,double z)
 
 void msm4g_particle_print(Particle *particle)
 {
+    printf("r:%8.2E %8.2E %8.2E ",particle->r.value[0],particle->r.value[1],particle->r.value[2]);
     /* printf("i:%d ",particle->index);
     printf("m:%8.2E ",particle->m);
-    printf("r:%8.2E %8.2E %8.2E ",particle->r.value[0],particle->r.value[1],particle->r.value[2]);
     printf("v:%8.2E %8.2E %8.2E ",particle->v.value[0],particle->v.value[1],particle->v.value[2]); */
-    printf("%25.16E %25.16E %25.16E\n",particle->acc_short[0],particle->acc_short[1],particle->acc_short[2]);
+    /*printf("%25.16E %25.16E %25.16E\n",particle->acc_short[0],particle->acc_short[1],particle->acc_short[2]); */
     /* printf("flong:%8.2E %8.2E %8.2E ",particle->flong.value[0],particle->flong.value[1],particle->flong.value[2]); */
     /* printf("\n");*/
     

@@ -109,6 +109,11 @@ typedef struct Bin
     int      cantorindex;   /**< Cantor index corresponding to index variable */
     LinkedList *neighbors;  /**< The list of neightbor bins containing at leeast one particle */
     LinkedList *particles;  /**< The list of particles in the bin */
+    int      nx ; /**< Position along x-axis */
+    int      ny ; /**< Position along y-axis */
+    int      nz ; /**< Position along z-axis */
+    Boolean  isGhost ; /**< Is it a ghost-bin. */
+    struct Bin *ghostOf; /**< If it is a ghost-bin, whose ghost is it */
 } Bin;
 
 /** @brief The collection of simulation parameters.
