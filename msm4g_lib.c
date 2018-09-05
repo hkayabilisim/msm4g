@@ -1512,9 +1512,7 @@ void msm4g_bin_findneighbors(LinkedList *binlist,int minbinindexx, int minbinind
                             if (nzwrapped > maxbinindexz) do { nzwrapped -= nbinsz ; } while ( nzwrapped > maxbinindexz) ;
                             int cantorindex = msm4g_math_cantor((int [3]){nxwrapped,nywrapped,nzwrapped}, 3);
                             Bin *ghostOf = msm4g_bin_searchByIndex(binlist, cantorindex);
-                            if (ghostOf == NULL) {
-                                fprintf(stderr,"Sanity check failed during binning\n");
-                            } else {
+                            if (ghostOf != NULL) {
                                 Bin *ghostBin = (Bin *)calloc(1,sizeof(Bin));
                                 ghostBin->particles = ghostOf->particles;
                                 ghostBin->neighbors = ghostOf->neighbors;
