@@ -17,6 +17,22 @@
 
 #define MSM4G_MAX3(A,B,C) (((A)>(B)) ? (((A)>(C)) ? (A) : (C)) : (((B)>(C)) ? (B) : (C)) )
 
+/** @brief Matlab-style tic() function
+ */
+void msm4g_tic();
+
+/** @brief Matlab-style toc() function
+ * @return elapsed time in seconds.
+ */
+double msm4g_toc() ;
+
+/** @brief Help function for tic/toc functionality
+ * @param[in] push If not zero, it means tic() is called, otherwise
+ * toc() is called.
+ * @return elapsed-time in seconds if push argument is non-zero.
+ */
+double msm4g_tictocmanager(int push);
+
 /** @brief Calculate potential energy of the simulation
  * @param[in,out] simulation The object storing everything related with the simulation
  * @return Potential energy of the system

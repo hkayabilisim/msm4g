@@ -4,6 +4,30 @@
 #include "msm4g_lib.h"
 #include "msm4g_bases.h"
 
+void msm4g_tic() {
+    msm4g_tictocmanager(1);
+}
+
+double msm4g_toc() {
+    return msm4g_tictocmanager(0);
+}
+
+double msm4g_tictocmanager(int push) {
+    double elapsed_seconds = 0.0;
+    static clock_t stack_data[100] ;
+    static int stack_lastindex = 0 ;
+    if (push) {
+        stack_data[stack_lastindex] = clock();
+        stack_lastindex = stack_lastindex + 1;
+    } else {
+        clock_t now = clock();
+        stack_lastindex = stack_lastindex - 1;
+        clock_t previous = stack_data[stack_lastindex];
+        elapsed_seconds = (double)(now-previous)/CLOCKS_PER_SEC;
+    }
+    return elapsed_seconds;
+}
+
 double msm4g_potential_energy(Simulation *simulation) {
     double beta = simulation->parameters->beta ;
     double a = simulation->parameters->a ;
@@ -343,33 +367,61 @@ void msm4g_simulation_run(Simulation *simulation) {
     LinkedList *binlist = msm4g_bin_generate(box,particles,simulation->parameters->N,sp->a,sp->periodic);
     int L = simulation->parameters->L ;
     int N = simulation->parameters->N ;
+    msm4g_tic();
     sp->wprime = msm4g_util_omegaprime(sp->mu,sp->nu);
-    
+    simulation->output->time_omegaprime = msm4g_toc();
+    msm4g_tic();
     msm4g_force_short(binlist, sp->a, simulation);
+    simulation->output->time_short_direct = msm4g_toc();
+    msm4g_tic();
     msm4g_anterpolation(simulation);
+    simulation->output->time_anterpolation = msm4g_toc();
 
+    msm4g_tic();
     for (int l = 2 ; l <= L ; l++) {
         msm4g_restriction(simulation,l);
     }
+    simulation->output->time_restriction = msm4g_toc();
+
     AbstractGrid *qL = simulation->gridmass[L-1];
     AbstractGrid *qLplus1 = simulation->gridmass[L];
     qLplus1->add(qLplus1,qL);
     
-    /* Grid-to-grid mapping */
-    for (int l = 1 ; l <= sp->L + 1; l++) {
+    msm4g_tic();
+    for (int l = 1 ; l <= sp->L; l++) {
         msm4g_stencil(simulation,l);
+    }
+    simulation->output->time_stencil = msm4g_toc();
+
+    msm4g_tic();
+    msm4g_stencil(simulation,sp->L + 1);
+    simulation->output->time_stencil_fourier = msm4g_toc();
+
+
+    /* Grid-to-grid mapping */
+    msm4g_tic();
+    for (int l = 1 ; l <= sp->L + 1; l++) {
         AbstractGrid *stencil = simulation->stencil[l-1];
         AbstractGrid *gridmass = simulation->gridmass[l-1];
         AbstractGrid *gridpotential = simulation->gridpotential[l-1];
         msm4g_grid_potential(stencil,gridmass,gridpotential);
     }
+    simulation->output->time_grid_to_grid = msm4g_toc();
+
     /* Prolongation */
+    msm4g_tic();
     msm4g_prolongation(simulation);
+    simulation->output->time_prolongation = msm4g_toc();
     
     /* Interpolation */
+    msm4g_tic();
     msm4g_interpolation(simulation);
-    
+    simulation->output->time_interpolation = msm4g_toc();
+
+    msm4g_tic();
     msm4g_potential_energy(simulation);
+    simulation->output->time_energy = msm4g_toc();
+
     
     for (int i = 0 ; i < N ; i++) {
         double shortx = simulation->particles[i].acc_short[0];
@@ -1558,7 +1610,7 @@ void msm4g_bin_print(Bin *bin)
     //LinkedListElement *curr;
     
     printf("%p [%d,%d,%d] index: %2d ghost:%d\n",
-           bin,bin->nx,bin->ny,bin->nz,
+           (void *)bin,bin->nx,bin->ny,bin->nz,
            bin->cantorindex,bin->isGhost);
     //if (!bin->isGhost) {
         LinkedListElement *element = bin->particles->head;

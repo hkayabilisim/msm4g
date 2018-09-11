@@ -204,6 +204,16 @@ typedef struct SimulationOutput
     double potentialEnergyShortRange;
     double potentialEnergyLongRange;
     double potentialEnergyTotal;
+    double time_omegaprime;
+    double time_anterpolation;
+    double time_interpolation;
+    double time_short_direct;
+    double time_restriction;
+    double time_prolongation;
+    double time_energy;
+    double time_stencil;
+    double time_stencil_fourier;
+    double time_grid_to_grid;
 } SimulationOutput;
 
 /** @brief An abstract 3-dimensional grid structure.

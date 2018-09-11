@@ -832,7 +832,7 @@ Boolean msm4g_unit_test_18() {
                 double expected = expectedLongRangeDirect[i][j];
                 double calculated = simulation->particles[i].acc_long[j] ;
                 double relerr = fabs(expected-calculated)/fabs(expected);
-                if (relerr > 1E-10) {
+                if (relerr > 1E-9) {
                     status = false;
                     break;
                 }
