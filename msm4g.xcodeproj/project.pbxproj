@@ -12,7 +12,11 @@
 		4A076F601DA6E5B300C849BF /* msm4g_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A076F5F1DA6E5B300C849BF /* msm4g_main.c */; };
 		4A0F05611DA89A6900703FAB /* msm4g_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F055F1DA89A6900703FAB /* msm4g_lib.c */; };
 		4A601D291DC10F3400BC697E /* msm4g_bases.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A601D271DC10F3400BC697E /* msm4g_bases.c */; };
-		4A6CA0FD1DAF0AE900E88EEE /* msm4g_tests.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6CA0FB1DAF0AE900E88EEE /* msm4g_tests.c */; };
+		4AF98AC5214C33A200537316 /* msm4g_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F055F1DA89A6900703FAB /* msm4g_lib.c */; };
+		4AF98AC7214C33A200537316 /* msm4g_bases.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A601D271DC10F3400BC697E /* msm4g_bases.c */; };
+		4AF98ACA214C33A200537316 /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4A076F551DA6B33000C849BF /* data */; };
+		4AF98ACC214C33A200537316 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 4A076F551DA6B33000C849BF /* data */; };
+		4AF98AD1214C33B100537316 /* msm4g_tests.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A6CA0FB1DAF0AE900E88EEE /* msm4g_tests.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,6 +27,16 @@
 			dstSubfolderSpec = 16;
 			files = (
 				4A076F5A1DA6B50A00C849BF /* data in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4AF98AC9214C33A200537316 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = .;
+			dstSubfolderSpec = 16;
+			files = (
+				4AF98ACA214C33A200537316 /* data in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,10 +54,18 @@
 		4A6CA0FC1DAF0AE900E88EEE /* msm4g_tests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msm4g_tests.h; sourceTree = "<group>"; };
 		4AAD507F1E8C0BD5005F44C7 /* msm4g_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msm4g_constants.h; sourceTree = "<group>"; };
 		4AF70D821DA5D82900EC22D9 /* msm4g */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = msm4g; sourceTree = BUILT_PRODUCTS_DIR; };
+		4AF98AD0214C33A200537316 /* msm4g_tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = msm4g_tests; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		4AF70D7F1DA5D82900EC22D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4AF98AC8214C33A200537316 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -74,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				4AF70D821DA5D82900EC22D9 /* msm4g */,
+				4AF98AD0214C33A200537316 /* msm4g_tests */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,6 +120,24 @@
 			name = msm4g;
 			productName = msm4g;
 			productReference = 4AF70D821DA5D82900EC22D9 /* msm4g */;
+			productType = "com.apple.product-type.tool";
+		};
+		4AF98AC3214C33A200537316 /* msm4g_tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4AF98ACD214C33A200537316 /* Build configuration list for PBXNativeTarget "msm4g_tests" */;
+			buildPhases = (
+				4AF98AC4214C33A200537316 /* Sources */,
+				4AF98AC8214C33A200537316 /* Frameworks */,
+				4AF98AC9214C33A200537316 /* CopyFiles */,
+				4AF98ACB214C33A200537316 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = msm4g_tests;
+			productName = msm4g;
+			productReference = 4AF98AD0214C33A200537316 /* msm4g_tests */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -127,6 +168,7 @@
 			projectRoot = "";
 			targets = (
 				4AF70D811DA5D82900EC22D9 /* msm4g */,
+				4AF98AC3214C33A200537316 /* msm4g_tests */,
 			);
 		};
 /* End PBXProject section */
@@ -140,6 +182,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4AF98ACB214C33A200537316 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AF98ACC214C33A200537316 /* data in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -148,9 +198,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A0F05611DA89A6900703FAB /* msm4g_lib.c in Sources */,
-				4A6CA0FD1DAF0AE900E88EEE /* msm4g_tests.c in Sources */,
 				4A076F601DA6E5B300C849BF /* msm4g_main.c in Sources */,
 				4A601D291DC10F3400BC697E /* msm4g_bases.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4AF98AC4214C33A200537316 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AF98AD1214C33B100537316 /* msm4g_tests.c in Sources */,
+				4AF98AC5214C33A200537316 /* msm4g_lib.c in Sources */,
+				4AF98AC7214C33A200537316 /* msm4g_bases.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +319,20 @@
 			};
 			name = Release;
 		};
+		4AF98ACE214C33A200537316 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		4AF98ACF214C33A200537316 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -277,6 +350,15 @@
 			buildConfigurations = (
 				4AF70D8A1DA5D82900EC22D9 /* Debug */,
 				4AF70D8B1DA5D82900EC22D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4AF98ACD214C33A200537316 /* Build configuration list for PBXNativeTarget "msm4g_tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4AF98ACE214C33A200537316 /* Debug */,
+				4AF98ACF214C33A200537316 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

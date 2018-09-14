@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0800"
+   LastUpgradeVersion = "0820"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4AF70D811DA5D82900EC22D9"
-               BuildableName = "msm4g"
-               BlueprintName = "msm4g"
+               BlueprintIdentifier = "4AF98AC3214C33A200537316"
+               BuildableName = "msm4g_tests"
+               BlueprintName = "msm4g_tests"
                ReferencedContainer = "container:msm4g.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4AF70D811DA5D82900EC22D9"
-            BuildableName = "msm4g"
-            BlueprintName = "msm4g"
+            BlueprintIdentifier = "4AF98AC3214C33A200537316"
+            BuildableName = "msm4g_tests"
+            BlueprintName = "msm4g_tests"
             ReferencedContainer = "container:msm4g.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -55,18 +55,12 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4AF70D811DA5D82900EC22D9"
-            BuildableName = "msm4g"
-            BlueprintName = "msm4g"
+            BlueprintIdentifier = "4AF98AC3214C33A200537316"
+            BuildableName = "msm4g_tests"
+            BlueprintName = "msm4g_tests"
             ReferencedContainer = "container:msm4g.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "data/NaClN8.ini 2 2 2 6 2 4 0 0 0 0"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -80,9 +74,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4AF70D811DA5D82900EC22D9"
-            BuildableName = "msm4g"
-            BlueprintName = "msm4g"
+            BlueprintIdentifier = "4AF98AC3214C33A200537316"
+            BuildableName = "msm4g_tests"
+            BlueprintName = "msm4g_tests"
             ReferencedContainer = "container:msm4g.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

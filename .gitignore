@@ -1,1 +1,7 @@
 /Debug/
+*.o
+*.exe
+msm4g
+msm4g_tests
+libmsm4g.a
+msm.acc

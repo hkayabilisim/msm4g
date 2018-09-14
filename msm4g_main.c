@@ -46,12 +46,57 @@
  */
 
 #include "msm4g_lib.h"
-#include "msm4g_tests.h"
 
-
-int main()
+int main(int argc,char *argv[])
 {
-    msm4g_unit_test_all();
+    if ( argc != 12 ) {
+        fprintf(stderr, "Usage: %s datafile Ax Ay Az abar mu nu Mx My Mz L\n", argv[0]);
+        fprintf(stderr, "Set Mx=My=Mz=L=0 to switch automatic selection");
+        fprintf(stderr, "Example: ./msm4g data/changaN512.ini 1 1 1 4 2 4 0 0 0 0");
+        return 1;
+    }
     
+    Boolean periodic = true;
+
+    
+    SimulationBox *box = msm4g_box_new();
+    box->x = 0;
+    box->y = 0;
+    box->z = 0;
+    box->wx = atof(argv[2]);
+    box->wy = atof(argv[3]);
+    box->wz = atof(argv[4]);
+    double abar = atof(argv[5]);
+    int mu = atoi(argv[6]);
+    int nu = atoi(argv[7]);
+    int Mx = atoi(argv[8]);
+    int My = atoi(argv[9]);
+    int Mz = atoi(argv[10]);
+    int L =  atoi(argv[11]);
+    Simulation *simulation = msm4g_simulation_new(argv[1], box, periodic, nu, abar,mu,L,Mx,My,Mz);
+    
+    msm4g_simulation_run(simulation);
+    
+    fprintf(stdout,"Potential Energy     %10.4f\n",simulation->output->potentialEnergyTotal);
+    
+    int N = simulation->parameters->N ;
+    
+    FILE *fp=fopen("msm.acc","w");
+    fprintf(fp,"%d\n",N);
+    for (int i = 0 ; i < N ; i++) {
+        double totalx = simulation->particles[i].acc_total[0];
+        fprintf(fp,"%25.16e\n",totalx);
+    }
+    for (int i = 0 ; i < N ; i++) {
+        double totaly = simulation->particles[i].acc_total[1];
+        fprintf(fp,"%25.16e\n",totaly);
+    }
+    for (int i = 0 ; i < N ; i++) {
+        double totalz = simulation->particles[i].acc_total[2];
+        fprintf(fp,"%25.16e\n",totalz);
+    }
+    fclose(fp);
+    msm4g_simulation_delete(simulation);
+
     return 0;
 }
