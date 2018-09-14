@@ -1,4 +1,4 @@
-CFLAGS = -std=c99 -Wall -O3
+CFLAGS = -std=c99 -Wall -O3 -lm
 CC = gcc
 OUTFOLDER=Debug
 HEADERS = msm4g_bases.h     \
@@ -36,7 +36,7 @@ $(TESTEXECUTABLE): $(OBJECTS) $(TESTEXECUTABLECODE)
 	$(CC) $(CFLAGS) -o $(TESTEXECUTABLE) $(OBJECTS) $(TESTEXECUTABLECODE)
 
 $(LIBRARY): $(OBJECTS)
-	ar ru $@ $^
+	ar r $@ $^
 	
 test: $(TESTEXECUTABLE)
 	@echo "Running tests"
