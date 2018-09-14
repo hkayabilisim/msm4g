@@ -2101,7 +2101,7 @@ double *msm4g_util_omegaprime(int mu,int p) {
     /* for (int i = 0 ; i < 100 ; i++)
      printf("c[3d] %18.15f\n",c[i]); */
     
-    for (int i = 0; i <= p - 1; i++) {
+    for (int i = 0; i < p - 1; i++) {
         if (p == 4)
             deltastencil[i] = firstpart4[i];
         else if (p == 6)
