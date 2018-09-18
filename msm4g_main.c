@@ -96,6 +96,10 @@ int main(int argc,char *argv[])
         fprintf(fp,"%25.16e\n",totalz);
     }
     fclose(fp);
+    
+    fp = fopen("msm.pot","w");
+    fprintf(fp,"%25.16e\n",simulation->output->potentialEnergyTotal);
+    fclose(fp);
     msm4g_simulation_delete(simulation);
 
     return 0;
