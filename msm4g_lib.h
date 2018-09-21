@@ -78,6 +78,14 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
  */
 void msm4g_simulation_run(Simulation *simulation);
 
+/** @brief Save simulation object into a stream
+ * Simulation objects and its child objects are saved
+ * into a file stream in YAML format.
+ * @param[in] simulation Simulation object
+ * @param[in] fp Pointer to the stream.
+ */
+void msm4g_simulation_save(Simulation *simulation,FILE *fp);
+
 /** @brief Deallocates a given simulation object
  *
  * @param[in] simulation Pointer to the simulation object

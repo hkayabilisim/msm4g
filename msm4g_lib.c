@@ -438,6 +438,61 @@ void msm4g_simulation_run(Simulation *simulation) {
     msm4g_bin_destroy(binlist);
 }
 
+void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
+    SimulationParameters *sp = simulation->parameters;
+    SimulationBox *box = simulation->box;
+    SimulationOutput *so = simulation->output;
+    int i;
+    fprintf(fp,"simulation:\n");
+    fprintf(fp,"  parameters:\n");
+    fprintf(fp,"    abar: %25.16e\n",sp->abar);
+    fprintf(fp,"    nu: %d\n",sp->nu);
+    fprintf(fp,"    mu: %d\n",sp->mu);
+    fprintf(fp,"    periodic: %d\n",sp->periodic);
+    fprintf(fp,"    a: %25.16e\n",sp->a);
+    fprintf(fp,"    h: %25.16e\n",sp->h);
+    fprintf(fp,"    hx: %25.16e\n",sp->hx);
+    fprintf(fp,"    hy: %25.16e\n",sp->hy);
+    fprintf(fp,"    hz: %25.16e\n",sp->hz);
+    fprintf(fp,"    Mx: %d\n",sp->Mx);
+    fprintf(fp,"    My: %d\n",sp->My);
+    fprintf(fp,"    Mz: %d\n",sp->Mz);
+    fprintf(fp,"    L: %d\n",sp->L);
+    fprintf(fp,"    N: %d\n",sp->N);
+    fprintf(fp,"    Mxmin: %d\n",sp->Mxmin);
+    fprintf(fp,"    Mxmax: %d\n",sp->Mxmax);
+    fprintf(fp,"    Mymin: %d\n",sp->Mymin);
+    fprintf(fp,"    Mymax: %d\n",sp->Mymax);
+    fprintf(fp,"    Mzmin: %d\n",sp->Mzmin);
+    fprintf(fp,"    Mzmax: %d\n",sp->Mzmax);
+    fprintf(fp,"    wprime: [");
+    for (i = 0 ; i < sp->mu + (sp->nu)/2 - 1; i++)
+        fprintf(fp,"%25.16e, ",sp->wprime[i]);
+    fprintf(fp,"%25.16e] \n",sp->wprime[i]);
+    fprintf(fp,"    beta: %25.16e\n",sp->beta);
+    fprintf(fp,"  box:\n");
+    fprintf(fp,"    x: %25.16e\n",box->x);
+    fprintf(fp,"    y: %25.16e\n",box->y);
+    fprintf(fp,"    z: %25.16e\n",box->z);
+    fprintf(fp,"    wx: %25.16e\n",box->wx);
+    fprintf(fp,"    wy: %25.16e\n",box->wy);
+    fprintf(fp,"    wz: %25.16e\n",box->wz);
+    fprintf(fp,"  output:\n");
+    fprintf(fp,"    potentialEnergyShortRange: %25.16e\n",so->potentialEnergyShortRange);
+    fprintf(fp,"    potentialEnergyLongRange: %25.16e\n",so->potentialEnergyLongRange);
+    fprintf(fp,"    potentialEnergyTotal: %25.16e\n",so->potentialEnergyTotal);
+    fprintf(fp,"    time_omegaprime: %25.16e\n",so->time_omegaprime);
+    fprintf(fp,"    time_anterpolation: %25.16e\n",so->time_anterpolation);
+    fprintf(fp,"    time_interpolation: %25.16e\n",so->time_interpolation);
+    fprintf(fp,"    time_short_direct: %25.16e\n",so->time_short_direct);
+    fprintf(fp,"    time_restriction: %25.16e\n",so->time_restriction);
+    fprintf(fp,"    time_prolongation: %25.16e\n",so->time_prolongation);
+    fprintf(fp,"    time_energy: %25.16e\n",so->time_energy);
+    fprintf(fp,"    time_stencil: %25.16e\n",so->time_stencil);
+    fprintf(fp,"    time_stencil_fourier: %25.16e\n",so->time_stencil_fourier);
+    fprintf(fp,"    time_grid_to_grid: %25.16e\n",so->time_grid_to_grid);
+}
+
 void msm4g_simulation_delete(Simulation *simulation) {
     for (int l = 0 ; l <= simulation->parameters->L ; l++) {
         if (simulation->gridmass[l] != NULL)

@@ -77,8 +77,6 @@ int main(int argc,char *argv[])
     
     msm4g_simulation_run(simulation);
     
-    fprintf(stdout,"Potential Energy     %10.4f\n",simulation->output->potentialEnergyTotal);
-    
     int N = simulation->parameters->N ;
     
     FILE *fp=fopen("msm.acc","w");
@@ -100,6 +98,7 @@ int main(int argc,char *argv[])
     fp = fopen("msm.pot","w");
     fprintf(fp,"%25.16e\n",simulation->output->potentialEnergyTotal);
     fclose(fp);
+    msm4g_simulation_save(simulation, stdout);
     msm4g_simulation_delete(simulation);
 
     return 0;
