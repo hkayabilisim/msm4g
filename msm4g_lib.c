@@ -237,6 +237,8 @@ void msm4g_stencil(Simulation *simulation, int l) {
             }
         }
         msm4g_linkedlist_destroyWithData(kappalist);
+        simulation->output->kernelEvaluationsNeeded[l-1] = kernelEvaluationsNeeded;
+        simulation->output->kernelEvaluationsComputed[l-1] = kernelEvaluationsComputed;
     } else if (l == L + 1) {
         double detA = Ax * Ay * Az ;
         for (int mx = Mxmin; mx <= Mxmax; mx++) {
@@ -442,7 +444,7 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
     SimulationParameters *sp = simulation->parameters;
     SimulationBox *box = simulation->box;
     SimulationOutput *so = simulation->output;
-    int i;
+    int i,l;
     fprintf(fp,"simulation:\n");
     fprintf(fp,"  parameters:\n");
     fprintf(fp,"    abar: %25.16e\n",sp->abar);
@@ -491,6 +493,14 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
     fprintf(fp,"    time_stencil: %25.16e\n",so->time_stencil);
     fprintf(fp,"    time_stencil_fourier: %25.16e\n",so->time_stencil_fourier);
     fprintf(fp,"    time_grid_to_grid: %25.16e\n",so->time_grid_to_grid);
+    fprintf(fp,"    kernelEvaluationsNeeded: [");
+    for (l = 1 ; l < simulation->parameters->L ; l++)
+        fprintf(fp,"%d,",so->kernelEvaluationsNeeded[l-1]);
+    fprintf(fp,"%d]\n",so->kernelEvaluationsNeeded[l-1]);
+    fprintf(fp,"    kernelEvaluationsComputed: [");
+    for (l = 1 ; l < simulation->parameters->L ; l++)
+        fprintf(fp,"%d,",so->kernelEvaluationsComputed[l-1]);
+    fprintf(fp,"%d]\n",so->kernelEvaluationsComputed[l-1]);
 }
 
 void msm4g_simulation_delete(Simulation *simulation) {
