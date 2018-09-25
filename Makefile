@@ -44,9 +44,11 @@ test: $(TESTEXECUTABLE)
 	$(TESTEXECUTABLE)
 
 demo: $(EXECUTABLE)
-	@echo "Demo run for NaCl N=8 case"
-	@echo "Potential Energy should be -6.9903"
 	$(EXECUTABLE) data/NaClN8.ini 2 2 2 6 2 4 0 0 0 0
+	@echo "--------------------------------------------------"
+	@echo "Demo run for NaCl N=8 case ended"
+	@echo "--------------------------------------------------"
+	@echo "potentialEnergyTotal (see above) should be -6.9903"
 
 help:
 	@echo "make all   ---> Create executables and the library"
