@@ -783,6 +783,8 @@ Boolean msm4g_unit_test_18() {
        msm4g_anterpolation(simulation);
        gridmass = simulation->gridmass[0] ;
        stencil = simulation->stencil[0] ;
+       //printf("stencil size : %d %d %d\n",stencil->nx,stencil->ny,stencil->nz);
+       //printf("M            : %d \n",simulation->parameters->Mx);
 
        int counter = 0;
        for (int i = 0 ; i < stencil->nx ; i++) {
@@ -791,6 +793,7 @@ Boolean msm4g_unit_test_18() {
                    double calculated = stencil->getElement(stencil,i,j,k);
                    double expected = expectedStencil[counter++];
                    double relerr = fabs(expected-calculated)/fabs(expected);
+                   //printf("%2d [%d %d %d] %25.16e %25.16e %25.16e\n",counter,i,j,k,calculated,expected,relerr);
                    if (relerr > 1E-11) {
                        teststatus = false;
                        break;
@@ -835,7 +838,7 @@ Boolean msm4g_unit_test_18() {
                 double expected = expectedLongRangeDirect[i][j];
                 double calculated = simulation->particles[i].acc_long[j] ;
                 double relerr = fabs(expected-calculated)/fabs(expected);
-                if (relerr > 1E-9) {
+                if (relerr > 1E-8) {
                     status = false;
                     break;
                 }

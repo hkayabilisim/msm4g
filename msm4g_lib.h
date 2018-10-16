@@ -16,6 +16,7 @@
 #include "msm4g_constants.h"
 
 #define MSM4G_MAX3(A,B,C) (((A)>(B)) ? (((A)>(C)) ? (A) : (C)) : (((B)>(C)) ? (B) : (C)) )
+#define MSM4G_MIN2(A,B) (((A)<(B)) ? (A) : (B))
 
 /** @brief Matlab-style tic() function
  */
