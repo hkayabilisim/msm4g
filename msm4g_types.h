@@ -154,6 +154,9 @@ typedef struct SimulationParameters
     int       Mx;      /**< Number of grids along x-axis */
     int       My;      /**< Number of grids along y-axis */
     int       Mz;      /**< Number of grids along z-axis */
+    int       nbarx;   /**< Size of stencil along x-axis */
+    int       nbary;   /**< Size of stencil along y-axis */
+    int       nbarz;   /**< Size of stencil along z-axis */
     int       L;       /**< Number of levels */
     int       N;       /**< Number of particles */
     int       Mxmin;   /**< Lower bound for Mx */

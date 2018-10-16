@@ -324,6 +324,11 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
     sp->hz = box->wz / sp->Mz ;
     sp->h  = MSM4G_MAX3(sp->hx,sp->hy,sp->hz);
     sp->a = sp->abar * sp->h ;
+    
+    sp->nbarx = MSM4G_MIN2(ceil(2.0 * sp->a / sp->hx ) , sp->Mx);
+    sp->nbary = MSM4G_MIN2(ceil(2.0 * sp->a / sp->hy ) , sp->My);
+    sp->nbarz = MSM4G_MIN2(ceil(2.0 * sp->a / sp->hz ) , sp->Mz);
+    
     double aL = pow(2,L) * sp->a ;
     sp->beta = msm4g_util_choose_beta(aL) ;
     {
@@ -340,10 +345,7 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
             double hx = sp->hx * pow(2,l-1);
             double hy = sp->hy * pow(2,l-1);
             double hz = sp->hz * pow(2,l-1);
-            int nbarx = MSM4G_MIN2(ceil(2.0 * sp->a / sp->hx ) , sp->Mx);
-            int nbary = MSM4G_MIN2(ceil(2.0 * sp->a / sp->hy ) , sp->My);
-            int nbarz = MSM4G_MIN2(ceil(2.0 * sp->a / sp->hz ) , sp->Mz);
-            simulation->stencil[l-1] = msm4g_grid_dense_new(nbarx+extension,nbary+extension,nbarz+extension,hx,hy,hz);
+            simulation->stencil[l-1] = msm4g_grid_dense_new(sp->nbarx+extension,sp->nbary+extension,sp->nbarz+extension,hx,hy,hz);
             simulation->gridpotential[l-1] = msm4g_grid_dense_new(Mx+extension,My+extension,Mz+extension,hx,hy,hz);
             simulation->gridmass[l-1]      = msm4g_grid_dense_new(Mx+extension,My+extension,Mz+extension,hx,hy,hz);
         }
@@ -462,6 +464,9 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
     fprintf(fp,"    Mx: %d\n",sp->Mx);
     fprintf(fp,"    My: %d\n",sp->My);
     fprintf(fp,"    Mz: %d\n",sp->Mz);
+    fprintf(fp,"    nbarx: %d\n",sp->nbarx);
+    fprintf(fp,"    nbary: %d\n",sp->nbary);
+    fprintf(fp,"    nbarz: %d\n",sp->nbarz);
     fprintf(fp,"    L: %d\n",sp->L);
     fprintf(fp,"    N: %d\n",sp->N);
     fprintf(fp,"    Mxmin: %d\n",sp->Mxmin);
