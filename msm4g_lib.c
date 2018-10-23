@@ -122,12 +122,7 @@ void msm4g_stencil(Simulation *simulation, int l) {
     if (Ax == Ay && Ay == Az)
         isBoxSquare = true;
     
-    int Mxmin = 0;
-    int Mxmax = Mx-1;
-    int Mymin = 0;
-    int Mymax = My-1;
-    int Mzmin = 0;
-    int Mzmax = Mz-1;
+
     int mu = simulation->parameters->mu ;
     int nu = simulation->parameters->nu ;
     double a = simulation->parameters->a ;
@@ -142,12 +137,66 @@ void msm4g_stencil(Simulation *simulation, int l) {
             double value;
         } precalculatedKappa;
         LinkedList *kappalist = msm4g_linkedlist_new();
+        LinkedList *kappahatlist = msm4g_linkedlist_new();
 
         int kernelEvaluationsNeeded = 0;
         int kernelEvaluationsComputed = 0;
-        for (int mx = 0; mx < Mx; mx++) {
-            for (int my = 0; my < My; my++) {
-                for (int mz = 0; mz < Mz; mz++) {
+        int kernelHatEvaluationsNeeded = 0;
+        int kernelHatEvaluationsComputed = 0;
+        int Mxmin = 1 - Mx / 2;
+        int Mxmax =     Mx / 2;
+        int Mymin = 1 - My / 2;
+        int Mymax =     My / 2;
+        int Mzmin = 1 - Mz / 2;
+        int Mzmax =     Mz / 2;
+        for (int mx = Mxmin; mx <= Mxmax; mx++) {
+            for (int my = Mxmin; my <= Mymax; my++) {
+                for (int mz = Mzmin; mz <= Mzmax; mz++) {
+                    kernelHatEvaluationsNeeded++;
+                    int nx = abs(mx) ;
+                    int ny = abs(my) ;
+                    int nz = abs(mz) ;
+                    int n1 = nx ;
+                    int n2 = ny ;
+                    int n3 = nz ;
+                    if (isBoxSquare) {
+                        if (ny <= nx) {
+                            if (nz <= ny) {
+                                n1 = nz; n2 = ny; n3 = nx;
+                            } else if (nz <= nx) {
+                                n1 = ny; n2 = nz; n3 = nx;
+                            } else {
+                                n1 = ny; n2 = nx; n3 = nz;
+                            }
+                        } else {
+                            if (nz <= nx) {
+                                n1 = nz; n2 = nx; n3 = ny;
+                            } else if (nz <= ny) {
+                                n1 = nx; n2 = nz; n3 = ny ;
+                            } else {
+                                n1 = nx; n2 = ny; n3 = nz ;
+                            }
+                        }
+                    }
+
+                    Boolean isKappaHatCalculatedBefore = false;
+                    double  kappaHatValue = 0.0;
+                    LinkedListElement *curr = kappahatlist->head;
+                    while (curr != NULL) {
+                        precalculatedKappa *kappa = (precalculatedKappa *)curr->data;
+                        if ( n1 ==  kappa->nx && n2 ==  kappa->ny && n3 ==  kappa->nz ) {
+                            isKappaHatCalculatedBefore = true;
+                            kappaHatValue = kappa->value;
+                            break;
+                        }
+                        curr = curr->next;
+                    }
+
+                    if (isKappaHatCalculatedBefore) {
+                        stencil->setElement(stencil,mx - Mxmin,my - Mymin,mz - Mzmin,kappaHatValue);
+                        continue;
+                    }
+
                     double sum = 0.0;
                     for (int kx = - mu - nu / 2; kx <= mu + nu / 2; kx++) {
                         for (int ky = - mu - nu / 2; ky <= mu + nu / 2; ky++) {
@@ -232,15 +281,31 @@ void msm4g_stencil(Simulation *simulation, int l) {
                             }
                         }
                     }
-                    stencil->setElement(stencil,mx,my,mz,sum);
+                    stencil->setElement(stencil,mx-Mxmin,my-Mymin,mz-Mzmin,sum);
+                    precalculatedKappa *kappaHat = (precalculatedKappa*)calloc(1,sizeof(precalculatedKappa));
+                    kappaHat->nx = n1;
+                    kappaHat->ny = n2;
+                    kappaHat->nz = n3;
+                    kappaHat->value = sum;
+                    msm4g_linkedlist_add(kappahatlist,kappaHat);
+                    kernelHatEvaluationsComputed++;
                 }
             }
         }
         msm4g_linkedlist_destroyWithData(kappalist);
+        msm4g_linkedlist_destroyWithData(kappahatlist);
         simulation->output->kernelEvaluationsNeeded[l-1] = kernelEvaluationsNeeded;
         simulation->output->kernelEvaluationsComputed[l-1] = kernelEvaluationsComputed;
+        simulation->output->kernelHatEvaluationsNeeded[l-1] = kernelHatEvaluationsNeeded;
+        simulation->output->kernelHatEvaluationsComputed[l-1] = kernelHatEvaluationsComputed;
     } else if (l == L + 1) {
         double detA = Ax * Ay * Az ;
+        int Mxmin = 1 - Mx / 2;
+        int Mxmax =     Mx / 2;
+        int Mymin = 1 - My / 2;
+        int Mymax =     My / 2;
+        int Mzmin = 1 - Mz / 2;
+        int Mzmax =     Mz / 2;
         for (int mx = Mxmin; mx <= Mxmax; mx++) {
             for (int my = Mymin; my <= Mymax; my++) {
                 for (int mz = Mzmin; mz <= Mzmax; mz++) {
@@ -270,7 +335,7 @@ void msm4g_stencil(Simulation *simulation, int l) {
                             }
                         }
                     }
-                    stencil->setElement(stencil,mx - Mxmin,my - Mymin,mz - Mzmin,sum);
+                    stencil->setElement(stencil,mx-Mxmin,my-Mymin,mz-Mzmin,sum);
                 }
             }
         }
@@ -325,10 +390,11 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
     sp->h  = MSM4G_MAX3(sp->hx,sp->hy,sp->hz);
     sp->a = sp->abar * sp->h ;
     
-    sp->nbarx = MSM4G_MIN2(ceil(2.0 * sp->a / sp->hx ) , sp->Mx);
-    sp->nbary = MSM4G_MIN2(ceil(2.0 * sp->a / sp->hy ) , sp->My);
-    sp->nbarz = MSM4G_MIN2(ceil(2.0 * sp->a / sp->hz ) , sp->Mz);
+    sp->nbarx = ceil(2.0 * sp->a / sp->hx );
+    sp->nbary = ceil(2.0 * sp->a / sp->hy );
+    sp->nbarz = ceil(2.0 * sp->a / sp->hz );
     
+
     double aL = pow(2,L) * sp->a ;
     sp->beta = msm4g_util_choose_beta(aL) ;
     {
@@ -345,7 +411,11 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean perio
             double hx = sp->hx * pow(2,l-1);
             double hy = sp->hy * pow(2,l-1);
             double hz = sp->hz * pow(2,l-1);
-            simulation->stencil[l-1] = msm4g_grid_dense_new(sp->nbarx+extension,sp->nbary+extension,sp->nbarz+extension,hx,hy,hz);
+            //simulation->stencil[l-1] = msm4g_grid_dense_new(Mx+extension,My+extension,Mz+extension,hx,hy,hz);
+            int nbarx = MSM4G_MIN2(sp->nbarx , Mx / 2);
+            int nbary = MSM4G_MIN2(sp->nbary , My / 2);
+            int nbarz = MSM4G_MIN2(sp->nbarz , Mz / 2);
+            simulation->stencil[l-1] = msm4g_grid_dense_new(2 * (nbarx+ extension), 2*(nbary+extension),2*(nbarz+extension),hx,hy,hz);
             simulation->gridpotential[l-1] = msm4g_grid_dense_new(Mx+extension,My+extension,Mz+extension,hx,hy,hz);
             simulation->gridmass[l-1]      = msm4g_grid_dense_new(Mx+extension,My+extension,Mz+extension,hx,hy,hz);
         }
@@ -406,14 +476,14 @@ void msm4g_simulation_run(Simulation *simulation) {
 
 
     /* Grid-to-grid mapping */
-    msm4g_tic();
     for (int l = 1 ; l <= sp->L + 1; l++) {
         AbstractGrid *stencil = simulation->stencil[l-1];
         AbstractGrid *gridmass = simulation->gridmass[l-1];
         AbstractGrid *gridpotential = simulation->gridpotential[l-1];
+        msm4g_tic();
         msm4g_grid_potential(stencil,gridmass,gridpotential);
+        simulation->output->time_grid_to_grid[l-1] = msm4g_toc();
     }
-    simulation->output->time_grid_to_grid = msm4g_toc();
 
     /* Prolongation */
     msm4g_tic();
@@ -487,6 +557,12 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
     fprintf(fp,"    wx: %25.16e\n",box->wx);
     fprintf(fp,"    wy: %25.16e\n",box->wy);
     fprintf(fp,"    wz: %25.16e\n",box->wz);
+    fprintf(fp,"    stencilsizes: [");
+    for (l = 0 ; l < simulation->parameters->L ; l++)
+          fprintf(fp,"%d,",simulation->stencil[l]->nx);
+    fprintf(fp,"%d]\n",simulation->stencil[l]->nx);
+
+
     fprintf(fp,"  output:\n");
     fprintf(fp,"    potentialEnergyShortRange: %25.16e\n",so->potentialEnergyShortRange);
     fprintf(fp,"    potentialEnergyLongRange: %25.16e\n",so->potentialEnergyLongRange);
@@ -500,7 +576,19 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
     fprintf(fp,"    time_energy: %25.16e\n",so->time_energy);
     fprintf(fp,"    time_stencil: %25.16e\n",so->time_stencil);
     fprintf(fp,"    time_stencil_fourier: %25.16e\n",so->time_stencil_fourier);
-    fprintf(fp,"    time_grid_to_grid: %25.16e\n",so->time_grid_to_grid);
+    fprintf(fp,"    time_grid_to_grid: [");
+    for (l = 1 ; l < simulation->parameters->L ; l++)
+        fprintf(fp,"%25.16e,",so->time_grid_to_grid[l-1]);
+    fprintf(fp,"%25.16e]\n",so->time_grid_to_grid[l-1]);
+    fprintf(fp,"    kernelHatEvaluationsNeeded: [");
+    for (l = 1 ; l < simulation->parameters->L ; l++)
+        fprintf(fp,"%d,",so->kernelHatEvaluationsNeeded[l-1]);
+    fprintf(fp,"%d]\n",so->kernelHatEvaluationsNeeded[l-1]);
+    fprintf(fp,"    kernelHatEvaluationsComputed: [");
+    for (l = 1 ; l < simulation->parameters->L ; l++)
+        fprintf(fp,"%d,",so->kernelHatEvaluationsComputed[l-1]);
+    fprintf(fp,"%d]\n",so->kernelHatEvaluationsComputed[l-1]);
+
     fprintf(fp,"    kernelEvaluationsNeeded: [");
     for (l = 1 ; l < simulation->parameters->L ; l++)
         fprintf(fp,"%d,",so->kernelEvaluationsNeeded[l-1]);
@@ -922,6 +1010,12 @@ void msm4g_grid_dense_destroy(AbstractGrid **grid)
 }
 
 void msm4g_grid_potential(AbstractGrid *stencil, AbstractGrid *gridmass, AbstractGrid *gridpotential) {
+    
+    //k * grid->nx * grid->ny + j * grid->nx  + i;
+    double *stencildata = ((DenseGrid *) stencil)->data;
+    double *gridmassdata = ((DenseGrid *) gridmass)->data;
+    //double *gridpotentialdata = ((DenseGrid *) gridpotential)->data;
+    
     int Mx = stencil->nx ;
     int My = stencil->ny ;
     int Mz = stencil->nz ;
@@ -930,19 +1024,21 @@ void msm4g_grid_potential(AbstractGrid *stencil, AbstractGrid *gridmass, Abstrac
             for (int mz = 0 ; mz < gridpotential->nz ; mz++) {
                 double potentialsum = 0.0;
                 for (int nx = 0 ; nx < gridpotential->nx ; nx++) {
+                    int mnx = mx - nx + Mx / 2 - 1;
+                    if (mnx <  0 ) do { mnx += Mx ; } while (mnx <  0 ) ;
+                    if (mnx >= Mx) do { mnx -= Mx ; } while (mnx >= Mx) ;
                     for (int ny = 0 ; ny < gridpotential->ny ; ny++) {
+                        int mny = my - ny + My / 2 - 1;
+                        if (mny <  0 ) do { mny += My ; } while (mny <  0 ) ;
+                        if (mny >= My) do { mny -= My ; } while (mny >= My) ;
                         for (int nz = 0 ; nz < gridpotential->nz ; nz++) {
-                            int mnx = mx - nx;
-                            int mny = my - ny;
-                            int mnz = mz - nz;
-                            if (mnx <  0 ) do { mnx += Mx ; } while (mnx <  0 ) ;
-                            if (mnx >= Mx) do { mnx -= Mx ; } while (mnx >= Mx) ;
-                            if (mny <  0 ) do { mny += My ; } while (mny <  0 ) ;
-                            if (mny >= My) do { mny -= My ; } while (mny >= My) ;
+                            int mnz = mz - nz + Mz / 2 - 1;
                             if (mnz <  0 ) do { mnz += Mz ; } while (mnz <  0 ) ;
                             if (mnz >= Mz) do { mnz -= Mz ; } while (mnz >= Mz) ;
-                            double stencilvalue = stencil->getElement(stencil,mnx,mny,mnz);
-                            double gridmassvalue = gridmass->getElement(gridmass,nx,ny,nz);
+                            int stencilindex = mnz * stencil->nx * stencil->ny + mny * stencil->nx  + mnx ;
+                            int gridmassindex = nz * gridmass->nx * gridmass->ny + ny * gridmass->nx + nx ;
+                            double stencilvalue = stencildata[stencilindex];
+                            double gridmassvalue = gridmassdata[gridmassindex];
                             potentialsum += stencilvalue * gridmassvalue ;
                         }
                     }

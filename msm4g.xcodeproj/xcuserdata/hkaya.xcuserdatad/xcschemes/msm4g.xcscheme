@@ -64,6 +64,10 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "data/NaClN8.ini 2 2 2 6 2 4 0 0 0 0"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "data/changaN30000.ini 1 1 1 6 2 4 0 0 0 0 "
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

@@ -216,9 +216,11 @@ typedef struct SimulationOutput
     double time_energy;
     double time_stencil;
     double time_stencil_fourier;
-    double time_grid_to_grid;
+    double time_grid_to_grid[LMAX];
     int kernelEvaluationsNeeded[LMAX];
     int kernelEvaluationsComputed[LMAX] ;
+    int kernelHatEvaluationsNeeded[LMAX];
+    int kernelHatEvaluationsComputed[LMAX] ;
 } SimulationOutput;
 
 /** @brief An abstract 3-dimensional grid structure.
