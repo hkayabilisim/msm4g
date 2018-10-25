@@ -1010,40 +1010,61 @@ void msm4g_grid_dense_destroy(AbstractGrid **grid)
 }
 
 void msm4g_grid_potential(AbstractGrid *stencil, AbstractGrid *gridmass, AbstractGrid *gridpotential) {
-    
-    //k * grid->nx * grid->ny + j * grid->nx  + i;
     double *stencildata = ((DenseGrid *) stencil)->data;
     double *gridmassdata = ((DenseGrid *) gridmass)->data;
-    //double *gridpotentialdata = ((DenseGrid *) gridpotential)->data;
+    double *gridpotentialdata = ((DenseGrid *) gridpotential)->data;
     
-    int Mx = stencil->nx ;
-    int My = stencil->ny ;
-    int Mz = stencil->nz ;
-    for (int mx = 0 ; mx < gridpotential->nx ; mx++) {
-        for (int my = 0 ; my < gridpotential->ny ; my++) {
-            for (int mz = 0 ; mz < gridpotential->nz ; mz++) {
+    int mx = gridmass->nx ;
+    int my = gridmass->ny ;
+    int mz = gridmass->nz ;
+    int sx = stencil->nx ;
+    int sy = stencil->ny ;
+    int sz = stencil->nz ;
+    int sxmin = 1 - sx / 2 ;
+    int sxmax =     sx / 2 ;
+    int symin = 1 - sy / 2 ;
+    int symax =     sy / 2 ;
+    int szmin = 1 - sz / 2 ;
+    int szmax =     sz / 2 ;
+    int sxminlogical = 1 - mx / 2 ;
+    int sxmaxlogical =     mx / 2 ;
+    int syminlogical = 1 - my / 2 ;
+    int symaxlogical =     my / 2 ;
+    int szminlogical = 1 - mz / 2 ;
+    int szmaxlogical =     mz / 2 ;
+    for (int mi = 0 ; mi < mx ; mi++) {
+        for (int mj = 0 ; mj < my ; mj++) {
+            for (int mk = 0 ; mk < mz ; mk++) {
                 double potentialsum = 0.0;
-                for (int nx = 0 ; nx < gridpotential->nx ; nx++) {
-                    int mnx = mx - nx + Mx / 2 - 1;
-                    if (mnx <  0 ) do { mnx += Mx ; } while (mnx <  0 ) ;
-                    if (mnx >= Mx) do { mnx -= Mx ; } while (mnx >= Mx) ;
-                    for (int ny = 0 ; ny < gridpotential->ny ; ny++) {
-                        int mny = my - ny + My / 2 - 1;
-                        if (mny <  0 ) do { mny += My ; } while (mny <  0 ) ;
-                        if (mny >= My) do { mny -= My ; } while (mny >= My) ;
-                        for (int nz = 0 ; nz < gridpotential->nz ; nz++) {
-                            int mnz = mz - nz + Mz / 2 - 1;
-                            if (mnz <  0 ) do { mnz += Mz ; } while (mnz <  0 ) ;
-                            if (mnz >= Mz) do { mnz -= Mz ; } while (mnz >= Mz) ;
-                            int stencilindex = mnz * stencil->nx * stencil->ny + mny * stencil->nx  + mnx ;
-                            int gridmassindex = nz * gridmass->nx * gridmass->ny + ny * gridmass->nx + nx ;
-                            double stencilvalue = stencildata[stencilindex];
+                for (int ni = 0 ; ni < mx ; ni++) {
+                    int mni = mi - ni ;
+                    if (mni < sxminlogical) do {mni += mx;} while (mni < sxminlogical);
+                    if (mni > sxmaxlogical) do {mni -= mx;} while (mni > sxmaxlogical);
+                    if (mni < sxmin || mni > sxmax) continue;
+                    int si = mni - sxmin ;
+                    for (int nj = 0 ; nj < my ; nj++) {
+                        int mnj = mj - nj ;
+                        if (mnj < syminlogical) do {mnj += my;} while (mnj < syminlogical);
+                        if (mnj > symaxlogical) do {mnj -= my;} while (mnj > symaxlogical);
+                        if (mnj < symin || mnj > symax) continue;
+                        int sj = mnj - symin ;
+                        for (int nk = 0 ; nk < mz ; nk++) {
+                            int mnk = mk - nk ;
+                            if (mnk < szminlogical) do {mnk += mz;} while (mnk < szminlogical);
+                            if (mnk > szmaxlogical) do {mnk -= mz;} while (mnk > szmaxlogical);
+                            if (mnk < szmin || mnk > szmax) continue;
+                            int sk = mnk - szmin ;
+                            
+                            int sindex = sk*sx*sy + sj*sx + si ;
+                            int gridmassindex = nk*mx*my + nj*mx + ni ;
+                            double stencilvalue = stencildata[sindex];
                             double gridmassvalue = gridmassdata[gridmassindex];
                             potentialsum += stencilvalue * gridmassvalue ;
                         }
                     }
                 }
-                gridpotential->setElement(gridpotential,mx,my,mz,potentialsum);
+                int gridpotentialindex = mk*mx*my + mj*mx + mi ;
+                gridpotentialdata[gridpotentialindex] = potentialsum ;
             }
         }
     }
