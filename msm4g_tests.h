@@ -72,8 +72,8 @@ Boolean msm4g_unit_test_4();
  * But then a 0.5 margin is also used to enlarge the box. Then the new width
  * should be [3,6,9]. The location should also be shifted so that the there is
  * a margin on both minus and plus axis. So the new location is [-1.5,-3,-4.5].
- * At the end of the test, the calculated location and width is compared with the
- * expecteds.
+ * At the end of the test, the calculated location and width is compared with
+ * the expecteds.
  *
  * @return true if the test is successful, false otherwise.
  */
@@ -151,12 +151,12 @@ Boolean msm4g_unit_test_8();
  * is carried out.
  * 
  * The manually calculated short-range potential regarding to the setup
- * is 1.51303181237454868855 which is compared to the calculated potential energy.
- * If the relative error in the potential energy is greater than 1E-15, the test 
- * is failed.
+ * is 1.51303181237454868855 which is compared to the calculated potential
+ * energy. If the relative error in the potential energy is greater than 1E-15,
+ * the test is failed.
  *
- * @note In this test, C1 gamma smoothing function msm4g_smoothing_C1() is used with
- * cut-off parameter a=10.
+ * @note In this test, C1 gamma smoothing function msm4g_smoothing_C1()
+ * is used with cut-off parameter a=10.
  *
  * @return true if the test is successful, false otherwise.
  */
@@ -197,7 +197,7 @@ Boolean msm4g_unit_test_10();
  |   |          |          |          |
  |   |          |          |          |
  0   +----------+----------+----------+
- 
+
      0----------10---------20---------30
  @endverbatim
  * @return true if the test is successful, false otherwise.
@@ -207,7 +207,7 @@ Boolean msm4g_unit_test_11();
 /** @brief Checks the correctness of Quasi-interpolation coefficients
  * 
  * Checks the accuracy of quasi-interpolation coefficients explained 
- * in "The Journal of Chemical Physics 144, 114112 (2016); doi: 10.1063/1.4943868"
+ * in "The Journal of Chem. Physics 144, 114112 (2016); doi: 10.1063/1.4943868"
  * The test calculates the coefficients for Cubic and Quintic B-Spline cases
  * and compare them to the ones published in the Table I of the same article. 
  *
@@ -229,7 +229,7 @@ Boolean msm4g_unit_test_12();
   ------------------                  -----------
   msm4g_bases_bspline     (k, u)   =    BSpline[k-1,u/k]
   msm4g_bases_bsplineprime(k, u)   =  D[BSpline[k-1,u/k]]/k
-  
+
   where u is in [0,k] and k is the order of B-Spline.
  @endverbatim
  *

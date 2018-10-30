@@ -15,7 +15,7 @@
 #include "msm4g_bases.h"
 #include "msm4g_constants.h"
 
-#define MSM4G_MAX3(A,B,C) (((A)>(B)) ? (((A)>(C)) ? (A) : (C)) : (((B)>(C)) ? (B) : (C)) )
+#define MSM4G_MAX3(A,B,C)(((A)>(B))?(((A)>(C))?(A):(C)):(((B)>(C))?(B):(C)))
 #define MSM4G_MIN2(A,B) (((A)<(B)) ? (A) : (B))
 
 /** @brief Matlab-style tic() function
@@ -35,7 +35,8 @@ double msm4g_toc() ;
 double msm4g_tictocmanager(int push);
 
 /** @brief Calculate potential energy of the simulation
- * @param[in,out] simulation The object storing everything related with the simulation
+ * @param[in,out] simulation The object storing everything related with
+ *                the simulation
  * @return Potential energy of the system
  */
 double msm4g_potential_energy(Simulation *simulation);
@@ -64,14 +65,19 @@ void msm4g_stencil(Simulation *simulation, int level);
  * @param[in] order    Order of accuracy. It can only be 4 or 6
  * @param[in] abar     Relative-cutoff
  * @param[in] mu       Quasi-interpolation parameter
- * @param[in] L        Number of levels. If it is set to zero, it is calculated automatically.
- * @param[in] Mx       Number of grids along x-axis. If it is set to zero, it is calculated automatically.
- * @param[in] My       Number of grids along y-axis. If it is set to zero, it is calculated automatically.
- * @param[in] Mz       Number of grids along z-axis. If it is set to zero, it is calculated automatically.
+ * @param[in] L        Number of levels. If it is set to zero,
+ *                     it is calculated automatically.
+ * @param[in] Mx       Number of grids along x-axis. If it is set to zero,
+ *                     it is calculated automatically.
+ * @param[in] My       Number of grids along y-axis. If it is set to zero,
+ *                     it is calculated automatically.
+ * @param[in] Mz       Number of grids along z-axis. If it is set to zero,
+ *                     it is calculated automatically.
  * @todo Change "4 or 6" statement when it is needed.
  * @return Simulation object
  */
-Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,Boolean periodic,int order,double abar,int mu,int L,int Mx,int My,int Mz);
+Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,
+    Boolean periodic,int order,double abar,int mu,int L,int Mx,int My,int Mz);
 
 /** @brief Executes a simulation
  *
@@ -117,7 +123,8 @@ void msm4g_prolongation(Simulation *simulation);
  * particles by interpolating the grid potentials on the finest level and
  * the B-Splines.
  *
- * @param[in] simulation the object containing all information about the simulation
+ * @param[in] simulation the object containing all information about
+ *            the simulation
  */
 void msm4g_interpolation(Simulation *simulation);
 
@@ -151,7 +158,8 @@ void msm4g_grid_destroy(AbstractGrid **grid);
  *
  * @return A new DenseGrid structure.
  */
-AbstractGrid *msm4g_grid_dense_new(int nx, int ny, int nz,double hx, double hy, double hz);
+AbstractGrid *msm4g_grid_dense_new(int nx, int ny, int nz,
+    double hx, double hy, double hz);
 
 /** @brief Sets a value to a specific coordinate of the DenseGrid.
  *
@@ -163,7 +171,8 @@ AbstractGrid *msm4g_grid_dense_new(int nx, int ny, int nz,double hx, double hy, 
  * @param[in]     k     The coordinate in the z-axis.
  * @param[in]     value The new value of the element.
  */
-void msm4g_grid_dense_setElement(AbstractGrid *grid,int i,int j,int k,double value);
+void msm4g_grid_dense_setElement(AbstractGrid *grid,int i,int j,int k,
+    double value);
 
 
 /** @brief Gets a single element from a DenseGrid object.
@@ -220,7 +229,8 @@ void msm4g_grid_dense_reset(AbstractGrid *grid,double value);
  * this function. The deallocation of the grid object itself is handled in 
  * msm4g_grid_destroy() function.
  *
- * @param[in,out] densegrid A pointer to the DenseGrid strucuture to be deallocated.
+ * @param[in,out] densegrid A pointer to the DenseGrid
+ *                structure to be deallocated.
  */
 void msm4g_grid_dense_destroy(AbstractGrid **densegrid);
 
@@ -232,7 +242,8 @@ void msm4g_grid_dense_destroy(AbstractGrid **densegrid);
  * @param[in] gridmass gridmass
  * @param[in,out] gridpotential gridpotential
  */
-void msm4g_grid_potential(AbstractGrid *stencil, AbstractGrid *gridmass, AbstractGrid *gridpotential);
+void msm4g_grid_potential(AbstractGrid *stencil, AbstractGrid *gridmass,
+    AbstractGrid *gridpotential);
 
 /** @brief Even-powered Softener
  *
@@ -290,7 +301,8 @@ double msm4g_kernel(int l,int L, double r,double a,double beta,int nu);
  *
  * @return Total short-range potential energy in the list of bins.
  */
-double msm4g_force_short(LinkedList *binlist,double threshold, Simulation *simulation);
+double msm4g_force_short(LinkedList *binlist,double threshold,
+    Simulation *simulation);
 
 /** @brief Calculates short-range forces and potential energy.
  *
@@ -303,7 +315,8 @@ double msm4g_force_short(LinkedList *binlist,double threshold, Simulation *simul
  *
  * @return Short-range potential energy in the Bin.
  */
-double msm4g_force_short_withinBin(Bin *bin, double threshold,Simulation *simulation);
+double msm4g_force_short_withinBin(Bin *bin, double threshold,
+    Simulation *simulation);
 
 /** @brief Calculates short-range interactions between two set of particles.
  *
@@ -316,7 +329,8 @@ double msm4g_force_short_withinBin(Bin *bin, double threshold,Simulation *simula
  * @param[in]     simulation    Simulation object.
  * @return Short-range potential energy between the bins.
  */
-double msm4g_force_short_betweenBin(Bin *bin, Bin *neigbor, double threshold, Simulation *simulation);
+double msm4g_force_short_betweenBin(Bin *bin, Bin *neigbor, double threshold,
+    Simulation *simulation);
 
 /** @brief Short-range force and potential energy for a pair of particles.
  *
@@ -327,7 +341,8 @@ double msm4g_force_short_betweenBin(Bin *bin, Bin *neigbor, double threshold, Si
  *
  * @return Short-range potential energy.
  */
-double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ, double threshold, Simulation *simulation);
+double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ,
+    double threshold, Simulation *simulation);
 
 /** @brief Sets the elements of a 3-element vector.
  *
@@ -517,7 +532,8 @@ void msm4g_linkedlist_destroyWithData(LinkedList *list);
 /** @brief Allocates a brand-new empty Particle.
  *
  * This functions is the only place inside which a memory allocation
- * is carried to create a new Particle. This function holds a static Particle index
+ * is carried to create a new Particle. This function holds a static
+ * Particle index
  * to keep track the newly born particles.
  *
  * @return A pointer to the newly allocated Particle structure.
@@ -641,9 +657,11 @@ SimulationBox *msm4g_box_newCube(double location, double width);
  * @param[in]     particles The list of particles.
  * @param[in]     margin    The box is enlarged `margin` percent (0.10 default).
  * @param[in]     h         Lattice spacing in the finest level grid.
- * @param[in]     p         The degree of the base polynomials. p should be odd and larger than 0. 
+ * @param[in]     p         The degree of the base polynomials. p should be odd
+ * and larger than 0.
  */
-void msm4g_box_update(SimulationBox *box,LinkedList *particles,double margin,double h,double p);
+void msm4g_box_update(SimulationBox *box,LinkedList *particles,double margin,
+    double h,double p);
 
 /** @brief Translate the box and the particles by `delta` vector.
  *
@@ -651,12 +669,14 @@ void msm4g_box_update(SimulationBox *box,LinkedList *particles,double margin,dou
  * @param[in,out] particles The list of particles.
  * @param[in]     delta  Translation amoun.
  */
-void msm4g_box_translate(SimulationBox *box, LinkedList *particles,D3Vector delta);
+void msm4g_box_translate(SimulationBox *box, LinkedList *particles,
+    D3Vector delta);
 
-/** @brief Translate the box and the particles so that the location of box is zero vector.
+/** @brief Translate the box and the particles so that the location of
+ * box is zero vector.
  *
- * This function is equivalant to msm4g_box_translate with delta vector is opposite to the
- * location of the box.
+ * This function is equivalant to msm4g_box_translate with delta vector is
+ * opposite to the location of the box.
  *
  * @param[in,out] box    The simulation box.
  * @param[in,out] particles The list of particles.
@@ -699,7 +719,8 @@ Bin *msm4g_bin_new(int nx,int ny,int nz);
  * @param[in] periodic  Is there a periodic boundary?
  * @return The list of allocated bins.
  */
-LinkedList *msm4g_bin_generate(SimulationBox *box,Particle *particles,int n,double width,Boolean periodic);
+LinkedList *msm4g_bin_generate(SimulationBox *box,Particle *particles,int n,
+    double width,Boolean periodic);
 
 /** @brief Find the neigbhors of each Bin.
  * 
@@ -716,7 +737,9 @@ LinkedList *msm4g_bin_generate(SimulationBox *box,Particle *particles,int n,doub
  * @param[in] maxbinindexz Minimum possible bin index along z-axis.
  * @param[in] periodic     Is there a periodic boundary?
  */
-void msm4g_bin_findneighbors(LinkedList *binlist,int minbinindexx, int minbinindexy, int minbinindexz,int maxbinindexx, int maxbinindexy, int maxbinindexz,Boolean periodic);
+void msm4g_bin_findneighbors(LinkedList *binlist,int minbinindexx,
+    int minbinindexy, int minbinindexz,int maxbinindexx, int maxbinindexy,
+    int maxbinindexz,Boolean periodic);
 
 /** @brief Returns the bin with given index vector.
  *
@@ -726,7 +749,8 @@ void msm4g_bin_findneighbors(LinkedList *binlist,int minbinindexx, int minbinind
  * @param[in] binlist The list of bins.
  * @param[in] index   Cantor index
  *
- * @return The pointer to the selected bin. Returns NULL if there is no such bin.
+ * @return The pointer to the selected bin. Returns NULL
+ * if there is no such bin.
  */
 Bin *msm4g_bin_searchByIndex(LinkedList *binlist,int index);
 
@@ -760,12 +784,14 @@ void msm4g_acceleration(double *a,double *r,int n,int d,double *m,double G);
 /*
  *Energy calculations
  */
-void msm4g_energy(double *pot,double *kin,double *tot,double *r,double *v,int n,int d,double *m,double G);
+void msm4g_energy(double *pot,double *kin,double *tot,double *r,double *v,
+    int n,int d,double *m,double G);
 
 /*
  * Time integration schemes
  */
-void msm4g_forwardeuler(double *r,double *v,double *a,double dt,int n,int d,double *m,double G);
+void msm4g_forwardeuler(double *r,double *v,double *a,double dt,int n,int d,
+    double *m,double G);
 
 /** @brief Leap-Frog time-integration scheme.
  *
@@ -779,11 +805,13 @@ void msm4g_forwardeuler(double *r,double *v,double *a,double dt,int n,int d,doub
  * @param[in]     m  The mass of the particles.
  * @param[in]     G  the gravitational constant.
  */
-void msm4g_leapfrog(double *r,double *v,double *a,double *a1,double dt,int n,int d,double *m,double G);
+void msm4g_leapfrog(double *r,double *v,double *a,double *a1,double dt,
+    int n,int d,double *m,double G);
 /*
  * IO-related
  */
-void msm4g_print_energy(double pot0,double kin0,double tot0,double pot,double kin,double tot);
+void msm4g_print_energy(double pot0,double kin0,double tot0,double pot,
+    double kin,double tot);
 
 /*
  * Memory related
@@ -798,7 +826,8 @@ void msm4g_zeros(double *x,int n);
  * the Cantor pairing function. Le Matematiche, 62(1), 55–65.
  *
  * \f[
-  <x_1,\ldots,x_2> = \sum_{h=1}^n\left\{ \frac{1}{h!}\prod_{j=0}^{h-1} \left[ \left( \sum_{i=1}^hx_i\right)+j\right] \right\}
+  <x_1,\ldots,x_2> = \sum_{h=1}^n\left\{ \frac{1}{h!}\prod_{j=0}^{h-1}
+  \left[ \left( \sum_{i=1}^hx_i\right)+j\right] \right\}
  \f]
  *
  * @param[in] x An integer vector in N^n.
@@ -822,13 +851,15 @@ int msm4g_math_factorial(int n);
  * and some adjustable parameter mu.
  * 
  * The output of this function is used to build the stencils.
- * Large mu means more accurate interpolation but at the same it increases the cost.
+ * Large mu means more accurate interpolation but at the same it increases
+ * the cost.
  *
- * The callee is responsible to deallocate the array when it is no longer needed.
+ * The callee is responsible to deallocate the array when
+ * it is no longer needed.
  *
- * @todo Quasi-interpolation coefficients can only be determined for p=4 (Cubic) and
- * p=6 (Quintic) B-Splines. It should be written in more generic way to cover higher
- * order B-Splines.
+ * @todo Quasi-interpolation coefficients can only be determined
+ * for p=4 (Cubic) and p=6 (Quintic) B-Splines. It should be written in more
+ * generic way to cover higher order B-Splines.
  *
  * @param[in] mu Quasi-interpolation parameter
  * @param[in] p Order of B-Spline. It can be 4 (Cubic) and 6 (Quintic) only.

@@ -7,5 +7,7 @@ var struct_particle =
     [ "fshort", "struct_particle.html#a52708e46b2d5c43376e1372c3ba232d9", null ],
     [ "flong", "struct_particle.html#ae0165f3336fdb2da1904918c8d243a87", null ],
     [ "potential_short_real", "struct_particle.html#a9bb9bd3287803a4bc97a367d19801c80", null ],
-    [ "acc_short", "struct_particle.html#a28def2150c1bc53e14f5c89fdf2224f7", null ]
+    [ "acc_short", "struct_particle.html#a28def2150c1bc53e14f5c89fdf2224f7", null ],
+    [ "acc_long", "struct_particle.html#a9b33cf5a6293439efc5b44588d708f03", null ],
+    [ "acc_total", "struct_particle.html#a80a6b54b08da831ee845055f9d9d7525", null ]
 ];

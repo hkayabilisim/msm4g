@@ -5,10 +5,9 @@
 
 #define MAX_POLY_DEGREE 20
 
-typedef struct BaseFunction
-{
-    const int p;
-    double (*region[MAX_POLY_DEGREE]) (double x);
+typedef struct BaseFunction {
+  const int p;
+  double (*region[MAX_POLY_DEGREE]) (double x);
 } BaseFunction;
 
 extern const BaseFunction *CubicHermite;
@@ -18,11 +17,11 @@ extern const BaseFunction *CubicBSpline;
  *
  * Calculates the B-Spline bases of order k at any given 
  * point u. It uses the recursive definition given in
- * Eq 7 in "The Journal of Chemical Physics 144, 114112 (2016); doi: 10.1063/1.4943868".
+ * Eq 7 in "The J. of Chem. Phy. 144, 114112 (2016); doi: 10.1063/1.4943868".
  * 
  * @todo Using the recursive definition is easy and appearently not too costly
- * but it is one of the first places to look for if overall MSM has some performance
- * issues.
+ * but it is one of the first places to look for if overall MSM has some
+ * performance issues.
  *
  * @param[in] k Order of B-Spline
  * @param[in] u Evaluation point
@@ -34,11 +33,12 @@ double msm4g_bases_bspline(int k,double u);
  *
  * Calculates the derivative of B-Spline bases of order k at any given
  * point u. It uses the recursive definition given in
- * Section II.B.1 in "The Journal of Chemical Physics 144, 114112 (2016); doi: 10.1063/1.4943868".
+ * Section II.B.1 in "The Journal of Chemical Physics 144, 114112 (2016);
+ * doi: 10.1063/1.4943868".
  *
  * @todo Like its non-derivative version, it also uses a recursive definition.
- * So it is also one of the first places to look for if overall MSM has some performance
- * issues.
+ * So it is also one of the first places to look for if overall MSM has some
+ * performance issues.
  *
  * @param[in] k Order of B-Spline
  * @param[in] u Evaluation point

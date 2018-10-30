@@ -18,8 +18,9 @@
 /** @brief Specifices the maximum number of omega values.
  * 
  * The relation between the row index (i)
- * of OMEGA array and p is: p = (i+2)*2 or i = p/2 - 2. So, the first row is for p=4, the second is for p=6, and so on.
- * You can access the omega values for p=4 (Cubic) and p=6 (Quintic) as follows:
+ * of OMEGA array and p is: p = (i+2)*2 or i = p/2 - 2. So, the first row is
+ * for p=4, the second is for p=6, and so on. You can access the omega
+ * values for p=4 (Cubic) and p=6 (Quintic) as follows:
  * @code
    for (int p=4 ; p <= 6; p = p + 2)
    {

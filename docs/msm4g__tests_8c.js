@@ -1,5 +1,8 @@
 var msm4g__tests_8c =
 [
+    [ "main", "msm4g__tests_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ],
+    [ "msm4g_test_summary", "msm4g__tests_8c.html#a6fd92f86c36af0fb815dc09424556b5e", null ],
+    [ "msm4g_test_assert", "msm4g__tests_8c.html#ad25f32c45748345c6a9091dab2540cde", null ],
     [ "msm4g_unit_test_all", "msm4g__tests_8c.html#ae812fb020c68bd5fbf74555684d4a292", null ],
     [ "msm4g_unit_test_1", "msm4g__tests_8c.html#a523ccd9eea1c687ab835e40ca5dd127c", null ],
     [ "msm4g_unit_test_2", "msm4g__tests_8c.html#ae653a86c3c4f8cf1d07570fe9da93087", null ],
@@ -20,5 +23,12 @@ var msm4g__tests_8c =
     [ "msm4g_unit_test_17", "msm4g__tests_8c.html#a1267d9b662a0480ccc4ee9aa41edc08b", null ],
     [ "msm4g_unit_test_18", "msm4g__tests_8c.html#ae506b60e87a8c4886ae47c9d793ef7cd", null ],
     [ "msm4g_unit_test_19", "msm4g__tests_8c.html#aeb61d01c9fb2aa5c0552939dc8e4834b", null ],
-    [ "msm4g_unit_test_20", "msm4g__tests_8c.html#aadb681b6d82a71ffa927eb43668738c4", null ]
+    [ "msm4g_unit_test_20", "msm4g__tests_8c.html#aadb681b6d82a71ffa927eb43668738c4", null ],
+    [ "msm4g_unit_test_21", "msm4g__tests_8c.html#af766f1e48abb9d9124d316738458b85b", null ],
+    [ "msm4g_unit_test_22", "msm4g__tests_8c.html#a9f0c59ab5e11a15c64976df98b72c3be", null ],
+    [ "msm4g_unit_test_23", "msm4g__tests_8c.html#a339f2299511f118779e68506ec9f264b", null ],
+    [ "msm4g_unit_test_24", "msm4g__tests_8c.html#a5a367cfa3cb80a78b2c8a78e63abc35e", null ],
+    [ "testnames", "msm4g__tests_8c.html#af480d50d2a4b2971bb5b51086ec5b69c", null ],
+    [ "teststatus", "msm4g__tests_8c.html#a892154ac8a5272bfa28cec0676033f67", null ],
+    [ "testcount", "msm4g__tests_8c.html#adca17ef4aa7e13ca461e0bca929d2c0c", null ]
 ];
