@@ -109,7 +109,6 @@ double msm4g_potential_energy(Simulation *simulation) {
 
 void msm4g_stencil(Simulation *simulation, int l) {
   Boolean periodic = simulation->parameters->periodic ;
-  SimulationParameters *sp = simulation->parameters;
   /** @todo Make necessary changes for vacuum boundary. For now
    * it is tailor-made for periodic */
   if (periodic != true) return ;
