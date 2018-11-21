@@ -254,24 +254,20 @@ void msm4g_stencil(Simulation *simulation, int l) {
                 if (!isKappaCalculatedBefore) {
                   double psum = 0.0;
                   int pmax = (int)(pow(2,l)*a);
-                  int p = 0 ;
-                  do {
-                    int face_len = msm4g_util_face_enumerate(p,sp);
-                    for (int idx = 0 ; idx < face_len ; idx++) {
-                      int px = sp->face_i[idx];
-                      int py = sp->face_j[idx];
-                      int pz = sp->face_k[idx] ;
-
-                      double rx = hx * (mx + kx) - Ax * px;
-                      double ry = hy * (my + ky) - Ay * py;
-                      double rz = hz * (mz + kz) - Az * pz;
-                      double rlen2 = rx * rx + ry * ry + rz * rz;
-                      double rlen = sqrt(rlen2);
-                      double kernel = msm4g_kernel(l,L,rlen,a,beta,nu);
-                      psum += kernel;
+                  for (int px = -pmax ; px <= pmax ;px++) {
+                    for (int py = -pmax ; py <= pmax; py++) {
+                      for (int pz = -pmax; pz <= pmax; pz++) {
+                        double rx = hx * (mx + kx) - Ax * px;
+                        double ry = hy * (my + ky) - Ay * py;
+                        double rz = hz * (mz + kz) - Az * pz;
+                        double rlen2 = rx * rx + ry * ry + rz * rz;
+                        double rlen = sqrt(rlen2);
+                        double kernel = msm4g_kernel(l,L,rlen,a,beta,nu);
+                        psum += kernel;
+                      }
                     }
-                    p++;
-                  } while  (p < pmax);
+                  }
+
                   kappaValue = psum ;
                   precalculatedKappa *kappa = (precalculatedKappa*)calloc(1,
                       sizeof(precalculatedKappa));
@@ -279,10 +275,6 @@ void msm4g_stencil(Simulation *simulation, int l) {
                   kappa->ny = n2;
                   kappa->nz = n3;
                   kappa->value = kappaValue;
-                  /*printf("%2d %2d %2d %25.16e\n",n1,n2,n3,kappaValue);
-                  if (n1 == 0 && n2 == 0 && n3 == 0) {
-                    printf("converged in %d\n",p);
-                  }*/
                   msm4g_linkedlist_add(kappalist,kappa);
                   kernelEvaluationsComputed++;
                 }
