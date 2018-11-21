@@ -198,6 +198,12 @@ typedef struct SimulationOutput {
   double potentialEnergyShortRange;
   double potentialEnergyLongRange;
   double potentialEnergyTotal;
+  double ushort_real;
+  double ushort_self;
+  double ushort_csr;
+  double ulong_self;
+  double ulong_direct;
+  double ulong_fourier;
   double time_omegaprime;
   double time_anterpolation;
   double time_interpolation;

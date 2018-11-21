@@ -39,6 +39,7 @@ double msm4g_potential_energy(Simulation *simulation) {
   int N = simulation->parameters->N;
   int nu = simulation->parameters->nu;
   Particle *particles = simulation->particles;
+  SimulationOutput *so = simulation->output;
 
   double ushort_real = 0.0;
   for (int i = 0 ; i < N ; i++) {
@@ -75,8 +76,6 @@ double msm4g_potential_energy(Simulation *simulation) {
     ushort_self += 0.5 * particles[i].m * particles[i].m * psum ;
   }
 
-  simulation->output->potentialEnergyShortRange =
-      ushort_real + ushort_csr + ushort_self ;
 
   double q2sum = 0.0;
   for (int i = 0; i < N; i++)
@@ -86,20 +85,26 @@ double msm4g_potential_energy(Simulation *simulation) {
   /* Calculate long-range potential energy */
   AbstractGrid *e1 = simulation->gridpotential[0];
   AbstractGrid *q1 = simulation->gridmass[0];
-  double ulong_real = 0.5 * e1->innerProduct(e1,q1);
-  simulation->output->potentialEnergyLongRange = ulong_real + ulong_self ;
+  double ulong_direct = 0.5 * e1->innerProduct(e1,q1);
 
-  simulation->output->potentialEnergyTotal =
-      simulation->output->potentialEnergyShortRange +
-      simulation->output->potentialEnergyLongRange;
+  AbstractGrid *eLp1 = simulation->gridpotential[L];
+  AbstractGrid *qLp1 = simulation->gridmass[L];
+  double ulong_fourier = 0.5 * eLp1->innerProduct(eLp1,qLp1);
 
+  so->potentialEnergyShortRange = ushort_real + ushort_csr + ushort_self ;
+  so->potentialEnergyLongRange = ulong_direct + ulong_self ;
 
-  /* printf("%-28s : %25.16e\n", "ushort_real", ushort_real);
-    printf("%-28s : %25.16e\n", "ushort_self", ushort_self);
-    printf("%-28s : %25.16e\n", "ushort_csr", ushort_csr);
-    printf("%-28s : %25.16e\n", "ulong_self", ulong_self);
-    printf("%-28s : %25.16e\n", "ulong_real", ulong_real); */
-  return simulation->output->potentialEnergyTotal ;
+  so->potentialEnergyTotal = so->potentialEnergyShortRange
+      + so->potentialEnergyLongRange;
+
+  so->ushort_real = ushort_real;
+  so->ushort_self = ushort_self;
+  so->ushort_csr = ushort_csr;
+  so->ulong_self = ulong_self;
+  so->ulong_direct = ulong_direct - ulong_fourier; /*Four. already included*/
+  so->ulong_fourier = ulong_fourier;
+
+  return so->potentialEnergyTotal ;
 }
 
 void msm4g_stencil(Simulation *simulation, int l) {
@@ -140,7 +145,7 @@ void msm4g_stencil(Simulation *simulation, int l) {
     } precalculatedKappa;
     LinkedList *kappalist = msm4g_linkedlist_new();
     LinkedList *kappahatlist = msm4g_linkedlist_new();
-
+    //printf("Kappa values\n");
     int kernelEvaluationsNeeded = 0;
     int kernelEvaluationsComputed = 0;
     int kernelHatEvaluationsNeeded = 0;
@@ -248,7 +253,7 @@ void msm4g_stencil(Simulation *simulation, int l) {
 
                 if (!isKappaCalculatedBefore) {
                   double psum = 0.0;
-                  double psum_before = 0.0;
+                  int pmax = (int)(pow(2,l)*a);
                   int p = 0 ;
                   do {
                     int face_len = msm4g_util_face_enumerate(p,sp);
@@ -264,15 +269,9 @@ void msm4g_stencil(Simulation *simulation, int l) {
                       double rlen = sqrt(rlen2);
                       double kernel = msm4g_kernel(l,L,rlen,a,beta,nu);
                       psum += kernel;
-
                     }
-                    if (p != 0 &&
-                        fabs(psum_before - psum)/fabs(psum) < TOL_DIRECT ) {
-                      break;
-                    } else
-                      psum_before = psum ;
                     p++;
-                  } while  (p < PMAX);
+                  } while  (p < pmax);
                   kappaValue = psum ;
                   precalculatedKappa *kappa = (precalculatedKappa*)calloc(1,
                       sizeof(precalculatedKappa));
@@ -280,6 +279,10 @@ void msm4g_stencil(Simulation *simulation, int l) {
                   kappa->ny = n2;
                   kappa->nz = n3;
                   kappa->value = kappaValue;
+                  /*printf("%2d %2d %2d %25.16e\n",n1,n2,n3,kappaValue);
+                  if (n1 == 0 && n2 == 0 && n3 == 0) {
+                    printf("converged in %d\n",p);
+                  }*/
                   msm4g_linkedlist_add(kappalist,kappa);
                   kernelEvaluationsComputed++;
                 }
@@ -501,6 +504,15 @@ void msm4g_simulation_run(Simulation *simulation) {
     simulation->output->time_grid_to_grid[l-1] = msm4g_toc();
   }
 
+  /*printf("Grid mass\n");
+  msm4g_grid_print(simulation->gridmass[0]);
+  printf("Stencil\n");
+  msm4g_grid_print(simulation->stencil[0]);
+  printf("Grid potential\n");
+  msm4g_grid_print(simulation->gridpotential[0]);
+  printf("Energy\n");
+  printf("%25.16e\n",0.5*simulation->gridpotential[0]->innerProduct(
+      simulation->gridpotential[0],simulation->gridmass[0])); */
   /* Prolongation */
   msm4g_tic();
   msm4g_prolongation(simulation);
@@ -585,6 +597,12 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
   fprintf(fp,"    potentialEnergyLongRange: %25.16e\n",
       so->potentialEnergyLongRange);
   fprintf(fp,"    potentialEnergyTotal: %25.16e\n",so->potentialEnergyTotal);
+  fprintf(fp,"    ushort_real: %25.16e\n",so->ushort_real);
+  fprintf(fp,"    ushort_self: %25.16e\n",so->ushort_self);
+  fprintf(fp,"    ushort_csr: %25.16e\n",so->ushort_csr);
+  fprintf(fp,"    ulong_self: %25.16e\n",so->ulong_self);
+  fprintf(fp,"    ulong_direct: %25.16e\n",so->ulong_direct);
+  fprintf(fp,"    ulong_fourier: %25.16e\n",so->ulong_fourier);
   fprintf(fp,"    time_omegaprime: %25.16e\n",so->time_omegaprime);
   fprintf(fp,"    time_anterpolation: %25.16e\n",so->time_anterpolation);
   fprintf(fp,"    time_interpolation: %25.16e\n",so->time_interpolation);
@@ -901,7 +919,7 @@ void msm4g_grid_print(AbstractGrid *grid) {
   for (int i = 0 ; i < grid->nx ; i++) {
     for (int j = 0 ; j < grid->ny ; j++) {
       for (int k = 0 ; k < grid->nz ; k++) {
-        printf("%25.16e\n",grid->getElement(grid,i,j,k));
+        printf("%2d %2d %2d %25.16e\n",i,j,k,grid->getElement(grid,i,j,k));
       }
     }
   }
