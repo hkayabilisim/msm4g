@@ -494,8 +494,8 @@ void msm4g_simulation_run(Simulation *simulation) {
     msm4g_grid_potential(stencil,gridmass,gridpotential);
     simulation->output->time_grid_to_grid[l-1] = msm4g_toc();
   }
-
-  /*printf("Grid mass\n");
+  /*
+  printf("Grid mass\n");
   msm4g_grid_print(simulation->gridmass[0]);
   printf("Stencil\n");
   msm4g_grid_print(simulation->stencil[0]);
