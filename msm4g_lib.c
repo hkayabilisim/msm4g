@@ -587,7 +587,7 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
       so->potentialEnergyShortRange);
   fprintf(fp,"    potentialEnergyLongRange: %25.16e\n",
       so->potentialEnergyLongRange);
-  fprintf(fp,"    potentialEnergyTotal: %25.16e\n",so->potentialEnergyTotal);
+  fprintf(fp,"    utotal: %25.16e\n",so->potentialEnergyTotal);
   fprintf(fp,"    ushort_real: %25.16e\n",so->ushort_real);
   fprintf(fp,"    ushort_self: %25.16e\n",so->ushort_self);
   fprintf(fp,"    ushort_csr: %25.16e\n",so->ushort_csr);
@@ -2351,7 +2351,7 @@ double msm4g_util_calculate_c(int k, double M, int nu) {
   double c = msm4g_bases_bspline(nu, nu/2);
   // Use the fact that sin components cancel
   for (int m = 1; m <= nu / 2 - 1; m++) {
-    c += 2 * cos(2 * MYPI * k * m / M) * msm4g_bases_bspline(nu, m + nu/2);
+    c += 2.0 * cos(2.0 * MYPI * k * m / (double)M) * msm4g_bases_bspline(nu, m + nu/2);
   }
   return 1.0 / c;
 }

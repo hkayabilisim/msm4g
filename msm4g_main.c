@@ -53,9 +53,9 @@ int main(int argc,char *argv[]) {
   if ( argc != 12 ) {
     fprintf(stderr, "Usage: %s datafile Ax Ay Az abar mu nu Mx My Mz L\n",
         argv[0]);
-    fprintf(stderr, "Set Mx=My=Mz=L=0 to switch automatic selection");
+    fprintf(stderr, "Set Mx=My=Mz=L=0 to switch automatic selection\n");
     fprintf(stderr,
-        "Example: ./msm4g data/changaN512.ini 1 1 1 4 2 4 0 0 0 0");
+        "Example: ./msm4g data/changaN512.ini 1 1 1 4 2 4 0 0 0 0\n");
     return 1;
   }
 
