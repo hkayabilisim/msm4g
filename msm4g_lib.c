@@ -565,9 +565,13 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
   fprintf(fp,"    Mzmin: %d\n",sp->Mzmin);
   fprintf(fp,"    Mzmax: %d\n",sp->Mzmax);
   fprintf(fp,"    wprime: [");
-  for (i = 0 ; i < sp->mu + (sp->nu)/2 - 1; i++)
+  for (i = 0 ; i < sp->mu + (sp->nu)/2 ; i++)
     fprintf(fp,"%25.16e, ",sp->wprime[i]);
   fprintf(fp,"%25.16e] \n",sp->wprime[i]);
+  double sumwprime = sp->wprime[0];
+  for (i = 1 ; i < sp->mu + (sp->nu)/2 + 1; i++)
+    sumwprime += 2 * sp->wprime[i];
+  fprintf(fp,"    sumwprime: %25.16f\n",sumwprime);
   fprintf(fp,"    beta: %25.16e\n",sp->beta);
   fprintf(fp,"  box:\n");
   fprintf(fp,"    x: %25.16e\n",box->x);
