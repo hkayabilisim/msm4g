@@ -330,9 +330,9 @@ void msm4g_stencil(Simulation *simulation, int l) {
                 double dotprod = kx * mx / (double) Mx + ky * my / (double) My
                     + kz * mz / (double) Mz;
 
-                double cx = msm4g_util_calculate_c(kx, Mx, nu);
-                double cy = msm4g_util_calculate_c(ky, My, nu);
-                double cz = msm4g_util_calculate_c(kz, Mz, nu);
+                double cx = msm4g_util_calculate_c(kx, Mx, nu,mu,wprime);
+                double cy = msm4g_util_calculate_c(ky, My, nu,mu,wprime);
+                double cz = msm4g_util_calculate_c(kz, Mz, nu,mu,wprime);
 
                 double c2 = cx * cx * cy * cy * cz * cz;
                 sum += chi * c2 * cos(2 * MYPI * dotprod);
@@ -2351,13 +2351,13 @@ double msm4g_util_choose_beta(double aL) {
   return a;
 }
 
-double msm4g_util_calculate_c(int k, double M, int nu) {
-  double c = msm4g_bases_bspline(nu, nu/2);
+double msm4g_util_calculate_c(int k, double M, int nu, int mu, double *wprime) {
+  double c = wprime[0];
   // Use the fact that sin components cancel
-  for (int m = 1; m <= nu / 2 - 1; m++) {
-    c += 2.0 * cos(2.0 * MYPI * k * m / (double)M) * msm4g_bases_bspline(nu, m + nu/2);
+  for (int m = 1; m <= mu + nu/2; m++) {
+    c += 2.0 * wprime[m]*cos(2.0 * MYPI * k * m / (double)M) ;
   }
-  return 1.0 / c;
+  return c;
 }
 
 double msm4g_util_nchoosek(int n,int k) {

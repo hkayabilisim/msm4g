@@ -926,9 +926,11 @@ double msm4g_util_choose_beta(double aL);
  * @param[in] k wavenumber in Fourier transform
  * @param[in] M The number of grid points
  * @param[in] nu Order of interpolation
+ * @param[in] mu Quasi-interpolation parameter
+ * @param[in] wprime Quasi-interpolation coefficients
  * @return value of the coefficient
  */
-double msm4g_util_calculate_c(int k, double M, int nu);
+double msm4g_util_calculate_c(int k, double M, int nu, int mu, double *wprime);
 
 /** @brief Implements the binomial function
  * @param[in] n an integer
