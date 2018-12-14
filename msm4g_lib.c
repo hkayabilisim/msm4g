@@ -2357,6 +2357,7 @@ double msm4g_util_calculate_c(int k, double M, int nu, int mu, double *wprime) {
   for (int m = 1; m <= mu + nu/2; m++) {
     c += 2.0 * wprime[m]*cos(2.0 * MYPI * k * m / (double)M) ;
   }
+  c = sqrt(c);
   return c;
 }
 
