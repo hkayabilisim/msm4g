@@ -124,192 +124,99 @@ void msm4g_stencil(Simulation *simulation, int l) {
   double Ax = simulation->box->wx ;
   double Ay = simulation->box->wy ;
   double Az = simulation->box->wz ;
-  Boolean isBoxSquare = false;
-  if (Ax == Ay && Ay == Az)
-    isBoxSquare = true;
-
 
   int mu = simulation->parameters->mu ;
   int nu = simulation->parameters->nu ;
   double a = simulation->parameters->a ;
   double beta = simulation->parameters->beta ;
   double *wprime = simulation->parameters->wprime ;
-
+  //printf("stencil calculation at level:%d\n",l);
   if (l <= L) {
-    typedef struct precalculatedKappa {
-      int nx;
-      int ny;
-      int nz;
-      double value;
-    } precalculatedKappa;
-    LinkedList *kappalist = msm4g_linkedlist_new();
-    LinkedList *kappahatlist = msm4g_linkedlist_new();
-    //printf("Kappa values\n");
-    int kernelEvaluationsNeeded = 0;
-    int kernelEvaluationsComputed = 0;
-    int kernelHatEvaluationsNeeded = 0;
-    int kernelHatEvaluationsComputed = 0;
-    int Mxmin = 1 - Mx / 2;
-    int Mxmax =     Mx / 2;
-    int Mymin = 1 - My / 2;
-    int Mymax =     My / 2;
-    int Mzmin = 1 - Mz / 2;
-    int Mzmax =     Mz / 2;
+    double al = pow(2,l)*a;
+
+    int Mxmin =   - Mx / 2;
+    int Mxmax =    (Mx - 1) / 2;
+    int Mymin =   - My / 2;
+    int Mymax =    (My - 1) / 2;
+    int Mzmin =   - Mz / 2;
+    int Mzmax =    (Mz - 1) / 2;
+
+    double *kappa = (double *)calloc(Mx*My*Mz,sizeof(double));
+    double *kappahat = (double *)calloc(Mx*My*Mz,sizeof(double));
+
+    for (int nx = Mxmin ; nx <= Mxmax ; nx++) {
+      int ni = (nx - Mxmin) * My * Mz ;
+      for (int ny = Mymin ; ny <= Mymax ; ny++) {
+        int nj = ni + (ny - Mymin) * Mz ;
+        for (int nz = Mzmin ; nz <= Mzmax ; nz++) {
+          int nk = nj + (nz - Mzmin) ;
+          double psum = 0.0;
+          int pxmin = - al/Ax + (double)nx / (double) Mx ;
+          int pymin = - al/Ay + (double)ny / (double) My ;
+          int pzmin = - al/Az + (double)nz / (double) Mz ;
+          int pxmax =   al/Ax + (double)nx / (double) Mx ;
+          int pymax =   al/Ay + (double)ny / (double) My ;
+          int pzmax =   al/Az + (double)nz / (double) Mz ;
+          for (int px = pxmin ; px <= pxmax; px++) {
+            for (int py = pymin ; py <= pymax; py++) {
+              for (int pz = pzmin; pz <= pzmax; pz++) {
+                double rx = hx * nx - Ax * px;
+                double ry = hy * ny - Ay * py;
+                double rz = hz * nz - Az * pz;
+                double rlen2 = rx * rx + ry * ry + rz * rz;
+                double rlen = sqrt(rlen2);
+                double kernel = msm4g_kernel(l,L,rlen,a,beta,nu);
+                psum += kernel;
+              }
+            }
+          }
+          kappa[nk] = psum ;
+          //printf("kappa1 %2d %2d %2d %25.16e\n",nx,ny,nz,psum);
+        }
+      }
+    }
     for (int mx = Mxmin; mx <= Mxmax; mx++) {
       for (int my = Mxmin; my <= Mymax; my++) {
         for (int mz = Mzmin; mz <= Mzmax; mz++) {
-          kernelHatEvaluationsNeeded++;
-          int nx = abs(mx) ;
-          int ny = abs(my) ;
-          int nz = abs(mz) ;
-          int n1 = nx ;
-          int n2 = ny ;
-          int n3 = nz ;
-          if (isBoxSquare) {
-            if (ny <= nx) {
-              if (nz <= ny) {
-                n1 = nz; n2 = ny; n3 = nx;
-              } else if (nz <= nx) {
-                n1 = ny; n2 = nz; n3 = nx;
-              } else {
-                n1 = ny; n2 = nx; n3 = nz;
-              }
-            } else {
-              if (nz <= nx) {
-                n1 = nz; n2 = nx; n3 = ny;
-              } else if (nz <= ny) {
-                n1 = nx; n2 = nz; n3 = ny ;
-              } else {
-                n1 = nx; n2 = ny; n3 = nz ;
-              }
-            }
-          }
-
-          Boolean isKappaHatCalculatedBefore = false;
-          double  kappaHatValue = 0.0;
-          LinkedListElement *curr = kappahatlist->head;
-          while (curr != NULL) {
-            precalculatedKappa *kappa = (precalculatedKappa *)curr->data;
-            if ( n1 ==  kappa->nx && n2 ==  kappa->ny && n3 ==  kappa->nz ) {
-              isKappaHatCalculatedBefore = true;
-              kappaHatValue = kappa->value;
-              break;
-            }
-            curr = curr->next;
-          }
-
-          if (isKappaHatCalculatedBefore) {
-            stencil->setElement(stencil,mx-Mxmin,my-Mymin,mz-Mzmin,
-                kappaHatValue);
-            continue;
-          }
-
+          int kappahatoffset = (mx - Mxmin)* My * Mz  + (my - Mymin) * Mz +
+              (mz - Mzmin);
           double sum = 0.0;
           for (int kx = - mu - nu / 2; kx <= mu + nu / 2; kx++) {
             for (int ky = - mu - nu / 2; ky <= mu + nu / 2; ky++) {
               for (int kz = - mu - nu / 2; kz <= mu + nu / 2; kz++) {
                 double omega =
                     wprime[abs(kx)] * wprime[abs(ky)] * wprime[abs(kz)];
-                kernelEvaluationsNeeded++ ;
-                int nx = abs(mx + kx) ;
-                int ny = abs(my + ky) ;
-                int nz = abs(mz + kz) ;
-                int n1 = nx ;
-                int n2 = ny ;
-                int n3 = nz ;
-                if (isBoxSquare) {
-                  if (ny <= nx) {
-                    if (nz <= ny) {
-                      n1 = nz; n2 = ny; n3 = nx;
-                    } else if (nz <= nx) {
-                      n1 = ny; n2 = nz; n3 = nx;
-                    } else {
-                      n1 = ny; n2 = nx; n3 = nz;
-                    }
-                  } else {
-                    if (nz <= nx) {
-                      n1 = nz; n2 = nx; n3 = ny;
-                    } else if (nz <= ny) {
-                      n1 = nx; n2 = nz; n3 = ny ;
-                    } else {
-                      n1 = nx; n2 = ny; n3 = nz ;
-                    }
-                  }
-                }
 
-                Boolean isKappaCalculatedBefore = false;
-                double  kappaValue = 0.0;
-                LinkedListElement *curr = kappalist->head;
-                while (curr != NULL) {
-                  precalculatedKappa *kappa = (precalculatedKappa *)curr->data;
-                  if (n1==kappa->nx && n2==kappa->ny && n3==kappa->nz ) {
-                    isKappaCalculatedBefore = true;
-                    kappaValue = kappa->value;
-                    break;
-                  }
-                  curr = curr->next;
-                }
-
-                if (!isKappaCalculatedBefore) {
-                  double psum = 0.0;
-                  int pmax = (int)(pow(2,l)*a);
-                  for (int px = -pmax ; px <= pmax ;px++) {
-                    for (int py = -pmax ; py <= pmax; py++) {
-                      for (int pz = -pmax; pz <= pmax; pz++) {
-                        double rx = hx * (mx + kx) - Ax * px;
-                        double ry = hy * (my + ky) - Ay * py;
-                        double rz = hz * (mz + kz) - Az * pz;
-                        double rlen2 = rx * rx + ry * ry + rz * rz;
-                        double rlen = sqrt(rlen2);
-                        double kernel = msm4g_kernel(l,L,rlen,a,beta,nu);
-                        psum += kernel;
-                      }
-                    }
-                  }
-
-                  kappaValue = psum ;
-                  precalculatedKappa *kappa = (precalculatedKappa*)calloc(1,
-                      sizeof(precalculatedKappa));
-                  kappa->nx = n1;
-                  kappa->ny = n2;
-                  kappa->nz = n3;
-                  kappa->value = kappaValue;
-                  msm4g_linkedlist_add(kappalist,kappa);
-                  kernelEvaluationsComputed++;
-                }
-                sum += omega * kappaValue ;
+                int nx = mx + kx ;
+                int ny = my + ky ;
+                int nz = mz + kz ;
+                if (nx < Mxmin) do { nx += Mx; } while (nx < Mxmin);
+                if (ny < Mymin) do { ny += My; } while (ny < Mymin);
+                if (nz < Mzmin) do { nz += Mz; } while (nz < Mzmin);
+                if (nx > Mxmax) do { nx -= Mx; } while (nx > Mxmax);
+                if (ny > Mymax) do { ny -= My; } while (ny > Mymax);
+                if (nz > Mzmax) do { nz -= Mz; } while (nz > Mzmax);
+                int kappaoffset = (nx - Mxmin)* My * Mz  + (ny - Mymin) * Mz +
+                    (nz - Mzmin);
+                sum += omega * kappa[kappaoffset];
               }
             }
           }
+          kappahat[kappahatoffset] = sum ;
           stencil->setElement(stencil,mx-Mxmin,my-Mymin,mz-Mzmin,sum);
-          precalculatedKappa *kappaHat = (precalculatedKappa*)calloc(1,
-              sizeof(precalculatedKappa));
-          kappaHat->nx = n1;
-          kappaHat->ny = n2;
-          kappaHat->nz = n3;
-          kappaHat->value = sum;
-          msm4g_linkedlist_add(kappahatlist,kappaHat);
-          kernelHatEvaluationsComputed++;
         }
       }
     }
-    msm4g_linkedlist_destroyWithData(kappalist);
-    msm4g_linkedlist_destroyWithData(kappahatlist);
-    simulation->output->kernelEvaluationsNeeded[l-1] = kernelEvaluationsNeeded;
-    simulation->output->kernelEvaluationsComputed[l-1] =
-        kernelEvaluationsComputed;
-    simulation->output->kernelHatEvaluationsNeeded[l-1] =
-        kernelHatEvaluationsNeeded;
-    simulation->output->kernelHatEvaluationsComputed[l-1] =
-        kernelHatEvaluationsComputed;
+    free(kappa);
+    free(kappahat);
   } else if (l == L + 1) {
     double detA = Ax * Ay * Az ;
-    int Mxmin = 1 - Mx / 2;
-    int Mxmax =     Mx / 2;
-    int Mymin = 1 - My / 2;
-    int Mymax =     My / 2;
-    int Mzmin = 1 - Mz / 2;
-    int Mzmax =     Mz / 2;
+    int Mxmin =   - Mx / 2;
+    int Mxmax =    (Mx - 1) / 2;
+    int Mymin =   - My / 2;
+    int Mymax =    (My - 1) / 2;
+    int Mzmin =   - Mz / 2;
+    int Mzmax =    (Mz - 1) / 2;
     for (int mx = Mxmin; mx <= Mxmax; mx++) {
       for (int my = Mymin; my <= Mymax; my++) {
         for (int mz = Mzmin; mz <= Mzmax; mz++) {
@@ -382,12 +289,12 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,
 
   /** @todo These are slightly different from the manuscript which uses
    * Mxmin =   -M/2, Mxmax = M/2 - 1 */
-  sp->Mxmin = 0;
-  sp->Mxmax = sp->Mx -1 ;
-  sp->Mymin = 0;
-  sp->Mymax = sp->My -1 ;
-  sp->Mzmin = 0;
-  sp->Mzmax = sp->Mz -1 ;
+  sp->Mxmin =  - Mx / 2;
+  sp->Mxmax =   (Mx - 1)/2 ;
+  sp->Mymin =  - My / 2;
+  sp->Mymax =   (My - 1)/2 ;
+  sp->Mzmin =  - Mz / 2;
+  sp->Mzmax =   (Mz - 1)/2 ;
 
   sp->hx = box->wx / sp->Mx ;
   sp->hy = box->wy / sp->My ;
@@ -401,7 +308,8 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,
 
 
   double aL = pow(2,L) * sp->a ;
-  sp->beta = msm4g_util_choose_beta(aL) ; {
+  sp->beta = msm4g_util_choose_beta(aL) ;
+  {
     int l,Mx,My,Mz;
     double hx,hy,hz;
     int extension = sp->nu - 1;
@@ -499,6 +407,8 @@ void msm4g_simulation_run(Simulation *simulation) {
   msm4g_grid_print(simulation->gridmass[0]);
   printf("Stencil\n");
   msm4g_grid_print(simulation->stencil[0]);
+  printf("Stencil at 1\n");
+    msm4g_grid_print(simulation->stencil[1]);
   printf("Grid potential\n");
   msm4g_grid_print(simulation->gridpotential[0]);
   printf("Energy\n");
@@ -960,7 +870,7 @@ void msm4g_grid_dense_setElement(AbstractGrid *grid,int i,int j,
   DenseGrid *densegrid = (DenseGrid *)grid;
   int position;
 
-  position =  k * grid->nx * grid->ny + j * grid->nx  + i;
+  position = i * grid->ny * grid->nz + j * grid->nz + k;
   densegrid->data[position] = value;
 }
 
@@ -968,7 +878,7 @@ double msm4g_grid_dense_getElement(AbstractGrid *grid,int i,int j,int k) {
   DenseGrid *densegrid = (DenseGrid *) grid;
   int position;
 
-  position =  k * grid->nx * grid->ny + j * grid->nx  + i;
+  position = i * grid->ny * grid->nz + j * grid->nz + k;
   return densegrid->data[position];
 }
 
@@ -1041,50 +951,47 @@ void msm4g_grid_potential(AbstractGrid *stencil, AbstractGrid *gridmass,
   int sx = stencil->nx ;
   int sy = stencil->ny ;
   int sz = stencil->nz ;
-  int sxmin = 1 - sx / 2 ;
-  int sxmax =     sx / 2 ;
-  int symin = 1 - sy / 2 ;
-  int symax =     sy / 2 ;
-  int szmin = 1 - sz / 2 ;
-  int szmax =     sz / 2 ;
-  int sxminlogical = 1 - mx / 2 ;
-  int sxmaxlogical =     mx / 2 ;
-  int syminlogical = 1 - my / 2 ;
-  int symaxlogical =     my / 2 ;
-  int szminlogical = 1 - mz / 2 ;
-  int szmaxlogical =     mz / 2 ;
+  int sxmin =   - sx / 2 ;
+  int sxmax =    (sx - 1) / 2 ;
+  int symin =   - sy / 2 ;
+  int symax =    (sy - 1) / 2 ;
+  int szmin =   - sz / 2 ;
+  int szmax =    (sz - 1) / 2 ;
+//  int sxminlogical =   - mx / 2 ;
+//  int sxmaxlogical =    (mx - 1) / 2 ;
+//  int syminlogical =   - my / 2 ;
+//  int symaxlogical =    (my - 1) / 2 ;
+//  int szminlogical =   - mz / 2 ;
+//  int szmaxlogical =    (mz - 1) / 2 ;
   for (int mi = 0 ; mi < mx ; mi++) {
     for (int mj = 0 ; mj < my ; mj++) {
       for (int mk = 0 ; mk < mz ; mk++) {
         double potentialsum = 0.0;
         for (int ni = 0 ; ni < mx ; ni++) {
           int mni = mi - ni ;
-          if (mni < sxminlogical) do {mni += mx;} while (mni < sxminlogical);
-          if (mni > sxmaxlogical) do {mni -= mx;} while (mni > sxmaxlogical);
-          if (mni < sxmin || mni > sxmax) continue;
+          if (mni < sxmin) do {mni += sx;} while (mni < sxmin);
+          if (mni > sxmax) do {mni -= sx;} while (mni > sxmax);
           int si = mni - sxmin ;
           for (int nj = 0 ; nj < my ; nj++) {
             int mnj = mj - nj ;
-            if (mnj < syminlogical) do {mnj += my;} while (mnj < syminlogical);
-            if (mnj > symaxlogical) do {mnj -= my;} while (mnj > symaxlogical);
-            if (mnj < symin || mnj > symax) continue;
+            if (mnj < symin) do {mnj += sy;} while (mnj < symin);
+            if (mnj > symax) do {mnj -= sy;} while (mnj > symax);
             int sj = mnj - symin ;
             for (int nk = 0 ; nk < mz ; nk++) {
               int mnk = mk - nk ;
-              if (mnk < szminlogical) do {mnk+=mz;} while (mnk < szminlogical);
-              if (mnk > szmaxlogical) do {mnk-=mz;} while (mnk > szmaxlogical);
-              if (mnk < szmin || mnk > szmax) continue;
+              if (mnk < szmin) do {mnk += sz;} while (mnk < szmin);
+              if (mnk > szmax) do {mnk -= sz;} while (mnk > szmax);
               int sk = mnk - szmin ;
 
-              int sindex = sk*sx*sy + sj*sx + si ;
-              int gridmassindex = nk*mx*my + nj*mx + ni ;
+              int sindex = si * sy * sz + sj * sz + sk  ;
+              int gridmassindex = ni * my * mz + nj * mz + nk  ;
               double stencilvalue = stencildata[sindex];
               double gridmassvalue = gridmassdata[gridmassindex];
               potentialsum += stencilvalue * gridmassvalue ;
             }
           }
         }
-        int gridpotentialindex = mk*mx*my + mj*mx + mi ;
+        int gridpotentialindex = mi * my * mz + mj * mz + mk ;
         gridpotentialdata[gridpotentialindex] = potentialsum ;
       }
     }
