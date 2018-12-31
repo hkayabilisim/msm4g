@@ -217,20 +217,22 @@ void msm4g_stencil(Simulation *simulation, int l) {
     int Mymax =    (My - 1) / 2;
     int Mzmin =   - Mz / 2;
     int Mzmax =    (Mz - 1) / 2;
-    int kmax = -1 ;
-    double ELR = 0.0;
+    double kmax = 0 ;
+    double ELR = 2*beta/sqrt(MYPI);
     do {
-      kmax++;
       ELR = 2 * beta / sqrt(MYPI) * erfc(MYPI * kmax / beta) ;
+      double ELRprime = - 4.0 * exp(-pow(MYPI*kmax/beta,2));
+      printf("%25.16lf %25.16lf %25.16lf \n",kmax,ELR,ELRprime);
+      kmax -= ELR / ELRprime;
     } while (ELR > TOL_FOURIER);
     simulation->parameters->kmax = kmax ;
     for (int mx = Mxmin; mx <= Mxmax; mx++) {
       for (int my = Mymin; my <= Mymax; my++) {
         for (int mz = Mzmin; mz <= Mzmax; mz++) {
           double sum = 0.0;
-          for (int kx = -kmax; kx <= kmax; kx++) {
-            for (int ky = -kmax; ky <= kmax; ky++) {
-              for (int kz = -kmax; kz <= kmax; kz++) {
+          for (int kx = - Ax * kmax; kx <= Ax*kmax; kx++) {
+            for (int ky = - Ay * kmax; ky <= Ay * kmax; ky++) {
+              for (int kz = - Az * kmax; kz <= Az * kmax; kz++) {
                 if (kx == 0 && ky == 0 && kz == 0)
                   continue;
                 double kvecx = kx / Ax; // kvec = inv(A) * k
@@ -489,7 +491,7 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
     sumwprime += 2 * sp->wprime[i];
   fprintf(fp,"    sumwprime: %25.16f\n",sumwprime);
   fprintf(fp,"    beta: %25.16e\n",sp->beta);
-  fprintf(fp,"    kmax: %d\n",sp->kmax);
+  fprintf(fp,"    kmax: %25.16lf\n",sp->kmax);
   fprintf(fp,"  box:\n");
   fprintf(fp,"    x: %25.16e\n",box->x);
   fprintf(fp,"    y: %25.16e\n",box->y);
