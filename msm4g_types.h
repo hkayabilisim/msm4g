@@ -160,6 +160,7 @@ typedef struct SimulationParameters {
   int       Mzmax;   /**< Upper bound for Mz */
   double   *wprime;  /**< Quasi-interpolation coefficients */
   double    beta;    /**< Ewald's Splitting parameter */
+  int       kmax;    /**< Number of waves in Fourier-sum */
   int face_i[FACE_MAXLEN] ;
   int face_j[FACE_MAXLEN] ;
   int face_k[FACE_MAXLEN] ;
