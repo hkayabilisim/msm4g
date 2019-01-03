@@ -254,8 +254,7 @@ void msm4g_stencil(Simulation *simulation, int l) {
                 double cy = cvec[ky + cmax];
                 double cz = cvec[kz + cmax];
 
-                double c2 = cx * cx * cy * cy * cz * cz;
-                sum += chi * c2 * cos(2 * MYPI * dotprod);
+                sum += chi * cx * cy * cz * cos(2 * MYPI * dotprod);
               }
             }
           }
@@ -2281,7 +2280,6 @@ double msm4g_util_calculate_c(int k, double M, int nu, int mu, double *wprime) {
   for (int m = 1; m <= mu + nu/2; m++) {
     c += 2.0 * wprime[m]*cos(2.0 * MYPI * k * m / (double)M) ;
   }
-  c = sqrt(c);
   return c;
 }
 
