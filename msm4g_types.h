@@ -215,6 +215,7 @@ typedef struct SimulationOutput {
   double time_stencil;
   double time_stencil_fourier;
   double time_grid_to_grid[LMAX];
+  int    shortRangeInteractionCount;
   int kernelEvaluationsNeeded[LMAX];
   int kernelEvaluationsComputed[LMAX] ;
   int kernelHatEvaluationsNeeded[LMAX];

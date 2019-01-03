@@ -222,10 +222,15 @@ void msm4g_stencil(Simulation *simulation, int l) {
     do {
       ELR = 2 * beta / sqrt(MYPI) * erfc(MYPI * kmax / beta) ;
       double ELRprime = - 4.0 * exp(-pow(MYPI*kmax/beta,2));
-      printf("%25.16lf %25.16lf %25.16lf \n",kmax,ELR,ELRprime);
+      //printf("%25.16lf %25.16lf %25.16lf \n",kmax,ELR,ELRprime);
       kmax -= ELR / ELRprime;
     } while (ELR > TOL_FOURIER);
     simulation->parameters->kmax = kmax ;
+    int cmax = ceil(MSM4G_MAX3(Ax, Ay, Az) * kmax);
+    double *cvec = (double *)calloc(2*cmax+1,sizeof(double));
+    for (int cn = -cmax ; cn <= cmax ; cn++) {
+      cvec[cn+cmax] = msm4g_util_calculate_c(cn, Mx, nu,mu,wprime);
+    }
     for (int mx = Mxmin; mx <= Mxmax; mx++) {
       for (int my = Mymin; my <= Mymax; my++) {
         for (int mz = Mzmin; mz <= Mzmax; mz++) {
@@ -245,9 +250,9 @@ void msm4g_stencil(Simulation *simulation, int l) {
                 double dotprod = kx * mx / (double) Mx + ky * my / (double) My
                     + kz * mz / (double) Mz;
 
-                double cx = msm4g_util_calculate_c(kx, Mx, nu,mu,wprime);
-                double cy = msm4g_util_calculate_c(ky, My, nu,mu,wprime);
-                double cz = msm4g_util_calculate_c(kz, Mz, nu,mu,wprime);
+                double cx = cvec[kx + cmax];
+                double cy = cvec[ky + cmax];
+                double cz = cvec[kz + cmax];
 
                 double c2 = cx * cx * cy * cy * cz * cz;
                 sum += chi * c2 * cos(2 * MYPI * dotprod);
@@ -258,6 +263,7 @@ void msm4g_stencil(Simulation *simulation, int l) {
         }
       }
     }
+    free(cvec);
   }
 }
 
@@ -517,19 +523,21 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
   fprintf(fp,"    ulong_self: %25.16e\n",so->ulong_self);
   fprintf(fp,"    ulong_direct: %25.16e\n",so->ulong_direct);
   fprintf(fp,"    ulong_fourier: %25.16e\n",so->ulong_fourier);
-  fprintf(fp,"    time_omegaprime: %25.16e\n",so->time_omegaprime);
-  fprintf(fp,"    time_anterpolation: %25.16e\n",so->time_anterpolation);
-  fprintf(fp,"    time_interpolation: %25.16e\n",so->time_interpolation);
-  fprintf(fp,"    time_short_direct: %25.16e\n",so->time_short_direct);
-  fprintf(fp,"    time_restriction: %25.16e\n",so->time_restriction);
-  fprintf(fp,"    time_prolongation: %25.16e\n",so->time_prolongation);
-  fprintf(fp,"    time_energy: %25.16e\n",so->time_energy);
-  fprintf(fp,"    time_stencil: %25.16e\n",so->time_stencil);
-  fprintf(fp,"    time_stencil_fourier: %25.16e\n",so->time_stencil_fourier);
+  fprintf(fp,"    time_omegaprime: %25.16lf\n",so->time_omegaprime);
+  fprintf(fp,"    time_anterpolation: %25.16lf\n",so->time_anterpolation);
+  fprintf(fp,"    time_interpolation: %25.16lf\n",so->time_interpolation);
+  fprintf(fp,"    time_short_direct: %25.16lf\n",so->time_short_direct);
+  fprintf(fp,"    time_restriction: %25.16lf\n",so->time_restriction);
+  fprintf(fp,"    time_prolongation: %25.16lf\n",so->time_prolongation);
+  fprintf(fp,"    time_energy: %25.16lf\n",so->time_energy);
+  fprintf(fp,"    time_stencil: %25.16lf\n",so->time_stencil);
+  fprintf(fp,"    time_stencil_fourier: %25.16lf\n",so->time_stencil_fourier);
   fprintf(fp,"    time_grid_to_grid: [");
   for (l = 1 ; l < simulation->parameters->L ; l++)
-    fprintf(fp,"%25.16e,",so->time_grid_to_grid[l-1]);
-  fprintf(fp,"%25.16e]\n",so->time_grid_to_grid[l-1]);
+    fprintf(fp,"%25.16lf,",so->time_grid_to_grid[l-1]);
+  fprintf(fp,"%25.16lf]\n",so->time_grid_to_grid[l-1]);
+  fprintf(fp,"    shortRangeInteractionCount: %d\n",
+      so->shortRangeInteractionCount);
   fprintf(fp,"    kernelHatEvaluationsNeeded: [");
   for (l = 1 ; l < simulation->parameters->L ; l++)
     fprintf(fp,"%d,",so->kernelHatEvaluationsNeeded[l-1]);
@@ -1059,10 +1067,10 @@ double msm4g_kernel(int l,int L, double r,double a,double beta,int nu) {
   }
   return out;
 }
-int shortRangeInteractionCount ;
+
 double msm4g_force_short(LinkedList *binlist,double threshold,
     Simulation *simulation) {
-  shortRangeInteractionCount = 0;
+  simulation->output->shortRangeInteractionCount = 0;
   double potential = 0;
 
   LinkedListElement *currBin=binlist->head;
@@ -1160,7 +1168,7 @@ double msm4g_force_short_betweenBin(Bin *bin, Bin *neighbor,double threshold,
 
 double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ,
     double a, Simulation *simulation) {
-  shortRangeInteractionCount++;
+  simulation->output->shortRangeInteractionCount++;
   D3Vector rij;
   double r,r2;
   double a2 = a * a;
