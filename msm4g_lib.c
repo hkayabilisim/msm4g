@@ -176,8 +176,11 @@ void msm4g_stencil(Simulation *simulation, int l) {
       }
     }
     for (int mx = Mxmin; mx <= Mxmax; mx++) {
+      if (abs(mx) > simulation->parameters->nbarx) continue;
       for (int my = Mxmin; my <= Mymax; my++) {
+        if (abs(my) > simulation->parameters->nbary) continue;
         for (int mz = Mzmin; mz <= Mzmax; mz++) {
+          if (abs(mz) > simulation->parameters->nbarz) continue;
           int kappahatoffset = (mx - Mxmin)* My * Mz  + (my - Mymin) * Mz +
               (mz - Mzmin);
           double sum = 0.0;
@@ -336,11 +339,11 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,
       double hx = sp->hx * pow(2,l-1);
       double hy = sp->hy * pow(2,l-1);
       double hz = sp->hz * pow(2,l-1);
-      int nbarx = MSM4G_MIN2(sp->nbarx , Mx / 2);
-      int nbary = MSM4G_MIN2(sp->nbary , My / 2);
-      int nbarz = MSM4G_MIN2(sp->nbarz , Mz / 2);
-      simulation->stencil[l-1] = msm4g_grid_dense_new(2 * (nbarx+ extension),
-          2*(nbary+extension),2*(nbarz+extension),hx,hy,hz);
+//      int nbarx = MSM4G_MIN2(sp->nbarx , Mx / 2);
+//      int nbary = MSM4G_MIN2(sp->nbary , My / 2);
+//      int nbarz = MSM4G_MIN2(sp->nbarz , Mz / 2);
+      simulation->stencil[l-1] = msm4g_grid_dense_new(Mx + extension,
+          My + extension,Mz + extension,hx,hy,hz);
       simulation->gridpotential[l-1] = msm4g_grid_dense_new(Mx+extension,
           My+extension,Mz+extension,hx,hy,hz);
       simulation->gridmass[l-1]      = msm4g_grid_dense_new(Mx+extension,
