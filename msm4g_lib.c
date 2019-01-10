@@ -1071,7 +1071,71 @@ double msm4g_force_short(LinkedList *binlist,double threshold,
     Simulation *simulation) {
   simulation->output->shortRangeInteractionCount = 0;
   double potential = 0;
-
+#ifdef NO_GEOMETRIC_HASHING
+  SimulationParameters *sp = simulation->parameters;
+  int N = sp->N ;
+  int order = simulation->parameters->nu;
+  double a = simulation->parameters->a ;
+  double ainv = 1.0/a;
+  double ainv2 = ainv * ainv ;
+  double Ax = simulation->box->wx;
+  double Ay = simulation->box->wy;
+  double Az = simulation->box->wz;
+  Particle *particles = simulation->particles;
+  for (int i = 0 ; i < N ; i++) {
+    Particle *particleI = &(particles[i]) ;
+    double rix = particleI->r.value[0] ;
+    double riy = particleI->r.value[1] ;
+    double riz = particleI->r.value[2] ;
+    double mI = particleI->m ;
+    for (int j = i + 1 ; j < N ; j++ ) {
+      simulation->output->shortRangeInteractionCount++;
+      Particle *particleJ = &(particles[j]);
+      double rjx = particleJ->r.value[0] ;
+      double rjy = particleJ->r.value[1] ;
+      double rjz = particleJ->r.value[2] ;
+      double mJ = particleJ->m ;
+      int pxmin = (rix - rjx - a)/Ax ;
+      int pxmax = (rix - rjx + a)/Ax ;
+      int pymin = (riy - rjy - a)/Ay ;
+      int pymax = (riy - rjy + a)/Ay ;
+      int pzmin = (riz - rjz - a)/Az ;
+      int pzmax = (riz - rjz + a)/Az ;
+      for (int px = pxmin ; px <= pxmax ; px++) {
+        double rx = rix - rjx - Ax * px ;
+        double r2i =  rx*rx ;
+        double accJx = mJ * rx ;
+        double accIx = mI * rx ;
+        for (int py = pymin ; py <= pymax ; py++) {
+          double ry = riy - rjy - Ay * py ;
+          double r2j = r2i + ry*ry;
+          double accJy = mJ * ry ;
+          double accIy = mI * ry ;
+          for (int pz = pzmin ; pz <= pzmax ; pz++) {
+            double rz = riz - rjz - Az * pz ;
+            double accJz = mJ * rz ;
+            double accIz = mI * rz ;
+            double r2 = r2j + rz*rz;
+            double r = sqrt(r2);
+            double rinv = 1.0/r;
+            double rovera = r * ainv ;
+            double g0 =  rinv -  msm4g_smoothing_gama(rovera,order)*ainv;
+            particleI->potential_short_real += 0.5 * particleJ->m  * g0;
+            particleJ->potential_short_real += 0.5 * particleI->m  * g0;
+            double gamaprime = (-rinv * rinv - ainv2 *
+                msm4g_smoothing_gamaprime(rovera, order))*rinv ;
+            particleI->acc_short[0] +=  accJx * gamaprime ;
+            particleI->acc_short[1] +=  accJy * gamaprime ;
+            particleI->acc_short[2] +=  accJz * gamaprime ;
+            particleJ->acc_short[0] -=  accIx * gamaprime ;
+            particleJ->acc_short[1] -=  accIy * gamaprime ;
+            particleJ->acc_short[2] -=  accIz * gamaprime ;
+          }
+        }
+      }
+    }
+  }
+#else
   LinkedListElement *currBin=binlist->head;
   while (currBin != NULL) {
     Bin *bin = (Bin *)currBin->data;
@@ -1118,6 +1182,7 @@ double msm4g_force_short(LinkedList *binlist,double threshold,
     }
     currBin = currBin->next;
   }
+#endif
   return potential;
 }
 
@@ -1171,6 +1236,8 @@ double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ,
   D3Vector rij;
   double r,r2;
   double a2 = a * a;
+  double ainv = 1.0/a;
+  double ainv2 = ainv * ainv ;
   double smoothedkernel,smoothedkernelderivative;
   double coeff;
   double potential = 0.0;
@@ -1194,26 +1261,34 @@ double msm4g_force_short_particlePair(Particle *particleI, Particle *particleJ,
     int pzmin = (riz - rjz - a)/Az ;
     int pzmax = (riz - rjz + a)/Az ;
     for (int px = pxmin ; px <= pxmax ; px++) {
-      double r2i =  (rix-rjx-Ax*px)*(rix-rjx-Ax*px) ;
+      double rx = rix - rjx - Ax * px ;
+      double r2i =  rx*rx ;
+      double accJx = particleJ->m * rx ;
+      double accIx = particleI->m * rx ;
       for (int py = pymin ; py <= pymax ; py++) {
-        double r2j = r2i + (riy-rjy-Ay*py)*(riy-rjy-Ay*py);
+        double ry = riy - rjy - Ay * py ;
+        double r2j = r2i + ry*ry;
+        double accJy = particleJ->m * ry ;
+        double accIy = particleI->m * ry ;
         for (int pz = pzmin ; pz <= pzmax ; pz++) {
-          double r2 = r2j + (riz-rjz-Az*pz)*(riz-rjz-Az*pz);
+          double rz = riz - rjz - Az * pz ;
+          double accJz = particleJ->m * rz ;
+          double accIz = particleI->m * rz ;
+          double r2 = r2j + rz*rz;
           double r = sqrt(r2);
-          double g0 =  1.0/r -  msm4g_smoothing_gama(r/a,order)/a;
+          double rinv = 1.0/r;
+          double rovera = r * ainv ;
+          double g0 =  rinv -  msm4g_smoothing_gama(rovera,order)*ainv;
           particleI->potential_short_real += 0.5 * particleJ->m  * g0;
           particleJ->potential_short_real += 0.5 * particleI->m  * g0;
-          double rx = rix - rjx - Ax * px ;
-          double ry = riy - rjy - Ay * py ;
-          double rz = riz - rjz - Az * pz ;
-          double gamaprime = (-1./r2 - (1./a2) *
-              msm4g_smoothing_gamaprime(r/a, order))/r ;
-          particleI->acc_short[0] +=  particleJ->m * gamaprime * rx ;
-          particleI->acc_short[1] +=  particleJ->m * gamaprime * ry ;
-          particleI->acc_short[2] +=  particleJ->m * gamaprime * rz ;
-          particleJ->acc_short[0] -=  particleI->m * gamaprime * rx ;
-          particleJ->acc_short[1] -=  particleI->m * gamaprime * ry ;
-          particleJ->acc_short[2] -=  particleI->m * gamaprime * rz ;
+          double gamaprime = (-rinv * rinv - ainv2 *
+              msm4g_smoothing_gamaprime(rovera, order))*rinv ;
+          particleI->acc_short[0] +=  accJx * gamaprime ;
+          particleI->acc_short[1] +=  accJy * gamaprime ;
+          particleI->acc_short[2] +=  accJz * gamaprime ;
+          particleJ->acc_short[0] -=  accIx * gamaprime ;
+          particleJ->acc_short[1] -=  accIy * gamaprime ;
+          particleJ->acc_short[2] -=  accIz * gamaprime ;
         }
       }
     }
