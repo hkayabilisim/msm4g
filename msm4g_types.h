@@ -88,6 +88,16 @@ typedef struct Particle {
   double acc_short[3]; /**< Short-range acceleration */
   double acc_long[3]; /**< Long-range acceleration */
   double acc_total[3]; /**< Total acceleration */
+#ifdef DEBUG
+  double potential_short_real_true ; /**< Short-range potential */
+  double potential_long_direct_true ; /**< Short-range potential */
+  double potential_long_fourier_true ; /**< Short-range potential */
+  double acc_short_true[3]; /**< Short-range acceleration */
+  double acc_long_direct_true[3]; /**< Long-range acceleration */
+  double acc_long_fourier_true[3]; /**< Long-range acceleration */
+  double acc_long_true[3]; /**< Long-range acceleration */
+  double acc_total_true[3]; /**< Total acceleration */
+#endif
 } Particle;
 
 /** @brief The cubical domains obtained by dividing the simulation box.
@@ -220,6 +230,11 @@ typedef struct SimulationOutput {
   int kernelEvaluationsComputed[LMAX] ;
   int kernelHatEvaluationsNeeded[LMAX];
   int kernelHatEvaluationsComputed[LMAX] ;
+#ifdef DEBUG
+  double ushort_real_true;
+  double ulong_direct_true;
+  double ulong_fourier_true;
+#endif
 } SimulationOutput;
 
 /** @brief An abstract 3-dimensional grid structure.

@@ -318,4 +318,6 @@ Boolean msm4g_unit_test_22();
 Boolean msm4g_unit_test_23();
 
 Boolean msm4g_unit_test_24();
+
+Boolean msm4g_unit_test_25();
 #endif /* MSM4G_TESTS_H */

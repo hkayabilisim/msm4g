@@ -46,6 +46,14 @@ double msm4g_potential_energy(Simulation *simulation) {
     ushort_real += particles[i].potential_short_real * particles[i].m ;
   }
 
+#ifdef DEBUG
+  double ushort_real_true = 0.0;
+  for (int i = 0 ; i < N ; i++) {
+    ushort_real_true += particles[i].potential_short_real_true * particles[i].m ;
+  }
+  so->ushort_real_true = ushort_real_true;
+#endif
+
   double csr = MYPI / (beta * beta * detA);
   double qsum = 0.0;
   for (int i = 0; i < N; i++)
@@ -86,6 +94,124 @@ double msm4g_potential_energy(Simulation *simulation) {
   AbstractGrid *e1 = simulation->gridpotential[0];
   AbstractGrid *q1 = simulation->gridmass[0];
   double ulong_direct = 0.5 * e1->innerProduct(e1,q1);
+  
+#ifdef DEBUG
+  double ainv2 = 1./(a*a);
+  double erfbeta0over0 = 2*beta/sqrt(MYPI);
+  double TWOPI = 2*MYPI;
+  int pmax = 10;
+  double minusPI2overbeta2 = -MYPI*MYPI/(beta*beta);
+  int kmax = 10;
+  
+  double ulong_direct_constant = 0;
+  for (int px = -pmax ; px <= pmax ; px++) {
+    for (int py = -pmax ; py <= pmax ; py++) {
+      for (int pz = -pmax ; pz <= pmax ; pz++) {
+        double r2 = px*px + py*py + pz*pz;
+        double r = sqrt(r2);
+        double gama = msm4g_smoothing_gama(r/a, nu);
+        double erfvalue = r2 == 0 ? erfbeta0over0 : erf(beta*r)/r ;
+        ulong_direct_constant +=  (gama/a - erfvalue);
+      }
+    }
+  }
+  
+  double ulong_fourier_constant = 0;
+  for (int kx = -kmax ; kx <= kmax ; kx++) {
+    for (int ky = -kmax ; ky <= kmax ; ky++) {
+      for (int kz = -kmax ; kz <= kmax ; kz++) {
+        if (kx == 0 && ky == 0 && kz == 0) continue;
+        double kinvx = kx / Ax ;
+        double kinvy = ky / Ay ;
+        double kinvz = kz / Az ;
+        double k2 = kinvx*kinvx + kinvy*kinvy + kinvz * kinvz;
+        double chi = exp(minusPI2overbeta2*k2)/k2 ;
+        ulong_fourier_constant += chi ;
+      }
+    }
+  }
+  for (int i = 0 ; i < N ; i++) {
+    Particle *pi = &(particles[i]);
+    pi->acc_long_direct_true[0] = 0;
+    pi->acc_long_direct_true[1] = 0;
+    pi->acc_long_direct_true[2] = 0;
+    pi->acc_long_fourier_true[0] = 0;
+    pi->acc_long_fourier_true[1] = 0;
+    pi->acc_long_fourier_true[2] = 0;
+  }
+  so->ulong_direct_true  = 0;
+  double complex sum = 0;
+  for (int i = 0 ; i < N ; i++) {
+    //printf("%d\n",i);
+    Particle *pi = &(particles[i]);
+    double rix = pi->r.value[0];
+    double riy = pi->r.value[1];
+    double riz = pi->r.value[2];
+    double qi = pi->m ;
+    double ulong_direct_sum = 0;
+    double complex ulong_fourier_sum = 0;
+    for (int j = i+1 ; j < N ; j++) {
+      Particle *pj = &(particles[j]);
+
+      double rjx = pj->r.value[0];
+      double rjy = pj->r.value[1];
+      double rjz = pj->r.value[2];
+      double qj = pj->m ;
+      for (int px = -pmax ; px <= pmax ; px++) {
+        for (int py = -pmax ; py <= pmax ; py++) {
+          for (int pz = -pmax ; pz <= pmax ; pz++) {
+            double rx = rix - rjx - Ax * px ;
+            double ry = riy - rjy - Ay * py ;
+            double rz = riz - rjz - Az * pz ;
+            double r2 = rx*rx + ry*ry + rz*rz;
+            double r = sqrt(r2);
+            double gama = msm4g_smoothing_gama(r/a, nu);
+            double erfvalue = r2 == 0 ? erfbeta0over0 : erf(beta*r)/r ;
+            ulong_direct_sum += qj * (gama/a - erfvalue);
+            
+            // force calculation
+            if (r2 != 0) {
+              double magn = qj*(msm4g_smoothing_gamaprime(r/a,nu)*ainv2*r +
+                             erfvalue - erfbeta0over0*exp(-beta*beta*r2))/r2;
+              pi->acc_long_direct_true[0] += rx * magn ;
+              pi->acc_long_direct_true[1] += ry * magn ;
+              pi->acc_long_direct_true[2] += rz * magn ;
+              pj->acc_long_direct_true[0] -= rx * magn ;
+              pj->acc_long_direct_true[1] -= ry * magn ;
+              pj->acc_long_direct_true[2] -= rz * magn ;
+            }
+          }
+        }
+      }
+      for (int kx = -kmax ; kx <= kmax ; kx++) {
+        for (int ky = -kmax ; ky <= kmax ; ky++) {
+          for (int kz = -kmax ; kz <= kmax ; kz++) {
+            if (kx == 0 && ky == 0 && kz == 0) continue;
+            double kinvx = kx / Ax ;
+            double kinvy = ky / Ay ;
+            double kinvz = kz / Az ;
+            double dotprod = kinvx * (rix-rjx) + kinvy * (riy-rjy) + kinvz * (riz-rjz);
+            double k2 = kinvx*kinvx + kinvy*kinvy + kinvz * kinvz;
+            double chi = exp(minusPI2overbeta2*k2)/k2 ;
+            double complex value =  qj * chi * cexp(TWOPI * I * dotprod);
+            ulong_fourier_sum += value;
+            double magn = creal(2.0 * I * value / detA) ;
+            pi->acc_long_fourier_true[0] += kinvx * magn ;
+            pi->acc_long_fourier_true[1] += kinvy * magn ;
+            pi->acc_long_fourier_true[2] += kinvz * magn ;
+            pj->acc_long_fourier_true[0] -= kinvx * magn ;
+            pj->acc_long_fourier_true[1] -= kinvy * magn ;
+            pj->acc_long_fourier_true[2] -= kinvz * magn ;
+          }
+        }
+      }
+    }
+    so->ulong_direct_true += qi* (ulong_direct_sum + 0.5 * qi*ulong_direct_constant);
+    sum += qi * (ulong_fourier_sum + 0.5 * qi*ulong_fourier_constant);
+  }
+
+  so->ulong_fourier_true = creal(sum) / (MYPI*detA);
+#endif
 
   AbstractGrid *eLp1 = simulation->gridpotential[L];
   AbstractGrid *qLp1 = simulation->gridmass[L];
@@ -520,11 +646,44 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
       so->potentialEnergyLongRange);
   fprintf(fp,"    utotal: %25.16e\n",so->potentialEnergyTotal);
   fprintf(fp,"    ushort_real: %25.16e\n",so->ushort_real);
+#ifdef DEBUG
+  fprintf(fp,"    ushort_real_true: %25.16e\n",so->ushort_real_true);
+  fprintf(fp,"    ushort_real_error: %25.16e\n",
+          fabs(so->ushort_real-so->ushort_real_true)/fabs(so->ushort_real_true));
+#endif
   fprintf(fp,"    ushort_self: %25.16e\n",so->ushort_self);
   fprintf(fp,"    ushort_csr: %25.16e\n",so->ushort_csr);
   fprintf(fp,"    ulong_self: %25.16e\n",so->ulong_self);
   fprintf(fp,"    ulong_direct: %25.16e\n",so->ulong_direct);
+#ifdef DEBUG
+  fprintf(fp,"    ulong_direct_true: %25.16e\n",so->ulong_direct_true);
+  fprintf(fp,"    ulong_direct_error: %25.16e\n",
+          fabs(so->ulong_direct-so->ulong_direct_true)/fabs(so->ulong_direct_true));
+#endif
   fprintf(fp,"    ulong_fourier: %25.16e\n",so->ulong_fourier);
+#ifdef DEBUG
+  int N = simulation->parameters->N;
+
+  fprintf(fp,"    ulong_fourier_true: %25.16e\n",so->ulong_fourier_true);
+  fprintf(fp,"    ulong_fourier_error: %25.16e\n",
+          fabs(so->ulong_fourier-so->ulong_fourier_true)/fabs(so->ulong_fourier_true));
+  
+  double avg_force_error = 0;
+  for (int i = 0 ; i < N ; i++) {
+    Particle *pi = &(simulation->particles[i]);
+    double fx_true = pi->acc_short_true[0] + pi->acc_long_direct_true[0] + pi->acc_long_fourier_true[0];
+    double fy_true = pi->acc_short_true[1] + pi->acc_long_direct_true[1] + pi->acc_long_fourier_true[1];
+    double fz_true = pi->acc_short_true[2] + pi->acc_long_direct_true[2] + pi->acc_long_fourier_true[2];
+    double fx = pi->acc_total[0];
+    double fy = pi->acc_total[1];
+    double fz = pi->acc_total[2];
+    double force_error = sqrt((fx_true-fx)*(fx_true-fx)+(fy_true-fy)*(fy_true-fy)+(fz_true-fz)*(fz_true-fz))/
+                              sqrt(fx*fx+fy*fy+fz*fz);
+    avg_force_error += force_error ;
+  }
+  avg_force_error /= N ;
+  fprintf(fp,"    avg_force_error: %25.16e\n",avg_force_error);
+#endif
   fprintf(fp,"    time_omegaprime: %25.16lf\n",so->time_omegaprime);
   fprintf(fp,"    time_anterpolation: %25.16lf\n",so->time_anterpolation);
   fprintf(fp,"    time_interpolation: %25.16lf\n",so->time_interpolation);
@@ -1074,7 +1233,7 @@ double msm4g_force_short(LinkedList *binlist,double threshold,
     Simulation *simulation) {
   simulation->output->shortRangeInteractionCount = 0;
   double potential = 0;
-#ifdef NO_GEOMETRIC_HASHING
+#ifdef DEBUG
   SimulationParameters *sp = simulation->parameters;
   int N = sp->N ;
   int order = simulation->parameters->nu;
@@ -1087,12 +1246,18 @@ double msm4g_force_short(LinkedList *binlist,double threshold,
   Particle *particles = simulation->particles;
   for (int i = 0 ; i < N ; i++) {
     Particle *particleI = &(particles[i]) ;
+    particleI->acc_short_true[0] = 0;
+    particleI->acc_short_true[1] = 0;
+    particleI->acc_short_true[2] = 0;
+  }
+  
+  for (int i = 0 ; i < N ; i++) {
+    Particle *particleI = &(particles[i]) ;
     double rix = particleI->r.value[0] ;
     double riy = particleI->r.value[1] ;
     double riz = particleI->r.value[2] ;
     double mI = particleI->m ;
     for (int j = i + 1 ; j < N ; j++ ) {
-      simulation->output->shortRangeInteractionCount++;
       Particle *particleJ = &(particles[j]);
       double rjx = particleJ->r.value[0] ;
       double rjy = particleJ->r.value[1] ;
@@ -1123,22 +1288,22 @@ double msm4g_force_short(LinkedList *binlist,double threshold,
             double rinv = 1.0/r;
             double rovera = r * ainv ;
             double g0 =  rinv -  msm4g_smoothing_gama(rovera,order)*ainv;
-            particleI->potential_short_real += 0.5 * particleJ->m  * g0;
-            particleJ->potential_short_real += 0.5 * particleI->m  * g0;
+            particleI->potential_short_real_true += 0.5 * particleJ->m  * g0;
+            particleJ->potential_short_real_true += 0.5 * particleI->m  * g0;
             double gamaprime = (-rinv * rinv - ainv2 *
                 msm4g_smoothing_gamaprime(rovera, order))*rinv ;
-            particleI->acc_short[0] +=  accJx * gamaprime ;
-            particleI->acc_short[1] +=  accJy * gamaprime ;
-            particleI->acc_short[2] +=  accJz * gamaprime ;
-            particleJ->acc_short[0] -=  accIx * gamaprime ;
-            particleJ->acc_short[1] -=  accIy * gamaprime ;
-            particleJ->acc_short[2] -=  accIz * gamaprime ;
+            particleI->acc_short_true[0] +=  accJx * gamaprime ;
+            particleI->acc_short_true[1] +=  accJy * gamaprime ;
+            particleI->acc_short_true[2] +=  accJz * gamaprime ;
+            particleJ->acc_short_true[0] -=  accIx * gamaprime ;
+            particleJ->acc_short_true[1] -=  accIy * gamaprime ;
+            particleJ->acc_short_true[2] -=  accIz * gamaprime ;
           }
         }
       }
     }
   }
-#else
+#endif
   LinkedListElement *currBin=binlist->head;
   while (currBin != NULL) {
     Bin *bin = (Bin *)currBin->data;
@@ -1185,7 +1350,6 @@ double msm4g_force_short(LinkedList *binlist,double threshold,
     }
     currBin = currBin->next;
   }
-#endif
   return potential;
 }
 
@@ -1901,10 +2065,13 @@ Particle *msm4g_particle_empty() {
     particle->fshort.value[i] = 0.0;
     particle->flong.value[i] = 0.0;
     particle->acc_short[i] = 0.0;
+
   }
 
   particle->potential_short_real = 0.0;
-
+#ifdef DEBUG
+  particle->potential_short_real_true = 0.0;
+#endif
   index++;
   return particle;
 }

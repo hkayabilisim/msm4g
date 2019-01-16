@@ -11,6 +11,7 @@
 #include <string.h>
 #include <float.h>
 #include <assert.h>
+#include <complex.h>
 #include "msm4g_types.h"
 #include "msm4g_bases.h"
 #include "msm4g_constants.h"

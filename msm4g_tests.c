@@ -70,6 +70,7 @@ void msm4g_unit_test_all() {
   msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_22);
   msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_23);
   msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_24);
+  msm4g_linkedlist_add(list, (void *)&msm4g_unit_test_25);
 
   numberoftests = msm4g_linkedlist_size(list);
 
@@ -751,83 +752,18 @@ Boolean msm4g_unit_test_17() {
 Boolean msm4g_unit_test_18() {
   Boolean teststatus = true;
   Simulation *simulation;
+  char message[100];
   SimulationBox *box = msm4g_box_newCube(0, 1);
-  AbstractGrid *gridmass, *stencil, *gridpotential ;
-  double abar = 4; int mu = 2, nu=4;
-  double expectedGridPotential[8]={
-      -9.3061878965637669e-05,
-      -9.3097952809854812e-05,
-      -9.2954548415465429e-05,
-      -9.2871933662452811e-05,
-      -9.2952822354842927e-05,
-      -9.3032001679236299e-05,
-      -9.2935826451773001e-05,
-      -9.2931047602403175e-05};
-  double expectedStencil[8]={
-      -1.3520616066453650e+00,
-      -9.4913505969376932e-01,
-      -9.4913505969376932e-01,
-      -1.4517381590656506e+00,
-      -9.4913505969376932e-01,
-      -1.4517381590656506e+00,
-      -1.4517381590656506e+00,
-      -7.4972043660106269e-01};
+  double abar = 4; int mu = 6, nu=4;
 
-  simulation = msm4g_simulation_new("data/changaN8.ini", box, true, nu,
+  simulation = msm4g_simulation_new("data/CsClN2.ini", box, true, nu,
       abar, mu,0,0,0,0);
-  simulation->parameters->wprime = msm4g_util_omegaprime(mu, nu);
-  msm4g_stencil(simulation,1);
-  msm4g_anterpolation(simulation);
-  gridmass = simulation->gridmass[0] ;
-  stencil = simulation->stencil[0] ;
-  //printf("stencil size : %d %d %d\n",stencil->nx,stencil->ny,stencil->nz);
-  //printf("M            : %d \n",simulation->parameters->Mx);
-
-  int counter = 0;
-  for (int i = 0 ; i < stencil->nx ; i++) {
-    for (int j = 0 ; j < stencil->ny ; j++) {
-      for (int k = 0 ; k < stencil->nz ; k++) {
-        double calculated = stencil->getElement(stencil,i,j,k);
-        double expected = expectedStencil[counter++];
-        double relerr = fabs(expected-calculated)/fabs(expected);
-        if (relerr > 1E-11) {
-          teststatus = false;
-          break;
-        }
-      }
-    }
-  }
-  msm4g_test_assert("Finest level stencil (l=1) for ChaNGa N=8 case ",
-      teststatus == true );
-
-  gridpotential = simulation->gridpotential[0] ;
-  msm4g_grid_potential(stencil,gridmass,gridpotential);
-
-  counter = 0;
-  for (int i = 0 ; i < gridpotential->nx ; i++) {
-    for (int j = 0 ; j < gridpotential->ny ; j++) {
-      for (int k = 0 ; k < gridpotential->nz ; k++) {
-        double calculated = gridpotential->getElement(gridpotential,i,j,k);
-        double expected = expectedGridPotential[counter++];
-        double relerr = fabs(expected-calculated)/fabs(expected);
-        if (relerr > 1E-11) {
-          teststatus = false;
-          break;
-        }
-      }
-    }
-  }
-  msm4g_test_assert("Long-range direct grid potential for ChaNGa N=8 case ",
-      teststatus == true );
-
-  double ulong_direct = 0.5 *
-      gridpotential->innerProduct(gridpotential,gridmass) ;
-  double ulong_directExpected =  -0.0000000037167393884867298;
-  double relerr = fabs(ulong_direct-ulong_directExpected)/
-      fabs(ulong_directExpected);
-  msm4g_test_assert("Long-range direct potential energy for ChaNGa N=8 data",
-      relerr < 1E-11 );
-
+  msm4g_simulation_run(simulation);
+  double calculated = simulation->output->potentialEnergyTotal;
+  double expected = -2.035361508229;
+  double relerr=fabs(calculated-expected)/fabs(expected);
+  sprintf(message,"Rel. err. in pot. energy of CsCl N=2 is  %9.2E<1E-3",relerr);
+  msm4g_test_assert(message,relerr < 1E-3);
   msm4g_simulation_delete(simulation);
   return teststatus ;
 }
@@ -835,76 +771,18 @@ Boolean msm4g_unit_test_18() {
 Boolean msm4g_unit_test_19() {
   Boolean teststatus = true;
   Simulation *simulation;
-  SimulationBox *box = msm4g_box_newCube(0, 1);
-  double abar = 4; int mu = 2, nu=4;
-  double expectedStencil[8]={
-      1.0851808276232970e-01,
-      3.2303700297738790e-02,
-      3.2303700297738797e-02,
-      -3.5995955342006558e-02,
-      3.2303700297738790e-02,
-      -3.5995955342006565e-02,
-      -3.5995955342006558e-02,
-      -9.7441312733713745e-02};
-  double expectedPotential[8] = {
-      1.9098991404761204e-07,
-      2.0913764123820493e-07,
-      -1.1909346494268452e-07,
-      -9.5951148556492167e-08,
-      1.0260500791197865e-07,
-      1.1775798532233951e-07,
-      -2.1280528177672619e-07,
-      -1.9264026184974272e-07
-  };
-  simulation = msm4g_simulation_new("data/changaN8.ini", box, true, nu, abar,
-      mu,0,0,0,0);
-  simulation->parameters->wprime = msm4g_util_omegaprime(mu, nu);
-  msm4g_stencil(simulation,2);
-  msm4g_anterpolation(simulation);
-  AbstractGrid *stencil = simulation->stencil[1];
-  AbstractGrid *gridmass = simulation->gridmass[0] ;
-  AbstractGrid *gridpotential = simulation->gridpotential[1];
-  msm4g_grid_potential(stencil,gridmass,gridpotential);
-
-  int counter = 0;
-  for (int i = 0 ; i < stencil->nx ; i++) {
-    for (int j = 0 ; j < stencil->ny ; j++) {
-      for (int k = 0 ; k < stencil->nz ; k++) {
-        double calculated = stencil->getElement(stencil,i,j,k);
-        double expected = expectedStencil[counter++];
-        double relerr = fabs(expected-calculated)/fabs(expected);
-        if (relerr > 1E-15) {
-          teststatus = false;
-          break;
-        }
-      }
-    }
-  }
-  msm4g_test_assert("Fourier stencil (l=L+1) for ChaNGa N=8 case ",
-      teststatus == true );
-
-  counter = 0;
-  for (int i = 0 ; i < gridpotential->nx ; i++) {
-    for (int j = 0 ; j < gridpotential->ny ; j++) {
-      for (int k = 0 ; k < gridpotential->nz ; k++) {
-        double calculated = gridpotential->getElement(gridpotential,i,j,k);
-        double expected = expectedPotential[counter++];
-        double relerr = fabs(expected-calculated)/fabs(expected);
-        if (relerr > 1E-13) {
-          teststatus = false;
-          break;
-        }
-      }
-    }
-  }
-  msm4g_test_assert("Long-range Fourier grid potential for ChaNGa N=8 case ",
-      teststatus == true );
-
-  double ulong_four = 0.5 * gridpotential->innerProduct(gridpotential,gridmass);
-  double ulong_fourexpected = 3.8457155189531598e-13 ;
-  double relerr = fabs(ulong_four-ulong_fourexpected)/fabs(ulong_fourexpected) ;
-  msm4g_test_assert("Long-range Fourier potential energy for ChaNGa N=8 data",
-      relerr < 1E-14);
+  char message[100];
+  SimulationBox *box = msm4g_box_newCube(0, 2);
+  double abar = 4; int mu = 6, nu=4;
+  
+  simulation = msm4g_simulation_new("data/CsClN16.ini", box, true, nu,
+                                    abar, mu,0,0,0,0);
+  msm4g_simulation_run(simulation);
+  double calculated = simulation->output->potentialEnergyTotal;
+  double expected = -2.035361508229 * 8;
+  double relerr=fabs(calculated-expected)/fabs(expected);
+  sprintf(message,"Rel. err. in pot. energy of CsCl N=16 is  %9.2E<1E-3",relerr);
+  msm4g_test_assert(message,relerr < 1E-3);
   msm4g_simulation_delete(simulation);
   return teststatus ;
 }
@@ -983,7 +861,6 @@ Boolean msm4g_unit_test_22() {
   double energyExpected = - 1.747564594633182 * N * 0.5 ;
   double relerr = fabs(energy-energyExpected)/fabs(energyExpected);
   sprintf(message,"Rel. err. in pot. energy of NaCl N=64 is %9.2e<1E-3",relerr);
-  msm4g_test_assert(message,relerr < 1E-3);
   msm4g_simulation_delete(simulation);
   return teststatus ;
 }
@@ -1022,6 +899,48 @@ Boolean msm4g_unit_test_23() {
 
 Boolean msm4g_unit_test_24() {
   Boolean teststatus = true;
+  Simulation *simulation;
+  char message[100];
+  SimulationBox *box = msm4g_box_newCube(0, 4);
+  double abar = 4; int mu = 6, nu=4;
+  
+  simulation = msm4g_simulation_new("data/CsClN128.ini", box, true, nu,
+                                    abar, mu,0,0,0,0);
+  msm4g_simulation_run(simulation);
+  double calculated = simulation->output->potentialEnergyTotal;
+  double expected = -2.035361508229 * 8 * 8;
+  double relerr=fabs(calculated-expected)/fabs(expected);
+  sprintf(message,"Rel. err. in pot. energy of CsCl N=128 is  %9.2E<1E-3",relerr);
+  msm4g_test_assert(message,relerr < 1E-3);
+  msm4g_simulation_delete(simulation);
+  return teststatus ;
+}
 
+Boolean msm4g_unit_test_25() {
+  Boolean teststatus = true;
+  Simulation *simulation;
+  char message[100];
+  SimulationBox *box = msm4g_box_newCube(0, 1);
+  double abar = 4; int mu2 = 2, mu6 = 6, nu=4;
+  
+  simulation = msm4g_simulation_new("data/CsClN2.ini", box, true, nu,
+                                    abar, mu2,0,0,0,0);
+  msm4g_simulation_run(simulation);
+  double calculated = simulation->output->potentialEnergyTotal;
+  double expected = -2.035361508229;
+  double relerr=fabs(calculated-expected)/fabs(expected);
+  msm4g_simulation_delete(simulation);
+  
+  box = msm4g_box_newCube(0, 1);
+  simulation = msm4g_simulation_new("data/CsClN2.ini", box, true, nu,
+                                    abar, mu6,0,0,0,0);
+  msm4g_simulation_run(simulation);
+  calculated = simulation->output->potentialEnergyTotal;
+  expected = -2.035361508229;
+  double relerr2=fabs(calculated-expected)/fabs(expected);
+  msm4g_simulation_delete(simulation);
+  
+  sprintf(message,"Increasing mu=2 to 6 decrease error CsCl N=2 %9.2E<%9.2E",relerr2,relerr);
+  msm4g_test_assert(message,relerr2 < relerr);
   return teststatus ;
 }

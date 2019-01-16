@@ -49,7 +49,7 @@ demo: $(EXECUTABLE)
 	@echo "--------------------------------------------------"
 	@echo "Demo run for NaCl N=8 case ended"
 	@echo "--------------------------------------------------"
-	@echo "potentialEnergyTotal (see above) should be -6.9903"
+	@echo "utotal (see above) should be -6.9903"
 
 help:
 	@echo "make all   ---> Create executables and the library"

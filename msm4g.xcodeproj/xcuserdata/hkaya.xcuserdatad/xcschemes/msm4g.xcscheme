@@ -67,12 +67,12 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "data/CsClN2.ini 1 1 1 4 2 4 12 12 12 1"
-            isEnabled = "NO">
+            argument = "data/CsClN2.ini 1 1 1 6 6 4 2 2 2 1"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "data/changaN30000.ini 1 1 1 4 2 6 16 16 16 3"
-            isEnabled = "YES">
+            argument = "data/changaN30000.ini  1 1 1 2 6 4 32 32 32 3"
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

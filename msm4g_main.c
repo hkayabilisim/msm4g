@@ -99,6 +99,33 @@ int main(int argc,char *argv[]) {
   }
   fclose(fp);
 
+#ifdef DEBUG
+  fp=fopen("msm.acc_noninterpolated","w");
+  fprintf(fp,"%d\n",N);
+  for (int i = 0; i < N ;i++) {
+    Particle *p = &(simulation->particles[i]);
+    int j = 0;
+    fprintf(fp,"%25.16e %25.16e %25.16e\n",p->acc_short_true[j]+p->acc_long_direct_true[j],
+           p->acc_long_fourier_true[j],
+           p->acc_short_true[j]+p->acc_long_direct_true[j]+p->acc_long_fourier_true[j]);
+  }
+  for (int i = 0; i < N ;i++) {
+    Particle *p = &(simulation->particles[i]);
+    int j = 1;
+    fprintf(fp,"%25.16e %25.16e %25.16e\n",p->acc_short_true[j]+p->acc_long_direct_true[j],
+           p->acc_long_fourier_true[j],
+           p->acc_short_true[j]+p->acc_long_direct_true[j]+p->acc_long_fourier_true[j]);
+  }
+  for (int i = 0; i < N ;i++) {
+    Particle *p = &(simulation->particles[i]);
+    int j = 2;
+    fprintf(fp,"%25.16e %25.16e %25.16e\n",p->acc_short_true[j]+p->acc_long_direct_true[j],
+           p->acc_long_fourier_true[j],
+           p->acc_short_true[j]+p->acc_long_direct_true[j]+p->acc_long_fourier_true[j]);
+  }
+  fclose(fp);
+#endif
+  
   fp = fopen("msm.pot","w");
   fprintf(fp,"%25.16e\n",simulation->output->potentialEnergyTotal);
   fclose(fp);
