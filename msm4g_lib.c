@@ -291,6 +291,8 @@ void msm4g_stencil(Simulation *simulation, int l) {
                 double rz = hz * nz - Az * pz;
                 double rlen2 = rx * rx + ry * ry + rz * rz;
                 double rlen = sqrt(rlen2);
+                double rho = rlen/al ;
+                if (rho >= 1) continue;
                 double kernel = msm4g_kernel(l,L,rlen,a,beta,nu);
                 psum += kernel;
               }
