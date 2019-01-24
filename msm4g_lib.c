@@ -646,6 +646,8 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
       so->potentialEnergyShortRange);
   fprintf(fp,"    potentialEnergyLongRange: %25.16e\n",
       so->potentialEnergyLongRange);
+  fprintf(fp,"    uconstant: %25.16e\n",so->ushort_csr+so->ushort_self+
+      so->ulong_self);
   fprintf(fp,"    utotal: %25.16e\n",so->potentialEnergyTotal);
   fprintf(fp,"    ushort_real: %25.16e\n",so->ushort_real);
 #ifdef DEBUG
