@@ -735,11 +735,12 @@ Boolean msm4g_unit_test_16() {
 
 Boolean msm4g_unit_test_17() {
   Boolean teststatus = true;
+  double h0 = 1./4 ;
   for (int i = 0 ; i < 80 ; i++) {
     double aL = 2 + i/10.0 ;
-    double beta = msm4g_util_choose_beta(aL);
-    double outcome = fabs(erfc(beta*aL)/aL) ;
-    if (outcome > 1E-13) {
+    double beta = msm4g_util_choose_beta(aL,TOL_DIRECT,h0);
+    double res = fabs(erfc(beta*aL) - TOL_DIRECT * aL / h0) ;
+    if (res > 1E-13) {
       teststatus = false;
       break;
     }

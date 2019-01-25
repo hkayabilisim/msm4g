@@ -450,9 +450,10 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,
   sp->nbary = ceil(2.0 * sp->a / sp->hy );
   sp->nbarz = ceil(2.0 * sp->a / sp->hz );
 
-
   double aL = pow(2,L) * sp->a ;
-  sp->beta = msm4g_util_choose_beta(aL) ;
+  double detA = box->wx * box->wy * box->wz ;
+  double h0 = pow(detA/N,1./3.);
+  sp->beta = msm4g_util_choose_beta(aL,TOL_DIRECT,h0) ;
   {
     int l,Mx,My,Mz;
     double hx,hy,hz;
@@ -626,7 +627,7 @@ void msm4g_simulation_save(Simulation *simulation,FILE *fp) {
   for (i = 1 ; i < sp->mu + (sp->nu)/2 + 1; i++)
     sumwprime += 2 * sp->wprime[i];
   fprintf(fp,"    sumwprime: %25.16f\n",sumwprime);
-  fprintf(fp,"    beta: %25.16e\n",sp->beta);
+  fprintf(fp,"    beta: %25.16lf\n",sp->beta);
   fprintf(fp,"    kmax: %25.16lf\n",sp->kmax);
   fprintf(fp,"  box:\n");
   fprintf(fp,"    x: %25.16e\n",box->x);
@@ -2502,25 +2503,19 @@ int msm4g_util_face_enumerate(int n,SimulationParameters *sp) {
   return face_len ;
 }
 
-double msm4g_util_choose_beta(double aL) {
-  double e = 1e-15;
-  double a = 0;
-  double b = 20;
-  double fa = erfc(a * aL) / aL;
-  int iter = 1;
-  int maxiter = 200;
-  while (fabs(fa - e) / fabs(e) > 1e-14 && iter < maxiter) {
-    double middle = (a + b) / 2;
-    double fmiddle = erfc(middle * aL) / aL;
-    if (fmiddle > e) {
-      a = middle;
-      fa = fmiddle;
-    } else {
-      b = middle;
-    }
-    iter++;
+double msm4g_util_choose_beta(double aL,double tol,double h0) {
+  double const_ = tol*aL/h0;
+  double beta = 1;
+  double res = erfc(beta) - const_;
+  double oldres = 2.*res;
+  while (fabs(res) < fabs(oldres)){
+    double dres = -2./sqrt(MYPI)*exp(-beta*beta);
+    beta -= res/dres;
+    oldres = res;
+    res = erfc(beta) - const_;
   }
-  return a;
+  beta = beta/aL;
+  return beta;
 }
 
 double msm4g_util_calculate_c(int k, double M, int nu, int mu, double *wprime) {

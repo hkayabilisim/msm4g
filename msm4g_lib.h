@@ -913,14 +913,17 @@ int msm4g_util_face_enumerate(int n,SimulationParameters *sp);
 /** @brief Determines Ewald's splitting parameter
  *
  * Determines beta parameter such that
- * erfc(beta * aL)/aL is very small
+ * erfc(beta * aL) is very close to aL*e_dir/h0
  *
  * @todo Elaborate the scheme used in the function.
  *
- * @param[in] aL Cutoff at the coarsest grid
+ * @param[in] aL  cutoff at level=L.
+ * @param[in] tol Tolerance.
+ * @param[in] h0  Estimated grid spacing.
  * @return Ewald's splitting parameter beta
  */
-double msm4g_util_choose_beta(double aL);
+double msm4g_util_choose_beta(double aL,double tol,double h0);
+
 
 /** @brief Calculates the coefficients needed for interpolation at (L+1)th level
  * Refer eq:calpha in the manuscript
