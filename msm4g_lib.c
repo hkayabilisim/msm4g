@@ -255,6 +255,7 @@ void msm4g_stencil(Simulation *simulation, int l) {
   int nu = simulation->parameters->nu ;
   double a = simulation->parameters->a ;
   double beta = simulation->parameters->beta ;
+  double kmax = simulation->parameters->kmax ;
   double *wprime = simulation->parameters->wprime ;
   //printf("stencil calculation at level:%d\n",l);
   if (l <= L) {
@@ -348,15 +349,6 @@ void msm4g_stencil(Simulation *simulation, int l) {
     int Mymax =    (My - 1) / 2;
     int Mzmin =   - Mz / 2;
     int Mzmax =    (Mz - 1) / 2;
-    double kmax = 0 ;
-    double ELR = 2*beta/sqrt(MYPI);
-    do {
-      ELR = 2 * beta / sqrt(MYPI) * erfc(MYPI * kmax / beta) ;
-      double ELRprime = - 4.0 * exp(-pow(MYPI*kmax/beta,2));
-      //printf("%25.16lf %25.16lf %25.16lf \n",kmax,ELR,ELRprime);
-      kmax -= ELR / ELRprime;
-    } while (ELR > TOL_FOURIER);
-    simulation->parameters->kmax = kmax ;
     int cmax = ceil(MSM4G_MAX3(Ax, Ay, Az) * kmax);
     double *cvec = (double *)calloc(2*cmax+1,sizeof(double));
     for (int cn = -cmax ; cn <= cmax ; cn++) {
@@ -454,6 +446,7 @@ Simulation *msm4g_simulation_new(char *datafile,SimulationBox *box,
   double detA = box->wx * box->wy * box->wz ;
   double h0 = pow(detA/N,1./3.);
   sp->beta = msm4g_util_choose_beta(aL,TOL_DIRECT,h0) ;
+  sp->kmax = msm4g_util_choose_kmax(sp->beta, TOL_FOURIER, h0);
   {
     int l,Mx,My,Mz;
     double hx,hy,hz;
@@ -2516,6 +2509,20 @@ double msm4g_util_choose_beta(double aL,double tol,double h0) {
   }
   beta = beta/aL;
   return beta;
+}
+
+double msm4g_util_choose_kmax(double beta,double tol,double h0) {  
+  double const_ = sqrt(MYPI)*tol/(2.*beta*h0);
+  double kmax = 1.;
+  double res = erfc(kmax) - const_;
+  double oldres = 2.*res;
+  while (fabs(res) < fabs(oldres)){
+    double dres = -2./sqrt(MYPI)*exp(-kmax*kmax);
+    kmax -= res/dres;
+    oldres = res;
+    res = erfc(kmax) - const_;}
+  kmax = beta*kmax/MYPI;
+  return kmax;
 }
 
 double msm4g_util_calculate_c(int k, double M, int nu, int mu, double *wprime) {

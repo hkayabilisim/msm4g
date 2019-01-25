@@ -744,6 +744,12 @@ Boolean msm4g_unit_test_17() {
       teststatus = false;
       break;
     }
+    double kmax = msm4g_util_choose_kmax(beta, TOL_FOURIER, h0);
+    res = fabs(erfc(MYPI*kmax/beta) - sqrt(MYPI)*TOL_FOURIER/(2*beta*h0));
+    if (res > 1E-13) {
+      teststatus = false;
+      break;
+    }
   }
   msm4g_test_assert("Choosing optimal Ewald's splitting parameter",
       teststatus == true );

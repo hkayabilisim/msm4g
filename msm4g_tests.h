@@ -265,12 +265,15 @@ Boolean msm4g_unit_test_15();
  */
 Boolean msm4g_unit_test_16();
 
-/** @brief Checks the fitness of Ewald's Splitting Parameter
+/** @brief Checks beta and kmax parameter selection
  *
  * Ewald's Splitting Parameter (beta) is chosen in such a way
- * that erfc(beta*aL)/aL is very small by using
+ * that erfc(beta*aL) is very close to aL*tol/h0  by using
  * msm4g_util_choose_beta function. This test verifies the outcomes
  * by actually checking it.
+ *
+ * Likewise kmax paramater is selected so that
+ * erfc(pi*kmax/beta) is close to sqrt(pi)*tol/(2 beata h0)
  *
  * @return true if the test is successful, false otherwise
  */

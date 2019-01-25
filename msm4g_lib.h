@@ -924,6 +924,17 @@ int msm4g_util_face_enumerate(int n,SimulationParameters *sp);
  */
 double msm4g_util_choose_beta(double aL,double tol,double h0);
 
+/** @brief Determines kmax in Reciprocal space sum
+ *
+ * Determines kmax parameter which controls
+ * how many waves are calculated in reciprocal space sum
+ *
+ * @param[in] beta Ewald's splitting parameters.
+ * @param[in] tol Tolerance.
+ * @param[in] h0  Estimated grid spacing.
+ * @return kmax
+ */
+double msm4g_util_choose_kmax(double beta,double tol,double h0);
 
 /** @brief Calculates the coefficients needed for interpolation at (L+1)th level
  * Refer eq:calpha in the manuscript
